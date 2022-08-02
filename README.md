@@ -1,1 +1,1 @@
-My study project
+The study project, which calculate how mach time are working any process inside Collections and Maps 
