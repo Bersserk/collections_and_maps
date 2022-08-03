@@ -1,9 +1,18 @@
 package com.example.collections_and_maps;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintLayoutStates;
+import androidx.constraintlayout.widget.Group;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentContainer;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.google.android.material.tabs.TabLayout;

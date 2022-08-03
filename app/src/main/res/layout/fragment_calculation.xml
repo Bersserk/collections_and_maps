@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CalculationFragment">
+
+    <TextView
+        android:id="@+id/askTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="textAsk"
+        android:inputType="textPersonName"
+        android:minHeight="24dp"
+        android:textColorHint="#757575"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.02"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <EditText
+        android:id="@+id/collectionSize"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="Collections Size"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:textColorHint="#757575"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/askTextView"
+        app:layout_constraintVertical_bias="0.02"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <EditText
+        android:id="@+id/numberElements"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="Collections Size"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:textColorHint="#757575"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/collectionSize"
+        app:layout_constraintVertical_bias="0.02"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <Button
+        android:id="@+id/calcButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/numberElements"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintStart_toEndOf="@+id/numberElements"
+        app:layout_constraintTop_toTopOf="@+id/collectionSize"
+        app:layout_constraintWidth_percent="0.28" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
