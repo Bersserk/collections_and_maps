@@ -29,6 +29,9 @@ public class CalculationFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+
+    private TextView updateBox;
+
     public CalculationFragment() {
         // Required empty public constructor
     }
@@ -49,6 +52,10 @@ public class CalculationFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public String getUpdateBox() {
+        return String.valueOf(updateBox.getText());
     }
 
     @Override

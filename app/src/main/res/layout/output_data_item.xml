@@ -21,17 +21,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginTop="20" />
+        android:layout_marginTop="20dp" />
 
     <TextView
         android:id="@+id/resultView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginTop="20"
+        android:layout_marginTop="20dp"
         android:gravity = "center"
         android:text="0.028593 ms"
-        android:textSize="fill"
         app:fontFamily="serif"
         style="@style/Widget.AppCompat.TextView.SpinnerItem"
         app:autoSizeTextType="uniform"
