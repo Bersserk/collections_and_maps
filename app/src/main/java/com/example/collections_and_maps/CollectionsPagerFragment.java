@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 
-public class CollectionsPagerFragment extends Fragment{
+public class CollectionsPagerFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -29,6 +32,14 @@ public class CollectionsPagerFragment extends Fragment{
     private RecyclerView recyclerView;
     CalculationFragment calculationFragment;
 
+    int k = 0;
+    int y = 0;
+
+    TextView updateBox = null;
+    EditText collectionSize;
+    EditText numberElements;
+
+    String [] list = {"name1","name2","name3"};
 
 
     ArrayList<DataView> dataView = new ArrayList<DataView>();
@@ -38,71 +49,27 @@ public class CollectionsPagerFragment extends Fragment{
         // Required empty public constructor
     }
 
-    public static CollectionsPagerFragment newInstance(String param1, String param2) {
-        StepByStep.log(CollectionsPagerFragment.class, Thread.currentThread().getStackTrace()[2]);
-        CollectionsPagerFragment fragment = new CollectionsPagerFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-       // setInitialData();
+
+        //CalculationFragment calculationFragment = new CalculationFragment();
+
+
+         setInitialData();
 
     }
-
-    private void setInitialData(){
-        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-
-
-        dataView.add(new DataView());
-        dataView.add(new DataView("box", "98816"));
-        dataView.add(new DataView("name3", "013118"));
-        //dataView.add(new DataView("nameView1", true, new CalculationFragment().getUpdateBox()));
-        //dataView.add(new DataView("nameView2", true, new CalculationFragment().getUpdateBox()));
-        //dataView.add(new DataView("nameView3", true, new CalculationFragment().getUpdateBox()));
-
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
-        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-
-        super.onViewCreated(view, savedInstanceState);
-
-        Button calcButton = view.findViewById(R.id.calcButton);
-
-
-        calcButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-
-
-
-
-            }
-        });
-    }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
 
@@ -113,13 +80,100 @@ public class CollectionsPagerFragment extends Fragment{
         recyclerView = view.findViewById(R.id.list);
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 3));
 
         recyclerView.setAdapter(new DataViewAdapter(this, dataView));
+
+        //recyclerView.invalidate();
 
 
         return view;
     }
+
+    public static CollectionsPagerFragment newInstance(String param1, String param2) {
+        StepByStep.log(CollectionsPagerFragment.class, Thread.currentThread().getStackTrace()[2]);
+
+        CollectionsPagerFragment fragment = new CollectionsPagerFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
+    private void setInitialData() {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+
+        if(!dataView.isEmpty()) {
+            dataView.clear();
+        }
+
+        for(int i=0; i<list.length; i++){
+            dataView.add(new DataView(list[i], k , y));
+        }
+
+
+
+
+
+
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+
+        super.onViewCreated(view, savedInstanceState);
+
+
+
+        Button calcButton = view.findViewById(R.id.calcButton);
+        collectionSize = view.findViewById(R.id.collectionSize);
+        numberElements = view.findViewById(R.id.numberElements);
+
+
+
+        calcButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+
+
+                //String r = String.valueOf(k + y);
+                //Toast.makeText(getContext(), r, Toast.LENGTH_SHORT).show();
+
+                //setInitialData();
+                calc();
+
+
+
+            }
+
+        });
+
+
+
+
+    }
+
+
+    public void calc (){
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+        if(collectionSize.length() > 0 && numberElements.length() > 0) {
+            this.k = Integer.parseInt(collectionSize.getText().toString());
+            this.y = Integer.parseInt(numberElements.getText().toString());
+        }
+
+        setInitialData();
+        //dataView.add(new DataView("name7", k+y));
+
+
+        recyclerView.setAdapter(new DataViewAdapter(this, dataView));
+    }
+
+
 
 
 }

@@ -9,11 +9,13 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
 
     public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         if (position == 0) {
             return new CollectionsPagerFragment();
         } else {
@@ -23,6 +25,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         return 2;
     }
 }

@@ -24,6 +24,7 @@ public class MapsPagerFragment extends Fragment {
     private String mParam2;
 
     public MapsPagerFragment() {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         // Required empty public constructor
     }
 
@@ -37,6 +38,7 @@ public class MapsPagerFragment extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static MapsPagerFragment newInstance(String param1, String param2) {
+        StepByStep.log(MapsPagerFragment.class, Thread.currentThread().getStackTrace()[2]);
         MapsPagerFragment fragment = new MapsPagerFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -48,6 +50,7 @@ public class MapsPagerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -57,6 +60,7 @@ public class MapsPagerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_maps_pager, container, false);
     }

@@ -16,21 +16,26 @@ import java.util.List;
 
 public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHolder>{
 
-    private final LayoutInflater inflater;
-    private final List<DataView> dataViews;
+    private LayoutInflater inflater;
+    private List<DataView> dataViews;
 
 
 
     DataViewAdapter(CollectionsPagerFragment context, List<DataView> dataViews) {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         this.dataViews = dataViews;
         this.inflater = LayoutInflater.from(context.getContext());
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         final ProgressBar progressBar;
         final TextView nameView, resultView;
         ViewHolder(View view){
+
             super(view);
+            StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+
             progressBar = view.findViewById(R.id.progressBar);
             nameView = view.findViewById(R.id.nameView);
             resultView = view.findViewById(R.id.resultView);
@@ -43,6 +48,7 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
     @NonNull
     @Override
     public DataViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         View view = inflater.inflate(R.layout.output_data_item, parent, false);
         return new ViewHolder(view);
     }
@@ -50,15 +56,22 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull DataViewAdapter.ViewHolder holder, int position) {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         DataView dataView = dataViews.get(position);
-        //holder.progressBar.setActivated(dataView.getActivateted());
+
         holder.nameView.setText(dataView.getName());
+        holder.progressBar.setVisibility(ProgressBar.VISIBLE);
         holder.resultView.setText(dataView.getResult());
+        holder.progressBar.setVisibility(ProgressBar.INVISIBLE);
+
+        // обработка нажатия
+
 
     }
 
     @Override
     public int getItemCount() {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         return dataViews.size();
     }
 }

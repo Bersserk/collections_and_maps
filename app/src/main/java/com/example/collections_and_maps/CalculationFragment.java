@@ -18,8 +18,6 @@ import androidx.fragment.app.Fragment;
 
 public class CalculationFragment extends Fragment {
 
-
-
     public String getUpdateBox() {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         return String.valueOf(updateBox);
@@ -65,10 +63,10 @@ public class CalculationFragment extends Fragment {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         super.onViewCreated(view, savedInstanceState);
         updateBox = view.findViewById(R.id.askTextView);
-        collectionSize = view.findViewById(R.id.collectionSize);
-        numberElements = view.findViewById(R.id.numberElements);
+        //collectionSize = view.findViewById(R.id.collectionSize);
+        //numberElements = view.findViewById(R.id.numberElements);
         //Button calcButton = view.findViewById(R.id.calcButton);
-        k = updateBox.getText().toString();
+        //k = updateBox.getText().toString();
 
         /*
         calcButton.setOnClickListener(new View.OnClickListener() {
@@ -91,22 +89,13 @@ public class CalculationFragment extends Fragment {
          */
     }
 
-    public void calc(){
-        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-        //updateBox.setText("Введите значения");
-        if(collectionSize.length() > 0 && numberElements.length() > 0) {
-            //k = Integer.parseInt(collectionSize.getText().toString());
-            //y = Integer.parseInt(numberElements.getText().toString());
 
 
-            //updateBox.setText(String.valueOf((k+y)));
-
-        }
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);

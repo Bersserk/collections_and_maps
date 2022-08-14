@@ -7,34 +7,31 @@ import android.widget.TextView;
 public class DataView {
 
     CalculationFragment calculationFragment;
-    private String name;
-    private String result;
-
-    public DataView(){
-        calculationFragment = new CalculationFragment();
-
-
-        name = calculationFragment.getUpdateBox();
-        result = "sdcdr";
-    }
+    private String nameView = "";
+    private int size = 0;
+    private int number = 0;
+    private int result = 0;
 
 
-    public DataView(String nameView, String resultView){
+    public DataView(String nameView, int size, int number){
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
-        name = nameView;
-        result = resultView;
-
+        this.nameView = nameView;
+        this.size = size;
+        this.number = number;
     }
 
 
 
     public String getName() {
-        return name;
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+        return nameView;
     }
 
     public String getResult() {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
-        return result;
+        return String.valueOf(size+number);
     }
 
 
