@@ -1,16 +1,11 @@
 package com.example.collections_and_maps;
 
-import static android.service.controls.ControlsProviderService.TAG;
-
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,13 +26,18 @@ public class CollectionsPagerFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
-    int k = 0;
-    int y = 0;
+    long k = 0L;
+    long y = 0L;
 
     EditText collectionSize;
     EditText numberElements;
 
-    String [] list = {"name1","name2","name3"};
+    String [] listArr = {"ArrayList","LinkedList",
+            "CopyOnWriteArrayList"};
+
+    String [] list = {"adding in the beginning","adding in the middle",
+            "adding in the end","search by value","removing in the beginning",
+            "removing in the middle","removing in the end"};
 
 
     ArrayList<DataView> dataView = new ArrayList<DataView>();
@@ -74,7 +74,7 @@ public class CollectionsPagerFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 3));
 
-        recyclerView.setAdapter(new DataViewAdapter(this, dataView));
+        //recyclerView.setAdapter(new DataViewAdapter(this, dataView));
 
         return view;
     }
@@ -98,11 +98,14 @@ public class CollectionsPagerFragment extends Fragment {
             dataView.clear();
         }
 
-        for(int i=0; i<list.length; i++){
-            dataView.add(new DataView(list[i], k , y));
+        for (int y=0; y<list.length; y++) {
+            for (int i = 0; i < listArr.length; i++) {
+                dataView.add(new DataView(listArr[i], list[y], k, listArr.length, i));
+            }
         }
 
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -128,8 +131,8 @@ public class CollectionsPagerFragment extends Fragment {
     public void calc (){
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         if(collectionSize.length() > 0 && numberElements.length() > 0) {
-            this.k = Integer.parseInt(collectionSize.getText().toString());
-            this.y = Integer.parseInt(numberElements.getText().toString());
+            this.k = Long.parseLong(collectionSize.getText().toString());
+            this.y = Long.parseLong(numberElements.getText().toString());
         }
 
         setInitialData();
