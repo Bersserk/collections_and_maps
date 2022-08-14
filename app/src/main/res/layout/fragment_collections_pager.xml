@@ -11,7 +11,7 @@
         android:id="@+id/calc"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:name="com.example.collections_and_maps.CalculationFragment"
+
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

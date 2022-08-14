@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 public class DataView {
 
-    CalculationFragment calculationFragment;
     private String nameView = "";
     private int size = 0;
     private int number = 0;
@@ -33,6 +32,8 @@ public class DataView {
 
         return String.valueOf(size+number);
     }
+
+
 
 
 }

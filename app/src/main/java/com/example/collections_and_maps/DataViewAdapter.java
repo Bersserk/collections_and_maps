@@ -1,6 +1,6 @@
 package com.example.collections_and_maps;
 
-import android.content.Context;
+
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +18,6 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
 
     private LayoutInflater inflater;
     private List<DataView> dataViews;
-
 
 
     DataViewAdapter(CollectionsPagerFragment context, List<DataView> dataViews) {
@@ -43,8 +42,6 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
     }
 
 
-
-
     @NonNull
     @Override
     public DataViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -63,8 +60,6 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
         holder.progressBar.setVisibility(ProgressBar.VISIBLE);
         holder.resultView.setText(dataView.getResult());
         holder.progressBar.setVisibility(ProgressBar.INVISIBLE);
-
-        // обработка нажатия
 
 
     }

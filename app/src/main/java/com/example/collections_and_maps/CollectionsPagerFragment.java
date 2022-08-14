@@ -30,12 +30,10 @@ public class CollectionsPagerFragment extends Fragment {
     private String mParam2;
 
     private RecyclerView recyclerView;
-    CalculationFragment calculationFragment;
 
     int k = 0;
     int y = 0;
 
-    TextView updateBox = null;
     EditText collectionSize;
     EditText numberElements;
 
@@ -59,10 +57,6 @@ public class CollectionsPagerFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
-        //CalculationFragment calculationFragment = new CalculationFragment();
-
-
          setInitialData();
 
     }
@@ -71,8 +65,6 @@ public class CollectionsPagerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-
-
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_collections_pager, container, false);
@@ -83,9 +75,6 @@ public class CollectionsPagerFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 3));
 
         recyclerView.setAdapter(new DataViewAdapter(this, dataView));
-
-        //recyclerView.invalidate();
-
 
         return view;
     }
@@ -113,12 +102,6 @@ public class CollectionsPagerFragment extends Fragment {
             dataView.add(new DataView(list[i], k , y));
         }
 
-
-
-
-
-
-
     }
 
     @Override
@@ -127,35 +110,18 @@ public class CollectionsPagerFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
 
-
-
         Button calcButton = view.findViewById(R.id.calcButton);
         collectionSize = view.findViewById(R.id.collectionSize);
         numberElements = view.findViewById(R.id.numberElements);
-
-
 
         calcButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
-
-                //String r = String.valueOf(k + y);
-                //Toast.makeText(getContext(), r, Toast.LENGTH_SHORT).show();
-
-                //setInitialData();
                 calc();
-
-
-
             }
-
         });
-
-
-
-
     }
 
 
@@ -167,13 +133,9 @@ public class CollectionsPagerFragment extends Fragment {
         }
 
         setInitialData();
-        //dataView.add(new DataView("name7", k+y));
-
 
         recyclerView.setAdapter(new DataViewAdapter(this, dataView));
     }
-
-
 
 
 }
