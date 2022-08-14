@@ -1,7 +1,10 @@
 package com.example.collections_and_maps;
 
+import static android.service.controls.ControlsProviderService.TAG;
+
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,39 +16,41 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CalculationFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CalculationFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+
+    public String getUpdateBox() {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+        return String.valueOf(updateBox);
+    }
+
+    String k = "k";
+    String y  = "y";
+
+    TextView updateBox = null;
+    EditText collectionSize;
+    EditText numberElements;
+    DataView dataView;
+
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
 
-    private TextView updateBox;
+
 
     public CalculationFragment() {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CalculationFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static CalculationFragment newInstance(String param1, String param2) {
+        StepByStep.log(CalculationFragment.class, Thread.currentThread().getStackTrace()[2]);
         CalculationFragment fragment = new CalculationFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -54,36 +59,54 @@ public class CalculationFragment extends Fragment {
         return fragment;
     }
 
-    public String getUpdateBox() {
-        return String.valueOf(updateBox.getText());
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         super.onViewCreated(view, savedInstanceState);
-        TextView updateBox = view.findViewById(R.id.askTextView);
-        EditText collectionSize = view.findViewById(R.id.collectionSize);
-        EditText numberElements = view.findViewById(R.id.numberElements);
-        Button calcButton = view.findViewById(R.id.calcButton);
+        updateBox = view.findViewById(R.id.askTextView);
+        collectionSize = view.findViewById(R.id.collectionSize);
+        numberElements = view.findViewById(R.id.numberElements);
+        //Button calcButton = view.findViewById(R.id.calcButton);
+        k = updateBox.getText().toString();
 
+        /*
         calcButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            Log.i(TAG, "CalculationFragment.onClick()");
 
-                updateBox.setText("Введите значения");
                 if(collectionSize.length() > 0 && numberElements.length() > 0) {
-                    int k = Integer.parseInt(collectionSize.getText().toString());
-                    int y = Integer.parseInt(numberElements.getText().toString());
+                    k = collectionSize.getText().toString();
+                    y = numberElements.getText().toString();
 
 
                     updateBox.setText(String.valueOf((k+y)));
+                    new DataView();
                 }
+               // calc();
             }
         });
+
+         */
+    }
+
+    public void calc(){
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+        //updateBox.setText("Введите значения");
+        if(collectionSize.length() > 0 && numberElements.length() > 0) {
+            //k = Integer.parseInt(collectionSize.getText().toString());
+            //y = Integer.parseInt(numberElements.getText().toString());
+
+
+            //updateBox.setText(String.valueOf((k+y)));
+
+        }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -94,6 +117,7 @@ public class CalculationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_calculation, container, false);
     }

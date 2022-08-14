@@ -19,9 +19,11 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
     private final LayoutInflater inflater;
     private final List<DataView> dataViews;
 
-    DataViewAdapter(Context context, List<DataView> dataViews) {
+
+
+    DataViewAdapter(CollectionsPagerFragment context, List<DataView> dataViews) {
         this.dataViews = dataViews;
-        this.inflater = LayoutInflater.from(context);
+        this.inflater = LayoutInflater.from(context.getContext());
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -49,7 +51,7 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull DataViewAdapter.ViewHolder holder, int position) {
         DataView dataView = dataViews.get(position);
-        holder.progressBar.setActivated(dataView.getActivateted());
+        //holder.progressBar.setActivated(dataView.getActivateted());
         holder.nameView.setText(dataView.getName());
         holder.resultView.setText(dataView.getResult());
 
