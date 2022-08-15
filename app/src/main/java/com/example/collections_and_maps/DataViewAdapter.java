@@ -29,13 +29,14 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         final ProgressBar progressBar;
-        final TextView nameView, resultView;
+        final TextView nameViewTop, nameView, resultView;
         ViewHolder(View view){
 
             super(view);
             StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
             progressBar = view.findViewById(R.id.progressBar);
+            nameViewTop = view.findViewById(R.id.nameViewTop);
             nameView = view.findViewById(R.id.nameView);
             resultView = view.findViewById(R.id.resultView);
         }
@@ -54,11 +55,15 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull DataViewAdapter.ViewHolder holder, int position) {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-        DataView dataView = dataViews.get(position);
+        //DataView dataView = dataViews.get(position);
 
-        holder.nameView.setText(dataView.getName());
+        holder.nameViewTop.setText(dataViews.get(position).getNameTop());
+        holder.nameView.setText(dataViews.get(position).getName());
+
         holder.progressBar.setVisibility(ProgressBar.VISIBLE);
-        holder.resultView.setText(dataView.getResult());
+
+        holder.resultView.setText(dataViews.get(position).getResult());
+
         holder.progressBar.setVisibility(ProgressBar.INVISIBLE);
 
 

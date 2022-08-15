@@ -100,7 +100,7 @@ public class CollectionsPagerFragment extends Fragment {
 
         for (int y=0; y<list.length; y++) {
             for (int i = 0; i < listArr.length; i++) {
-                dataView.add(new DataView(listArr[i], list[y], k, listArr.length, i));
+                dataView.add(new DataView(listArr[i], list[y], k, i));
             }
         }
 

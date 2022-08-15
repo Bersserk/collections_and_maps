@@ -5,15 +5,27 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/nameView"
+        android:id="@+id/nameViewTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity = "center"
         app:fontFamily="serif"
         android:layout_gravity="center_horizontal|top"
         app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="13sp"
+        app:autoSizeMaxTextSize="14sp"
+        app:autoSizeStepGranularity="5sp"/>
+
+    <TextView
+        android:id="@+id/nameView"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:gravity = "center|bottom"
+        app:fontFamily="serif"
+        android:layout_gravity="center_horizontal|top"
+        app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="8sp"
-        app:autoSizeMaxTextSize="50sp"
+        app:autoSizeMaxTextSize="14sp"
         app:autoSizeStepGranularity="5sp"/>
 
     <ProgressBar
