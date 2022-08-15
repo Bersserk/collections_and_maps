@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,10 +28,9 @@ public class CollectionsPagerFragment extends Fragment {
     private RecyclerView recyclerView;
 
     long k = 0L;
-    long y = 0L;
 
     EditText collectionSize;
-    EditText numberElements;
+    ArrayList<DataView> viewArrayList = new ArrayList<DataView>();
 
     String [] listArr = {"ArrayList","LinkedList",
             "CopyOnWriteArrayList"};
@@ -40,7 +40,6 @@ public class CollectionsPagerFragment extends Fragment {
             "removing in the middle","removing in the end"};
 
 
-    ArrayList<DataView> dataView = new ArrayList<DataView>();
 
     public CollectionsPagerFragment() {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
@@ -57,7 +56,7 @@ public class CollectionsPagerFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-         setInitialData();
+         //setInitialData();
 
     }
 
@@ -91,20 +90,7 @@ public class CollectionsPagerFragment extends Fragment {
     }
 
 
-    private void setInitialData() {
-        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
-        if(!dataView.isEmpty()) {
-            dataView.clear();
-        }
-
-        for (int y=0; y<list.length; y++) {
-            for (int i = 0; i < listArr.length; i++) {
-                dataView.add(new DataView(listArr[i], list[y], k, i));
-            }
-        }
-
-    }
 
 
     @Override
@@ -115,7 +101,8 @@ public class CollectionsPagerFragment extends Fragment {
 
         Button calcButton = view.findViewById(R.id.calcButton);
         collectionSize = view.findViewById(R.id.collectionSize);
-        numberElements = view.findViewById(R.id.numberElements);
+        TextView textView = view.findViewById(R.id.askTextView);
+        textView.setText("Введите длину массива!");
 
         calcButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,14 +117,33 @@ public class CollectionsPagerFragment extends Fragment {
 
     public void calc (){
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-        if(collectionSize.length() > 0 && numberElements.length() > 0) {
+        if(collectionSize.length() > 0) {
             this.k = Long.parseLong(collectionSize.getText().toString());
-            this.y = Long.parseLong(numberElements.getText().toString());
         }
-
+        // нажата кнопка, далее инициализируем вьюхи которыми заполним грид
         setInitialData();
 
-        recyclerView.setAdapter(new DataViewAdapter(this, dataView));
+        recyclerView.setAdapter(new DataViewAdapter(this, viewArrayList));
+
+    }
+
+    private void setInitialData() {
+        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+        // если список для вьюх не пуст, то очищаем
+        if(!viewArrayList.isEmpty()) {
+            viewArrayList.clear();
+        }
+
+        // разбирамеся для чего 139 строка и далее в цикле нам нужно правильно наполнить вьюшки
+
+        ArrayList listForArray = new ArrList(k).getResultFromArrayList();
+
+        for (int y=0; y<list.length; y++) {
+            for (int i = 0; i < listArr.length; i++) {
+                viewArrayList.add(new DataView(listArr[i], list[y], k, (String) listForArray.get(i)));
+            }
+        }
+
     }
 
 

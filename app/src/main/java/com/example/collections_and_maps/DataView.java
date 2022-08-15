@@ -8,18 +8,18 @@ public class DataView {
 
     private String nameViewTop = "";
     private String nameView = "";
-    private long size = 0;
-    private int number = 0;
-    private int result = 0;
+    private long size;
+    private String result;
+    //private int result = 0;
 
 
-    public DataView(String nameViewTop, String nameView, long size, int number){
+    public DataView(String nameViewTop, String nameView, long size, String result){
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
         this.nameViewTop = nameViewTop;
         this.nameView = nameView;
         this.size = size;
-        this.number = number;
+        this.result = result;
     }
 
 
@@ -36,7 +36,8 @@ public class DataView {
     public String getResult() {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
-        return String.valueOf(size+number);
+
+        return result;
     }
 
 

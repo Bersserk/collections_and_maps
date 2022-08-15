@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHolder>{
@@ -19,11 +20,15 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
     private LayoutInflater inflater;
     private List<DataView> dataViews;
 
+    private ArrayList<String> resultFromArrayList;
+
 
     DataViewAdapter(CollectionsPagerFragment context, List<DataView> dataViews) {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         this.dataViews = dataViews;
         this.inflater = LayoutInflater.from(context.getContext());
+
+        this.resultFromArrayList = new ArrList().getResultFromArrayList();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -62,7 +67,9 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
 
         holder.progressBar.setVisibility(ProgressBar.VISIBLE);
 
-        holder.resultView.setText(dataViews.get(position).getResult());
+        this.resultFromArrayList = new ArrList().getResultFromArrayList();
+
+        holder.resultView.setText(resultFromArrayList.get(position));
 
         holder.progressBar.setVisibility(ProgressBar.INVISIBLE);
 
