@@ -10,7 +10,7 @@ public class StepByStep {
     static String TAG = "info";
 
 
-    static void log(Class<?> aClass, StackTraceElement nameMethod) {
+    public static void log(Class<?> aClass, StackTraceElement nameMethod) {
 
         Pattern pat = Pattern.compile("[A-Z]");
         Matcher match = pat.matcher(aClass.toString());

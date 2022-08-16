@@ -14,6 +14,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.collections_and_maps.calculations.ArrList;
+import com.example.collections_and_maps.calculations.MyArrayList;
+import com.example.collections_and_maps.calculations.MyBaseData;
+
 import java.util.ArrayList;
 
 
@@ -38,6 +42,8 @@ public class CollectionsPagerFragment extends Fragment {
     String [] list = {"adding in the beginning","adding in the middle",
             "adding in the end","search by value","removing in the beginning",
             "removing in the middle","removing in the end"};
+
+
 
 
 
