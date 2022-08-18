@@ -1,4 +1,4 @@
-package com.example.collections_and_maps;
+package com.example.collections_and_maps.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.StepByStep;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,6 +65,6 @@ public class MapsPagerFragment extends Fragment {
                              Bundle savedInstanceState) {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_maps_pager, container, false);
+        return inflater.inflate(R.layout.maps_pager_fragment, container, false);
     }
 }

@@ -1,5 +1,6 @@
-package com.example.collections_and_maps;
+package com.example.collections_and_maps.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +12,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.collections_and_maps.calculations.ArrList;
-import com.example.collections_and_maps.calculations.MyArrayList;
-import com.example.collections_and_maps.calculations.MyBaseData;
+import com.example.collections_and_maps.DataView;
+import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.StepByStep;
+import com.example.collections_and_maps.adapters.DataViewAdapter;
+
 
 import java.util.ArrayList;
 
@@ -30,6 +34,13 @@ public class CollectionsPagerFragment extends Fragment {
     private String mParam2;
 
     private RecyclerView recyclerView;
+    private DataViewAdapter dataViewAdapter;
+
+
+
+
+
+
 
     long k = 0L;
 
@@ -62,7 +73,9 @@ public class CollectionsPagerFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-         //setInitialData();
+
+
+
 
     }
 
@@ -72,12 +85,25 @@ public class CollectionsPagerFragment extends Fragment {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_collections_pager, container, false);
+        View view = inflater.inflate(R.layout.collections_pager_fragment, container, false);
 
-        recyclerView = view.findViewById(R.id.list);
-
+        // находим recycler по id
+        recyclerView = view.findViewById(R.id.recycler);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL));
+        // задаем LayoutManager который будет формировать вид нашего recycler
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 3);
+        // задаем recycler наш LayoutManager
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 3));
+
+        dataViewAdapter = new DataViewAdapter(9);
+        recyclerView.setAdapter(dataViewAdapter);
+
+
+
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 3));
 
         //recyclerView.setAdapter(new DataViewAdapter(this, dataView));
 
@@ -129,7 +155,7 @@ public class CollectionsPagerFragment extends Fragment {
         // нажата кнопка, далее инициализируем вьюхи которыми заполним грид
         setInitialData();
 
-        recyclerView.setAdapter(new DataViewAdapter(this, viewArrayList));
+        //recyclerView.setAdapter(new DataViewAdapter(this, viewArrayList));
 
     }
 
@@ -142,13 +168,13 @@ public class CollectionsPagerFragment extends Fragment {
 
         // разбирамеся для чего 139 строка и далее в цикле нам нужно правильно наполнить вьюшки
 
-        ArrayList listForArray = new ArrList(k).getResultFromArrayList();
+        //ArrayList listForArray = new ArrList(k).getResultFromArrayList();
 
-        for (int y=0; y<list.length; y++) {
-            for (int i = 0; i < listArr.length; i++) {
-                viewArrayList.add(new DataView(listArr[i], list[y], k, (String) listForArray.get(i)));
-            }
-        }
+//        for (int y=0; y<list.length; y++) {
+//            for (int i = 0; i < listArr.length; i++) {
+//                viewArrayList.add(new DataView(listArr[i], list[y], k, (String) listForArray.get(i)));
+//            }
+//        }
 
     }
 

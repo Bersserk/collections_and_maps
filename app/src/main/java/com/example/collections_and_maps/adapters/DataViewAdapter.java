@@ -1,6 +1,7 @@
-package com.example.collections_and_maps;
+package com.example.collections_and_maps.adapters;
 
 
+import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,30 +13,34 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.collections_and_maps.fragments.CollectionsPagerFragment;
+import com.example.collections_and_maps.DataView;
+import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.StepByStep;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHolder>{
+public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHolder> {
 
-    private LayoutInflater inflater;
-    private List<DataView> dataViews;
+    private int numberItems;
 
-    private ArrayList<String> resultFromArrayList;
+//    private LayoutInflater inflater;
+//    private List<DataView> dataViews;
+//
+//    private ArrayList<String> resultFromArrayList;
 
 
-    DataViewAdapter(CollectionsPagerFragment context, List<DataView> dataViews) {
-        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-        this.dataViews = dataViews;
-        this.inflater = LayoutInflater.from(context.getContext());
-
-        this.resultFromArrayList = new ArrList().getResultFromArrayList();
+    public DataViewAdapter(int numberOfItems) {
+        numberItems = numberOfItems;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         final ProgressBar progressBar;
         final TextView nameViewTop, nameView, resultView;
-        ViewHolder(View view){
+
+        ViewHolder(View view) {
 
             super(view);
             StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
@@ -45,6 +50,8 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
             nameView = view.findViewById(R.id.nameView);
             resultView = view.findViewById(R.id.resultView);
         }
+
+
     }
 
 
@@ -52,8 +59,15 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
     @Override
     public DataViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-        View view = inflater.inflate(R.layout.output_data_item, parent, false);
-        return new ViewHolder(view);
+
+        Context context = parent.getContext();
+        int layoutIdForListItem = R.layout.data_item;
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view = layoutInflater.inflate(layoutIdForListItem, parent, false);
+
+        ViewHolder viewHolder = new ViewHolder(view);
+
+        return viewHolder;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -62,16 +76,16 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         //DataView dataView = dataViews.get(position);
 
-        holder.nameViewTop.setText(dataViews.get(position).getNameTop());
-        holder.nameView.setText(dataViews.get(position).getName());
+        holder.nameViewTop.setText("holder.nameViewTop.setText");
+        holder.nameView.setText("holder.nameView.setText");
 
         holder.progressBar.setVisibility(ProgressBar.VISIBLE);
 
-        this.resultFromArrayList = new ArrList().getResultFromArrayList();
+        //this.resultFromArrayList = new ArrList().getResultFromArrayList();
 
-        holder.resultView.setText(resultFromArrayList.get(position));
+       // holder.resultView.setText(resultFromArrayList.get(position));
 
-        holder.progressBar.setVisibility(ProgressBar.INVISIBLE);
+        //holder.progressBar.setVisibility(ProgressBar.INVISIBLE);
 
 
     }
@@ -79,6 +93,6 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
     @Override
     public int getItemCount() {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-        return dataViews.size();
+        return numberItems;
     }
 }

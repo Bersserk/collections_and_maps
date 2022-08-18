@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.example.collections_and_maps.adapters.PagerViewAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         ViewPager2 viewPager2 = findViewById(R.id.view_pager2);
 
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        PagerViewAdapter adapter = new PagerViewAdapter(this);
         viewPager2.setAdapter(adapter);
 
 

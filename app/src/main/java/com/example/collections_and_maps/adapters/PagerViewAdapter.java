@@ -1,13 +1,17 @@
-package com.example.collections_and_maps;
+package com.example.collections_and_maps.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-public class ViewPagerAdapter extends FragmentStateAdapter {
+import com.example.collections_and_maps.fragments.CollectionsPagerFragment;
+import com.example.collections_and_maps.fragments.MapsPagerFragment;
+import com.example.collections_and_maps.StepByStep;
 
-    public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+public class PagerViewAdapter extends FragmentStateAdapter {
+
+    public PagerViewAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
     }
