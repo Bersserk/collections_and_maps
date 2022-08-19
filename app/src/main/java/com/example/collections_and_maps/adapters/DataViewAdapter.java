@@ -24,21 +24,22 @@ import java.util.List;
 public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHolder> {
 
     private int numberItems;
-
-//    private LayoutInflater inflater;
-//    private List<DataView> dataViews;
-//
-//    private ArrayList<String> resultFromArrayList;
+    private ArrayList list;
+    int i = 0;
 
 
-    public DataViewAdapter(int numberOfItems) {
-        numberItems = numberOfItems;
+
+
+    public DataViewAdapter(ArrayList list) {
+        numberItems = list.size();
+        this.list = list;
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         final ProgressBar progressBar;
-        final TextView nameViewTop, nameView, resultView;
+        final TextView nameView, resultView;
 
         ViewHolder(View view) {
 
@@ -46,7 +47,6 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
             StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
             progressBar = view.findViewById(R.id.progressBar);
-            nameViewTop = view.findViewById(R.id.nameViewTop);
             nameView = view.findViewById(R.id.nameView);
             resultView = view.findViewById(R.id.resultView);
         }
@@ -67,6 +67,8 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
 
         ViewHolder viewHolder = new ViewHolder(view);
 
+
+
         return viewHolder;
     }
 
@@ -74,19 +76,17 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull DataViewAdapter.ViewHolder holder, int position) {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-        //DataView dataView = dataViews.get(position);
 
-        holder.nameViewTop.setText("holder.nameViewTop.setText");
-        holder.nameView.setText("holder.nameView.setText");
+
+//        i = position;
+//
+//
+//        String text = list[position*3 % list.length];
+
+
+        holder.nameView.setText(list.get(position).toString());
 
         holder.progressBar.setVisibility(ProgressBar.VISIBLE);
-
-        //this.resultFromArrayList = new ArrList().getResultFromArrayList();
-
-       // holder.resultView.setText(resultFromArrayList.get(position));
-
-        //holder.progressBar.setVisibility(ProgressBar.INVISIBLE);
-
 
     }
 

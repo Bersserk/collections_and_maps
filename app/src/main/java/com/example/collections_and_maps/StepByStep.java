@@ -5,6 +5,9 @@ import android.util.Log;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+// my custom class for comfortable reading logs
+
 public class StepByStep {
 
     static String TAG = "info";
