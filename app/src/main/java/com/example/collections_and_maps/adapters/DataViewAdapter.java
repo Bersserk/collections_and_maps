@@ -38,8 +38,8 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        final ProgressBar progressBar;
-        final TextView nameView, resultView;
+        private ProgressBar progressBar;
+        private TextView nameView, resultView;
 
         ViewHolder(View view) {
 
@@ -84,7 +84,8 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
 //        String text = list[position*3 % list.length];
 
 
-        holder.nameView.setText(list.get(position).toString());
+//        holder.nameView.setText(list.get(position).toString());
+        holder.nameView.setText("TreeMap");
 
         holder.progressBar.setVisibility(ProgressBar.VISIBLE);
 

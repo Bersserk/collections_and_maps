@@ -13,9 +13,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.DataView;
+import com.example.collections_and_maps.MyItemDecoration;
+import com.example.collections_and_maps.MySpanSizeLookup;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.StepByStep;
 import com.example.collections_and_maps.adapters.DataViewAdapter;
@@ -35,7 +38,8 @@ public class CollectionsPagerFragment extends Fragment {
 
     private RecyclerView headListRecycler;
     private RecyclerView listRecycler;
-    private DataViewAdapter dataViewAdapter;
+    private LinearLayoutManager linearLayoutManagerVertical;
+//    private DataViewAdapter dataViewAdapter;
     ArrayList arrayList;
 
 
@@ -45,7 +49,6 @@ public class CollectionsPagerFragment extends Fragment {
     String[] listArr = {"ArrayList", "LinkedList",
             "CopyOnWriteArrayList"};
 
-    String[] countries = {"Бразилия", "Аргентина", "Колумбия", "Чили", "Уругвай"};
 
     String[] list = {"adding in the beginning", "adding in the middle",
             "adding in the end", "search by value", "removing in the beginning",
@@ -78,42 +81,54 @@ public class CollectionsPagerFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.collections_pager_fragment, container, false);
 
+        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(this.getActivity(), 3);
+        headListRecycler = (RecyclerView) view.findViewById(R.id.headListRecycler);
+        headListRecycler.setLayoutManager(gridLayoutManager2);
+        headListRecycler.setAdapter(new ListViewAdapter(listArr));
+
 
         // находим recycler по id
         listRecycler = view.findViewById(R.id.listRecycler);
-        listRecycler.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        listRecycler.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL));
+        listRecycler.addItemDecoration(new MyItemDecoration());
+//        listRecycler.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL));
         // задаем LayoutManager который будет формировать вид нашего recycler
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 3, //The number of rows in the grid
+                LinearLayoutManager.VERTICAL,
+                false);
+
+        linearLayoutManagerVertical =
+                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+
+
+        //set SpanSizeLookup()
+        gridLayoutManager.setSpanSizeLookup(new MySpanSizeLookup(4, 1, 3));
+
         // задаем recycler наш LayoutManager
-        listRecycler.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
+        listRecycler.setLayoutManager(gridLayoutManager);
         listRecycler.setHasFixedSize(true);
-
-        ListViewAdapter listAdapter = new ListViewAdapter(listArr);
-        //listView.setRotation(90);
-
-        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(this.getActivity(), 3);
-        headListRecycler = (RecyclerView) view.findViewById(R.id.headListRecycler);
-        headListRecycler.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
-        headListRecycler.setAdapter(new ListViewAdapter(listArr));
 
         arrayList = new ArrayList();
         int i = 0;
         int y = 0;
+//        while (y < list.length) {
+//            System.out.println("i = " + i + "; y = " + y);
+//            if (i == 3) {
+//                i = 0;
+//                y++;
+//            } else {
+//                arrayList.add(list[y]);
+//                i++;
+//            }
+//        }
         while (y < list.length) {
-            System.out.println("i = " + i + "; y = " + y);
-            if (i == 3) {
-                i = 0;
-                y++;
-            } else {
-                arrayList.add(list[y]);
-                i++;
-            }
+
+            arrayList.add(list[y]);
+            y++;
         }
 
 
-        dataViewAdapter = new DataViewAdapter(arrayList);
-        listRecycler.setAdapter(dataViewAdapter);
+//        ListViewAdapter listAdapter = new ListViewAdapter(list);
+        listRecycler.setAdapter(new ListViewAdapter(arrayList));
 
         return view;
     }
@@ -163,9 +178,9 @@ public class CollectionsPagerFragment extends Fragment {
         // нажата кнопка, далее инициализируем вьюхи которыми заполним грид
 
 
-        dataViewAdapter = new DataViewAdapter(arrayList);
-        listRecycler.setAdapter(dataViewAdapter);
-        //setInitialData();
+//        dataViewAdapter = new DataViewAdapter(arrayList);
+//        listRecycler.setAdapter(dataViewAdapter);
+        listRecycler.setAdapter(new ListViewAdapter(arrayList));
 
 
     }
