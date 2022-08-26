@@ -38,7 +38,7 @@ public class CollectionsPagerFragment extends Fragment {
 
     private RecyclerView headListRecycler;
     private RecyclerView listRecycler;
-    private LinearLayoutManager linearLayoutManagerVertical;
+
 //    private DataViewAdapter dataViewAdapter;
     ArrayList arrayList;
 
@@ -90,14 +90,13 @@ public class CollectionsPagerFragment extends Fragment {
         // находим recycler по id
         listRecycler = view.findViewById(R.id.listRecycler);
         listRecycler.addItemDecoration(new MyItemDecoration());
-//        listRecycler.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL));
+
         // задаем LayoutManager который будет формировать вид нашего recycler
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 3, //The number of rows in the grid
                 LinearLayoutManager.VERTICAL,
                 false);
 
-        linearLayoutManagerVertical =
-                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+
 
 
         //set SpanSizeLookup()
