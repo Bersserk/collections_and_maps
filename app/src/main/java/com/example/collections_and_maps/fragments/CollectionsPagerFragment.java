@@ -1,17 +1,18 @@
 package com.example.collections_and_maps.fragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,11 +22,17 @@ import com.example.collections_and_maps.MyItemDecoration;
 import com.example.collections_and_maps.MySpanSizeLookup;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.StepByStep;
-import com.example.collections_and_maps.adapters.DataViewAdapter;
 import com.example.collections_and_maps.adapters.ListViewAdapter;
+import com.example.collections_and_maps.calculations.MyArrayList;
+import com.example.collections_and_maps.calculations.MyCopyOnWriteArrayList;
+import com.example.collections_and_maps.calculations.MyLinkedList;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class CollectionsPagerFragment extends Fragment {
@@ -39,8 +46,10 @@ public class CollectionsPagerFragment extends Fragment {
     private RecyclerView headListRecycler;
     private RecyclerView listRecycler;
 
-//    private DataViewAdapter dataViewAdapter;
-    ArrayList arrayList;
+    private ArrayList baseList;
+    private ArrayList arrayList;
+    private LinkedList linkedList;
+    private CopyOnWriteArrayList copyOnWriteArrayList;
 
 
     EditText collectionSize;
@@ -50,7 +59,7 @@ public class CollectionsPagerFragment extends Fragment {
             "CopyOnWriteArrayList"};
 
 
-    String[] list = {"adding in the beginning", "adding in the middle",
+    static final String[] list = {"adding in the beginning", "adding in the middle",
             "adding in the end", "search by value", "removing in the beginning",
             "removing in the middle", "removing in the end"};
 
@@ -86,7 +95,6 @@ public class CollectionsPagerFragment extends Fragment {
         headListRecycler.setLayoutManager(gridLayoutManager2);
         headListRecycler.setAdapter(new ListViewAdapter(listArr));
 
-
         // находим recycler по id
         listRecycler = view.findViewById(R.id.listRecycler);
         listRecycler.addItemDecoration(new MyItemDecoration());
@@ -95,10 +103,6 @@ public class CollectionsPagerFragment extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 3, //The number of rows in the grid
                 LinearLayoutManager.VERTICAL,
                 false);
-
-
-
-
         //set SpanSizeLookup()
         gridLayoutManager.setSpanSizeLookup(new MySpanSizeLookup(4, 1, 3));
 
@@ -106,29 +110,18 @@ public class CollectionsPagerFragment extends Fragment {
         listRecycler.setLayoutManager(gridLayoutManager);
         listRecycler.setHasFixedSize(true);
 
-        arrayList = new ArrayList();
-        int i = 0;
+        baseList = new ArrayList<String>();
         int y = 0;
-//        while (y < list.length) {
-//            System.out.println("i = " + i + "; y = " + y);
-//            if (i == 3) {
-//                i = 0;
-//                y++;
-//            } else {
-//                arrayList.add(list[y]);
-//                i++;
-//            }
-//        }
         while (y < list.length) {
 
-            arrayList.add(list[y]);
+            baseList.add(list[y]);
+            baseList.add("...");
+            baseList.add("...");
+            baseList.add("...");
             y++;
         }
 
-
-//        ListViewAdapter listAdapter = new ListViewAdapter(list);
-        listRecycler.setAdapter(new ListViewAdapter(arrayList));
-
+        listRecycler.setAdapter(new ListViewAdapter(baseList));
         return view;
     }
 
@@ -170,19 +163,50 @@ public class CollectionsPagerFragment extends Fragment {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
         // get data from EditText
-        long k = 0L;
-        if (collectionSize.length() > 0) {
-            k = Long.parseLong(collectionSize.getText().toString());
+        if (collectionSize.length() > 0 && TextUtils.isDigitsOnly(collectionSize.getText())) {
+            long k = Long.parseLong(collectionSize.getText().toString());
+            arrayList = createArrayList(k);
+            linkedList = createLinkedList(k);
+            copyOnWriteArrayList = createCopyOnWriteArrayList(k);
+        } else {
+            Toast.makeText(getContext(), "Размер необходимо задавать только числами", Toast.LENGTH_LONG).show();
         }
         // нажата кнопка, далее инициализируем вьюхи которыми заполним грид
 
+        for (int s = 0; s < baseList.size(); s++) {
+            String nameLine = baseList.get(s).toString();
+            baseList.set(++s, new MyArrayList(arrayList, nameLine).getResult());
+            baseList.set(++s, new MyLinkedList(linkedList, nameLine).getResult());
+            baseList.set(++s, new MyCopyOnWriteArrayList(copyOnWriteArrayList, nameLine).getResult());
+        }
 
-//        dataViewAdapter = new DataViewAdapter(arrayList);
-//        listRecycler.setAdapter(dataViewAdapter);
-        listRecycler.setAdapter(new ListViewAdapter(arrayList));
-
-
+        listRecycler.setAdapter(new ListViewAdapter(baseList));
     }
+
+    private CopyOnWriteArrayList createCopyOnWriteArrayList(long k) {
+        CopyOnWriteArrayList list = new CopyOnWriteArrayList();
+        for (int i = 0; i < k; i++) {
+            list.add(0);
+        }
+        return list;
+    }
+
+    private LinkedList createLinkedList(long k) {
+        LinkedList list = new LinkedList();
+        for (int i = 0; i < k; i++) {
+            list.add(0);
+        }
+        return list;
+    }
+
+    private ArrayList createArrayList(long k) {
+        ArrayList list = new ArrayList();
+        for (int i = 0; i < k; i++) {
+            list.add(0);
+        }
+        return list;
+    }
+
 
     private void setInitialData() {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);

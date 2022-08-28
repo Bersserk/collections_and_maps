@@ -48,4 +48,22 @@ public class StepByStep {
         Log.i(TAG, s + nameMethod.getMethodName() + end);
 
     }
+
+    public static void log(Class<?> aClass, StackTraceElement nameMethod, String t) {
+
+        Pattern pat = Pattern.compile("[A-Z]");
+        Matcher match = pat.matcher(aClass.toString());
+
+        int lastCapitalIndex = -1;
+        if(match.find())
+        {
+            lastCapitalIndex = match.start();
+        }
+
+        String s = "-->  " + aClass.toString().substring(lastCapitalIndex) + ".";
+        String end = ": " + new Integer(t).getClass().getCanonicalName() + ": " + t;
+
+        Log.i(TAG, s + nameMethod.getMethodName() + end);
+
+    }
 }
