@@ -13,13 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.collections_and_maps.fragments.CollectionsPagerFragment;
-import com.example.collections_and_maps.DataView;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.StepByStep;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHolder> {
 
@@ -47,7 +44,7 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
             StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
             progressBar = view.findViewById(R.id.progressBar);
-            nameView = view.findViewById(R.id.nameView);
+//            nameView = view.findViewById(R.id.nameView);
             resultView = view.findViewById(R.id.resultView);
         }
 

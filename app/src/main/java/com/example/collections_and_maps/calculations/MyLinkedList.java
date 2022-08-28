@@ -10,7 +10,7 @@ public class MyLinkedList{
     private String result;
 
     public String getResult() {
-        return result;
+        return result + " ms";
     }
 
     public MyLinkedList(LinkedList list, String setConstant) {

@@ -9,7 +9,7 @@ public class MyArrayList{
     private String result;
 
     public String getResult() {
-        return result;
+        return result + " ms";
     }
 
     public MyArrayList(ArrayList list, String setConstant) {

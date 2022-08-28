@@ -9,13 +9,12 @@ public class MyTreeMap {
     private String result;
 
     public String getResult() {
-        return result;
+        return result + " ms";
     }
 
     public MyTreeMap(TreeMap treeMap, String nameLine) {
 
         this.treeMap = treeMap;
-//        this.arrayList = getList();
 
         switch (nameLine) {
             case "adding new":
@@ -33,27 +32,31 @@ public class MyTreeMap {
     }
 
     private void addingNew() {
+        int i = random();
         double start = System.nanoTime();
-        // расчет метода
-//        arrayList.add(0, null);
+        treeMap.put(i, i);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
     }
 
     private void searchByKey() {
+        int i = random();
         double start = System.nanoTime();
-        // расчет метода
-//        arrayList.add(0, null);
+        treeMap.get(i).toString();
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
     }
 
     private void removing() {
+        int i = random();
         double start = System.nanoTime();
-        // расчет метода
-//        arrayList.add(0, null);
+        treeMap.remove(i);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+    }
+
+    private int random() {
+        return new Random().nextInt(treeMap.size() + 1);
     }
 
 

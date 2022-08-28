@@ -1,6 +1,7 @@
 package com.example.collections_and_maps.calculations;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public class MyHashMap {
 
@@ -8,7 +9,7 @@ public class MyHashMap {
     private String result;
 
     public String getResult() {
-        return result;
+        return result + " ms";
     }
 
     public MyHashMap(HashMap hashMap, String nameLine) {
@@ -30,26 +31,30 @@ public class MyHashMap {
     }
 
     private void addingNew() {
+        int i = random();
         double start = System.nanoTime();
-        // расчет метода
-//        arrayList.add(0, null);
+        hashMap.put(i, i);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
     }
 
     private void searchByKey() {
+        int i = random();
         double start = System.nanoTime();
-        // расчет метода
-//        arrayList.add(0, null);
+        hashMap.get(i).toString();
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
     }
 
     private void removing() {
+        int i = random();
         double start = System.nanoTime();
-        // расчет метода
-//        arrayList.add(0, null);
+        hashMap.remove(i);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+    }
+
+    private int random() {
+        return new Random().nextInt(hashMap.size() + 1);
     }
 }

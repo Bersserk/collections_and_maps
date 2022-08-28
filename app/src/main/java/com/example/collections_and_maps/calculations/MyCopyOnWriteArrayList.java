@@ -9,7 +9,7 @@ public class MyCopyOnWriteArrayList{
     private String result;
 
     public String getResult() {
-        return result;
+        return result + " ms";
     }
 
     public MyCopyOnWriteArrayList(CopyOnWriteArrayList list, String setConstant) {

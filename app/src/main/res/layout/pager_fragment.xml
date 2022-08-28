@@ -21,8 +21,7 @@
         android:id="@+id/askTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="textAsk"
-        android:inputType="textPersonName"
+        android:hint="@string/askTextView"
         android:minHeight="24dp"
         android:textColorHint="#757575"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,31 +36,24 @@
         android:id="@+id/collectionSize"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:autofillHints=""
         android:ems="10"
-        android:hint="Collections Size"
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal"
         android:minHeight="48dp"
         android:textColorHint="#757575"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.016"
+        app:layout_constraintEnd_toStartOf="@+id/calcButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/askTextView"
         app:layout_constraintVertical_bias="0.049"
         app:layout_constraintWidth_percent="0.7" />
 
-
     <Button
         android:id="@+id/calcButton"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:text="Button"
+        android:text="@string/calcButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.956"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/collectionSize"
-        app:layout_constraintVertical_bias="0.085"
         app:layout_constraintWidth_percent="0.28" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -77,7 +69,6 @@
         android:id="@+id/listRecycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-
         android:layout_marginTop="8dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
