@@ -9,6 +9,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class MainActivity extends AppCompatActivity {
 
+    TabLayoutMediator tabLayoutMediator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -22,7 +24,14 @@ public class MainActivity extends AppCompatActivity {
         PagerViewAdapter adapter = new PagerViewAdapter(this);
         viewPager2.setAdapter(adapter);
 
-        new TabLayoutMediator(tabLayout, viewPager2,
-                (tab, position) -> tab.setText(position==0?"Collections":"Maps")).attach();
+        tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager2, (tab, position)
+                -> tab.setText(position == 0 ? "Collections" : "Maps"));
+        tabLayoutMediator.attach();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        tabLayoutMediator.detach();
     }
 }
