@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-public class MapsPagerFragment extends Fragment {
+public class MapsPagerFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -112,13 +112,7 @@ public class MapsPagerFragment extends Fragment {
 
         Button calcButton = view.findViewById(R.id.calcButton);
         collectionSize = view.findViewById(R.id.collectionSize);
-
-        calcButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calc();
-            }
-        });
+        calcButton.setOnClickListener(this);
     }
 
 
@@ -156,5 +150,10 @@ public class MapsPagerFragment extends Fragment {
             list.put(i, new Object());
         }
         return list;
+    }
+
+    @Override
+    public void onClick(View view) {
+        calc();
     }
 }

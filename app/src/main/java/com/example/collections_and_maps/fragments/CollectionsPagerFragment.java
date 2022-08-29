@@ -31,7 +31,7 @@ import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
-public class CollectionsPagerFragment extends Fragment {
+public class CollectionsPagerFragment extends Fragment implements View.OnClickListener  {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -120,13 +120,7 @@ public class CollectionsPagerFragment extends Fragment {
 
         Button calcButton = view.findViewById(R.id.calcButton);
         collectionSize = view.findViewById(R.id.collectionSize);
-
-        calcButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calc();
-            }
-        });
+        calcButton.setOnClickListener(this);
     }
 
     private void calc() {
@@ -177,6 +171,11 @@ public class CollectionsPagerFragment extends Fragment {
             list.add(0);
         }
         return list;
+    }
+
+    @Override
+    public void onClick(View view) {
+        calc();
     }
 
 }
