@@ -1,5 +1,7 @@
 package com.example.collections_and_maps.calculations;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
@@ -13,8 +15,8 @@ public class MyLinkedList{
         return result + " ms";
     }
 
-    public MyLinkedList(LinkedList list, String setConstant) {
-       linkedList = list;
+    public MyLinkedList(long k, String setConstant) {
+       linkedList = createLinkedList(k);
 
         switch (setConstant) {
             case "adding in the beginning":
@@ -98,5 +100,14 @@ public class MyLinkedList{
         linkedList.remove(linkedList.size() - 1);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+    }
+
+    @NonNull
+    private LinkedList createLinkedList(long k) {
+        LinkedList list = new LinkedList();
+        for (int i = 0; i < k; i++) {
+            list.add(0);
+        }
+        return list;
     }
 }

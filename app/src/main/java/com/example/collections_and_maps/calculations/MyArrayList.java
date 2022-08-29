@@ -1,5 +1,7 @@
 package com.example.collections_and_maps.calculations;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,9 +14,9 @@ public class MyArrayList{
         return result + " ms";
     }
 
-    public MyArrayList(ArrayList list, String setConstant) {
+    public MyArrayList(long k, String setConstant) {
 //        super(arraySize, arrayList);
-        arrayList = list;
+        arrayList = createArrayList(k);
 //        this.arrayList = getList();
 
         switch (setConstant) {
@@ -99,6 +101,15 @@ public class MyArrayList{
         arrayList.remove(arrayList.size() - 1);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+    }
+
+    @NonNull
+    private ArrayList createArrayList(long k) {
+        ArrayList list = new ArrayList();
+        for (int i = 0; i < k; i++) {
+            list.add(0);
+        }
+        return list;
     }
 }
 

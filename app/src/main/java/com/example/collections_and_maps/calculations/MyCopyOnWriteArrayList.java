@@ -1,5 +1,7 @@
 package com.example.collections_and_maps.calculations;
 
+import androidx.annotation.NonNull;
+
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -12,8 +14,8 @@ public class MyCopyOnWriteArrayList{
         return result + " ms";
     }
 
-    public MyCopyOnWriteArrayList(CopyOnWriteArrayList list, String setConstant) {
-       copyOnWriteArrayList = list;
+    public MyCopyOnWriteArrayList(long k, String setConstant) {
+       copyOnWriteArrayList = createCopyOnWriteArrayList(k);
 
         switch (setConstant) {
             case "adding in the beginning":
@@ -97,5 +99,14 @@ public class MyCopyOnWriteArrayList{
         copyOnWriteArrayList.remove(copyOnWriteArrayList.size() - 1);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+    }
+
+    @NonNull
+    private CopyOnWriteArrayList createCopyOnWriteArrayList(long k) {
+        CopyOnWriteArrayList list = new CopyOnWriteArrayList();
+        for (int i = 0; i < k; i++) {
+            list.add(0);
+        }
+        return list;
     }
 }

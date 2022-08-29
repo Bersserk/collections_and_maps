@@ -12,9 +12,9 @@ public class MyTreeMap {
         return result + " ms";
     }
 
-    public MyTreeMap(TreeMap treeMap, String nameLine) {
+    public MyTreeMap(long k, String nameLine) {
 
-        this.treeMap = treeMap;
+        this.treeMap = createTreeMap(k);
 
         switch (nameLine) {
             case "adding new":
@@ -53,6 +53,14 @@ public class MyTreeMap {
         treeMap.remove(i);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+    }
+
+    private TreeMap createTreeMap(long k) {
+        TreeMap<Integer, String> list = new TreeMap<Integer, String>();
+        for (int i = 0; i < k; i++) {
+            list.put(i, String.valueOf(i));
+        }
+        return list;
     }
 
     private int random() {

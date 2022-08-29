@@ -1,12 +1,12 @@
 package com.example.collections_and_maps.fragments;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,20 +31,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CollectionsPagerFragment extends MyFragment implements View.OnClickListener  {
 
-    private ArrayList baseList;
-    private ArrayList arrayList;
-    private LinkedList linkedList;
-    private CopyOnWriteArrayList copyOnWriteArrayList;
-
-    private final String[] listArr = {"ArrayList", "LinkedList",
-            "CopyOnWriteArrayList"};
-
-    private final int spanCount = listArr.length;
-
-    private final String[] list = {"adding in the beginning", "adding in the middle",
-            "adding in the end", "search by value", "removing in the beginning",
-            "removing in the middle", "removing in the end"};
-
     public CollectionsPagerFragment() {
         StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
     }
@@ -52,40 +38,18 @@ public class CollectionsPagerFragment extends MyFragment implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(this.getClass()!=null) { // your code here}
+            Resources res = this.requireActivity().getResources();
+            listArr = res.getStringArray(R.array.collections);
+            list = res.getStringArray(R.array.collections_item);
+            spanCount = listArr.length;
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.pager_fragment, container, false);
-
-        // making title recycler
-        headListRecycler = (RecyclerView) view.findViewById(R.id.headListRecycler);
-        headListRecycler.setLayoutManager(new GridLayoutManager(this.getActivity(), spanCount));
-        headListRecycler.setAdapter(new ListViewAdapter(listArr));
-
-        // making list recycler
-        listRecycler = view.findViewById(R.id.listRecycler);
-        listRecycler.addItemDecoration(new MyItemDecoration());
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
-                spanCount, LinearLayoutManager.VERTICAL, false);
-        //set SpanSizeLookup()
-        gridLayoutManager.setSpanSizeLookup(new MySpanSizeLookup(4, 1, spanCount));
-        listRecycler.setLayoutManager(gridLayoutManager);
-        listRecycler.setHasFixedSize(true);
-
-        baseList = new ArrayList<String>();
-        for (int y = 0; y < list.length; y++) {
-            baseList.add(list[y]);
-            for (int i = 0; i < spanCount; i++) {
-                baseList.add("...");
-            }
-        }
-
-        listRecycler.setAdapter(new ListViewAdapter(baseList));
-        return view;
+        return inflater.inflate(R.layout.pager_fragment, container, false);
     }
 
     public static CollectionsPagerFragment newInstance(String param1, String param2) {
@@ -102,58 +66,40 @@ public class CollectionsPagerFragment extends MyFragment implements View.OnClick
         super.onViewCreated(view, savedInstanceState);
 
         Button calcButton = view.findViewById(R.id.calcButton);
-        collectionSize = view.findViewById(R.id.collectionSize);
         calcButton.setOnClickListener(this);
+
+        // making title recycler
+        headListRecycler = (RecyclerView) view.findViewById(R.id.headListRecycler);
+        headListRecycler.setLayoutManager(new GridLayoutManager(this.getActivity(), spanCount));
+        headListRecycler.setAdapter(new ListViewAdapter(listArr));
+
+        // making list recycler
+        listRecycler = view.findViewById(R.id.listRecycler);
+        listRecycler.addItemDecoration(new MyItemDecoration());
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
+                spanCount, LinearLayoutManager.VERTICAL, false);
+        //set SpanSizeLookup()
+        gridLayoutManager.setSpanSizeLookup(new MySpanSizeLookup(4, 1, spanCount));
+        listRecycler.setLayoutManager(gridLayoutManager);
+        listRecycler.setHasFixedSize(true);
+
+        creatClearGrid();
+        listRecycler.setAdapter(new ListViewAdapter(baseList));
     }
 
-    private void calc() {
-
-        // get data from EditText
-        if (collectionSize.length() > 0 && TextUtils.isDigitsOnly(collectionSize.getText())) {
-            long k = Long.parseLong(collectionSize.getText().toString());
-            arrayList = createArrayList(k);
-            linkedList = createLinkedList(k);
-            copyOnWriteArrayList = createCopyOnWriteArrayList(k);
-        } else {
-            Toast.makeText(getContext(), "Размер необходимо задавать только числами", Toast.LENGTH_LONG).show();
-        }
+    @Override
+    public void calc() {
+        super.calc();
 
         // button was pushed, next we are initialisation all views
         for (int s = 0; s < baseList.size(); s++) {
             String nameLine = baseList.get(s).toString();
-            baseList.set(++s, new MyArrayList(arrayList, nameLine).getResult());
-            baseList.set(++s, new MyLinkedList(linkedList, nameLine).getResult());
-            baseList.set(++s, new MyCopyOnWriteArrayList(copyOnWriteArrayList, nameLine).getResult());
+            baseList.set(++s, new MyArrayList(k, nameLine).getResult());
+            baseList.set(++s, new MyLinkedList(k, nameLine).getResult());
+            baseList.set(++s, new MyCopyOnWriteArrayList(k, nameLine).getResult());
         }
 
         listRecycler.setAdapter(new ListViewAdapter(baseList));
-    }
-
-    @NonNull
-    private CopyOnWriteArrayList createCopyOnWriteArrayList(long k) {
-        CopyOnWriteArrayList list = new CopyOnWriteArrayList();
-        for (int i = 0; i < k; i++) {
-            list.add(0);
-        }
-        return list;
-    }
-
-    @NonNull
-    private LinkedList createLinkedList(long k) {
-        LinkedList list = new LinkedList();
-        for (int i = 0; i < k; i++) {
-            list.add(0);
-        }
-        return list;
-    }
-
-    @NonNull
-    private ArrayList createArrayList(long k) {
-        ArrayList list = new ArrayList();
-        for (int i = 0; i < k; i++) {
-            list.add(0);
-        }
-        return list;
     }
 
     @Override

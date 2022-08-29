@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="maps">
+        <item>TreeMap</item>
+        <item>HashMap</item>
+    </string-array>
+
+    <string-array name="maps_item">
+        <item>adding new</item>
+        <item>search by key</item>
+        <item>removing</item>
+    </string-array>
+
+    <string-array name="collections">
+        <item>ArrayList</item>
+        <item>LinkedList</item>
+        <item>CopyOnWriteArrayList</item>
+    </string-array>
+
+    <string-array name="collections_item">
+        <item>adding in the beginning</item>
+        <item>adding in the middle</item>
+        <item>adding in the end</item>
+        <item>search by value</item>
+        <item>removing in the beginning</item>
+        <item>removing in the middle</item>
+        <item>removing in the end</item>
+    </string-array>
+
+</resources>
+

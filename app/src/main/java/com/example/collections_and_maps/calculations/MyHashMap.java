@@ -12,8 +12,8 @@ public class MyHashMap {
         return result + " ms";
     }
 
-    public MyHashMap(HashMap hashMap, String nameLine) {
-        this.hashMap = hashMap;
+    public MyHashMap(long k, String nameLine) {
+        this.hashMap = createHashMap(k);
 
         switch (nameLine) {
             case "adding new":
@@ -52,6 +52,14 @@ public class MyHashMap {
         hashMap.remove(i);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+    }
+
+    private HashMap createHashMap(long k) {
+        HashMap<Integer, Object> list = new HashMap<Integer, Object>();
+        for (int i = 0; i < k; i++) {
+            list.put(i, new Object());
+        }
+        return list;
     }
 
     private int random() {

@@ -1,9 +1,27 @@
 package com.example.collections_and_maps.fragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.collections_and_maps.MyItemDecoration;
+import com.example.collections_and_maps.MySpanSizeLookup;
+import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.adapters.ListViewAdapter;
+import com.example.collections_and_maps.calculations.MyHashMap;
+import com.example.collections_and_maps.calculations.MyTreeMap;
+
+import java.util.ArrayList;
 
 public class MyFragment extends Fragment {
     protected static final String COLLECTIONS = "collections";
@@ -17,12 +35,43 @@ public class MyFragment extends Fragment {
 
     protected EditText collectionSize;
 
+    protected String[] listArr, list;
+    protected int spanCount;
+    protected ArrayList baseList;
+    protected long k = 0L;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mCollections = getArguments().getString(COLLECTIONS);
             mMaps = getArguments().getString(MAPS);
+        }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        collectionSize = view.findViewById(R.id.collectionSize);
+    }
+
+    public void calc() {
+
+        // get data from EditText
+        if (collectionSize.length() > 0 && TextUtils.isDigitsOnly(collectionSize.getText())) {
+            k = Long.parseLong(collectionSize.getText().toString());
+        } else {
+            Toast.makeText(getContext(), "Размер необходимо задавать только числами", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void creatClearGrid (){
+        baseList = new ArrayList<String>();
+        for (int y = 0; y < list.length; y++) {
+            baseList.add(list[y]);
+            for (int i = 0; i < spanCount; i++) {
+                baseList.add("...");
+            }
         }
     }
 }
