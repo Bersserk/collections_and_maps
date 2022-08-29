@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,21 +27,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-public class MapsPagerFragment extends Fragment implements View.OnClickListener {
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private String mParam1;
-    private String mParam2;
-
-    private RecyclerView headListRecycler;
-    private RecyclerView listRecycler;
+public class MapsPagerFragment extends MyFragment implements View.OnClickListener {
 
     private TreeMap treeMap;
     private HashMap hashMap;
 
     private ArrayList baseList;
-    private EditText collectionSize;
 
     static final String[] listArr = {"TreeMap", "HashMap"};
     private final int spanCount = listArr.length;
@@ -57,10 +47,6 @@ public class MapsPagerFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -99,8 +85,8 @@ public class MapsPagerFragment extends Fragment implements View.OnClickListener 
     public static CollectionsPagerFragment newInstance(String param1, String param2) {
         CollectionsPagerFragment fragment = new CollectionsPagerFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(COLLECTIONS, param1);
+        args.putString(MAPS, param2);
         fragment.setArguments(args);
         return fragment;
     }

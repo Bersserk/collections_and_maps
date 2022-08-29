@@ -7,12 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,22 +29,12 @@ import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
-public class CollectionsPagerFragment extends Fragment implements View.OnClickListener  {
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private String mParam1;
-    private String mParam2;
-
-    private RecyclerView headListRecycler;
-    private RecyclerView listRecycler;
+public class CollectionsPagerFragment extends MyFragment implements View.OnClickListener  {
 
     private ArrayList baseList;
     private ArrayList arrayList;
     private LinkedList linkedList;
     private CopyOnWriteArrayList copyOnWriteArrayList;
-
-    private EditText collectionSize;
 
     private final String[] listArr = {"ArrayList", "LinkedList",
             "CopyOnWriteArrayList"};
@@ -64,11 +52,6 @@ public class CollectionsPagerFragment extends Fragment implements View.OnClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -108,8 +91,8 @@ public class CollectionsPagerFragment extends Fragment implements View.OnClickLi
     public static CollectionsPagerFragment newInstance(String param1, String param2) {
         CollectionsPagerFragment fragment = new CollectionsPagerFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(COLLECTIONS, param1);
+        args.putString(MAPS, param2);
         fragment.setArguments(args);
         return fragment;
     }
