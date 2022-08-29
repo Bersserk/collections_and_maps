@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.StepByStep;
 
 import java.util.ArrayList;
 
@@ -36,6 +35,11 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
             int layoutID = (list == null ? R.id.nameViewTop : R.id.nameViewList);
             nameView = view.findViewById(layoutID);
         }
+
+        void bind(String s) {
+            nameView.setText(s);
+        }
+
     }
 
     @NonNull
@@ -54,9 +58,9 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ListViewAdapter.ViewHolder holder, int position) {
         if (list == null) {
-            holder.nameView.setText(headList[position]);
+            holder.bind(headList[position]);
         } else {
-            holder.nameView.setText(list.get(position % list.size()).toString());
+            holder.bind(list.get(position % list.size()).toString());
         }
     }
 
