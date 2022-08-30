@@ -13,16 +13,11 @@ import com.example.collections_and_maps.R;
 
 import java.util.ArrayList;
 
-public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private String[] headList;
     private ArrayList list;
 
-    public ListViewAdapter(String[] listArr) {
-        headList = listArr;
-    }
-
-    public ListViewAdapter(ArrayList listArr) {
+    public RecyclerViewAdapter(ArrayList listArr) {
         list = listArr;
     }
 
@@ -31,15 +26,12 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
 
         ViewHolder(View view) {
             super(view);
-
-            int layoutID = (list == null ? R.id.nameViewTop : R.id.nameViewList);
-            nameView = view.findViewById(layoutID);
+            nameView = view.findViewById(R.id.nameViewList);
         }
 
         void bind(String s) {
             nameView.setText(s);
         }
-
     }
 
     @NonNull
@@ -56,16 +48,12 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListViewAdapter.ViewHolder holder, int position) {
-        if (list == null) {
-            holder.bind(headList[position]);
-        } else {
+    public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
             holder.bind(list.get(position % list.size()).toString());
-        }
     }
 
     @Override
     public int getItemCount() {
-        return list == null ? (headList.length) : (list.size());
+        return list.size();
     }
 }

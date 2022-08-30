@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         setContentView(R.layout.activity_main);
 
         TabLayout tabLayout = findViewById(R.id.tabs);

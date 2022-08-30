@@ -14,7 +14,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.StepByStep;
+import com.example.collections_and_maps.ComfortableLogsTV;
 
 import java.util.ArrayList;
 
@@ -41,7 +41,7 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
         ViewHolder(View view) {
 
             super(view);
-            StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+            ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
             progressBar = view.findViewById(R.id.progressBar);
 //            nameView = view.findViewById(R.id.nameView);
@@ -55,7 +55,7 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
     @NonNull
     @Override
     public DataViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
         Context context = parent.getContext();
         int layoutIdForListItem = R.layout.data_item;
@@ -72,7 +72,7 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull DataViewAdapter.ViewHolder holder, int position) {
-        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
 
 //        i = position;
@@ -90,7 +90,7 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         return numberItems;
     }
 }

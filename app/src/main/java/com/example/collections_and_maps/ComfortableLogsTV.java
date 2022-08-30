@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 // my custom class for comfortable reading logs
 
-public class StepByStep {
+public class ComfortableLogsTV {
 
     static String TAG = "info";
 

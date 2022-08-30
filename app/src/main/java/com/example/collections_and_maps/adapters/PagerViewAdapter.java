@@ -7,13 +7,13 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.collections_and_maps.fragments.CollectionsPagerFragment;
 import com.example.collections_and_maps.fragments.MapsPagerFragment;
-import com.example.collections_and_maps.StepByStep;
+import com.example.collections_and_maps.ComfortableLogsTV;
 
 public class PagerViewAdapter extends FragmentStateAdapter {
 
     public PagerViewAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
-        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
     }
 
     @NonNull

@@ -39,7 +39,6 @@ public abstract class MyFragment extends Fragment{
             mCollections = getArguments().getString(COLLECTIONS);
             mMaps = getArguments().getString(MAPS);
         }
-
     }
 
     @Override

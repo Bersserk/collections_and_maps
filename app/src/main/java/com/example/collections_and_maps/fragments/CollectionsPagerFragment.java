@@ -6,20 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.collections_and_maps.MyItemDecoration;
 import com.example.collections_and_maps.MySpanSizeLookup;
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.StepByStep;
-import com.example.collections_and_maps.adapters.ListViewAdapter;
+import com.example.collections_and_maps.ComfortableLogsTV;
+import com.example.collections_and_maps.adapters.RecyclerViewAdapter;
 import com.example.collections_and_maps.calculations.MyArrayList;
 import com.example.collections_and_maps.calculations.MyCopyOnWriteArrayList;
 import com.example.collections_and_maps.calculations.MyLinkedList;
@@ -28,7 +24,7 @@ import com.example.collections_and_maps.calculations.MyLinkedList;
 public class CollectionsPagerFragment extends MyFragment implements View.OnClickListener  {
 
     public CollectionsPagerFragment() {
-        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
     }
 
     @Override
@@ -71,7 +67,7 @@ public class CollectionsPagerFragment extends MyFragment implements View.OnClick
         gridLayoutManager.setSpanSizeLookup(new MySpanSizeLookup(4, 1, spanCount));
         listRecycler.setLayoutManager(gridLayoutManager);
         createClearGrid();
-        listRecycler.setAdapter(new ListViewAdapter(baseList));
+        listRecycler.setAdapter(new RecyclerViewAdapter(baseList));
     }
 
     @Override
@@ -86,7 +82,7 @@ public class CollectionsPagerFragment extends MyFragment implements View.OnClick
             baseList.set(++s, new MyCopyOnWriteArrayList(k, nameLine).getResult());
         }
 
-        listRecycler.setAdapter(new ListViewAdapter(baseList));
+        listRecycler.setAdapter(new RecyclerViewAdapter(baseList));
     }
 
     @Override
