@@ -2,12 +2,12 @@ package com.example.collections_and_maps.fragments;
 
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,10 +23,6 @@ import com.example.collections_and_maps.adapters.ListViewAdapter;
 import com.example.collections_and_maps.calculations.MyArrayList;
 import com.example.collections_and_maps.calculations.MyCopyOnWriteArrayList;
 import com.example.collections_and_maps.calculations.MyLinkedList;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class CollectionsPagerFragment extends MyFragment implements View.OnClickListener  {
@@ -68,22 +64,13 @@ public class CollectionsPagerFragment extends MyFragment implements View.OnClick
         Button calcButton = view.findViewById(R.id.calcButton);
         calcButton.setOnClickListener(this);
 
-        // making title recycler
-        headListRecycler = (RecyclerView) view.findViewById(R.id.headListRecycler);
-        headListRecycler.setLayoutManager(new GridLayoutManager(this.getActivity(), spanCount));
-        headListRecycler.setAdapter(new ListViewAdapter(listArr));
-
         // making list recycler
-        listRecycler = view.findViewById(R.id.listRecycler);
-        listRecycler.addItemDecoration(new MyItemDecoration());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
                 spanCount, LinearLayoutManager.VERTICAL, false);
         //set SpanSizeLookup()
         gridLayoutManager.setSpanSizeLookup(new MySpanSizeLookup(4, 1, spanCount));
         listRecycler.setLayoutManager(gridLayoutManager);
-        listRecycler.setHasFixedSize(true);
-
-        creatClearGrid();
+        createClearGrid();
         listRecycler.setAdapter(new ListViewAdapter(baseList));
     }
 

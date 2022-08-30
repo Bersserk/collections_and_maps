@@ -56,17 +56,19 @@
         app:layout_constraintTop_toTopOf="@+id/collectionSize"
         app:layout_constraintWidth_percent="0.28" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/headListRecycler"
+    <LinearLayout
+        android:id="@+id/linearLayoutNamesColumn"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/collectionSize" />
+        app:layout_constraintTop_toBottomOf="@+id/collectionSize">
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listRecycler"
+        android:id="@+id/recyclerLayoutItems"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
@@ -74,7 +76,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headListRecycler"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutNamesColumn"
         app:layout_constraintWidth_percent="50" />
 
 

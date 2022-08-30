@@ -2,13 +2,10 @@ package com.example.collections_and_maps.fragments;
 
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,11 +20,6 @@ import com.example.collections_and_maps.StepByStep;
 import com.example.collections_and_maps.adapters.ListViewAdapter;
 import com.example.collections_and_maps.calculations.MyHashMap;
 import com.example.collections_and_maps.calculations.MyTreeMap;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.TreeMap;
 
 public class MapsPagerFragment extends MyFragment implements View.OnClickListener {
 
@@ -70,25 +62,15 @@ public class MapsPagerFragment extends MyFragment implements View.OnClickListene
         Button calcButton = view.findViewById(R.id.calcButton);
         calcButton.setOnClickListener(this);
 
-        // making title recycler
-        headListRecycler = (RecyclerView) view.findViewById(R.id.headListRecycler);
-        headListRecycler.setLayoutManager(new GridLayoutManager(this.getActivity(), spanCount));
-        headListRecycler.setAdapter(new ListViewAdapter(listArr));
-
         // making list recycler
-        listRecycler = view.findViewById(R.id.listRecycler);
-        listRecycler.addItemDecoration(new MyItemDecoration());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
                 spanCount, LinearLayoutManager.VERTICAL, false);
         //set SpanSizeLookup()
         gridLayoutManager.setSpanSizeLookup(new MySpanSizeLookup(3, 1, spanCount));
         listRecycler.setLayoutManager(gridLayoutManager);
-        listRecycler.setHasFixedSize(true);
-
-        creatClearGrid();
+        createClearGrid();
         listRecycler.setAdapter(new ListViewAdapter(baseList));
     }
-
 
     public void calc() {
         super.calc();

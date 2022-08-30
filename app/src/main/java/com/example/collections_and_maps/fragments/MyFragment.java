@@ -3,38 +3,30 @@ package com.example.collections_and_maps.fragments;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.collections_and_maps.MyItemDecoration;
-import com.example.collections_and_maps.MySpanSizeLookup;
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.adapters.ListViewAdapter;
-import com.example.collections_and_maps.calculations.MyHashMap;
-import com.example.collections_and_maps.calculations.MyTreeMap;
-
 import java.util.ArrayList;
 
-public class MyFragment extends Fragment {
+
+public abstract class MyFragment extends Fragment{
     protected static final String COLLECTIONS = "collections";
     protected static final String MAPS = "maps";
 
     protected String mCollections;
     protected String mMaps;
 
-    protected RecyclerView headListRecycler;
+    protected LinearLayout mLinearLayoutNamesColumn;
     protected RecyclerView listRecycler;
 
     protected EditText collectionSize;
-
     protected String[] listArr, list;
     protected int spanCount;
     protected ArrayList baseList;
@@ -47,12 +39,28 @@ public class MyFragment extends Fragment {
             mCollections = getArguments().getString(COLLECTIONS);
             mMaps = getArguments().getString(MAPS);
         }
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         collectionSize = view.findViewById(R.id.collectionSize);
+        mLinearLayoutNamesColumn = view.findViewById(R.id.linearLayoutNamesColumn);
+        mLinearLayoutNamesColumn.setOrientation(LinearLayout.HORIZONTAL);
+
+        listRecycler = view.findViewById(R.id.recyclerLayoutItems);
+        listRecycler.addItemDecoration(new MyItemDecoration());
+        listRecycler.setHasFixedSize(true);
+
+        for (int i = 0; i < spanCount; i++){
+            View view1 = View.inflate(getContext(), R.layout.name_view_top, null);
+            TextView dialogTV1 = (TextView) view1.findViewById(R.id.nameViewTop);
+            dialogTV1.setText(listArr[i]);
+
+            mLinearLayoutNamesColumn.addView(view1, new LinearLayout.LayoutParams
+                    (0, LinearLayout.LayoutParams.MATCH_PARENT, 1));
+        }
     }
 
     public void calc() {
@@ -65,7 +73,7 @@ public class MyFragment extends Fragment {
         }
     }
 
-    public void creatClearGrid (){
+    public void createClearGrid(){
         baseList = new ArrayList<String>();
         for (int y = 0; y < list.length; y++) {
             baseList.add(list[y]);
@@ -74,4 +82,5 @@ public class MyFragment extends Fragment {
             }
         }
     }
+
 }

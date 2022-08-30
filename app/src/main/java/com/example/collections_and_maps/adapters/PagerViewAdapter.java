@@ -19,7 +19,6 @@ public class PagerViewAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         if (position == 0) {
             return new CollectionsPagerFragment();
         } else {
@@ -29,7 +28,6 @@ public class PagerViewAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        StepByStep.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         return 2;
     }
 }
