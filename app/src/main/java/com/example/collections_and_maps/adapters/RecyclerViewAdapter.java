@@ -1,6 +1,5 @@
 package com.example.collections_and_maps.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,11 +37,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        Context context = parent.getContext();
-        int layoutID = (list == null ? R.layout.name_view_top : R.layout.name_view_list);
-        int layoutIdForListItem = layoutID;
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(layoutIdForListItem, parent, false);
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.name_view_list, parent, false);
 
         return new ViewHolder(view);
     }
