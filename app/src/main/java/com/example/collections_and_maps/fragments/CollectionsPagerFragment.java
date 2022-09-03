@@ -15,13 +15,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.collections_and_maps.MySpanSizeLookup;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.ComfortableLogsTV;
-import com.example.collections_and_maps.adapters.RecyclerViewAdapter;
+//import com.example.collections_and_maps.adapters.User;
+import com.example.collections_and_maps.adapters.ListViewAdapter;
 import com.example.collections_and_maps.calculations.MyArrayList;
 import com.example.collections_and_maps.calculations.MyCopyOnWriteArrayList;
 import com.example.collections_and_maps.calculations.MyLinkedList;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class CollectionsPagerFragment extends MyFragment implements View.OnClickListener  {
+
+public class CollectionsPagerFragment extends MyFragment implements View.OnClickListener {
+
+//    ListViewAdapter adapter;
 
     public CollectionsPagerFragment() {
         ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
@@ -30,7 +36,7 @@ public class CollectionsPagerFragment extends MyFragment implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(this.getClass()!=null) { // your code here}
+        if (this.getClass() != null) { // your code here}
             Resources res = this.requireActivity().getResources();
             listArr = res.getStringArray(R.array.collections);
             list = res.getStringArray(R.array.collections_item);
@@ -67,7 +73,10 @@ public class CollectionsPagerFragment extends MyFragment implements View.OnClick
         gridLayoutManager.setSpanSizeLookup(new MySpanSizeLookup(4, 1, spanCount));
         listRecycler.setLayoutManager(gridLayoutManager);
         createClearGrid();
-        listRecycler.setAdapter(new RecyclerViewAdapter(baseList));
+
+        adapter = new ListViewAdapter();
+        adapter.submitList(baseList);
+        listRecycler.setAdapter(adapter);
     }
 
     @Override
@@ -82,12 +91,12 @@ public class CollectionsPagerFragment extends MyFragment implements View.OnClick
             baseList.set(++s, new MyCopyOnWriteArrayList(k, nameLine).getResult());
         }
 
-        listRecycler.setAdapter(new RecyclerViewAdapter(baseList));
+        adapter.submitList(baseList);
+        listRecycler.setAdapter(adapter);
     }
 
     @Override
     public void onClick(View view) {
         calc();
     }
-
 }

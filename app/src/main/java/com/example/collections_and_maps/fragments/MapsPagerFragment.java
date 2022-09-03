@@ -15,7 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.collections_and_maps.MySpanSizeLookup;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.ComfortableLogsTV;
-import com.example.collections_and_maps.adapters.RecyclerViewAdapter;
+//import com.example.collections_and_maps.adapters.RecyclerViewAdapter;
+import com.example.collections_and_maps.adapters.ListViewAdapter;
 import com.example.collections_and_maps.calculations.MyHashMap;
 import com.example.collections_and_maps.calculations.MyTreeMap;
 
@@ -28,7 +29,7 @@ public class MapsPagerFragment extends MyFragment implements View.OnClickListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(this.getClass()!=null) { // your code here}
+        if (this.getClass() != null) { // your code here}
             Resources res = this.requireActivity().getResources();
             listArr = res.getStringArray(R.array.maps);
             list = res.getStringArray(R.array.maps_item);
@@ -39,7 +40,7 @@ public class MapsPagerFragment extends MyFragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-      // Inflate the layout for this fragment
+        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.pager_fragment, container, false);
     }
 
@@ -67,7 +68,10 @@ public class MapsPagerFragment extends MyFragment implements View.OnClickListene
         gridLayoutManager.setSpanSizeLookup(new MySpanSizeLookup(3, 1, spanCount));
         listRecycler.setLayoutManager(gridLayoutManager);
         createClearGrid();
-        listRecycler.setAdapter(new RecyclerViewAdapter(baseList));
+
+        adapter = new ListViewAdapter();
+        adapter.submitList(baseList);
+        listRecycler.setAdapter(adapter);
     }
 
     public void calc() {
@@ -80,7 +84,8 @@ public class MapsPagerFragment extends MyFragment implements View.OnClickListene
             baseList.set(++s, new MyHashMap(k, nameLine).getResult());
         }
 
-        listRecycler.setAdapter(new RecyclerViewAdapter(baseList));
+        adapter.submitList(baseList);
+        listRecycler.setAdapter(adapter);
     }
 
     @Override

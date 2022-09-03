@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.collections_and_maps.MyItemDecoration;
 import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.adapters.ListViewAdapter;
+
 import java.util.ArrayList;
 
 
@@ -25,6 +27,7 @@ public abstract class MyFragment extends Fragment{
 
     protected LinearLayout mLinearLayoutNamesColumn;
     protected RecyclerView listRecycler;
+    protected ListViewAdapter adapter;
 
     protected EditText collectionSize;
     protected String[] listArr, list;
