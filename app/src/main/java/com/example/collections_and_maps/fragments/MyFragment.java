@@ -56,7 +56,7 @@ public abstract class MyFragment extends Fragment{
         listRecycler.setHasFixedSize(true);
 
         for (int i = 0; i < spanCount; i++){
-            View view1 = View.inflate(getContext(), R.layout.name_view_top, null);
+            View view1 = View.inflate(getContext(), R.layout.item_tv_top, null);
             TextView dialogTV1 = (TextView) view1.findViewById(R.id.nameViewTop);
             dialogTV1.setText(listArr[i]);
 

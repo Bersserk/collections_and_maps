@@ -3,6 +3,7 @@ package com.example.collections_and_maps.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,7 +31,7 @@ public class ListViewAdapter extends ListAdapter<String, ListViewAdapter.ViewHol
         ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.name_view_list, parent, false);
+        View view = layoutInflater.inflate(R.layout.item_tv_list, parent, false);
         return new ViewHolder(view);
     }
 
@@ -46,10 +47,14 @@ public class ListViewAdapter extends ListAdapter<String, ListViewAdapter.ViewHol
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView nameView;
+        private ProgressBar progressBar;
 
         ViewHolder(View view) {
             super(view);
             nameView = view.findViewById(R.id.nameViewList);
+            progressBar = view.findViewById(R.id.progressBar);
+//            progressBar.setActivated(false);
+            progressBar.setVisibility(ProgressBar.INVISIBLE);
         }
 
         void bindTo(String s) {

@@ -27,8 +27,6 @@ import java.util.List;
 
 public class CollectionsPagerFragment extends MyFragment implements View.OnClickListener {
 
-//    ListViewAdapter adapter;
-
     public CollectionsPagerFragment() {
         ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
     }

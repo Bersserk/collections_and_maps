@@ -15,9 +15,7 @@ public class MyArrayList{
     }
 
     public MyArrayList(long k, String setConstant) {
-//        super(arraySize, arrayList);
         arrayList = createArrayList(k);
-//        this.arrayList = getList();
 
         switch (setConstant) {
             case "adding in the beginning":

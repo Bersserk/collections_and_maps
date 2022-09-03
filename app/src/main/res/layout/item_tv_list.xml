@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,13 +21,14 @@
         app:layout_constraintWidth_percent="0.2" />
 
     <TextView
-        android:id="@+id/resultView"
-        style="@style/Base.CardView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/nameViewList"
+        style="@style/CardView.Dark"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/background_list"
         android:gravity="center"
-        app:autoSizeMaxTextSize="50sp"
-        app:autoSizeMinTextSize="8sp"
+        app:autoSizeMaxTextSize="24sp"
+        app:autoSizeMinTextSize="11sp"
         app:autoSizeStepGranularity="5sp"
         app:autoSizeTextType="uniform"
         app:fontFamily="serif"
@@ -35,6 +36,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        app:layout_constraintWidth_percent="0.2" />
+         />
 </androidx.constraintlayout.widget.ConstraintLayout>
