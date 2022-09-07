@@ -8,18 +8,12 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MyItemDecoration extends RecyclerView.ItemDecoration{
+public class RecyclerItemDecoration extends RecyclerView.ItemDecoration{
 
-    private Paint paintBlue, paintRed;
-    private int offset;
+    private Paint paintRed;
+    private final int offset = 2;
 
-    public MyItemDecoration(){
-        offset = 2;
-//        paintBlue = new Paint(Paint.ANTI_ALIAS_FLAG);
-//        paintBlue.setColor(Color.BLUE);
-//        paintBlue.setStyle(Paint.Style.STROKE);
-//        paintBlue.setStrokeWidth(3);
-
+    public RecyclerItemDecoration(){
         paintRed = new Paint(Paint.ANTI_ALIAS_FLAG);
         paintRed.setColor(Color.RED);
         paintRed.setStyle(Paint.Style.STROKE);
@@ -40,19 +34,13 @@ public class MyItemDecoration extends RecyclerView.ItemDecoration{
 
         for(int i=0; i<parent.getChildCount(); i++){
             final View child = parent.getChildAt(i);
-//            c.drawRect(
-//                    layoutManager.getDecoratedLeft(child),
-//                    layoutManager.getDecoratedTop(child),
-//                    layoutManager.getDecoratedRight(child),
-//                    layoutManager.getDecoratedBottom(child),
-//                    paintBlue);
+
             c.drawRect(
                     layoutManager.getDecoratedLeft(child) + offset,
                     layoutManager.getDecoratedTop(child) + offset,
                     layoutManager.getDecoratedRight(child) - offset,
                     layoutManager.getDecoratedBottom(child) - offset,
                     paintRed);
-
         }
     }
 }

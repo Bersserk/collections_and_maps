@@ -3,11 +3,11 @@ package com.example.collections_and_maps;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
-public class MySpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
+public class RecyclerSizeLookup extends GridLayoutManager.SpanSizeLookup {
 
-    int spanPos, spanCnt1, spanCnt2;
+    private final int spanPos, spanCnt1, spanCnt2;
 
-    public MySpanSizeLookup(int spanPos, int spanCnt1, int spanCnt2) {
+    public RecyclerSizeLookup(int spanPos, int spanCnt1, int spanCnt2) {
         super();
         this.spanPos = spanPos;
         this.spanCnt1 = spanCnt1;

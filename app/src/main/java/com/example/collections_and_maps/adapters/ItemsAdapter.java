@@ -11,21 +11,15 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.collections_and_maps.ComfortableLogsTV;
 import com.example.collections_and_maps.R;
 
 import java.util.List;
 
 
-public class ListViewAdapter extends ListAdapter<String, ListViewAdapter.ViewHolder> {
+public class ItemsAdapter extends ListAdapter<String, ItemsAdapter.ViewHolder> {
 
-    public ListViewAdapter() {
+    public ItemsAdapter() {
         super(DIFF_CALLBACK);
-    }
-
-    @Override
-    public void submitList(@Nullable List<String> baseList) {
-        super.submitList(baseList);
     }
 
     //1
@@ -34,8 +28,8 @@ public class ListViewAdapter extends ListAdapter<String, ListViewAdapter.ViewHol
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 //        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.item_tv_list, parent, false);
+        final LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        final View view = layoutInflater.inflate(R.layout.item_tv_list, parent, false);
 
         return new ViewHolder(view);
     }

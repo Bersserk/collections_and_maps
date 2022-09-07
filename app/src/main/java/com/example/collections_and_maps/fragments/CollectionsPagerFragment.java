@@ -12,9 +12,9 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.collections_and_maps.MySpanSizeLookup;
+import com.example.collections_and_maps.RecyclerSizeLookup;
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.adapters.ListViewAdapter;
+import com.example.collections_and_maps.adapters.ItemsAdapter;
 import com.example.collections_and_maps.calculations.MyArrayList;
 import com.example.collections_and_maps.calculations.MyCopyOnWriteArrayList;
 import com.example.collections_and_maps.calculations.MyLinkedList;
@@ -22,19 +22,13 @@ import com.example.collections_and_maps.calculations.MyLinkedList;
 
 public class CollectionsPagerFragment extends MyFragment {
 
-    public CollectionsPagerFragment() {
-//        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getClass() != null) { // your code here}
             Resources res = this.requireActivity().getResources();
             listArr = res.getStringArray(R.array.collections);
             list = res.getStringArray(R.array.collections_item);
             spanCount = listArr.length;
-        }
     }
 
     @Override
@@ -43,11 +37,10 @@ public class CollectionsPagerFragment extends MyFragment {
         return inflater.inflate(R.layout.pager_fragment, container, false);
     }
 
-    public static CollectionsPagerFragment newInstance(String param1, String param2) {
+    public static CollectionsPagerFragment newInstance(String param1) {
         CollectionsPagerFragment fragment = new CollectionsPagerFragment();
         Bundle args = new Bundle();
         args.putString(COLLECTIONS, param1);
-        args.putString(MAPS, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,11 +56,11 @@ public class CollectionsPagerFragment extends MyFragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
                 spanCount, LinearLayoutManager.VERTICAL, false);
         //set SpanSizeLookup()
-        gridLayoutManager.setSpanSizeLookup(new MySpanSizeLookup(4, 1, spanCount));
+        gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(4, 1, spanCount));
         listRecycler.setLayoutManager(gridLayoutManager);
         createClearGrid();
 
-        adapter = new ListViewAdapter();
+        adapter = new ItemsAdapter();
         adapter.submitList(baseList);
         listRecycler.setAdapter(adapter);
     }
@@ -83,7 +76,7 @@ public class CollectionsPagerFragment extends MyFragment {
             baseList.set(++s, new MyCopyOnWriteArrayList(k, nameLine).getResult());
         }
 
-        adapter = new ListViewAdapter();
+        adapter = new ItemsAdapter();
         adapter.submitList(baseList);
         listRecycler.setAdapter(adapter);
     }

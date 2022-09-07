@@ -13,24 +13,20 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.collections_and_maps.ComfortableLogsTV;
 import com.example.collections_and_maps.MyItemDecoration;
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.adapters.ListViewAdapter;
+import com.example.collections_and_maps.adapters.ItemsAdapter;
 
 import java.util.ArrayList;
 
 
 public abstract class MyFragment extends Fragment implements View.OnClickListener {
     protected static final String COLLECTIONS = "collections";
-    protected static final String MAPS = "maps";
-
     protected String mCollections;
-    protected String mMaps;
 
     protected LinearLayout mLinearLayoutNamesColumn;
     protected RecyclerView listRecycler;
-    protected ListViewAdapter adapter;
+    protected ItemsAdapter adapter;
 
     protected EditText collectionSize;
     protected String[] listArr, list;
@@ -50,7 +46,6 @@ public abstract class MyFragment extends Fragment implements View.OnClickListene
 
         if (getArguments() != null) {
             mCollections = getArguments().getString(COLLECTIONS);
-            mMaps = getArguments().getString(MAPS);
         }
     }
 

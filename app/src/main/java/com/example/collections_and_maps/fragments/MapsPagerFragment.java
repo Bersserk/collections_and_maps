@@ -14,27 +14,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.collections_and_maps.MySpanSizeLookup;
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.ComfortableLogsTV;
-//import com.example.collections_and_maps.adapters.RecyclerViewAdapter;
-import com.example.collections_and_maps.adapters.ListViewAdapter;
+import com.example.collections_and_maps.adapters.ItemsAdapter;
 import com.example.collections_and_maps.calculations.MyHashMap;
 import com.example.collections_and_maps.calculations.MyTreeMap;
 
 public class MapsPagerFragment extends MyFragment {
 
-    public MapsPagerFragment() {
-//        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getClass() != null) { // your code here}
             Resources res = this.requireActivity().getResources();
             listArr = res.getStringArray(R.array.maps);
             list = res.getStringArray(R.array.maps_item);
             spanCount = listArr.length;
-        }
     }
 
     @Override
@@ -44,11 +36,10 @@ public class MapsPagerFragment extends MyFragment {
         return inflater.inflate(R.layout.pager_fragment, container, false);
     }
 
-    public static MapsPagerFragment newInstance(String param1, String param2) {
+    public static MapsPagerFragment newInstance(String param1) {
         MapsPagerFragment fragment = new MapsPagerFragment();
         Bundle args = new Bundle();
         args.putString(COLLECTIONS, param1);
-        args.putString(MAPS, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,7 +60,7 @@ public class MapsPagerFragment extends MyFragment {
         listRecycler.setLayoutManager(gridLayoutManager);
         createClearGrid();
 
-        adapter = new ListViewAdapter();
+        adapter = new ItemsAdapter();
         adapter.submitList(baseList);
         listRecycler.setAdapter(adapter);
     }
