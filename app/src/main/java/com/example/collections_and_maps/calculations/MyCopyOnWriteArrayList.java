@@ -71,7 +71,9 @@ public class MyCopyOnWriteArrayList{
             if (copyOnWriteArrayList.size() < 0) {
                 throw new IllegalArgumentException("Array's size must not be negative");
             }
-            index = new Random().nextInt(copyOnWriteArrayList.size() + 1);
+            while (index == 0 || index == copyOnWriteArrayList.size()) {
+                index = new Random().nextInt(copyOnWriteArrayList.size() + 1);
+            }
         }
 
         double start = System.nanoTime();

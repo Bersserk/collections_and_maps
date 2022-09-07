@@ -20,10 +20,10 @@ import com.example.collections_and_maps.adapters.ListViewAdapter;
 import com.example.collections_and_maps.calculations.MyHashMap;
 import com.example.collections_and_maps.calculations.MyTreeMap;
 
-public class MapsPagerFragment extends MyFragment implements View.OnClickListener {
+public class MapsPagerFragment extends MyFragment {
 
     public MapsPagerFragment() {
-        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+//        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
     }
 
     @Override
@@ -44,8 +44,8 @@ public class MapsPagerFragment extends MyFragment implements View.OnClickListene
         return inflater.inflate(R.layout.pager_fragment, container, false);
     }
 
-    public static CollectionsPagerFragment newInstance(String param1, String param2) {
-        CollectionsPagerFragment fragment = new CollectionsPagerFragment();
+    public static MapsPagerFragment newInstance(String param1, String param2) {
+        MapsPagerFragment fragment = new MapsPagerFragment();
         Bundle args = new Bundle();
         args.putString(COLLECTIONS, param1);
         args.putString(MAPS, param2);

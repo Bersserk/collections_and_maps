@@ -14,21 +14,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.collections_and_maps.MySpanSizeLookup;
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.ComfortableLogsTV;
-//import com.example.collections_and_maps.adapters.User;
 import com.example.collections_and_maps.adapters.ListViewAdapter;
 import com.example.collections_and_maps.calculations.MyArrayList;
 import com.example.collections_and_maps.calculations.MyCopyOnWriteArrayList;
 import com.example.collections_and_maps.calculations.MyLinkedList;
 
-import java.util.ArrayList;
-import java.util.List;
 
-
-public class CollectionsPagerFragment extends MyFragment implements View.OnClickListener {
+public class CollectionsPagerFragment extends MyFragment {
 
     public CollectionsPagerFragment() {
-        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+//        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
     }
 
     @Override
@@ -80,7 +75,6 @@ public class CollectionsPagerFragment extends MyFragment implements View.OnClick
     @Override
     public void calc() {
         super.calc();
-
         // button was pushed, next we are initialisation all views
         for (int s = 0; s < baseList.size(); s++) {
             String nameLine = baseList.get(s).toString();
@@ -89,6 +83,7 @@ public class CollectionsPagerFragment extends MyFragment implements View.OnClick
             baseList.set(++s, new MyCopyOnWriteArrayList(k, nameLine).getResult());
         }
 
+        adapter = new ListViewAdapter();
         adapter.submitList(baseList);
         listRecycler.setAdapter(adapter);
     }

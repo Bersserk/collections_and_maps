@@ -72,7 +72,9 @@ public class MyLinkedList{
             if (linkedList.size() < 0) {
                 throw new IllegalArgumentException("Array's size must not be negative");
             }
-            index = new Random().nextInt(linkedList.size() + 1);
+            while (index == 0 || index == linkedList.size()) {
+                index = new Random().nextInt(linkedList.size() + 1);
+            }
         }
 
         double start = System.nanoTime();

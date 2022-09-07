@@ -7,10 +7,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.collections_and_maps.ComfortableLogsTV;
 import com.example.collections_and_maps.MyItemDecoration;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.adapters.ListViewAdapter;
@@ -18,7 +21,7 @@ import com.example.collections_and_maps.adapters.ListViewAdapter;
 import java.util.ArrayList;
 
 
-public abstract class MyFragment extends Fragment{
+public abstract class MyFragment extends Fragment implements View.OnClickListener {
     protected static final String COLLECTIONS = "collections";
     protected static final String MAPS = "maps";
 
@@ -35,9 +38,16 @@ public abstract class MyFragment extends Fragment{
     protected ArrayList baseList;
     protected long k = 0L;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+
+        if (savedInstanceState != null) {
+            baseList = savedInstanceState.getStringArrayList("baseList");
+        }
+
         if (getArguments() != null) {
             mCollections = getArguments().getString(COLLECTIONS);
             mMaps = getArguments().getString(MAPS);
@@ -47,6 +57,8 @@ public abstract class MyFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+//        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+
         collectionSize = view.findViewById(R.id.collectionSize);
         mLinearLayoutNamesColumn = view.findViewById(R.id.linearLayoutNamesColumn);
         mLinearLayoutNamesColumn.setOrientation(LinearLayout.HORIZONTAL);
@@ -55,7 +67,7 @@ public abstract class MyFragment extends Fragment{
         listRecycler.addItemDecoration(new MyItemDecoration());
         listRecycler.setHasFixedSize(true);
 
-        for (int i = 0; i < spanCount; i++){
+        for (int i = 0; i < spanCount; i++) {
             View view1 = View.inflate(getContext(), R.layout.item_tv_top, null);
             TextView dialogTV1 = (TextView) view1.findViewById(R.id.nameViewTop);
             dialogTV1.setText(listArr[i]);
@@ -65,7 +77,9 @@ public abstract class MyFragment extends Fragment{
         }
     }
 
+
     public void calc() {
+//        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
         // get data from EditText
         if (collectionSize.length() > 0 && TextUtils.isDigitsOnly(collectionSize.getText())) {
@@ -75,14 +89,25 @@ public abstract class MyFragment extends Fragment{
         }
     }
 
-    public void createClearGrid(){
-        baseList = new ArrayList<String>();
-        for (int y = 0; y < list.length; y++) {
-            baseList.add(list[y]);
-            for (int i = 0; i < spanCount; i++) {
-                baseList.add("...");
+    public void createClearGrid() {
+//        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+
+        if (baseList == null) {
+            baseList = new ArrayList<String>();
+
+            for (int y = 0; y < list.length; y++) {
+                baseList.add(list[y]);
+                for (int i = 0; i < spanCount; i++) {
+                    baseList.add("...");
+                }
             }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putStringArrayList("baseList", baseList);
     }
 
 }

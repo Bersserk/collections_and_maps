@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MyArrayList{
+public class MyArrayList {
 
     private ArrayList<Integer> arrayList;
     private String result;
@@ -71,7 +71,9 @@ public class MyArrayList{
             if (arrayList.size() < 0) {
                 throw new IllegalArgumentException("Array's size must not be negative");
             }
-            index = new Random().nextInt(arrayList.size() + 1);
+            while (index == 0 || index == arrayList.size()) {
+                index = new Random().nextInt(arrayList.size() + 1);
+            }
         }
 
         double start = System.nanoTime();

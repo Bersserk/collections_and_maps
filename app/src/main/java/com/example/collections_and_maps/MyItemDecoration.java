@@ -14,7 +14,7 @@ public class MyItemDecoration extends RecyclerView.ItemDecoration{
     private int offset;
 
     public MyItemDecoration(){
-        offset = 4;
+        offset = 2;
 //        paintBlue = new Paint(Paint.ANTI_ALIAS_FLAG);
 //        paintBlue.setColor(Color.BLUE);
 //        paintBlue.setStyle(Paint.Style.STROKE);
@@ -23,7 +23,7 @@ public class MyItemDecoration extends RecyclerView.ItemDecoration{
         paintRed = new Paint(Paint.ANTI_ALIAS_FLAG);
         paintRed.setColor(Color.RED);
         paintRed.setStyle(Paint.Style.STROKE);
-        paintRed.setStrokeWidth(1);
+        paintRed.setStrokeWidth(3);
     }
 
     @Override
