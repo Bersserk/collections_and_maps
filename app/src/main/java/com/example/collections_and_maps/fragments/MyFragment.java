@@ -24,7 +24,6 @@ public abstract class MyFragment extends Fragment implements View.OnClickListene
     protected static final String COLLECTIONS = "collections";
     protected String mCollections;
 
-    protected LinearLayout mLinearLayoutNamesColumn;
     protected ItemsAdapter adapter;
 
     protected EditText collectionSize;
@@ -54,7 +53,7 @@ public abstract class MyFragment extends Fragment implements View.OnClickListene
 //        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
         collectionSize = view.findViewById(R.id.collectionSize);
-        mLinearLayoutNamesColumn = view.findViewById(R.id.linearLayoutNamesColumn);
+        LinearLayout mLinearLayoutNamesColumn = view.findViewById(R.id.linearLayoutNamesColumn);
         mLinearLayoutNamesColumn.setOrientation(LinearLayout.HORIZONTAL);
 
 
