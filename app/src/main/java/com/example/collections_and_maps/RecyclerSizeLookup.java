@@ -1,6 +1,5 @@
 package com.example.collections_and_maps;
 
-
 import androidx.recyclerview.widget.GridLayoutManager;
 
 public class RecyclerSizeLookup extends GridLayoutManager.SpanSizeLookup {

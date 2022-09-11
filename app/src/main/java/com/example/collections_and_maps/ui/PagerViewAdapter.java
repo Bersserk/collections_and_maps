@@ -1,13 +1,13 @@
-package com.example.collections_and_maps.adapters;
+package com.example.collections_and_maps.ui;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.collections_and_maps.fragments.CollectionsPagerFragment;
-import com.example.collections_and_maps.fragments.MapsPagerFragment;
-import com.example.collections_and_maps.ComfortableLogsTV;
+import com.example.collections_and_maps.models.logger.ComfortableLogsTV;
+import com.example.collections_and_maps.ui.benchmark.CollectionsPagerFragment;
+import com.example.collections_and_maps.ui.benchmark.MapsPagerFragment;
 
 public class PagerViewAdapter extends FragmentStateAdapter {
 

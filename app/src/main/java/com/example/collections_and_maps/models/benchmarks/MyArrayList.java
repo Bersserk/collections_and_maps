@@ -1,21 +1,17 @@
-package com.example.collections_and_maps.calculations;
+package com.example.collections_and_maps.models.benchmarks;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
 
-public class MyCopyOnWriteArrayList{
+public class MyArrayList {
 
-    private CopyOnWriteArrayList copyOnWriteArrayList;
+    private ArrayList<Integer> arrayList;
     private String result;
 
-    public String getResult() {
-        return result + " ms";
-    }
-
-    public MyCopyOnWriteArrayList(long k, String setConstant) {
-       copyOnWriteArrayList = createCopyOnWriteArrayList(k);
+    public MyArrayList(long k, String setConstant) {
+        arrayList = createArrayList(k);
 
         switch (setConstant) {
             case "adding in the beginning":
@@ -44,23 +40,27 @@ public class MyCopyOnWriteArrayList{
         }
     }
 
+    public String getResult() {
+        return result + " ms";
+    }
+
     private void addItemToStart() {
         double start = System.nanoTime();
-        copyOnWriteArrayList.add(0, null);
+        arrayList.add(0, null);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
     }
 
     private void addItemToMiddle() {
         double start = System.nanoTime();
-        copyOnWriteArrayList.add(copyOnWriteArrayList.size() / 2, null);
+        arrayList.add(arrayList.size() / 2, null);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
     }
 
     private void addItemToEnd() {
         double start = System.nanoTime();
-        copyOnWriteArrayList.add(copyOnWriteArrayList.size(), null);
+        arrayList.add(arrayList.size(), null);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
     }
@@ -68,47 +68,48 @@ public class MyCopyOnWriteArrayList{
     private void searchByValue() {
         int index = 0;
         for (int i = 0; i < 10; i++) {
-            if (copyOnWriteArrayList.size() < 0) {
+            if (arrayList.size() < 0) {
                 throw new IllegalArgumentException("Array's size must not be negative");
             }
-            while (index == 0 || index == copyOnWriteArrayList.size()) {
-                index = new Random().nextInt(copyOnWriteArrayList.size() + 1);
+            while (index == 0 || index == arrayList.size()) {
+                index = new Random().nextInt(arrayList.size() + 1);
             }
         }
 
         double start = System.nanoTime();
-        copyOnWriteArrayList.get(index);
+        arrayList.get(index);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
     }
 
     private void removingInBeginning() {
         double start = System.nanoTime();
-        copyOnWriteArrayList.remove(0);
+        arrayList.remove(0);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
     }
 
     private void removingInMiddle() {
         double start = System.nanoTime();
-        copyOnWriteArrayList.remove(copyOnWriteArrayList.size() / 2);
+        arrayList.remove(arrayList.size() / 2);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
     }
 
     private void removingInEnd() {
         double start = System.nanoTime();
-        copyOnWriteArrayList.remove(copyOnWriteArrayList.size() - 1);
+        arrayList.remove(arrayList.size() - 1);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
     }
 
     @NonNull
-    private CopyOnWriteArrayList createCopyOnWriteArrayList(long k) {
-        CopyOnWriteArrayList list = new CopyOnWriteArrayList();
+    private ArrayList createArrayList(long k) {
+        ArrayList list = new ArrayList();
         for (int i = 0; i < k; i++) {
             list.add(0);
         }
         return list;
     }
 }
+

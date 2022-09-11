@@ -1,4 +1,4 @@
-package com.example.collections_and_maps.fragments;
+package com.example.collections_and_maps.ui.benchmark;
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -12,37 +12,35 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.collections_and_maps.RecyclerSizeLookup;
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.adapters.ItemsAdapter;
-import com.example.collections_and_maps.calculations.MyArrayList;
-import com.example.collections_and_maps.calculations.MyCopyOnWriteArrayList;
-import com.example.collections_and_maps.calculations.MyLinkedList;
+import com.example.collections_and_maps.RecyclerSizeLookup;
+import com.example.collections_and_maps.models.benchmarks.MyHashMap;
+import com.example.collections_and_maps.models.benchmarks.MyTreeMap;
 
+public class MapsPagerFragment extends MyFragment {
 
-public class CollectionsPagerFragment extends MyFragment {
+    public static MapsPagerFragment newInstance(String param1) {
+        MapsPagerFragment fragment = new MapsPagerFragment();
+        Bundle args = new Bundle();
+        args.putString(COLLECTIONS, param1);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            Resources res = this.requireActivity().getResources();
-            listArr = res.getStringArray(R.array.collections);
-            list = res.getStringArray(R.array.collections_item);
-            spanCount = listArr.length;
+        Resources res = this.requireActivity().getResources();
+        listArr = res.getStringArray(R.array.maps);
+        list = res.getStringArray(R.array.maps_item);
+        spanCount = listArr.length;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.pager_fragment, container, false);
-    }
-
-    public static CollectionsPagerFragment newInstance(String param1) {
-        CollectionsPagerFragment fragment = new CollectionsPagerFragment();
-        Bundle args = new Bundle();
-        args.putString(COLLECTIONS, param1);
-        fragment.setArguments(args);
-        return fragment;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_benchmark, container, false);
     }
 
     @Override
@@ -56,7 +54,7 @@ public class CollectionsPagerFragment extends MyFragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
                 spanCount, LinearLayoutManager.VERTICAL, false);
         //set SpanSizeLookup()
-        gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(4, 1, spanCount));
+        gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(3, 1, spanCount));
         getRecycler().setLayoutManager(gridLayoutManager);
         createClearGrid();
 
@@ -65,18 +63,16 @@ public class CollectionsPagerFragment extends MyFragment {
         getRecycler().setAdapter(adapter);
     }
 
-    @Override
     public void fillRecycler() {
         super.fillRecycler();
+
         // button was pushed, next we are initialisation all views
         for (int s = 0; s < baseList.size(); s++) {
             String nameLine = baseList.get(s).toString();
-            baseList.set(++s, new MyArrayList(k, nameLine).getResult());
-            baseList.set(++s, new MyLinkedList(k, nameLine).getResult());
-            baseList.set(++s, new MyCopyOnWriteArrayList(k, nameLine).getResult());
+            baseList.set(++s, new MyTreeMap(k, nameLine).getResult());
+            baseList.set(++s, new MyHashMap(k, nameLine).getResult());
         }
 
-        adapter = new ItemsAdapter();
         adapter.submitList(baseList);
         getRecycler().setAdapter(adapter);
     }

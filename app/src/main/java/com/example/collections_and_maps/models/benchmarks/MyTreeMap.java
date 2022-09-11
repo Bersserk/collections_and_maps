@@ -1,19 +1,16 @@
-package com.example.collections_and_maps.calculations;
+package com.example.collections_and_maps.models.benchmarks;
 
-import java.util.HashMap;
 import java.util.Random;
+import java.util.TreeMap;
 
-public class MyHashMap {
+public class MyTreeMap {
 
-    private HashMap hashMap;
+    private TreeMap treeMap;
     private String result;
 
-    public String getResult() {
-        return result + " ms";
-    }
+    public MyTreeMap(long k, String nameLine) {
 
-    public MyHashMap(long k, String nameLine) {
-        this.hashMap = createHashMap(k);
+        this.treeMap = createTreeMap(k);
 
         switch (nameLine) {
             case "adding new":
@@ -30,10 +27,14 @@ public class MyHashMap {
         }
     }
 
+    public String getResult() {
+        return result + " ms";
+    }
+
     private void addingNew() {
         int i = random();
         double start = System.nanoTime();
-        hashMap.put(i, i);
+        treeMap.put(i, i);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
     }
@@ -41,7 +42,7 @@ public class MyHashMap {
     private void searchByKey() {
         int i = random();
         double start = System.nanoTime();
-        hashMap.get(i).toString();
+        treeMap.get(i).toString();
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
     }
@@ -49,20 +50,23 @@ public class MyHashMap {
     private void removing() {
         int i = random();
         double start = System.nanoTime();
-        hashMap.remove(i);
+        treeMap.remove(i);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
     }
 
-    private HashMap createHashMap(long k) {
-        HashMap<Integer, Object> list = new HashMap<Integer, Object>();
+    private TreeMap createTreeMap(long k) {
+        TreeMap<Integer, String> list = new TreeMap<Integer, String>();
         for (int i = 0; i < k; i++) {
-            list.put(i, new Object());
+            list.put(i, String.valueOf(i));
         }
         return list;
     }
 
     private int random() {
-        return new Random().nextInt(hashMap.size() + 1);
+        return new Random().nextInt(treeMap.size() + 1);
     }
+
+
 }
+

@@ -1,8 +1,10 @@
-package com.example.collections_and_maps.fragments;
+package com.example.collections_and_maps.ui.benchmark;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.RecyclerItemDecoration;
-import com.example.collections_and_maps.adapters.ItemsAdapter;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,13 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
     @Override
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
+    ) {
+        return inflater.inflate(R.layout.fragment_benchmark, container, false);
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
@@ -56,16 +64,14 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         LinearLayout mLinearLayoutNamesColumn = view.findViewById(R.id.linearLayoutNamesColumn);
         mLinearLayoutNamesColumn.setOrientation(LinearLayout.HORIZONTAL);
 
-
-
-
         for (int i = 0; i < spanCount; i++) {
-            View view1 = View.inflate(getContext(), R.layout.item_tv_top, null);
+            View view1 = View.inflate(getContext(), R.layout.item_title, null);
             TextView dialogTV1 = (TextView) view1.findViewById(R.id.nameViewTop);
             dialogTV1.setText(listArr[i]);
 
-            mLinearLayoutNamesColumn.addView(view1, new LinearLayout.LayoutParams
-                    (0, LinearLayout.LayoutParams.MATCH_PARENT, 1));
+            mLinearLayoutNamesColumn.addView(
+                    view1, new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1)
+            );
         }
     }
 
@@ -75,7 +81,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         listRecycler.setHasFixedSize(true);
         return listRecycler;
     }
-
 
     public void fillRecycler() {
 //        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
@@ -108,5 +113,4 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putStringArrayList("baseList", baseList);
     }
-
 }

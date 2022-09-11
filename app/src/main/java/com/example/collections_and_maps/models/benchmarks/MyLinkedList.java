@@ -1,22 +1,17 @@
-package com.example.collections_and_maps.calculations;
+package com.example.collections_and_maps.models.benchmarks;
 
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class MyLinkedList{
+public class MyLinkedList {
 
     private LinkedList<Integer> linkedList;
     private String result;
 
-    public String getResult() {
-        return result + " ms";
-    }
-
     public MyLinkedList(long k, String setConstant) {
-       linkedList = createLinkedList(k);
+        linkedList = createLinkedList(k);
 
         switch (setConstant) {
             case "adding in the beginning":
@@ -43,6 +38,10 @@ public class MyLinkedList{
             default:
                 result = "нет такого поля";
         }
+    }
+
+    public String getResult() {
+        return result + " ms";
     }
 
     private void addItemToStart() {

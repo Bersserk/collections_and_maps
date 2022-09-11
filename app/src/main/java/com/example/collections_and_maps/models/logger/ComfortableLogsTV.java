@@ -1,8 +1,6 @@
-package com.example.collections_and_maps;
+package com.example.collections_and_maps.models.logger;
 
 import android.util.Log;
-
-import com.example.collections_and_maps.fragments.MapsPagerFragment;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,8 +19,7 @@ public class ComfortableLogsTV {
         Matcher match = pat.matcher(aClass.toString());
 
         int lastCapitalIndex = -1;
-        if(match.find())
-        {
+        if (match.find()) {
             lastCapitalIndex = match.start();
         }
 
@@ -37,8 +34,7 @@ public class ComfortableLogsTV {
         Matcher match = pat.matcher(aClass.toString());
 
         int lastCapitalIndex = -1;
-        if(match.find())
-        {
+        if (match.find()) {
             lastCapitalIndex = match.start();
         }
 
@@ -55,8 +51,7 @@ public class ComfortableLogsTV {
         Matcher match = pat.matcher(aClass.toString());
 
         int lastCapitalIndex = -1;
-        if(match.find())
-        {
+        if (match.find()) {
             lastCapitalIndex = match.start();
         }
 

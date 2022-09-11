@@ -1,9 +1,12 @@
-package com.example.collections_and_maps;
+package com.example.collections_and_maps.ui;
+
+import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
-import android.os.Bundle;
-import com.example.collections_and_maps.adapters.PagerViewAdapter;
+
+import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.models.logger.ComfortableLogsTV;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 

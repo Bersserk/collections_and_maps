@@ -52,5 +52,4 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutNamesColumn"
         app:layout_constraintWidth_percent="50" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
