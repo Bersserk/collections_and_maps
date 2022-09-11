@@ -13,8 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.collections_and_maps.MyItemDecoration;
 import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.RecyclerItemDecoration;
 import com.example.collections_and_maps.adapters.ItemsAdapter;
 
 import java.util.ArrayList;
@@ -25,7 +25,6 @@ public abstract class MyFragment extends Fragment implements View.OnClickListene
     protected String mCollections;
 
     protected LinearLayout mLinearLayoutNamesColumn;
-    protected RecyclerView listRecycler;
     protected ItemsAdapter adapter;
 
     protected EditText collectionSize;
@@ -58,9 +57,8 @@ public abstract class MyFragment extends Fragment implements View.OnClickListene
         mLinearLayoutNamesColumn = view.findViewById(R.id.linearLayoutNamesColumn);
         mLinearLayoutNamesColumn.setOrientation(LinearLayout.HORIZONTAL);
 
-        listRecycler = view.findViewById(R.id.recyclerLayoutItems);
-        listRecycler.addItemDecoration(new MyItemDecoration());
-        listRecycler.setHasFixedSize(true);
+
+
 
         for (int i = 0; i < spanCount; i++) {
             View view1 = View.inflate(getContext(), R.layout.item_tv_top, null);
@@ -72,8 +70,15 @@ public abstract class MyFragment extends Fragment implements View.OnClickListene
         }
     }
 
+    protected RecyclerView getRecycler() {
+        RecyclerView listRecycler = getView().findViewById(R.id.recyclerLayoutItems);
+        listRecycler.addItemDecoration(new RecyclerItemDecoration());
+        listRecycler.setHasFixedSize(true);
+        return listRecycler;
+    }
 
-    public void calc() {
+
+    public void fillRecycler() {
 //        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
         // get data from EditText

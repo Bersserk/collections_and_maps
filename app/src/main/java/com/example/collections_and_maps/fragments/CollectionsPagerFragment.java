@@ -57,17 +57,17 @@ public class CollectionsPagerFragment extends MyFragment {
                 spanCount, LinearLayoutManager.VERTICAL, false);
         //set SpanSizeLookup()
         gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(4, 1, spanCount));
-        listRecycler.setLayoutManager(gridLayoutManager);
+        getRecycler().setLayoutManager(gridLayoutManager);
         createClearGrid();
 
         adapter = new ItemsAdapter();
         adapter.submitList(baseList);
-        listRecycler.setAdapter(adapter);
+        getRecycler().setAdapter(adapter);
     }
 
     @Override
-    public void calc() {
-        super.calc();
+    public void fillRecycler() {
+        super.fillRecycler();
         // button was pushed, next we are initialisation all views
         for (int s = 0; s < baseList.size(); s++) {
             String nameLine = baseList.get(s).toString();
@@ -78,11 +78,11 @@ public class CollectionsPagerFragment extends MyFragment {
 
         adapter = new ItemsAdapter();
         adapter.submitList(baseList);
-        listRecycler.setAdapter(adapter);
+        getRecycler().setAdapter(adapter);
     }
 
     @Override
     public void onClick(View view) {
-        calc();
+        fillRecycler();
     }
 }

@@ -12,8 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.collections_and_maps.MySpanSizeLookup;
 import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.RecyclerSizeLookup;
 import com.example.collections_and_maps.adapters.ItemsAdapter;
 import com.example.collections_and_maps.calculations.MyHashMap;
 import com.example.collections_and_maps.calculations.MyTreeMap;
@@ -56,17 +56,17 @@ public class MapsPagerFragment extends MyFragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
                 spanCount, LinearLayoutManager.VERTICAL, false);
         //set SpanSizeLookup()
-        gridLayoutManager.setSpanSizeLookup(new MySpanSizeLookup(3, 1, spanCount));
-        listRecycler.setLayoutManager(gridLayoutManager);
+        gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(3, 1, spanCount));
+        getRecycler().setLayoutManager(gridLayoutManager);
         createClearGrid();
 
         adapter = new ItemsAdapter();
         adapter.submitList(baseList);
-        listRecycler.setAdapter(adapter);
+        getRecycler().setAdapter(adapter);
     }
 
-    public void calc() {
-        super.calc();
+    public void fillRecycler() {
+        super.fillRecycler();
 
         // button was pushed, next we are initialisation all views
         for (int s = 0; s < baseList.size(); s++) {
@@ -76,11 +76,11 @@ public class MapsPagerFragment extends MyFragment {
         }
 
         adapter.submitList(baseList);
-        listRecycler.setAdapter(adapter);
+        getRecycler().setAdapter(adapter);
     }
 
     @Override
     public void onClick(View view) {
-        calc();
+        fillRecycler();
     }
 }
