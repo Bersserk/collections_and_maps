@@ -15,8 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.collections_and_maps.BenchmarksItemDecoration;
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.RecyclerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -25,10 +25,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected static final String COLLECTIONS = "collections";
     protected String mCollections;
 
-    protected ItemsAdapter adapter;
+    protected final BenchmarksAdapter adapter = new BenchmarksAdapter();;
 
     protected EditText collectionSize;
-    protected String[] listArr, list;
+    protected String[] listNamesMainItem, listNamesItem;
     protected int spanCount;
     protected ArrayList baseList;
     protected long k = 0L;
@@ -67,7 +67,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         for (int i = 0; i < spanCount; i++) {
             View view1 = View.inflate(getContext(), R.layout.item_title, null);
             TextView dialogTV1 = (TextView) view1.findViewById(R.id.nameViewTop);
-            dialogTV1.setText(listArr[i]);
+            dialogTV1.setText(listNamesMainItem[i]);
 
             mLinearLayoutNamesColumn.addView(
                     view1, new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1)
@@ -77,7 +77,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     protected RecyclerView getRecycler() {
         RecyclerView listRecycler = getView().findViewById(R.id.recyclerLayoutItems);
-        listRecycler.addItemDecoration(new RecyclerItemDecoration());
+        listRecycler.addItemDecoration(new BenchmarksItemDecoration());
         listRecycler.setHasFixedSize(true);
         return listRecycler;
     }
@@ -89,7 +89,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         if (collectionSize.length() > 0 && TextUtils.isDigitsOnly(collectionSize.getText())) {
             k = Long.parseLong(collectionSize.getText().toString());
         } else {
-            Toast.makeText(getContext(), "Размер необходимо задавать только числами", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.ToastsText, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -99,8 +99,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         if (baseList == null) {
             baseList = new ArrayList<String>();
 
-            for (int y = 0; y < list.length; y++) {
-                baseList.add(list[y]);
+            for (int y = 0; y < listNamesItem.length; y++) {
+                baseList.add(listNamesItem[y]);
                 for (int i = 0; i < spanCount; i++) {
                     baseList.add("...");
                 }

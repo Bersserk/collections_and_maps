@@ -9,12 +9,12 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecyclerItemDecoration extends RecyclerView.ItemDecoration {
+public class BenchmarksItemDecoration extends RecyclerView.ItemDecoration {
 
     private final int offset = 2;
-    private Paint paintRed;
+    private final Paint paintRed;
 
-    public RecyclerItemDecoration() {
+    public BenchmarksItemDecoration() {
         paintRed = new Paint(Paint.ANTI_ALIAS_FLAG);
         paintRed.setColor(Color.RED);
         paintRed.setStyle(Paint.Style.STROKE);

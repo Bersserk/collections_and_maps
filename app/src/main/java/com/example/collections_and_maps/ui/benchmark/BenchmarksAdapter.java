@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.collections_and_maps.R;
 
 
-public class ItemsAdapter extends ListAdapter<String, ItemsAdapter.ViewHolder> {
+public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.BenchmarkViewHolder> {
 
     public static final DiffUtil.ItemCallback<String> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<String>() {
@@ -32,27 +32,27 @@ public class ItemsAdapter extends ListAdapter<String, ItemsAdapter.ViewHolder> {
                 }
             };
 
-    public ItemsAdapter() {
+    public BenchmarksAdapter() {
         super(DIFF_CALLBACK);
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BenchmarkViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         final View view = layoutInflater.inflate(R.layout.item_benchmark, parent, false);
-        return new ViewHolder(view);
+        return new BenchmarkViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(BenchmarkViewHolder holder, int position) {
         holder.bindTo(getItem(position));
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView nameView;
+    class BenchmarkViewHolder extends RecyclerView.ViewHolder {
+        private final TextView nameView;
 
-        ViewHolder(View view) {
+        BenchmarkViewHolder(View view) {
             super(view);
             nameView = view.findViewById(R.id.nameViewList);
         }

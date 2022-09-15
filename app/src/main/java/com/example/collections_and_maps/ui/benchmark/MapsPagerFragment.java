@@ -17,7 +17,7 @@ import com.example.collections_and_maps.RecyclerSizeLookup;
 import com.example.collections_and_maps.models.benchmarks.MyHashMap;
 import com.example.collections_and_maps.models.benchmarks.MyTreeMap;
 
-public class MapsPagerFragment extends MyFragment {
+public class MapsPagerFragment extends BaseFragment {
 
     public static MapsPagerFragment newInstance(String param1) {
         MapsPagerFragment fragment = new MapsPagerFragment();
@@ -31,9 +31,9 @@ public class MapsPagerFragment extends MyFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Resources res = this.requireActivity().getResources();
-        listArr = res.getStringArray(R.array.maps);
-        list = res.getStringArray(R.array.maps_item);
-        spanCount = listArr.length;
+        listNamesMainItem = res.getStringArray(R.array.maps);
+        listNamesItem = res.getStringArray(R.array.maps_item);
+        spanCount = listNamesMainItem.length;
     }
 
     @Override
@@ -58,7 +58,6 @@ public class MapsPagerFragment extends MyFragment {
         getRecycler().setLayoutManager(gridLayoutManager);
         createClearGrid();
 
-        adapter = new ItemsAdapter();
         adapter.submitList(baseList);
         getRecycler().setAdapter(adapter);
     }

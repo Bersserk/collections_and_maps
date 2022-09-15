@@ -16,7 +16,7 @@ import com.example.collections_and_maps.models.benchmarks.MyArrayList;
 import com.example.collections_and_maps.models.benchmarks.MyCopyOnWriteArrayList;
 import com.example.collections_and_maps.models.benchmarks.MyLinkedList;
 
-public class CollectionsPagerFragment extends MyFragment {
+public class CollectionsPagerFragment extends BaseFragment {
 
     public static CollectionsPagerFragment newInstance(String param1) {
         CollectionsPagerFragment fragment = new CollectionsPagerFragment();
@@ -30,9 +30,9 @@ public class CollectionsPagerFragment extends MyFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Resources res = this.requireActivity().getResources();
-        listArr = res.getStringArray(R.array.collections);
-        list = res.getStringArray(R.array.collections_item);
-        spanCount = listArr.length;
+        listNamesMainItem = res.getStringArray(R.array.collections);
+        listNamesItem = res.getStringArray(R.array.collections_item);
+        spanCount = listNamesMainItem.length;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class CollectionsPagerFragment extends MyFragment {
         Button calcButton = view.findViewById(R.id.calcButton);
         calcButton.setOnClickListener(this);
 
-        // making list recycler
+        // making listNamesItem recycler
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
                 spanCount, LinearLayoutManager.VERTICAL, false);
         //set SpanSizeLookup()
@@ -50,7 +50,6 @@ public class CollectionsPagerFragment extends MyFragment {
         getRecycler().setLayoutManager(gridLayoutManager);
         createClearGrid();
 
-        adapter = new ItemsAdapter();
         adapter.submitList(baseList);
         getRecycler().setAdapter(adapter);
     }
@@ -66,7 +65,6 @@ public class CollectionsPagerFragment extends MyFragment {
             baseList.set(++s, new MyCopyOnWriteArrayList(k, nameLine).getResult());
         }
 
-        adapter = new ItemsAdapter();
         adapter.submitList(baseList);
         getRecycler().setAdapter(adapter);
     }
