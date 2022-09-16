@@ -1,5 +1,6 @@
 package com.example.collections_and_maps.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TabLayout tabLayout = findViewById(R.id.tabs);
+        tabLayout.setBackgroundColor(Color.BLUE);
+        tabLayout.setSelectedTabIndicatorColor(Color.YELLOW);
         ViewPager2 viewPager2 = findViewById(R.id.view_pager2);
 
         PagerViewAdapter adapter = new PagerViewAdapter(this);

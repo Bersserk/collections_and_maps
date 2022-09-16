@@ -77,7 +77,9 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     protected RecyclerView getRecycler() {
         RecyclerView listRecycler = getView().findViewById(R.id.recyclerLayoutItems);
-        listRecycler.addItemDecoration(new BenchmarksItemDecoration());
+        if(listRecycler.getItemDecorationCount()<1){
+            listRecycler.addItemDecoration(new BenchmarksItemDecoration());
+        }
         listRecycler.setHasFixedSize(true);
         return listRecycler;
     }

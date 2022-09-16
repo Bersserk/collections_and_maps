@@ -11,14 +11,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class BenchmarksItemDecoration extends RecyclerView.ItemDecoration {
 
-    private final int offset = 2;
-    private final Paint paintRed;
+    private final int strokeWidth = 5;
+    private final int offset = 4;
+    private final Paint paintOne;
+    private final Paint paintTwo;
 
     public BenchmarksItemDecoration() {
-        paintRed = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paintRed.setColor(Color.RED);
-        paintRed.setStyle(Paint.Style.STROKE);
-        paintRed.setStrokeWidth(3);
+        paintOne = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintOne.setColor(Color.GRAY);
+        paintOne.setStyle(Paint.Style.STROKE);
+        paintOne.setStrokeWidth(14);
+
+        paintTwo = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintTwo.setColor(Color.DKGRAY);
+        paintTwo.setStyle(Paint.Style.STROKE);
+        paintTwo.setStrokeWidth(7);
     }
 
     @Override
@@ -32,21 +39,31 @@ public class BenchmarksItemDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void onDraw(
-            @NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state
+            @NonNull Canvas c, RecyclerView parent, @NonNull RecyclerView.State state
     ) {
         super.onDraw(c, parent, state);
 
         final RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
+        if (layoutManager == null) {
+            return;
+        }
 
         for (int i = 0; i < parent.getChildCount(); i++) {
             final View child = parent.getChildAt(i);
 
             c.drawRect(
-                    layoutManager.getDecoratedLeft(child) + offset,
-                    layoutManager.getDecoratedTop(child) + offset,
-                    layoutManager.getDecoratedRight(child) - offset,
-                    layoutManager.getDecoratedBottom(child) - offset,
-                    paintRed);
+                    layoutManager.getDecoratedLeft(child)+ offset+5,
+                    layoutManager.getDecoratedTop(child)+ offset*6,
+                    layoutManager.getDecoratedRight(child)- offset*6,
+                    layoutManager.getDecoratedBottom(child)- offset-4,
+                    paintOne);
+
+            c.drawRect(
+                    layoutManager.getDecoratedLeft(child) + offset+5,
+                    layoutManager.getDecoratedTop(child) + offset*4,
+                    layoutManager.getDecoratedRight(child) - offset*4,
+                    layoutManager.getDecoratedBottom(child) - offset-5,
+                    paintTwo);
         }
     }
 }

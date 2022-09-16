@@ -19,16 +19,16 @@ public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.Ben
             new DiffUtil.ItemCallback<String>() {
                 @Override
                 public boolean areItemsTheSame(
-                        @NonNull String oldUser, @NonNull String newUser
+                        @NonNull String oldItem, @NonNull String newItem
                 ) {
-                    return oldUser == newUser;
+                    return oldItem == newItem;
                 }
 
                 @Override
                 public boolean areContentsTheSame(
-                        @NonNull String oldUser, @NonNull String newUser
+                        @NonNull String oldItem, @NonNull String newItem
                 ) {
-                    return oldUser.equals(newUser);
+                    return oldItem.equals(newItem);
                 }
             };
 

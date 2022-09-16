@@ -9,11 +9,11 @@
                 android:startColor="@android:color/background_light" />
 
             <stroke
-                android:width="2dp"
+                android:width="1dp"
                 android:color="#191818" />
 
             <corners
-                android:radius="1dp" />
+                android:radius="0dp" />
 
             <padding
                 android:bottom="1dp"
