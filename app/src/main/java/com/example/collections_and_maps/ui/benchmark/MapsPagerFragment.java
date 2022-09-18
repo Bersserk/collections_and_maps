@@ -65,7 +65,7 @@ public class MapsPagerFragment extends BaseFragment {
         super.fillRecycler();
 
         // button was pushed, next we are initialisation all views
-        for (int s = 0; s < baseList.size(); s++) {
+        for (int s = spanCount; s < baseList.size(); s++) {
             String nameLine = baseList.get(s).toString();
             baseList.set(++s, new MyTreeMap(k, nameLine).getResult());
             baseList.set(++s, new MyHashMap(k, nameLine).getResult());

@@ -60,18 +60,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 //        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
         collectionSize = view.findViewById(R.id.collectionSize);
-        LinearLayout mLinearLayoutNamesColumn = view.findViewById(R.id.linearLayoutNamesColumn);
-        mLinearLayoutNamesColumn.setOrientation(LinearLayout.HORIZONTAL);
-
-        for (int i = 0; i < spanCount; i++) {
-            View view1 = View.inflate(getContext(), R.layout.item_title, null);
-            TextView dialogTV1 = (TextView) view1.findViewById(R.id.nameViewTop);
-            dialogTV1.setText(listNamesMainItem[i]);
-
-            mLinearLayoutNamesColumn.addView(
-                    view1, new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1)
-            );
-        }
     }
 
     protected RecyclerView getRecycler() {
@@ -99,6 +87,11 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
         if (baseList == null) {
             baseList = new ArrayList<String>();
+
+
+            for (int y = 0; y < spanCount; y++){
+                baseList.add(listNamesMainItem[y]);
+            }
 
             for (int y = 0; y < listNamesItem.length; y++) {
                 baseList.add(listNamesItem[y]);
