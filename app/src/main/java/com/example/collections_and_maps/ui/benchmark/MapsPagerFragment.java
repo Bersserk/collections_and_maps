@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.RecyclerSizeLookup;
 import com.example.collections_and_maps.models.benchmarks.MyHashMap;
 import com.example.collections_and_maps.models.benchmarks.MyTreeMap;
 

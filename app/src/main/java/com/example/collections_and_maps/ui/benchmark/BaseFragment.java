@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.collections_and_maps.BenchmarksItemDecoration;
 import com.example.collections_and_maps.R;
 
 import java.util.ArrayList;

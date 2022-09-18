@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.RecyclerSizeLookup;
 import com.example.collections_and_maps.models.benchmarks.MyArrayList;
 import com.example.collections_and_maps.models.benchmarks.MyCopyOnWriteArrayList;
 import com.example.collections_and_maps.models.benchmarks.MyLinkedList;
