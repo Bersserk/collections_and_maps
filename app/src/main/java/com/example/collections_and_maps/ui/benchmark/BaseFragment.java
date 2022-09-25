@@ -24,12 +24,12 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected static final String COLLECTIONS = "collections";
     protected String mCollections;
 
-    protected final BenchmarksAdapter adapter = new BenchmarksAdapter();;
+//    protected final BenchmarksAdapter adapter = new BenchmarksAdapter(this);
 
     protected EditText collectionSize;
-    protected String[] listNamesMainItem, listNamesItem;
+//    protected String[] listNamesMainItem, listNamesItem;
     protected int spanCount;
-    protected ArrayList baseList;
+//    protected ArrayList baseList  = new ArrayList<String>();
     protected long k = 0L;
 
 
@@ -38,9 +38,9 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         super.onCreate(savedInstanceState);
 //        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
-        if (savedInstanceState != null) {
-            baseList = savedInstanceState.getStringArrayList("baseList");
-        }
+//        if (savedInstanceState != null) {
+//            baseList = savedInstanceState.getStringArrayList("baseList");
+//        }
 
         if (getArguments() != null) {
             mCollections = getArguments().getString(COLLECTIONS);
@@ -71,7 +71,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         return listRecycler;
     }
 
-    public void fillRecycler() {
+    public void checkInputCorrectly() {
 //        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
         // get data from EditText
@@ -82,29 +82,28 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         }
     }
 
-    public void createClearGrid() {
-//        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-
-        if (baseList == null) {
-            baseList = new ArrayList<String>();
-
-
-            for (int y = 0; y < spanCount; y++){
-                baseList.add(listNamesMainItem[y]);
-            }
-
-            for (int y = 0; y < listNamesItem.length; y++) {
-                baseList.add(listNamesItem[y]);
-                for (int i = 0; i < spanCount; i++) {
-                    baseList.add("...");
-                }
-            }
-        }
-    }
+//    public void createClearGrid() {
+////        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+//
+//        if (baseList == null) {
+//            baseList = new ArrayList<String>();
+//
+//            for (int y = 0; y < spanCount; y++){
+//                baseList.add(listNamesMainItem[y]);
+//            }
+//
+//            for (int y = 0; y < listNamesItem.length; y++) {
+//                baseList.add(listNamesItem[y]);
+//                for (int i = 0; i < spanCount; i++) {
+//                    baseList.add("...");
+//                }
+//            }
+//        }
+//    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putStringArrayList("baseList", baseList);
+//        savedInstanceState.putStringArrayList("baseList", baseList);
     }
 }

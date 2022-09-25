@@ -16,7 +16,11 @@ import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.MyHashMap;
 import com.example.collections_and_maps.models.benchmarks.MyTreeMap;
 
+import java.util.ArrayList;
+
 public class MapsPagerFragment extends BaseFragment {
+
+    BenchmarksAdapter adapter;
 
     public static MapsPagerFragment newInstance(String param1) {
         MapsPagerFragment fragment = new MapsPagerFragment();
@@ -29,10 +33,10 @@ public class MapsPagerFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Resources res = this.requireActivity().getResources();
-        listNamesMainItem = res.getStringArray(R.array.maps);
-        listNamesItem = res.getStringArray(R.array.maps_item);
-        spanCount = listNamesMainItem.length;
+//        Resources res = this.requireActivity().getResources();
+//        listNamesMainItem = res.getStringArray(R.array.maps);
+//        listNamesItem = res.getStringArray(R.array.maps_item);
+//        spanCount = listNamesMainItem.length;
     }
 
     @Override
@@ -51,27 +55,27 @@ public class MapsPagerFragment extends BaseFragment {
 
         // making list recycler
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
-                spanCount, LinearLayoutManager.VERTICAL, false);
+                2, LinearLayoutManager.VERTICAL, false);
         //set SpanSizeLookup()
-        gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(3, 1, spanCount));
+        gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(3, 1, 2));
         getRecycler().setLayoutManager(gridLayoutManager);
-        createClearGrid();
 
-        adapter.submitList(baseList);
+        adapter = new BenchmarksAdapter(this);
         getRecycler().setAdapter(adapter);
     }
 
     public void fillRecycler() {
-        super.fillRecycler();
+        super.checkInputCorrectly();
 
+        ArrayList resultList  = new ArrayList<String>();
         // button was pushed, next we are initialisation all views
-        for (int s = spanCount; s < baseList.size(); s++) {
-            String nameLine = baseList.get(s).toString();
-            baseList.set(++s, new MyTreeMap(k, nameLine).getResult());
-            baseList.set(++s, new MyHashMap(k, nameLine).getResult());
+        for (int s = spanCount; s < resultList.size(); s++) {
+            String nameLine = resultList.get(s).toString();
+            resultList.set(++s, new MyTreeMap(k, nameLine).getResult());
+            resultList.set(++s, new MyHashMap(k, nameLine).getResult());
         }
 
-        adapter.submitList(baseList);
+        adapter = new BenchmarksAdapter(this);
         getRecycler().setAdapter(adapter);
     }
 
