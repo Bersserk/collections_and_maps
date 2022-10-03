@@ -1,6 +1,5 @@
 package com.example.collections_and_maps.ui.benchmark;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +16,7 @@ import com.example.collections_and_maps.models.benchmarks.MyHashMap;
 import com.example.collections_and_maps.models.benchmarks.MyTreeMap;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MapsPagerFragment extends BaseFragment {
 
@@ -33,10 +33,6 @@ public class MapsPagerFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Resources res = this.requireActivity().getResources();
-//        listNamesMainItem = res.getStringArray(R.array.maps);
-//        listNamesItem = res.getStringArray(R.array.maps_item);
-//        spanCount = listNamesMainItem.length;
     }
 
     @Override
@@ -64,23 +60,72 @@ public class MapsPagerFragment extends BaseFragment {
         getRecycler().setAdapter(adapter);
     }
 
-    public void fillRecycler() {
-        super.checkInputCorrectly();
-
-        ArrayList resultList  = new ArrayList<String>();
-        // button was pushed, next we are initialisation all views
-        for (int s = spanCount; s < resultList.size(); s++) {
-            String nameLine = resultList.get(s).toString();
-            resultList.set(++s, new MyTreeMap(k, nameLine).getResult());
-            resultList.set(++s, new MyHashMap(k, nameLine).getResult());
-        }
-
-        adapter = new BenchmarksAdapter(this);
-        getRecycler().setAdapter(adapter);
+    @Override
+    public void onClick(View view) {
+        getResults();
     }
 
     @Override
-    public void onClick(View view) {
-        fillRecycler();
+    public void getResults() {
+        super.getResults();
+
+        ArrayList<String> resultList = new ArrayList<>();
+
+        for (int s = 0; s < 6; s++) {
+            resultList.add("");
+        }
+
+        for (int i = 0; i < 6; i++) {
+            // this is test line for view with timeout
+            beginNewThread(i, new Random().nextInt(10000), resultList);
+            // this is work line
+//            beginNewThread(i, sizeArray, resultList);
+        }
     }
+
+    // this is work's method
+/*    public void beginNewThread(int i, int sizeArray, ArrayList resultList) {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                resultList.set(i, new MyArrayList(sizeArray ,i).getResult());
+                refreshResults(resultList);
+            }
+        });
+        t.start();
+    }
+ */
+
+
+    // this is method for test
+    public void beginNewThread (int i, int i1, ArrayList resultList) {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    Thread.sleep(i1);
+
+                    resultList.set (i, "" +i);
+                    refreshResults(resultList);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+    }
+
+    public void refreshResults (ArrayList resultList) {
+        adapter = new BenchmarksAdapter(this, resultList);
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                getRecycler().setAdapter(adapter);
+            }
+        });
+    }
+
+
 }

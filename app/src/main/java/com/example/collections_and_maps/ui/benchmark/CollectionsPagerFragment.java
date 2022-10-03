@@ -4,23 +4,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.example.collections_and_maps.R;
-
-
 import java.util.ArrayList;
 import java.util.Random;
 
 public class CollectionsPagerFragment extends BaseFragment {
-
-    BenchmarksAdapter adapter;
-    Handler mHandler;
 
     public static CollectionsPagerFragment newInstance(String param1) {
         CollectionsPagerFragment fragment = new CollectionsPagerFragment();
@@ -33,12 +25,6 @@ public class CollectionsPagerFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mHandler = new Handler();
-//        Resources res = this.requireActivity().getResources();
-//        listNamesMainItem = res.getStringArray(R.array.collections);
-//        listNamesItem = res.getStringArray(R.array.collections_item);
-//        spanCount = listNamesMainItem.length;
     }
 
     @Override
@@ -61,29 +47,45 @@ public class CollectionsPagerFragment extends BaseFragment {
     }
 
     @Override
-    public void checkInputCorrectly() {
-        super.checkInputCorrectly();
-
-        ArrayList<String> resultList = new ArrayList<>();
-        // button was pushed, next we are initialisation all views
-//        for (int s = 3; s < resultList.size(); s++) {
-//            String nameLine = resultList.get(s).toString();
-//            resultList.set(++s, new MyArrayList(k, nameLine).getResult());
-//            resultList.set(++s, new MyLinkedList(k, nameLine).getResult());
-//            resultList.set(++s, new MyCopyOnWriteArrayList(k, nameLine).getResult());
-//        }
-
-        for (int s = 0; s < 7; s++) {
-            resultList.add(String.valueOf(""));
-        }
-
-        for (int s = 0; s < 7; s++) {
-            beginNewThread(s, new Random().nextInt(10000), resultList);
-        }
-
+    public void onClick(View view) {
+        getResults();
     }
 
-    public void beginNewThread(int i, int i1, ArrayList resultList) {
+    @Override
+    public void getResults() {
+        super.getResults();
+
+        ArrayList<String> resultList = new ArrayList<>();
+
+        for (int s = 0; s < 21; s++) {
+            resultList.add("");
+        }
+
+        for (int i = 0; i < 21; i++) {
+            // this is test line for view with timeout
+            beginNewThread(i, new Random().nextInt(10000), resultList);
+            // this is work line
+//            beginNewThread(i, sizeArray, resultList);
+        }
+    }
+
+      // this is work's method
+/*    public void beginNewThread(int i, int sizeArray, ArrayList resultList) {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                resultList.set(i, new MyArrayList(sizeArray ,i).getResult());
+                refreshResults(resultList);
+            }
+        });
+        t.start();
+    }
+ */
+
+
+    // this is method for test
+    public void beginNewThread (int i, int i1, ArrayList resultList) {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -91,8 +93,8 @@ public class CollectionsPagerFragment extends BaseFragment {
 
                     Thread.sleep(i1);
 
-                    resultList.set(i, "" +i+i+i+i);
-                    reWrite(resultList);
+                    resultList.set (i, "" +i);
+                    refreshResults(resultList);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -101,7 +103,7 @@ public class CollectionsPagerFragment extends BaseFragment {
         t.start();
     }
 
-    public void reWrite (ArrayList resultList) {
+    public void refreshResults (ArrayList resultList) {
         adapter = new BenchmarksAdapter(this, resultList);
         mHandler.post(new Runnable() {
             @Override
@@ -112,10 +114,5 @@ public class CollectionsPagerFragment extends BaseFragment {
     }
 
 
-
-    @Override
-    public void onClick(View view) {
-            checkInputCorrectly();
-    }
 }
 

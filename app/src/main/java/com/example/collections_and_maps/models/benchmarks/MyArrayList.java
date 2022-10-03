@@ -10,29 +10,29 @@ public class MyArrayList {
     private ArrayList<Integer> arrayList;
     private String result;
 
-    public MyArrayList(long k, String setConstant) {
+    public MyArrayList(int k, int i) {
         arrayList = createArrayList(k);
 
-        switch (setConstant) {
-            case "adding in the beginning":
+        switch (i) {
+            case 0:
                 addItemToStart();
                 break;
-            case "adding in the middle":
+            case 1:
                 addItemToMiddle();
                 break;
-            case "adding in the end":
+            case 2:
                 addItemToEnd();
                 break;
-            case "search by value":
+            case 3:
                 searchByValue();
                 break;
-            case "removing in the beginning":
+            case 4:
                 removingInBeginning();
                 break;
-            case "removing in the middle":
+            case 5:
                 removingInMiddle();
                 break;
-            case "removing in the end":
+            case 6:
                 removingInEnd();
                 break;
             default:
@@ -44,28 +44,31 @@ public class MyArrayList {
         return result + " ms";
     }
 
-    private void addItemToStart() {
+    private String addItemToStart() {
         double start = System.nanoTime();
         arrayList.add(0, null);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+        return result;
     }
 
-    private void addItemToMiddle() {
+    private String addItemToMiddle() {
         double start = System.nanoTime();
         arrayList.add(arrayList.size() / 2, null);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+        return result;
     }
 
-    private void addItemToEnd() {
+    private String addItemToEnd() {
         double start = System.nanoTime();
         arrayList.add(arrayList.size(), null);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+        return result;
     }
 
-    private void searchByValue() {
+    private String searchByValue() {
         int index = 0;
         for (int i = 0; i < 10; i++) {
             if (arrayList.size() < 0) {
@@ -80,34 +83,39 @@ public class MyArrayList {
         arrayList.get(index);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+        return result;
     }
 
-    private void removingInBeginning() {
+    private String removingInBeginning() {
         double start = System.nanoTime();
         arrayList.remove(0);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+        return result;
     }
 
-    private void removingInMiddle() {
+    private String removingInMiddle() {
         double start = System.nanoTime();
         arrayList.remove(arrayList.size() / 2);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+        return result;
     }
 
-    private void removingInEnd() {
+    private String removingInEnd() {
         double start = System.nanoTime();
         arrayList.remove(arrayList.size() - 1);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+        return result;
     }
 
+    // if we are adding more them 1 000 000, app is crashing here...
     @NonNull
-    private ArrayList createArrayList(long k) {
-        ArrayList list = new ArrayList();
+    private ArrayList createArrayList(int k) {
+        ArrayList <Integer> list = new ArrayList <Integer>(k);
         for (int i = 0; i < k; i++) {
-            list.add(0);
+            list.add(i);
         }
         return list;
     }
