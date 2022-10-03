@@ -74,7 +74,7 @@ public class CollectionsPagerFragment extends BaseFragment {
 //        }
 
         for (int s = 0; s < 7; s++) {
-            resultList.add(String.valueOf(s));
+            resultList.add(String.valueOf(""));
         }
 
         for (int s = 0; s < 7; s++) {

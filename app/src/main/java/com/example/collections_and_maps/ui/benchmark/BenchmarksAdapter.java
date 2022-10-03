@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import com.example.collections_and_maps.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.BenchmarkViewHolder> {
@@ -129,14 +131,21 @@ public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.Ben
 
     class BenchmarkViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameView;
+        private ProgressBar progressBar;
 
         BenchmarkViewHolder(View view) {
             super(view);
             nameView = view.findViewById(R.id.nameViewList);
+            progressBar = view.findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+
         }
 
         void bindTo(String s) {
             nameView.setText(s);
+            if (!s.equals("")){
+                progressBar.setVisibility(View.INVISIBLE);
+            }
         }
 
     }
