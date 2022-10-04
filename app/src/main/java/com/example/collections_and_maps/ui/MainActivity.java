@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.models.logger.ComfortableLogsTV;
+import com.example.collections_and_maps.models.logger.Logger;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+        Logger.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         setContentView(R.layout.activity_main);
 
         TabLayout tabLayout = findViewById(R.id.tabs);

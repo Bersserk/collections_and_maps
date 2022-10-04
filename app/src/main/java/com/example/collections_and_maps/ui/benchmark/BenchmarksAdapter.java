@@ -133,7 +133,7 @@ public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.Ben
 
     class BenchmarkViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameView;
-        private ProgressBar progressBar;
+        private final ProgressBar progressBar;
 
         BenchmarkViewHolder(View view) {
             super(view);

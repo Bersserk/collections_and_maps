@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 // my custom class for comfortable reading logs
 
-public class ComfortableLogsTV {
+public class Logger {
 
     static String TAG = "info";
 

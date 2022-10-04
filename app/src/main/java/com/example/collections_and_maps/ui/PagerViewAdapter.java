@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.collections_and_maps.models.logger.ComfortableLogsTV;
+import com.example.collections_and_maps.models.logger.Logger;
 import com.example.collections_and_maps.ui.benchmark.CollectionsPagerFragment;
 import com.example.collections_and_maps.ui.benchmark.MapsPagerFragment;
 
@@ -13,7 +13,7 @@ public class PagerViewAdapter extends FragmentStateAdapter {
 
     public PagerViewAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
-        ComfortableLogsTV.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+        Logger.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
     }
 
         @NonNull

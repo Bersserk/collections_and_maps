@@ -1,7 +1,6 @@
 package com.example.collections_and_maps.ui.benchmark;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import androidx.annotation.NonNull;
@@ -13,6 +12,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class CollectionsPagerFragment extends BaseFragment {
+
+//    public CollectionsPagerFragment () {
+//        super(mHandler);
+//    }
 
     public static CollectionsPagerFragment newInstance(String param1) {
         CollectionsPagerFragment fragment = new CollectionsPagerFragment();

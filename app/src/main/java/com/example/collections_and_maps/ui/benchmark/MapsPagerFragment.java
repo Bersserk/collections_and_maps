@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.models.benchmarks.MyHashMap;
-import com.example.collections_and_maps.models.benchmarks.MyTreeMap;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,6 +19,10 @@ import java.util.Random;
 public class MapsPagerFragment extends BaseFragment {
 
     BenchmarksAdapter adapter;
+
+//    public MapsPagerFragment () {
+//        super(mHandler);
+//    }
 
     public static MapsPagerFragment newInstance(String param1) {
         MapsPagerFragment fragment = new MapsPagerFragment();

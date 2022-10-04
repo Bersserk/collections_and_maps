@@ -1,5 +1,6 @@
 package com.example.collections_and_maps.ui.benchmark;
 
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -8,27 +9,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.collections_and_maps.R;
+
+
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
     protected static final String COLLECTIONS = "collections";
     protected String mCollections;
 
     protected BenchmarksAdapter adapter;
-    protected Handler mHandler;
+    protected final Handler mHandler;
 
     protected EditText collectionSize;
     protected int sizeArray;
+
+    protected BaseFragment () {
+        mHandler = new Handler();
+    }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHandler = new Handler();
+
         if (getArguments() != null) {
             mCollections = getArguments().getString(COLLECTIONS);
         }
