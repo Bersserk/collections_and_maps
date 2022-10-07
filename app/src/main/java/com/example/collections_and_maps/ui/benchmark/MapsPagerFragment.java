@@ -18,25 +18,6 @@ import java.util.Random;
 
 public class MapsPagerFragment extends BaseFragment {
 
-    BenchmarksAdapter adapter;
-
-//    public MapsPagerFragment () {
-//        super(mHandler);
-//    }
-
-    public static MapsPagerFragment newInstance(String param1) {
-        MapsPagerFragment fragment = new MapsPagerFragment();
-        Bundle args = new Bundle();
-        args.putString(COLLECTIONS, param1);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,9 +29,6 @@ public class MapsPagerFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button calcButton = view.findViewById(R.id.calcButton);
-        calcButton.setOnClickListener(this);
-
         // making list recycler
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
                 2, LinearLayoutManager.VERTICAL, false);
@@ -58,7 +36,7 @@ public class MapsPagerFragment extends BaseFragment {
         gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(3, 1, 2));
         getRecycler().setLayoutManager(gridLayoutManager);
 
-        adapter = new BenchmarksAdapter(this);
+//        adapter = new BenchmarksAdapter(this);
         getRecycler().setAdapter(adapter);
     }
 
@@ -120,7 +98,7 @@ public class MapsPagerFragment extends BaseFragment {
     }
 
     public void refreshResults (ArrayList resultList) {
-        adapter = new BenchmarksAdapter(this, resultList);
+//        adapter = new BenchmarksAdapter(this, resultList);
         mHandler.post(new Runnable() {
             @Override
             public void run() {

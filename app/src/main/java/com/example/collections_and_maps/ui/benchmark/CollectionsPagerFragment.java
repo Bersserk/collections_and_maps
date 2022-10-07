@@ -2,40 +2,27 @@ package com.example.collections_and_maps.ui.benchmark;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.models.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 public class CollectionsPagerFragment extends BaseFragment {
+    private ArrayList resultList;
+    private Item item;
+    private ArrayList list;
 
-//    public CollectionsPagerFragment () {
-//        super(mHandler);
-//    }
-
-    public static CollectionsPagerFragment newInstance(String param1) {
-        CollectionsPagerFragment fragment = new CollectionsPagerFragment();
-        Bundle args = new Bundle();
-        args.putString(COLLECTIONS, param1);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        Button calcButton = view.findViewById(R.id.calcButton);
-        calcButton.setOnClickListener(this);
+        Logger.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
         // making listNamesItem recycler
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
@@ -44,9 +31,40 @@ public class CollectionsPagerFragment extends BaseFragment {
         gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(4, 1, 3));
         getRecycler().setLayoutManager(gridLayoutManager);
 
-        // createClearGrid
-        adapter = new BenchmarksAdapter(this);
+        createClearGrid();
+        adapter.setList(resultList);
         getRecycler().setAdapter(adapter);
+    }
+
+    public void createClearGrid() {
+        Logger.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+
+        String[] listNamesMainItem = getResources().getStringArray(R.array.collections);
+        String[] listNamesItem = getResources().getStringArray(R.array.collections_item);
+
+        list = new ArrayList<>();
+        item = new Item();
+        item.setS("...");
+
+        for (int y = 0; y < 3; y++) {
+            list.add(listNamesMainItem[y]);
+        }
+
+        for (int y = 0; y < listNamesItem.length; y++) {
+            list.add(listNamesItem[y]);
+            for (int i = 0; i < 3; i++) {
+                list.add(item);
+            }
+        }
+
+        resultList = new ArrayList();
+        for (Object s: list) {
+            if (s.equals(item)){
+                resultList.add(item.getS());
+            } else {
+                resultList.add(s);
+            }
+        }
     }
 
     @Override
@@ -58,18 +76,27 @@ public class CollectionsPagerFragment extends BaseFragment {
     public void getResults() {
         super.getResults();
 
-        ArrayList<String> resultList = new ArrayList<>();
-
-        for (int s = 0; s < 21; s++) {
-            resultList.add("");
+        for (int i=0; i<list.size(); i++) {
+            if (list.get(i).equals(item)){
+                beginNewThread(i, new Random().nextInt(10000), resultList);
+            }
         }
 
-        for (int i = 0; i < 21; i++) {
-            // this is test line for view with timeout
-            beginNewThread(i, new Random().nextInt(10000), resultList);
-            // this is work line
-//            beginNewThread(i, sizeArray, resultList);
-        }
+
+
+
+//        ArrayList<String> resultList = new ArrayList<>();
+
+//        for (int s = 0; s < 21; s++) {
+//            resultList.add("");
+//        }
+//
+//        for (int i = 0; i < 21; i++) {
+//            // this is test line for view with timeout
+//            beginNewThread(i, new Random().nextInt(10000), resultList);
+//            // this is work line
+////            beginNewThread(i, sizeArray, resultList);
+//        }
     }
 
       // this is work's method
@@ -87,6 +114,7 @@ public class CollectionsPagerFragment extends BaseFragment {
  */
 
 
+
     // this is method for test
     public void beginNewThread (int i, int i1, ArrayList resultList) {
         Thread t = new Thread(new Runnable() {
@@ -96,7 +124,8 @@ public class CollectionsPagerFragment extends BaseFragment {
 
                     Thread.sleep(i1);
 
-                    resultList.set (i, "" +i);
+                    item.setS(String.valueOf(i1));
+                    resultList.set (i, item.getS());
                     refreshResults(resultList);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -107,13 +136,25 @@ public class CollectionsPagerFragment extends BaseFragment {
     }
 
     public void refreshResults (ArrayList resultList) {
-        adapter = new BenchmarksAdapter(this, resultList);
         mHandler.post(new Runnable() {
             @Override
             public void run() {
+                adapter.setList(resultList);
                 getRecycler().setAdapter(adapter);
             }
         });
+    }
+
+    class Item {
+        private String s;
+
+        public void setS(String s) {
+            this.s = s;
+        }
+
+        public String getS() {
+            return s;
+        }
     }
 
 

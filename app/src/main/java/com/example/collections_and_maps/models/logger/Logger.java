@@ -61,4 +61,21 @@ public class Logger {
         Log.i(TAG, s + nameMethod.getMethodName() + end);
 
     }
+
+    public static void log(String t, Class<?> aClass, StackTraceElement nameMethod) {
+
+        Pattern pat = Pattern.compile("[A-Z]");
+        Matcher match = pat.matcher(aClass.toString());
+
+        int lastCapitalIndex = -1;
+        if (match.find()) {
+            lastCapitalIndex = match.start();
+        }
+
+        String s = "-->  " + aClass.toString().substring(lastCapitalIndex) + ".";
+        String end = ": " + t;
+
+        Log.i(TAG, s + nameMethod.getMethodName() + end);
+
+    }
 }
