@@ -57,6 +57,11 @@ public class MyCopyOnWriteArrayList {
 
     private String addItemToMiddle() {
         double start = System.nanoTime();
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         copyOnWriteArrayList.add(copyOnWriteArrayList.size() / 2, null);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);

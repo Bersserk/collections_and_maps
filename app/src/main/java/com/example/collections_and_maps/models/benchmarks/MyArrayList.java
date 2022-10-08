@@ -13,9 +13,8 @@ public class MyArrayList {
 
 
 
-    public MyArrayList(List sizeList, int i) {
-//        arrayList = createArrayList(sizeList);
-        arrayList = (ArrayList) sizeList;
+    public MyArrayList(ArrayList sizeList, int i) {
+        arrayList = sizeList;
 
         switch (i) {
             case 0:
@@ -51,12 +50,12 @@ public class MyArrayList {
     private String addItemToStart() {
         double start = System.nanoTime();
         try {
-            Thread.sleep(5000);
-        arrayList.add(0, null);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        double finish = System.nanoTime();
+        arrayList.add(0, null);
+        //        double finish = System.nanoTime();
         result = String.valueOf((System.nanoTime() - start) / 1000000);
         return result;
     }
@@ -97,6 +96,11 @@ public class MyArrayList {
 
     private String removingInBeginning() {
         double start = System.nanoTime();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         arrayList.remove(0);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);

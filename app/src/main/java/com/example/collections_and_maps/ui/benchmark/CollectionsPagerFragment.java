@@ -82,8 +82,8 @@ public class CollectionsPagerFragment extends BaseFragment {
         getResults();
     }
 
-    private List createArrayList(int size) {
-        List list = new ArrayList (size);
+    private ArrayList createArrayList(int size) {
+        ArrayList list = new ArrayList (size);
         for (int i = 0; i < size; i++) {
             list.add(i);
         }
@@ -94,73 +94,66 @@ public class CollectionsPagerFragment extends BaseFragment {
     public void getResults() {
         super.getResults();
 
-//        int t = 20000;/
-        List listSize = createArrayList(sizeArray);
+        ArrayList arrayList = createArrayList(sizeArray);
         LinkedList linkedList = new LinkedList();
-        linkedList.addAll(listSize);
+        linkedList.addAll(arrayList);
         CopyOnWriteArrayList copyOnWriteArrayList = new CopyOnWriteArrayList();
-        copyOnWriteArrayList.addAll(listSize);
-
-
+        copyOnWriteArrayList.addAll(arrayList);
 
         for (int i=0, y=0; i< list.size(); i++) {
             if (list.get(i).equals(item)){
-                beginNewThread(i, sizeArray, resultList);
-//                beginNewThread(i, resultList, new MyArrayList(listSize ,y).getResult());
-//                beginNewThread(++i, resultList, new MyLinkedList(linkedList ,y).getResult());
-//                beginNewThread(++i, resultList, new MyCopyOnWriteArrayList(copyOnWriteArrayList ,y).getResult());
+                beginNewThread(i, arrayList, resultList, y);
+                beginNewThread(++i, linkedList, resultList, y);
+                beginNewThread(++i, copyOnWriteArrayList, resultList, y);
                 y++;
             }
         }
     }
 
-      // this is work's method
-//    public void beginNewThread(int i, ArrayList resultList, String result) {
-//        Thread t = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    resultList.set(i, result);
-//                    refreshResults(resultList);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//        t.start();
-//    }
 
-
-//     this is method for test
-    public void beginNewThread (int i, int sizeArray, ArrayList resultList) {
+    // this is work's method
+    public void beginNewThread(int i, ArrayList listSize, ArrayList resultList, int y) {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
 
-
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            item.setS(String.valueOf(sizeArray));
-                            resultList.set (i, item.getS());
-                            adapter.setList(resultList);
-                            getRecycler().setAdapter(adapter);
-                        }
-                    });
-
-//                    refreshResults(resultList);
-
+                resultList.set(i, new MyArrayList(listSize ,y).getResult());
+                refreshResults(resultList);
             }
         });
         t.start();
     }
 
+    public void beginNewThread(int i, LinkedList listSize, ArrayList resultList, int y) {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                resultList.set(i, new MyLinkedList(listSize ,y).getResult());
+                refreshResults(resultList);
+            }
+        });
+        t.start();
+    }
+
+    public void beginNewThread(int i, CopyOnWriteArrayList listSize, ArrayList resultList, int y) {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                resultList.set(i, new MyCopyOnWriteArrayList(listSize ,y).getResult());
+                refreshResults(resultList);
+            }
+        });
+        t.start();
+    }
+
+
     public void refreshResults (ArrayList resultList) {
+        adapter.setList(resultList);
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                adapter.setList(resultList);
                 getRecycler().setAdapter(adapter);
             }
         });

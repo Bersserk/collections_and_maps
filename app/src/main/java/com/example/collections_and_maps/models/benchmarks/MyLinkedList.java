@@ -65,6 +65,11 @@ public class MyLinkedList {
 
     private String addItemToEnd() {
         double start = System.nanoTime();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         linkedList.add(linkedList.size(), null);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
