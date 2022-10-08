@@ -3,15 +3,19 @@ package com.example.collections_and_maps.models.benchmarks;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MyArrayList {
 
-    private ArrayList<Integer> arrayList;
+    private ArrayList arrayList;
     private String result;
 
-    public MyArrayList(int k, int i) {
-        arrayList = createArrayList(k);
+
+
+    public MyArrayList(List sizeList, int i) {
+//        arrayList = createArrayList(sizeList);
+        arrayList = (ArrayList) sizeList;
 
         switch (i) {
             case 0:
@@ -46,9 +50,14 @@ public class MyArrayList {
 
     private String addItemToStart() {
         double start = System.nanoTime();
+        try {
+            Thread.sleep(5000);
         arrayList.add(0, null);
-        double finish = System.nanoTime();
-        result = String.valueOf((finish - start) / 1000000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//        double finish = System.nanoTime();
+        result = String.valueOf((System.nanoTime() - start) / 1000000);
         return result;
     }
 
@@ -112,9 +121,9 @@ public class MyArrayList {
 
     // if we are adding more them 1 000 000, app is crashing here...
     @NonNull
-    private ArrayList createArrayList(int k) {
-        ArrayList <Integer> list = new ArrayList <Integer>(k);
-        for (int i = 0; i < k; i++) {
+    private ArrayList createArrayList(int sizeList) {
+        ArrayList list = new ArrayList (sizeList);
+        for (int i = 0; i < sizeList; i++) {
             list.add(i);
         }
         return list;
