@@ -1,9 +1,5 @@
 package com.example.collections_and_maps.models.benchmarks;
 
-import androidx.annotation.NonNull;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -13,7 +9,6 @@ public class MyCopyOnWriteArrayList {
     private String result;
 
     public MyCopyOnWriteArrayList(CopyOnWriteArrayList sizeList, int i) {
-//        copyOnWriteArrayList = createCopyOnWriteArrayList(k);
         copyOnWriteArrayList = sizeList;
 
         switch (i) {
@@ -57,11 +52,14 @@ public class MyCopyOnWriteArrayList {
 
     private String addItemToMiddle() {
         double start = System.nanoTime();
+
+        // test part for sleep
         try {
             Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         copyOnWriteArrayList.add(copyOnWriteArrayList.size() / 2, null);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
@@ -116,14 +114,5 @@ public class MyCopyOnWriteArrayList {
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
         return result;
-    }
-
-    @NonNull
-    private CopyOnWriteArrayList createCopyOnWriteArrayList(long k) {
-        CopyOnWriteArrayList list = new CopyOnWriteArrayList();
-        for (int i = 0; i < k; i++) {
-            list.add(0);
-        }
-        return list;
     }
 }

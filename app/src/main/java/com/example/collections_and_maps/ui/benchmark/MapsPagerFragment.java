@@ -12,18 +12,22 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.models.benchmarks.MyArrayList;
+import com.example.collections_and_maps.models.benchmarks.MyCopyOnWriteArrayList;
+import com.example.collections_and_maps.models.benchmarks.MyHashMap;
+import com.example.collections_and_maps.models.benchmarks.MyLinkedList;
+import com.example.collections_and_maps.models.benchmarks.MyTreeMap;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MapsPagerFragment extends BaseFragment {
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_benchmark, container, false);
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -35,9 +39,10 @@ public class MapsPagerFragment extends BaseFragment {
         //set SpanSizeLookup()
         gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(3, 1, 2));
         getRecycler().setLayoutManager(gridLayoutManager);
+        listNamesMainItem = getResources().getStringArray(R.array.maps);
+        listNamesItem = getResources().getStringArray(R.array.maps_item);
 
-//        adapter = new BenchmarksAdapter(this);
-        getRecycler().setAdapter(adapter);
+        createClearGrid();
     }
 
     @Override
@@ -49,63 +54,40 @@ public class MapsPagerFragment extends BaseFragment {
     public void getResults() {
         super.getResults();
 
-        ArrayList<String> resultList = new ArrayList<>();
+        MyHashMap hashMap = new MyHashMap(sizeArray);
+        MyTreeMap treeMap = new MyTreeMap(sizeArray);
 
-        for (int s = 0; s < 6; s++) {
-            resultList.add("");
-        }
-
-        for (int i = 0; i < 6; i++) {
-            // this is test line for view with timeout
-            beginNewThread(i, new Random().nextInt(10000), resultList);
-            // this is work line
-//            beginNewThread(i, sizeArray, resultList);
+        for (int i=0, y=0; i< list.size(); i++) {
+            if (list.get(i).equals(item)){
+                beginNewThread(i, hashMap, resultList, y);
+                beginNewThread(++i, treeMap, resultList, y);
+                y++;
+            }
         }
     }
 
-    // this is work's method
-/*    public void beginNewThread(int i, int sizeArray, ArrayList resultList) {
+    public void beginNewThread(int i, MyHashMap hashMap, ArrayList resultList, int y) {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-
-                resultList.set(i, new MyArrayList(sizeArray ,i).getResult());
+                resultList.set(i, "");
+                resultList.set(i, hashMap.getResult(y));
                 refreshResults(resultList);
             }
         });
         t.start();
     }
- */
 
-
-    // this is method for test
-    public void beginNewThread (int i, int i1, ArrayList resultList) {
+    public void beginNewThread(int i, MyTreeMap treeMap, ArrayList resultList, int y) {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-
-                    Thread.sleep(i1);
-
-                    resultList.set (i, "" +i);
-                    refreshResults(resultList);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                resultList.set(i, "");
+                resultList.set(i, treeMap.getResult(y));
+                refreshResults(resultList);
             }
         });
         t.start();
     }
-
-    public void refreshResults (ArrayList resultList) {
-//        adapter = new BenchmarksAdapter(this, resultList);
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                getRecycler().setAdapter(adapter);
-            }
-        });
-    }
-
 
 }

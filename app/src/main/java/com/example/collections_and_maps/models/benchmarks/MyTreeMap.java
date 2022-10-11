@@ -1,33 +1,34 @@
 package com.example.collections_and_maps.models.benchmarks;
 
+import java.util.HashMap;
 import java.util.Random;
 import java.util.TreeMap;
 
-public class MyTreeMap {
+public class MyTreeMap extends HashMap {
 
     private TreeMap treeMap;
     private String result;
 
-    public MyTreeMap(long k, String nameLine) {
+    public MyTreeMap(int sizeList) {
+        this.treeMap = createTreeMap(sizeList);
+    }
 
-        this.treeMap = createTreeMap(k);
+    public String getResult(int i) {
 
-        switch (nameLine) {
-            case "adding new":
+        switch (i) {
+            case 0:
                 addingNew();
                 break;
-            case "search by key":
+            case 1:
                 searchByKey();
                 break;
-            case "removing":
+            case 2:
                 removing();
                 break;
             default:
                 result = "нет такого поля";
         }
-    }
 
-    public String getResult() {
         return result + " ms";
     }
 
@@ -42,6 +43,14 @@ public class MyTreeMap {
     private void searchByKey() {
         int i = random();
         double start = System.nanoTime();
+
+        // test part for sleep
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         treeMap.get(i).toString();
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
@@ -55,12 +64,12 @@ public class MyTreeMap {
         result = String.valueOf((finish - start) / 1000000);
     }
 
-    private TreeMap createTreeMap(long k) {
-        TreeMap<Integer, String> list = new TreeMap<Integer, String>();
+    private TreeMap createTreeMap(int k) {
+        TreeMap treeMap = new TreeMap();
         for (int i = 0; i < k; i++) {
-            list.put(i, String.valueOf(i));
+            treeMap.put(i, String.valueOf(i));
         }
-        return list;
+        return treeMap;
     }
 
     private int random() {

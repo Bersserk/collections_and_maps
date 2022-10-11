@@ -1,10 +1,7 @@
 package com.example.collections_and_maps.ui.benchmark;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-
 import android.os.Bundle;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,20 +11,10 @@ import com.example.collections_and_maps.models.benchmarks.MyArrayList;
 import com.example.collections_and_maps.models.benchmarks.MyCopyOnWriteArrayList;
 import com.example.collections_and_maps.models.benchmarks.MyLinkedList;
 import com.example.collections_and_maps.models.logger.Logger;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 public class CollectionsPagerFragment extends BaseFragment {
-    private ArrayList resultList;
-    private Item item;
-    private ArrayList list;
-    String[] listNamesMainItem;
-    String[] listNamesItem;
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -44,37 +31,6 @@ public class CollectionsPagerFragment extends BaseFragment {
         listNamesItem = getResources().getStringArray(R.array.collections_item);
 
         createClearGrid();
-
-    }
-
-    public void createClearGrid() {
-        Logger.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-
-
-
-        list = new ArrayList<>();
-        item = new Item();
-        item.setS("...");
-
-        list.addAll(Arrays.asList(listNamesMainItem));
-
-        for (int y = 0; y < listNamesItem.length; y++) {
-            list.add(listNamesItem[y]);
-            for (int i = 0; i < listNamesMainItem.length; i++) {
-                list.add(item);
-            }
-        }
-
-        resultList = new ArrayList();
-        for (Object s: list) {
-            if (s.equals(item)){
-                resultList.add(item.getS());
-            } else {
-                resultList.add(s);
-            }
-        }
-
-        refreshResults(resultList);
     }
 
     @Override
@@ -82,23 +38,12 @@ public class CollectionsPagerFragment extends BaseFragment {
         getResults();
     }
 
-    private ArrayList createArrayList(int size) {
-        ArrayList list = new ArrayList (size);
-        for (int i = 0; i < size; i++) {
-            list.add(i);
-        }
-        return list;
-    }
-
     @Override
     public void getResults() {
         super.getResults();
 
-        ArrayList arrayList = createArrayList(sizeArray);
-        LinkedList linkedList = new LinkedList();
-        linkedList.addAll(arrayList);
-        CopyOnWriteArrayList copyOnWriteArrayList = new CopyOnWriteArrayList();
-        copyOnWriteArrayList.addAll(arrayList);
+        LinkedList<Integer> linkedList = new LinkedList<>(arrayList);
+        CopyOnWriteArrayList<Integer> copyOnWriteArrayList = new CopyOnWriteArrayList<>(arrayList);
 
         for (int i=0, y=0; i< list.size(); i++) {
             if (list.get(i).equals(item)){
@@ -110,7 +55,7 @@ public class CollectionsPagerFragment extends BaseFragment {
         }
     }
 
-    public void beginNewThread(int i, ArrayList listSize, ArrayList resultList, int y) {
+    public void beginNewThread(int i, ArrayList <Integer> listSize, ArrayList resultList, int y) {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -122,7 +67,7 @@ public class CollectionsPagerFragment extends BaseFragment {
         t.start();
     }
 
-    public void beginNewThread(int i, LinkedList listSize, ArrayList resultList, int y) {
+    public void beginNewThread(int i, LinkedList<Integer> listSize, ArrayList<String> resultList, int y) {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -134,7 +79,7 @@ public class CollectionsPagerFragment extends BaseFragment {
         t.start();
     }
 
-    public void beginNewThread(int i, CopyOnWriteArrayList listSize, ArrayList resultList, int y) {
+    public void beginNewThread(int i, CopyOnWriteArrayList<Integer> listSize, ArrayList resultList, int y) {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -145,28 +90,5 @@ public class CollectionsPagerFragment extends BaseFragment {
         });
         t.start();
     }
-
-
-    public void refreshResults (ArrayList resultList) {
-        adapter.setList(resultList);
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                getRecycler().setAdapter(adapter);
-            }
-        });
-    }
-
-    class Item {
-        private String s;
-        public void setS(String s) {
-            this.s = s;
-        }
-        public String getS() {
-            return s;
-        }
-    }
-
-
 }
 

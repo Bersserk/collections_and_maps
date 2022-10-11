@@ -3,7 +3,6 @@ package com.example.collections_and_maps.models.benchmarks;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class MyArrayList {
@@ -49,11 +48,14 @@ public class MyArrayList {
 
     private String addItemToStart() {
         double start = System.nanoTime();
+
+        // test part for sleep
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         arrayList.add(0, null);
         //        double finish = System.nanoTime();
         result = String.valueOf((System.nanoTime() - start) / 1000000);
@@ -96,11 +98,14 @@ public class MyArrayList {
 
     private String removingInBeginning() {
         double start = System.nanoTime();
+
+        // test part for sleep
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         arrayList.remove(0);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);

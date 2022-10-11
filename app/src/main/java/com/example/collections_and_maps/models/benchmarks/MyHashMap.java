@@ -3,42 +3,51 @@ package com.example.collections_and_maps.models.benchmarks;
 import java.util.HashMap;
 import java.util.Random;
 
-public class MyHashMap {
+public class MyHashMap extends HashMap{
 
     private HashMap hashMap;
     private String result;
 
-    public MyHashMap(long k, String nameLine) {
-        this.hashMap = createHashMap(k);
+    public MyHashMap(int sizeList) {
+        this.hashMap = createHashMap(sizeList);
+    }
 
-        switch (nameLine) {
-            case "adding new":
+    public String getResult(int i) {
+
+        switch (i) {
+            case 0:
                 addingNew();
                 break;
-            case "search by key":
+            case 1:
                 searchByKey();
                 break;
-            case "removing":
+            case 2:
                 removing();
                 break;
             default:
                 result = "нет такого поля";
         }
-    }
 
-    public String getResult() {
         return result + " ms";
     }
 
-    private void addingNew() {
+    public void addingNew() {
         int i = random();
         double start = System.nanoTime();
+
+        // test part for sleep
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         hashMap.put(i, i);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
     }
 
-    private void searchByKey() {
+    protected void searchByKey() {
         int i = random();
         double start = System.nanoTime();
         hashMap.get(i).toString();
@@ -54,12 +63,13 @@ public class MyHashMap {
         result = String.valueOf((finish - start) / 1000000);
     }
 
-    private HashMap createHashMap(long k) {
-        HashMap<Integer, Object> list = new HashMap<Integer, Object>();
+
+    private HashMap createHashMap(int k) {
+        HashMap hashMap = new HashMap();
         for (int i = 0; i < k; i++) {
-            list.put(i, new Object());
+            hashMap.put(i,"");
         }
-        return list;
+        return hashMap;
     }
 
     private int random() {

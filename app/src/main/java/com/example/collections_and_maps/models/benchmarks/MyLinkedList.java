@@ -1,10 +1,6 @@
 package com.example.collections_and_maps.models.benchmarks;
 
-import androidx.annotation.NonNull;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 public class MyLinkedList {
@@ -13,7 +9,6 @@ public class MyLinkedList {
     private String result;
 
     public MyLinkedList(LinkedList sizeList, int i) {
-//        linkedList = createLinkedList(k);
         linkedList = sizeList;
 
         switch (i) {
@@ -65,11 +60,14 @@ public class MyLinkedList {
 
     private String addItemToEnd() {
         double start = System.nanoTime();
+
+        // test part for sleep
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         linkedList.add(linkedList.size(), null);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
@@ -116,14 +114,5 @@ public class MyLinkedList {
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
         return result;
-    }
-
-    @NonNull
-    private LinkedList createLinkedList(long k) {
-        LinkedList list = new LinkedList();
-        for (int i = 0; i < k; i++) {
-            list.add(0);
-        }
-        return list;
     }
 }
