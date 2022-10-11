@@ -110,13 +110,11 @@ public class CollectionsPagerFragment extends BaseFragment {
         }
     }
 
-
-    // this is work's method
     public void beginNewThread(int i, ArrayList listSize, ArrayList resultList, int y) {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-
+                resultList.set(i, "");
                 resultList.set(i, new MyArrayList(listSize ,y).getResult());
                 refreshResults(resultList);
             }
@@ -128,7 +126,7 @@ public class CollectionsPagerFragment extends BaseFragment {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-
+                resultList.set(i, "");
                 resultList.set(i, new MyLinkedList(listSize ,y).getResult());
                 refreshResults(resultList);
             }
@@ -140,7 +138,7 @@ public class CollectionsPagerFragment extends BaseFragment {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-
+                resultList.set(i, "");
                 resultList.set(i, new MyCopyOnWriteArrayList(listSize ,y).getResult());
                 refreshResults(resultList);
             }

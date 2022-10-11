@@ -64,13 +64,12 @@ public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.Ben
             super(view);
             nameView = view.findViewById(R.id.nameViewList);
             progressBar = view.findViewById(R.id.progressBar);
-            progressBar.setVisibility(View.VISIBLE);
         }
 
         void bindTo(String s) {
             nameView.setText(s);
-            if (!s.equals("")){
-                progressBar.setVisibility(View.INVISIBLE);
+            if (s.isEmpty()){
+                progressBar.setVisibility(View.VISIBLE);
             }
         }
     }
