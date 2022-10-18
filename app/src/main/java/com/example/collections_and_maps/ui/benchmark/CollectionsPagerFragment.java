@@ -26,7 +26,7 @@ public class CollectionsPagerFragment extends BaseFragment {
                 3, LinearLayoutManager.VERTICAL, false);
         //set SpanSizeLookup
         gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(4, 1, 3));
-        getRecycler().setLayoutManager(gridLayoutManager);
+        listRecycler.setLayoutManager(gridLayoutManager);
         listNamesMainItem = getResources().getStringArray(R.array.collections);
         listNamesItem = getResources().getStringArray(R.array.collections_item);
 
@@ -56,39 +56,36 @@ public class CollectionsPagerFragment extends BaseFragment {
     }
 
     public void beginNewThread(int i, ArrayList <Integer> listSize, ArrayList resultList, int y) {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
+        Runnable task =new Runnable(){
+            public void run(){
                 resultList.set(i, "");
                 resultList.set(i, new MyArrayList(listSize ,y).getResult());
                 refreshResults(resultList);
             }
-        });
-        t.start();
+        };
+        cachedThreadPool.execute(task);
     }
 
     public void beginNewThread(int i, LinkedList<Integer> listSize, ArrayList<String> resultList, int y) {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
+        Runnable task =new Runnable(){
+            public void run(){
                 resultList.set(i, "");
                 resultList.set(i, new MyLinkedList(listSize ,y).getResult());
                 refreshResults(resultList);
             }
-        });
-        t.start();
+        };
+        cachedThreadPool.execute(task);
     }
 
     public void beginNewThread(int i, CopyOnWriteArrayList<Integer> listSize, ArrayList resultList, int y) {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
+        Runnable task =new Runnable(){
+            public void run(){
                 resultList.set(i, "");
                 resultList.set(i, new MyCopyOnWriteArrayList(listSize ,y).getResult());
                 refreshResults(resultList);
             }
-        });
-        t.start();
+        };
+        cachedThreadPool.execute(task);
     }
 }
 

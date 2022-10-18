@@ -38,7 +38,7 @@ public class MapsPagerFragment extends BaseFragment {
                 2, LinearLayoutManager.VERTICAL, false);
         //set SpanSizeLookup()
         gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(3, 1, 2));
-        getRecycler().setLayoutManager(gridLayoutManager);
+        listRecycler.setLayoutManager(gridLayoutManager);
         listNamesMainItem = getResources().getStringArray(R.array.maps);
         listNamesItem = getResources().getStringArray(R.array.maps_item);
 
@@ -67,27 +67,25 @@ public class MapsPagerFragment extends BaseFragment {
     }
 
     public void beginNewThread(int i, MyHashMap hashMap, ArrayList resultList, int y) {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
+        Runnable task =new Runnable(){
+            public void run(){
                 resultList.set(i, "");
                 resultList.set(i, hashMap.getResult(y));
                 refreshResults(resultList);
             }
-        });
-        t.start();
+        };
+        cachedThreadPool.execute(task);
     }
 
     public void beginNewThread(int i, MyTreeMap treeMap, ArrayList resultList, int y) {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
+        Runnable task =new Runnable(){
+            public void run(){
                 resultList.set(i, "");
                 resultList.set(i, treeMap.getResult(y));
                 refreshResults(resultList);
             }
-        });
-        t.start();
+        };
+        cachedThreadPool.execute(task);
     }
 
 }

@@ -20,15 +20,20 @@ import com.example.collections_and_maps.models.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
-    protected static final String COLLECTIONS = "collections";
+//    protected static final String COLLECTIONS = "collections";
 
     public final BenchmarksAdapter adapter = new BenchmarksAdapter();
     public final Handler mHandler = new Handler();
 
+    protected final ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+
     protected EditText collectionSize;
     protected int sizeArray;
+    protected RecyclerView listRecycler;
 
     protected ArrayList resultList;
     protected Item item;
@@ -56,18 +61,13 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         Button calcButton = view.findViewById(R.id.calcButton);
         calcButton.setOnClickListener(this);
 
-
-    }
-
-    protected RecyclerView getRecycler() {
-        Logger.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-
-        RecyclerView listRecycler = getView().findViewById(R.id.recyclerLayoutItems);
+        listRecycler = getView().findViewById(R.id.recyclerLayoutItems);
         if (listRecycler.getItemDecorationCount() < 1) {
             listRecycler.addItemDecoration(new BenchmarksItemDecoration());
         }
         listRecycler.setHasFixedSize(true);
-        return listRecycler;
+
+
     }
 
     public void getResults() {
@@ -124,7 +124,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                getRecycler().setAdapter(adapter);
+                listRecycler.setAdapter(adapter);
             }
         });
     }
