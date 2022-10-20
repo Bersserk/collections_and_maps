@@ -5,13 +5,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.logger.Logger;
-import java.util.ArrayList;
+
+import java.util.List;
 
 public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.BenchmarkViewHolder> {
 
@@ -28,18 +32,15 @@ public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.Ben
                 }
             };
 
-
-    public void setList(ArrayList <String> resultList) {
-        Logger.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-        submitList(resultList);
+    @Override
+    public void submitList(@Nullable List<String> resultList) {
+        super.submitList(resultList);
     }
-
 
     public BenchmarksAdapter() {
         super(DIFF_CALLBACK);
         Logger.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
     }
-
 
     @NonNull
     @Override
@@ -49,12 +50,10 @@ public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.Ben
         return new BenchmarkViewHolder(view);
     }
 
-
     @Override
     public void onBindViewHolder(BenchmarkViewHolder holder, int position) {
         holder.bindTo(getItem(position));
     }
-
 
     class BenchmarkViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameView;
@@ -68,7 +67,7 @@ public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.Ben
 
         void bindTo(String s) {
             nameView.setText(s);
-            if (s.isEmpty()){
+            if (s.isEmpty()) {
                 progressBar.setVisibility(View.VISIBLE);
             }
         }

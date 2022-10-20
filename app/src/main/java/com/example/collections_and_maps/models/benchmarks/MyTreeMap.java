@@ -1,19 +1,21 @@
 package com.example.collections_and_maps.models.benchmarks;
 
-import java.util.HashMap;
 import java.util.Random;
 import java.util.TreeMap;
 
-public class MyTreeMap extends HashMap {
+public class MyTreeMap extends TreeMap {
 
     private TreeMap treeMap;
     private String result;
 
     public MyTreeMap(int sizeList) {
-        this.treeMap = createTreeMap(sizeList);
+        treeMap = new TreeMap();
+        for (int i = 0; i < sizeList; i++) {
+            treeMap.put(i, "");
+        }
     }
 
-    public String getResult(int i) {
+    public String myTreeMap(int i) {
 
         switch (i) {
             case 0:
@@ -32,15 +34,16 @@ public class MyTreeMap extends HashMap {
         return result + " ms";
     }
 
-    private void addingNew() {
+    private String addingNew() {
         int i = random();
         double start = System.nanoTime();
         treeMap.put(i, i);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+        return result;
     }
 
-    private void searchByKey() {
+    private String searchByKey() {
         int i = random();
         double start = System.nanoTime();
 
@@ -54,28 +57,21 @@ public class MyTreeMap extends HashMap {
         treeMap.get(i).toString();
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+        return result;
     }
 
-    private void removing() {
+    private String removing() {
         int i = random();
         double start = System.nanoTime();
         treeMap.remove(i);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+        return result;
     }
 
-    private TreeMap createTreeMap(int k) {
-        TreeMap treeMap = new TreeMap();
-        for (int i = 0; i < k; i++) {
-            treeMap.put(i, String.valueOf(i));
-        }
-        return treeMap;
-    }
 
     private int random() {
         return new Random().nextInt(treeMap.size() + 1);
     }
-
-
 }
 

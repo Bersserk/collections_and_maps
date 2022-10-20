@@ -2,86 +2,89 @@ package com.example.collections_and_maps.ui.benchmark;
 
 import android.os.Bundle;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.MyArrayList;
 import com.example.collections_and_maps.models.benchmarks.MyCopyOnWriteArrayList;
 import com.example.collections_and_maps.models.benchmarks.MyLinkedList;
 import com.example.collections_and_maps.models.logger.Logger;
+
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.concurrent.CopyOnWriteArrayList;
+
 public class CollectionsPagerFragment extends BaseFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Logger.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+//        Logger.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
-        // making listNamesItem recycler
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
                 3, LinearLayoutManager.VERTICAL, false);
-        //set SpanSizeLookup
         gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(4, 1, 3));
         listRecycler.setLayoutManager(gridLayoutManager);
-        listNamesMainItem = getResources().getStringArray(R.array.collections);
-        listNamesItem = getResources().getStringArray(R.array.collections_item);
+        String[] listNamesMainItem = getResources().getStringArray(R.array.collections);
+        String[] listNamesItem = getResources().getStringArray(R.array.collections_item);
 
-        createClearGrid();
+        resultList = new ResultList(listNamesMainItem, listNamesItem);
+        refreshResults(resultList.getTemplateList());
     }
 
     @Override
     public void onClick(View view) {
-        getResults();
+        resultList.setSizeArray(getSizeList());
+        getResults(resultList.getTemplateList(), resultList.getSizeList());
     }
 
-    @Override
-    public void getResults() {
-        super.getResults();
+    public void getResults(ArrayList templateList, int sizeArray) {
+        ArrayList resultList = new ArrayList();
+        resultList.addAll(templateList);
 
-        LinkedList<Integer> linkedList = new LinkedList<>(arrayList);
-        CopyOnWriteArrayList<Integer> copyOnWriteArrayList = new CopyOnWriteArrayList<>(arrayList);
+        MyArrayList arrayList = new MyArrayList(sizeArray);
+        MyLinkedList linkedList = new MyLinkedList(sizeArray);
+        MyCopyOnWriteArrayList copyOnWriteArrayList = new MyCopyOnWriteArrayList(sizeArray);
 
-        for (int i=0, y=0; i< list.size(); i++) {
-            if (list.get(i).equals(item)){
-                beginNewThread(i, arrayList, resultList, y);
-                beginNewThread(++i, linkedList, resultList, y);
-                beginNewThread(++i, copyOnWriteArrayList, resultList, y);
+        for (int i = 0, y = 0; i < templateList.size(); i++) {
+            if (templateList.get(i).equals("...")) {
+                beginNewThread(i++, arrayList, resultList, y);
+                beginNewThread(i++, linkedList, resultList, y);
+                beginNewThread(i++, copyOnWriteArrayList, resultList, y);
                 y++;
             }
         }
     }
 
-    public void beginNewThread(int i, ArrayList <Integer> listSize, ArrayList resultList, int y) {
-        Runnable task =new Runnable(){
-            public void run(){
+    public void beginNewThread(int i, MyArrayList arrayList, ArrayList resultList, int y) {
+        Runnable task = new Runnable() {
+            public void run() {
                 resultList.set(i, "");
-                resultList.set(i, new MyArrayList(listSize ,y).getResult());
+                resultList.set(i, arrayList.myArrayList(y));
                 refreshResults(resultList);
             }
         };
         cachedThreadPool.execute(task);
     }
 
-    public void beginNewThread(int i, LinkedList<Integer> listSize, ArrayList<String> resultList, int y) {
-        Runnable task =new Runnable(){
-            public void run(){
+    public void beginNewThread(int i, MyLinkedList linkedList, ArrayList resultList, int y) {
+        Runnable task = new Runnable() {
+            public void run() {
                 resultList.set(i, "");
-                resultList.set(i, new MyLinkedList(listSize ,y).getResult());
+                resultList.set(i, linkedList.myLinkedList(y));
                 refreshResults(resultList);
             }
         };
         cachedThreadPool.execute(task);
     }
 
-    public void beginNewThread(int i, CopyOnWriteArrayList<Integer> listSize, ArrayList resultList, int y) {
-        Runnable task =new Runnable(){
-            public void run(){
+    public void beginNewThread(int i, MyCopyOnWriteArrayList copyOnWriteArrayList, ArrayList resultList, int y) {
+        Runnable task = new Runnable() {
+            public void run() {
                 resultList.set(i, "");
-                resultList.set(i, new MyCopyOnWriteArrayList(listSize ,y).getResult());
+                resultList.set(i, copyOnWriteArrayList.myCopyOnWriteArrayList(y));
                 refreshResults(resultList);
             }
         };

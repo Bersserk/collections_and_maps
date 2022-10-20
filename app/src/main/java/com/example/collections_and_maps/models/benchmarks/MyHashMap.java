@@ -9,10 +9,13 @@ public class MyHashMap extends HashMap{
     private String result;
 
     public MyHashMap(int sizeList) {
-        this.hashMap = createHashMap(sizeList);
+        hashMap = new HashMap();
+        for (int i = 0; i < sizeList; i++) {
+            hashMap.put(i,"");
+        }
     }
 
-    public String getResult(int i) {
+    public String myHashMap(int i) {
 
         switch (i) {
             case 0:
@@ -31,7 +34,7 @@ public class MyHashMap extends HashMap{
         return result + " ms";
     }
 
-    public void addingNew() {
+    public String addingNew() {
         int i = random();
         double start = System.nanoTime();
 
@@ -45,31 +48,25 @@ public class MyHashMap extends HashMap{
         hashMap.put(i, i);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+        return result;
     }
 
-    protected void searchByKey() {
+    protected String searchByKey() {
         int i = random();
         double start = System.nanoTime();
         hashMap.get(i).toString();
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
+        return result;
     }
 
-    private void removing() {
+    private String removing() {
         int i = random();
         double start = System.nanoTime();
         hashMap.remove(i);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
-    }
-
-
-    private HashMap createHashMap(int k) {
-        HashMap hashMap = new HashMap();
-        for (int i = 0; i < k; i++) {
-            hashMap.put(i,"");
-        }
-        return hashMap;
+        return result;
     }
 
     private int random() {

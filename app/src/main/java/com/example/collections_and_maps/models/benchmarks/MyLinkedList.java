@@ -3,13 +3,19 @@ package com.example.collections_and_maps.models.benchmarks;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class MyLinkedList {
+public class MyLinkedList extends LinkedList {
 
     private LinkedList linkedList;
     private String result;
 
-    public MyLinkedList(LinkedList sizeList, int i) {
-        linkedList = sizeList;
+    public MyLinkedList(int sizeArray) {
+        linkedList = new LinkedList();
+        for (int i = 0; i < sizeArray; i++) {
+            linkedList.add(i);
+        }
+    }
+
+    public String myLinkedList(int i) {
 
         switch (i) {
             case 0:
@@ -36,9 +42,6 @@ public class MyLinkedList {
             default:
                 result = "нет такого поля";
         }
-    }
-
-    public String getResult() {
         return result + " ms";
     }
 

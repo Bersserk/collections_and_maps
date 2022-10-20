@@ -3,13 +3,19 @@ package com.example.collections_and_maps.models.benchmarks;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class MyCopyOnWriteArrayList {
+public class MyCopyOnWriteArrayList extends CopyOnWriteArrayList {
 
     private CopyOnWriteArrayList copyOnWriteArrayList;
     private String result;
 
-    public MyCopyOnWriteArrayList(CopyOnWriteArrayList sizeList, int i) {
-        copyOnWriteArrayList = sizeList;
+    public MyCopyOnWriteArrayList(int sizeArray) {
+        copyOnWriteArrayList = new CopyOnWriteArrayList ();
+        for (int i = 0; i < sizeArray; i++) {
+            copyOnWriteArrayList.add(i);
+        }
+    }
+
+    public String myCopyOnWriteArrayList(int i) {
 
         switch (i) {
             case 0:
@@ -36,9 +42,6 @@ public class MyCopyOnWriteArrayList {
             default:
                 result = "нет такого поля";
         }
-    }
-
-    public String getResult() {
         return result + " ms";
     }
 

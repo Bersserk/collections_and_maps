@@ -1,19 +1,21 @@
 package com.example.collections_and_maps.models.benchmarks;
 
-import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MyArrayList {
+public class MyArrayList extends ArrayList {
 
-    private ArrayList arrayList;
+    private ArrayList list;
     private String result;
 
+    public MyArrayList(int sizeArray) {
+        list = new ArrayList();
+        for (int i = 0; i < sizeArray; i++) {
+            list.add(i);
+        }
+    }
 
-
-    public MyArrayList(ArrayList sizeList, int i) {
-        arrayList = sizeList;
+    public String myArrayList(int i) {
 
         switch (i) {
             case 0:
@@ -40,9 +42,6 @@ public class MyArrayList {
             default:
                 result = "нет такого поля";
         }
-    }
-
-    public String getResult() {
         return result + " ms";
     }
 
@@ -52,11 +51,11 @@ public class MyArrayList {
         // test part for sleep
         try {
             Thread.sleep(3000);
+            list.add(0, null);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        arrayList.add(0, null);
         //        double finish = System.nanoTime();
         result = String.valueOf((System.nanoTime() - start) / 1000000);
         return result;
@@ -64,7 +63,7 @@ public class MyArrayList {
 
     private String addItemToMiddle() {
         double start = System.nanoTime();
-        arrayList.add(arrayList.size() / 2, null);
+        list.add(list.size() / 2, null);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
         return result;
@@ -72,7 +71,7 @@ public class MyArrayList {
 
     private String addItemToEnd() {
         double start = System.nanoTime();
-        arrayList.add(arrayList.size(), null);
+        list.add(list.size(), null);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
         return result;
@@ -81,16 +80,16 @@ public class MyArrayList {
     private String searchByValue() {
         int index = 0;
         for (int i = 0; i < 10; i++) {
-            if (arrayList.size() < 0) {
+            if (list.size() < 0) {
                 throw new IllegalArgumentException("Array's size must not be negative");
             }
-            while (index == 0 || index == arrayList.size()) {
-                index = new Random().nextInt(arrayList.size() + 1);
+            while (index == 0 || index == list.size()) {
+                index = new Random().nextInt(list.size() + 1);
             }
         }
 
         double start = System.nanoTime();
-        arrayList.get(index);
+        list.get(index);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
         return result;
@@ -106,7 +105,7 @@ public class MyArrayList {
             e.printStackTrace();
         }
 
-        arrayList.remove(0);
+        list.remove(0);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
         return result;
@@ -114,7 +113,7 @@ public class MyArrayList {
 
     private String removingInMiddle() {
         double start = System.nanoTime();
-        arrayList.remove(arrayList.size() / 2);
+        list.remove(list.size() / 2);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
         return result;
@@ -122,20 +121,11 @@ public class MyArrayList {
 
     private String removingInEnd() {
         double start = System.nanoTime();
-        arrayList.remove(arrayList.size() - 1);
+        list.remove(list.size() - 1);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
         return result;
     }
 
-    // if we are adding more them 1 000 000, app is crashing here...
-    @NonNull
-    private ArrayList createArrayList(int sizeList) {
-        ArrayList list = new ArrayList (sizeList);
-        for (int i = 0; i < sizeList; i++) {
-            list.add(i);
-        }
-        return list;
-    }
 }
 
