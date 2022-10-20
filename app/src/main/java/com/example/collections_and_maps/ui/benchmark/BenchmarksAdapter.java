@@ -32,11 +32,6 @@ public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.Ben
                 }
             };
 
-    @Override
-    public void submitList(@Nullable List<String> resultList) {
-        super.submitList(resultList);
-    }
-
     public BenchmarksAdapter() {
         super(DIFF_CALLBACK);
         Logger.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
