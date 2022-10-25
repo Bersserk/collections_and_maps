@@ -63,7 +63,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         getResults(adapter.getCurrentList(), getSizeList());
     }
 
-    protected abstract void getResults(List <String> templateList, int sizeList);
+    protected abstract void getResults(List<String>templateList, int sizeList);
 
     protected abstract GridLayoutManager manageGridLayout ();
 

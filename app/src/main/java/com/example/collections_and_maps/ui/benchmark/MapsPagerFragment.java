@@ -25,7 +25,7 @@ public class MapsPagerFragment extends BaseFragment {
     }
 
     @Override
-    protected void getResults(List <String> templateList, int sizeList) {
+    protected void getResults(List<String> templateList, int sizeList) {
         ArrayList resultList = new ArrayList(templateList);
 
         MyHashMap hashMap = new MyHashMap(sizeList);

@@ -36,7 +36,7 @@ public class CollectionsPagerFragment extends BaseFragment {
 
 
     @Override
-    protected void getResults(List <String> templateList, int sizeList) {
+    protected void getResults(List<String>templateList, int sizeList) {
         ArrayList resultList = new ArrayList(templateList);
 
         MyArrayList arrayList = new MyArrayList(sizeList);
