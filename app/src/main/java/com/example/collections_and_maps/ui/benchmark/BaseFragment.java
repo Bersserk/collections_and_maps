@@ -13,12 +13,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.logger.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,7 +35,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     protected EditText collectionSize;
     protected RecyclerView listRecycler;
-    protected ResultList resultList;
 
 
     @Override
@@ -52,27 +53,44 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         calcButton.setOnClickListener(this);
 
         listRecycler = getView().findViewById(R.id.recyclerLayoutItems);
-        if (listRecycler.getItemDecorationCount() < 1) {
-            listRecycler.addItemDecoration(new BenchmarksItemDecoration());
-        }
+        listRecycler.addItemDecoration(new BenchmarksItemDecoration());
         listRecycler.setHasFixedSize(true);
+        listRecycler.setLayoutManager(this.manageGridLayout());
     }
 
     @Override
     public void onClick(View view) {
-        resultList.setSizeArray(getSizeList());
-        getResults(resultList.getTemplateList(), resultList.getSizeList());
+        getResults(adapter.getCurrentList(), getSizeList());
     }
 
-    protected abstract void getResults(ArrayList templateList, int sizeList);
+    protected abstract void getResults(List templateList, int sizeList);
+
+    protected abstract GridLayoutManager manageGridLayout ();
+
+    protected ArrayList createTemplateList(int listNamesMainItem, int listNamesItem) {
+
+        String[] listMain = getResources().getStringArray(listNamesMainItem);
+        String[] listItem = getResources().getStringArray(listNamesItem);
+
+        ArrayList templateList = new ArrayList();
+        templateList.addAll(Arrays.asList(listMain));
+
+        for (int y = 0; y < listItem.length; y++) {
+            templateList.add(listItem[y]);
+            for (int i = 0; i < listMain.length; i++) {
+                templateList.add("...");
+            }
+        }
+        return templateList;
+    }
 
     public int getSizeList() {
         Logger.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
-        int arrayList = 0;
+        int sizeList = 0;
         // get data from EditText
         if (collectionSize.length() > 0 && TextUtils.isDigitsOnly(collectionSize.getText())) {
             try {
-                arrayList = Integer.parseInt(collectionSize.getText().toString());
+                sizeList = Integer.parseInt(collectionSize.getText().toString());
             } catch (NumberFormatException e) {
                 Toast.makeText(getContext(), R.string.CrashText, Toast.LENGTH_LONG).show();
                 e.printStackTrace();
@@ -80,7 +98,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         } else {
             Toast.makeText(getContext(), R.string.ToastsText, Toast.LENGTH_LONG).show();
         }
-        return arrayList;
+        return sizeList;
     }
 
     protected void fillDataRecycler(List resultList) {

@@ -13,6 +13,7 @@ import com.example.collections_and_maps.models.benchmarks.MyHashMap;
 import com.example.collections_and_maps.models.benchmarks.MyTreeMap;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapsPagerFragment extends BaseFragment {
 
@@ -20,23 +21,15 @@ public class MapsPagerFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
-                2, LinearLayoutManager.VERTICAL, false);
-        gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(3, 1, 2));
-        listRecycler.setLayoutManager(gridLayoutManager);
-        String[] listNamesMainItem = getResources().getStringArray(R.array.maps);
-        String[] listNamesItem = getResources().getStringArray(R.array.maps_item);
-
-        resultList = new ResultList(listNamesMainItem, listNamesItem);
-        fillDataRecycler(resultList.getTemplateList());
+        fillDataRecycler(createTemplateList(R.array.maps, R.array.maps_item));
     }
 
-    public void getResults(ArrayList templateList, int sizeArray) {
-        ArrayList resultList = new ArrayList();
-        resultList.addAll(templateList);
+    @Override
+    protected void getResults(List templateList, int sizeList) {
+        ArrayList resultList = new ArrayList(templateList);
 
-        MyHashMap hashMap = new MyHashMap(sizeArray);
-        MyTreeMap treeMap = new MyTreeMap(sizeArray);
+        MyHashMap hashMap = new MyHashMap(sizeList);
+        MyTreeMap treeMap = new MyTreeMap(sizeList);
 
         for (int i = 0, y = 0; i < templateList.size(); i++) {
             if (templateList.get(i).equals("...")) {
@@ -45,6 +38,15 @@ public class MapsPagerFragment extends BaseFragment {
                 y++;
             }
         }
+    }
+
+
+    @Override
+    protected GridLayoutManager manageGridLayout() {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
+                2, LinearLayoutManager.VERTICAL, false);
+        gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(3, 1, 2));
+        return gridLayoutManager;
     }
 
 
