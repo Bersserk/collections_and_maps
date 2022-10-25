@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.logger.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,7 +26,7 @@ import java.util.concurrent.Executors;
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
 //    protected static final String COLLECTIONS = "collections";
 
-    private final BenchmarksAdapter adapter = new BenchmarksAdapter();
+    protected final BenchmarksAdapter adapter = new BenchmarksAdapter();
     private final Handler mHandler = new Handler();
 
     protected final ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
@@ -69,12 +70,16 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         return arrayList;
     }
 
-    public void refreshResults(List resultList) {
+    protected void fillDataRecycler(List resultList) {
         adapter.submitList(resultList);
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                listRecycler.setAdapter(adapter);
+                if (listRecycler.getAdapter() == null) {
+                    listRecycler.setAdapter(adapter);
+                } else {
+                    listRecycler.getAdapter().notifyDataSetChanged();
+                }
             }
         });
     }

@@ -5,13 +5,13 @@ import java.util.Random;
 
 public class MyLinkedList extends LinkedList {
 
-    private LinkedList linkedList;
+    private LinkedList list;
     private String result;
 
     public MyLinkedList(int sizeArray) {
-        linkedList = new LinkedList();
+        list = new LinkedList();
         for (int i = 0; i < sizeArray; i++) {
-            linkedList.add(i);
+            list.add(i);
         }
     }
 
@@ -47,7 +47,7 @@ public class MyLinkedList extends LinkedList {
 
     private String addItemToStart() {
         double start = System.nanoTime();
-        linkedList.add(0, null);
+        list.add(0, null);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
         return result;
@@ -55,7 +55,7 @@ public class MyLinkedList extends LinkedList {
 
     private String addItemToMiddle() {
         double start = System.nanoTime();
-        linkedList.add(linkedList.size() / 2, null);
+        list.add(list.size() / 2, null);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
         return result;
@@ -71,7 +71,7 @@ public class MyLinkedList extends LinkedList {
             e.printStackTrace();
         }
 
-        linkedList.add(linkedList.size(), null);
+        list.add(list.size(), null);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
         return result;
@@ -80,16 +80,16 @@ public class MyLinkedList extends LinkedList {
     private String searchByValue() {
         int index = 0;
         for (int i = 0; i < 10; i++) {
-            if (linkedList.size() < 0) {
+            if (list.size() < 0) {
                 throw new IllegalArgumentException("Array's size must not be negative");
             }
-            while (index == 0 || index == linkedList.size()) {
-                index = new Random().nextInt(linkedList.size() + 1);
+            while (index == 0 || index == list.size()) {
+                index = new Random().nextInt(list.size() + 1);
             }
         }
 
         double start = System.nanoTime();
-        linkedList.get(index);
+        list.get(index);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
         return result;
@@ -97,7 +97,7 @@ public class MyLinkedList extends LinkedList {
 
     private String removingInBeginning() {
         double start = System.nanoTime();
-        linkedList.remove(0);
+        list.remove(0);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
         return result;
@@ -105,7 +105,7 @@ public class MyLinkedList extends LinkedList {
 
     private String removingInMiddle() {
         double start = System.nanoTime();
-        linkedList.remove(linkedList.size() / 2);
+        list.remove(list.size() / 2);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
         return result;
@@ -113,7 +113,7 @@ public class MyLinkedList extends LinkedList {
 
     private String removingInEnd() {
         double start = System.nanoTime();
-        linkedList.remove(linkedList.size() - 1);
+        list.remove(list.size() - 1);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
         return result;

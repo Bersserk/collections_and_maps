@@ -12,7 +12,6 @@ import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.MyArrayList;
 import com.example.collections_and_maps.models.benchmarks.MyCopyOnWriteArrayList;
 import com.example.collections_and_maps.models.benchmarks.MyLinkedList;
-import com.example.collections_and_maps.models.logger.Logger;
 
 import java.util.ArrayList;
 
@@ -31,7 +30,7 @@ public class CollectionsPagerFragment extends BaseFragment {
         String[] listNamesItem = getResources().getStringArray(R.array.collections_item);
 
         resultList = new ResultList(listNamesMainItem, listNamesItem);
-        refreshResults(resultList.getTemplateList());
+        fillDataRecycler(resultList.getTemplateList());
     }
 
     @Override
@@ -63,7 +62,7 @@ public class CollectionsPagerFragment extends BaseFragment {
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, arrayList.myArrayList(y));
-                refreshResults(resultList);
+                fillDataRecycler(resultList);
             }
         };
         cachedThreadPool.execute(task);
@@ -74,7 +73,8 @@ public class CollectionsPagerFragment extends BaseFragment {
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, linkedList.myLinkedList(y));
-                refreshResults(resultList);
+                listRecycler.postInvalidate();
+                fillDataRecycler(resultList);
             }
         };
         cachedThreadPool.execute(task);
@@ -85,10 +85,12 @@ public class CollectionsPagerFragment extends BaseFragment {
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, copyOnWriteArrayList.myCopyOnWriteArrayList(y));
-                refreshResults(resultList);
+                fillDataRecycler(resultList);
             }
         };
         cachedThreadPool.execute(task);
     }
+
+
 }
 

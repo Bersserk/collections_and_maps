@@ -28,7 +28,7 @@ public class MapsPagerFragment extends BaseFragment {
         String[] listNamesItem = getResources().getStringArray(R.array.maps_item);
 
         resultList = new ResultList(listNamesMainItem, listNamesItem);
-        refreshResults(resultList.getTemplateList());
+        fillDataRecycler(resultList.getTemplateList());
     }
 
     @Override
@@ -59,7 +59,7 @@ public class MapsPagerFragment extends BaseFragment {
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, hashMap.myHashMap(y));
-                refreshResults(resultList);
+                fillDataRecycler(resultList);
             }
         };
         cachedThreadPool.execute(task);
@@ -70,7 +70,7 @@ public class MapsPagerFragment extends BaseFragment {
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, treeMap.myTreeMap(y));
-                refreshResults(resultList);
+                fillDataRecycler(resultList);
             }
         };
         cachedThreadPool.execute(task);
