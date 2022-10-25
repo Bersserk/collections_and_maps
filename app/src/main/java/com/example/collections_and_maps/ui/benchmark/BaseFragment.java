@@ -58,12 +58,25 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         listRecycler.setHasFixedSize(true);
     }
 
+    @Override
+    public void onClick(View view) {
+        resultList.setSizeArray(getSizeList());
+        getResults(resultList.getTemplateList(), resultList.getSizeList());
+    }
+
+    protected abstract void getResults(ArrayList templateList, int sizeList);
+
     public int getSizeList() {
         Logger.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         int arrayList = 0;
         // get data from EditText
         if (collectionSize.length() > 0 && TextUtils.isDigitsOnly(collectionSize.getText())) {
-            arrayList = Integer.parseInt(collectionSize.getText().toString());
+            try {
+                arrayList = Integer.parseInt(collectionSize.getText().toString());
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), R.string.CrashText, Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
         } else {
             Toast.makeText(getContext(), R.string.ToastsText, Toast.LENGTH_LONG).show();
         }

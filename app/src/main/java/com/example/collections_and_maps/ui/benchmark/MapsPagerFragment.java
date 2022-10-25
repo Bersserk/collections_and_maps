@@ -31,12 +31,6 @@ public class MapsPagerFragment extends BaseFragment {
         fillDataRecycler(resultList.getTemplateList());
     }
 
-    @Override
-    public void onClick(View view) {
-        resultList.setSizeArray(getSizeList());
-        getResults(resultList.getTemplateList(), resultList.getSizeList());
-    }
-
     public void getResults(ArrayList templateList, int sizeArray) {
         ArrayList resultList = new ArrayList();
         resultList.addAll(templateList);
