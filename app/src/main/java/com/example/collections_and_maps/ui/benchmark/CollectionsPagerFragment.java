@@ -14,6 +14,7 @@ import com.example.collections_and_maps.models.benchmarks.MyCopyOnWriteArrayList
 import com.example.collections_and_maps.models.benchmarks.MyLinkedList;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CollectionsPagerFragment extends BaseFragment {
 
@@ -22,24 +23,25 @@ public class CollectionsPagerFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 //        Logger.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
 
+        fillDataRecycler(createTemplateList(R.array.collections, R.array.collections_item));
+    }
+
+    @Override
+    protected GridLayoutManager manageGridLayout() {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
                 3, LinearLayoutManager.VERTICAL, false);
         gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(4, 1, 3));
-        listRecycler.setLayoutManager(gridLayoutManager);
-        String[] listNamesMainItem = getResources().getStringArray(R.array.collections);
-        String[] listNamesItem = getResources().getStringArray(R.array.collections_item);
-
-        resultList = new ResultList(listNamesMainItem, listNamesItem);
-        fillDataRecycler(resultList.getTemplateList());
+        return gridLayoutManager;
     }
 
-    public void getResults(ArrayList templateList, int sizeArray) {
-        ArrayList resultList = new ArrayList();
-        resultList.addAll(templateList);
 
-        MyArrayList arrayList = new MyArrayList(sizeArray);
-        MyLinkedList linkedList = new MyLinkedList(sizeArray);
-        MyCopyOnWriteArrayList copyOnWriteArrayList = new MyCopyOnWriteArrayList(sizeArray);
+    @Override
+    protected void getResults(List <String> templateList, int sizeList) {
+        ArrayList resultList = new ArrayList(templateList);
+
+        MyArrayList arrayList = new MyArrayList(sizeList);
+        MyLinkedList linkedList = new MyLinkedList(sizeList);
+        MyCopyOnWriteArrayList copyOnWriteArrayList = new MyCopyOnWriteArrayList(sizeList);
 
         for (int i = 0, y = 0; i < templateList.size(); i++) {
             if (templateList.get(i).equals("...")) {
