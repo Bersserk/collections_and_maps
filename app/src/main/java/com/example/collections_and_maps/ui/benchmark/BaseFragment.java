@@ -103,24 +103,14 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     protected void fillDataRecycler(List resultList) {
         adapter.submitList(resultList);
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (listRecycler.getAdapter() == null) {
-                    listRecycler.setAdapter(adapter);
-                } else {
-                    listRecycler.getAdapter().notifyDataSetChanged();
-                }
-            }
-        });
     }
 
 
     // we will need this block later ***
-//    public static CollectionsPagerFragment newInstance(String param1) {
+//    public static CollectionsPagerFragment newInstance(String fragmentData) {
 //        CollectionsPagerFragment fragment = new CollectionsPagerFragment();
 //        Bundle args = new Bundle();
-//        args.putString(COLLECTIONS, param1);
+//        args.putString(COLLECTIONS, fragmentData);
 //        fragment.setArguments(args);
 //        return fragment;
 //    }
