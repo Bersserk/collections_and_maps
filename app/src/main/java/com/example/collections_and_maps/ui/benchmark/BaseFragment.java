@@ -26,7 +26,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
-//    protected static final String COLLECTIONS = "collections";
+    protected static final String STATE = "state";
 
     protected final BenchmarksAdapter adapter = new BenchmarksAdapter();
     private final Handler mHandler = new Handler();
