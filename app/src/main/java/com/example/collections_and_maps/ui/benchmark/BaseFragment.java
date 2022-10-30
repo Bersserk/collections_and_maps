@@ -22,16 +22,12 @@ import com.example.collections_and_maps.models.logger.Logger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
     protected static final String STATE = "state";
 
     protected final BenchmarksAdapter adapter = new BenchmarksAdapter();
-    private final Handler mHandler = new Handler();
-
-    protected final ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+//    private final Handler mHandler = new Handler();
 
     protected EditText collectionSize;
     protected RecyclerView listRecycler;
@@ -103,7 +99,19 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     protected void fillDataRecycler(List resultList) {
         adapter.submitList(resultList);
+        listRecycler.setAdapter(adapter);
     }
+
+    // This block for test
+//    protected void fillDataRecycler2(List resultList) {
+//        adapter.submitList(resultList);
+//        mHandler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                listRecycler.setAdapter(adapter);
+//            }
+//        });
+//    }
 
 
     // we will need this block later ***

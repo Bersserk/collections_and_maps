@@ -15,6 +15,8 @@ import com.example.collections_and_maps.models.benchmarks.MyLinkedList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CollectionsPagerFragment extends BaseFragment {
 
@@ -36,8 +38,8 @@ public class CollectionsPagerFragment extends BaseFragment {
 
 
     @Override
-    protected void getResults(List<String>templateList, int sizeList) {
-        ArrayList resultList = new ArrayList(templateList);
+    protected void getResults(List <String> templateList, int sizeList) {
+        ArrayList <String> resultList = new ArrayList(templateList);
 
         MyArrayList arrayList = new MyArrayList(sizeList);
         MyLinkedList linkedList = new MyLinkedList(sizeList);
@@ -61,7 +63,7 @@ public class CollectionsPagerFragment extends BaseFragment {
                 fillDataRecycler(resultList);
             }
         };
-        cachedThreadPool.execute(task);
+        Executors.newCachedThreadPool().execute(task);
     }
 
     public void beginNewThread(int i, MyLinkedList linkedList, ArrayList resultList, int y) {
@@ -73,7 +75,7 @@ public class CollectionsPagerFragment extends BaseFragment {
                 fillDataRecycler(resultList);
             }
         };
-        cachedThreadPool.execute(task);
+        Executors.newCachedThreadPool().execute(task);
     }
 
     public void beginNewThread(int i, MyCopyOnWriteArrayList copyOnWriteArrayList, ArrayList resultList, int y) {
@@ -84,7 +86,7 @@ public class CollectionsPagerFragment extends BaseFragment {
                 fillDataRecycler(resultList);
             }
         };
-        cachedThreadPool.execute(task);
+        Executors.newCachedThreadPool().execute(task);
     }
 
 

@@ -14,6 +14,7 @@ import com.example.collections_and_maps.models.benchmarks.MyTreeMap;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class MapsPagerFragment extends BaseFragment {
 
@@ -25,8 +26,8 @@ public class MapsPagerFragment extends BaseFragment {
     }
 
     @Override
-    protected void getResults(List<String> templateList, int sizeList) {
-        ArrayList resultList = new ArrayList(templateList);
+    protected void getResults(List <String> templateList, int sizeList) {
+        ArrayList <String>  resultList = new ArrayList(templateList);
 
         MyHashMap hashMap = new MyHashMap(sizeList);
         MyTreeMap treeMap = new MyTreeMap(sizeList);
@@ -58,7 +59,7 @@ public class MapsPagerFragment extends BaseFragment {
                 fillDataRecycler(resultList);
             }
         };
-        cachedThreadPool.execute(task);
+        Executors.newCachedThreadPool().execute(task);
     }
 
     public void beginNewThread(int i, MyTreeMap treeMap, ArrayList resultList, int y) {
@@ -69,7 +70,7 @@ public class MapsPagerFragment extends BaseFragment {
                 fillDataRecycler(resultList);
             }
         };
-        cachedThreadPool.execute(task);
+        Executors.newCachedThreadPool().execute(task);
     }
 
 }
