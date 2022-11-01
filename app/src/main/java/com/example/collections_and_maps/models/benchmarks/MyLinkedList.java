@@ -66,7 +66,7 @@ public class MyLinkedList extends LinkedList {
 
         // test part for sleep
         try {
-            Thread.sleep(5000);
+            Thread.sleep(8000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

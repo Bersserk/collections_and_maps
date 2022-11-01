@@ -27,7 +27,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected static final String STATE = "state";
 
     protected final BenchmarksAdapter adapter = new BenchmarksAdapter();
-//    private final Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
 
     protected EditText collectionSize;
     protected RecyclerView listRecycler;
@@ -103,15 +103,15 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
     // This block for test
-//    protected void fillDataRecycler2(List resultList) {
-//        adapter.submitList(resultList);
-//        mHandler.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                listRecycler.setAdapter(adapter);
-//            }
-//        });
-//    }
+    protected void fillDataRecycler2(List resultList) {
+        adapter.submitList(resultList);
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                listRecycler.setAdapter(adapter);
+            }
+        });
+    }
 
 
     // we will need this block later ***

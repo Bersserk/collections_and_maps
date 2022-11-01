@@ -50,7 +50,7 @@ public class MyArrayList extends ArrayList {
 
         // test part for sleep
         try {
-            Thread.sleep(3000);
+            Thread.sleep(6000);
             list.add(0, null);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -100,7 +100,7 @@ public class MyArrayList extends ArrayList {
 
         // test part for sleep
         try {
-            Thread.sleep(3000);
+            Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

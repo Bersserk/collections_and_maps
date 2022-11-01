@@ -58,7 +58,7 @@ public class MyCopyOnWriteArrayList extends CopyOnWriteArrayList {
 
         // test part for sleep
         try {
-            Thread.sleep(4000);
+            Thread.sleep(7000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

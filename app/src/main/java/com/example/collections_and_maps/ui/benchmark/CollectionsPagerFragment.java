@@ -60,7 +60,7 @@ public class CollectionsPagerFragment extends BaseFragment {
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, arrayList.myArrayList(y));
-                fillDataRecycler(resultList);
+                fillDataRecycler2(resultList);
             }
         };
         Executors.newCachedThreadPool().execute(task);
@@ -72,7 +72,7 @@ public class CollectionsPagerFragment extends BaseFragment {
                 resultList.set(i, "");
                 resultList.set(i, linkedList.myLinkedList(y));
                 listRecycler.postInvalidate();
-                fillDataRecycler(resultList);
+                fillDataRecycler2(resultList);
             }
         };
         Executors.newCachedThreadPool().execute(task);
@@ -83,7 +83,7 @@ public class CollectionsPagerFragment extends BaseFragment {
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, copyOnWriteArrayList.myCopyOnWriteArrayList(y));
-                fillDataRecycler(resultList);
+                fillDataRecycler2(resultList);
             }
         };
         Executors.newCachedThreadPool().execute(task);

@@ -1,8 +1,14 @@
 package com.example.collections_and_maps.ui.benchmark;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -53,17 +59,23 @@ public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.Ben
     class BenchmarkViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameView;
         private final ProgressBar progressBar;
+        private Animation anim, anim2;
 
         BenchmarkViewHolder(View view) {
             super(view);
             nameView = view.findViewById(R.id.nameViewList);
             progressBar = view.findViewById(R.id.progressBar);
+            anim = AnimationUtils.loadAnimation(view.getContext(), R.anim.animation_progress_bar);
+            anim2 = AnimationUtils.loadAnimation(view.getContext(), R.anim.animation_progress_bar2);
         }
 
         void bindTo(String s) {
-            nameView.setText(s);
+
             if (s.isEmpty()) {
                 progressBar.setVisibility(View.VISIBLE);
+                progressBar.startAnimation(anim);
+            } else {
+                nameView.setText(s);
             }
         }
     }
