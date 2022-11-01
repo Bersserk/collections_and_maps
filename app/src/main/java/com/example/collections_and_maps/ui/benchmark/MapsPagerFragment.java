@@ -6,7 +6,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.MyHashMap;
@@ -21,8 +20,12 @@ public class MapsPagerFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         fillDataRecycler(createTemplateList(R.array.maps, R.array.maps_item));
+    }
+
+    @Override
+    protected GridLayoutManager manageGridLayout() {
+        return manageGridLayout(2, new RecyclerSizeLookup(3, 1, 2));
     }
 
     @Override
@@ -40,16 +43,6 @@ public class MapsPagerFragment extends BaseFragment {
             }
         }
     }
-
-
-    @Override
-    protected GridLayoutManager manageGridLayout() {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
-                2, LinearLayoutManager.VERTICAL, false);
-        gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(3, 1, 2));
-        return gridLayoutManager;
-    }
-
 
     public void beginNewThread(int i, MyHashMap hashMap, ArrayList resultList, int y) {
         Runnable task = new Runnable() {

@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.R;
@@ -54,14 +55,21 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         listRecycler.setLayoutManager(this.manageGridLayout());
     }
 
+    protected abstract GridLayoutManager manageGridLayout();
+
+    protected GridLayoutManager manageGridLayout(int spanCount, RecyclerSizeLookup recyclerSizeLookup){
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
+                spanCount, LinearLayoutManager.VERTICAL, false);
+        gridLayoutManager.setSpanSizeLookup(recyclerSizeLookup);
+        return gridLayoutManager;
+    }
+
     @Override
     public void onClick(View view) {
         getResults(adapter.getCurrentList(), getSizeList());
     }
 
     protected abstract void getResults(List<String>templateList, int sizeList);
-
-    protected abstract GridLayoutManager manageGridLayout ();
 
     protected ArrayList createTemplateList(int listNamesMainItem, int listNamesItem) {
 
@@ -87,7 +95,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         if (collectionSize.length() > 0 && TextUtils.isDigitsOnly(collectionSize.getText())) {
             try {
                 sizeList = Integer.parseInt(collectionSize.getText().toString());
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 Toast.makeText(getContext(), R.string.CrashText, Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
@@ -103,15 +111,15 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
     // This block for test
-    protected void fillDataRecycler2(List resultList) {
-        adapter.submitList(resultList);
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                listRecycler.setAdapter(adapter);
-            }
-        });
-    }
+//    protected void fillDataRecycler2(List resultList) {
+//        adapter.submitList(resultList);
+//        mHandler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                listRecycler.setAdapter(adapter);
+//            }
+//        });
+//    }
 
 
     // we will need this block later ***
