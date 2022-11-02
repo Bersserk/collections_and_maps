@@ -7,7 +7,7 @@
     <string name="calcButton">Расcчитать!</string>
     <string name="collectionSize_hint"> <font size="14">  Впишите размер!</font></string>
     <string name="ToastsText">Размер необходимо задавать только числами</string>
-    <string name="CrashText">Вероятно ваше значение не числовое. Попробуйте еще раз.</string>
+    <string name="CrashText">Введите числовое значение.</string>
     <string name="Collections">Collections</string>
     <string name="Maps">Maps</string>
 

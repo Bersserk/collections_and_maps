@@ -20,16 +20,21 @@ public class MapsPagerFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fillDataRecycler(createTemplateList(R.array.maps, R.array.maps_item));
     }
 
     @Override
     protected GridLayoutManager manageGridLayout() {
-        return manageGridLayout(2, new RecyclerSizeLookup(3, 1, 2));
+        return manageGridLayout(2);
     }
 
     @Override
-    protected void getResults(List <String> templateList, int sizeList) {
+    protected List<String> createTemplateList() {
+        return super.createTemplateList(R.array.maps, R.array.maps_item);
+    }
+
+
+    @Override
+    protected List getResults(List <String> templateList, int sizeList) {
         ArrayList <String>  resultList = new ArrayList(templateList);
 
         MyHashMap hashMap = new MyHashMap(sizeList);
@@ -42,6 +47,7 @@ public class MapsPagerFragment extends BaseFragment {
                 y++;
             }
         }
+        return resultList;
     }
 
     public void beginNewThread(int i, MyHashMap hashMap, ArrayList resultList, int y) {
@@ -49,7 +55,7 @@ public class MapsPagerFragment extends BaseFragment {
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, hashMap.myHashMap(y));
-                fillDataRecycler(resultList);
+//                fillDataRecycler(resultList);
             }
         };
         Executors.newCachedThreadPool().execute(task);
@@ -60,7 +66,7 @@ public class MapsPagerFragment extends BaseFragment {
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, treeMap.myTreeMap(y));
-                fillDataRecycler(resultList);
+//                fillDataRecycler(resultList);
             }
         };
         Executors.newCachedThreadPool().execute(task);

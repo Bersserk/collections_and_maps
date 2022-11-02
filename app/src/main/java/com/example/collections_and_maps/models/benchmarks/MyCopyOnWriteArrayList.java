@@ -113,7 +113,7 @@ public class MyCopyOnWriteArrayList extends CopyOnWriteArrayList {
 
     private String removingInEnd() {
         double start = System.nanoTime();
-        copyOnWriteArrayList.remove(copyOnWriteArrayList.size() - 1);
+        copyOnWriteArrayList.remove(copyOnWriteArrayList.size() - 2);
         double finish = System.nanoTime();
         result = String.valueOf((finish - start) / 1000000);
         return result;

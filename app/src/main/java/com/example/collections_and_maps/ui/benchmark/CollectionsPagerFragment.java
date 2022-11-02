@@ -21,15 +21,20 @@ public class CollectionsPagerFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fillDataRecycler(createTemplateList(R.array.collections, R.array.collections_item));
     }
 
     protected GridLayoutManager manageGridLayout() {
-        return manageGridLayout(3, new RecyclerSizeLookup(4, 1, 3));
+        return manageGridLayout(3);
     }
 
     @Override
-    protected void getResults(List <String> templateList, int sizeList) {
+    protected List<String> createTemplateList() {
+        return super.createTemplateList(R.array.collections, R.array.collections_item);
+    }
+
+
+    @Override
+    protected ArrayList getResults(List <String> templateList, int sizeList) {
         ArrayList <String> resultList = new ArrayList(templateList);
 
         MyArrayList arrayList = new MyArrayList(sizeList);
@@ -44,15 +49,15 @@ public class CollectionsPagerFragment extends BaseFragment {
                 y++;
             }
         }
+        return resultList;
     }
-
 
     public void beginNewThread(int i, MyArrayList arrayList, ArrayList resultList, int y) {
         Runnable task = new Runnable() {
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, arrayList.myArrayList(y));
-                fillDataRecycler(resultList);
+//                fillDataRecycler2(resultList);
             }
         };
         Executors.newCachedThreadPool().execute(task);
@@ -63,8 +68,8 @@ public class CollectionsPagerFragment extends BaseFragment {
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, linkedList.myLinkedList(y));
-                listRecycler.postInvalidate();
-                fillDataRecycler(resultList);
+//                listRecycler.postInvalidate();
+//                fillDataRecycler2(resultList);
             }
         };
         Executors.newCachedThreadPool().execute(task);
@@ -75,7 +80,7 @@ public class CollectionsPagerFragment extends BaseFragment {
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, copyOnWriteArrayList.myCopyOnWriteArrayList(y));
-                fillDataRecycler(resultList);
+//                fillDataRecycler2(resultList);
             }
         };
         Executors.newCachedThreadPool().execute(task);

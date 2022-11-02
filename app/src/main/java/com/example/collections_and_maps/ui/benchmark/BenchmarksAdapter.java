@@ -59,21 +59,21 @@ public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.Ben
     class BenchmarkViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameView;
         private final ProgressBar progressBar;
-        private Animation anim, anim2;
 
         BenchmarkViewHolder(View view) {
             super(view);
             nameView = view.findViewById(R.id.nameViewList);
             progressBar = view.findViewById(R.id.progressBar);
-            anim = AnimationUtils.loadAnimation(view.getContext(), R.anim.animation_progress_bar);
-            anim2 = AnimationUtils.loadAnimation(view.getContext(), R.anim.animation_progress_bar2);
         }
 
         void bindTo(String s) {
 
             if (s.isEmpty()) {
+                progressBar.setAlpha(0.0f);
+                progressBar.animate()
+                        .setDuration(2000)
+                        .alpha(1.0f);
                 progressBar.setVisibility(View.VISIBLE);
-                progressBar.startAnimation(anim);
             } else {
                 nameView.setText(s);
             }
