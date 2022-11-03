@@ -1,11 +1,11 @@
 package com.example.collections_and_maps.ui.benchmark;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.MyArrayList;
@@ -23,8 +23,9 @@ public class CollectionsPagerFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    protected GridLayoutManager manageGridLayout() {
-        return manageGridLayout(3);
+    @Override
+    protected int getSpanCount() {
+        return 3;
     }
 
     @Override
@@ -32,10 +33,9 @@ public class CollectionsPagerFragment extends BaseFragment {
         return super.createTemplateList(R.array.collections, R.array.collections_item);
     }
 
-
     @Override
-    protected ArrayList getResults(List <String> templateList, int sizeList) {
-        ArrayList <String> resultList = new ArrayList(templateList);
+    protected List getResults(List<String> templateList, int sizeList) {
+        List<String> resultList = new ArrayList(templateList);
 
         MyArrayList arrayList = new MyArrayList(sizeList);
         MyLinkedList linkedList = new MyLinkedList(sizeList);
@@ -52,40 +52,33 @@ public class CollectionsPagerFragment extends BaseFragment {
         return resultList;
     }
 
-    public void beginNewThread(int i, MyArrayList arrayList, ArrayList resultList, int y) {
-        Runnable task = new Runnable() {
+    public void beginNewThread(int i, MyArrayList arrayList, List <String> resultList, int y) {
+        service.submit(new Runnable() {
+            @Override
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, arrayList.myArrayList(y));
-//                fillDataRecycler2(resultList);
+                Log.i("exe", "run");
             }
-        };
-        Executors.newCachedThreadPool().execute(task);
+        });
     }
 
-    public void beginNewThread(int i, MyLinkedList linkedList, ArrayList resultList, int y) {
-        Runnable task = new Runnable() {
+    public void beginNewThread(int i, MyLinkedList linkedList, List <String> resultList, int y) {
+        service.submit(new Runnable() {
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, linkedList.myLinkedList(y));
-//                listRecycler.postInvalidate();
-//                fillDataRecycler2(resultList);
             }
-        };
-        Executors.newCachedThreadPool().execute(task);
+        });
     }
 
-    public void beginNewThread(int i, MyCopyOnWriteArrayList copyOnWriteArrayList, ArrayList resultList, int y) {
-        Runnable task = new Runnable() {
+    public void beginNewThread(int i, MyCopyOnWriteArrayList copyOnWriteArrayList, List <String> resultList, int y) {
+        service.submit(new Runnable() {
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, copyOnWriteArrayList.myCopyOnWriteArrayList(y));
-//                fillDataRecycler2(resultList);
             }
-        };
-        Executors.newCachedThreadPool().execute(task);
+        });
     }
-
-
 }
 

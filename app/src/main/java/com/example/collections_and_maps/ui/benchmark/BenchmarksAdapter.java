@@ -1,27 +1,17 @@
 package com.example.collections_and_maps.ui.benchmark;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.logger.Logger;
 
-import java.util.List;
 
 public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.BenchmarkViewHolder> {
 
@@ -68,13 +58,14 @@ public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.Ben
 
         void bindTo(String s) {
 
-            if (s.isEmpty()) {
-                progressBar.setAlpha(0.0f);
+            if (s.equals("")) {
                 progressBar.animate()
-                        .setDuration(2000)
+                        .setDuration(100)
                         .alpha(1.0f);
-                progressBar.setVisibility(View.VISIBLE);
             } else {
+                progressBar.animate()
+                        .setDuration(1500)
+                        .alpha(0.0f);
                 nameView.setText(s);
             }
         }

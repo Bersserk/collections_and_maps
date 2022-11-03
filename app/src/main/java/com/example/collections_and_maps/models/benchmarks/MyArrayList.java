@@ -1,5 +1,7 @@
 package com.example.collections_and_maps.models.benchmarks;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -46,26 +48,30 @@ public class MyArrayList extends ArrayList {
     }
 
     private String addItemToStart() {
-        double start = System.nanoTime();
 
-        // test part for sleep
-        try {
-            Thread.sleep(6000);
-            list.add(0, null);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+                double start = System.nanoTime();
+                try {
+                    Log.i("exe", "sleep");
+                    Thread.sleep(6000);
+                    Log.i("exe", "woke up");
+                    list.add(0, null);
+                    Log.i("exe", "woke up --> list.add");
 
-        //        double finish = System.nanoTime();
-        result = String.valueOf((System.nanoTime() - start) / 1000000);
+                    result = String.valueOf((System.nanoTime() - start) / 1000000);
+                    Log.i("exe", "woke up --> result");
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+        Log.i("exe", "result :" + result);
         return result;
     }
 
     private String addItemToMiddle() {
-        double start = System.nanoTime();
-        list.add(list.size() / 2, null);
-        double finish = System.nanoTime();
-        result = String.valueOf((finish - start) / 1000000);
+                double start = System.nanoTime();
+                list.add(list.size() / 2, null);
+                double finish = System.nanoTime();
+                result = String.valueOf((finish - start) / 1000000);
         return result;
     }
 
@@ -97,7 +103,6 @@ public class MyArrayList extends ArrayList {
 
     private String removingInBeginning() {
         double start = System.nanoTime();
-
         // test part for sleep
         try {
             Thread.sleep(4000);

@@ -2,15 +2,11 @@ package com.example.collections_and_maps.ui.benchmark;
 
 import android.os.Bundle;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
-
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.MyHashMap;
 import com.example.collections_and_maps.models.benchmarks.MyTreeMap;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -23,8 +19,8 @@ public class MapsPagerFragment extends BaseFragment {
     }
 
     @Override
-    protected GridLayoutManager manageGridLayout() {
-        return manageGridLayout(2);
+    protected int getSpanCount() {
+        return 2;
     }
 
     @Override
@@ -32,10 +28,9 @@ public class MapsPagerFragment extends BaseFragment {
         return super.createTemplateList(R.array.maps, R.array.maps_item);
     }
 
-
     @Override
     protected List getResults(List <String> templateList, int sizeList) {
-        ArrayList <String>  resultList = new ArrayList(templateList);
+        List <String>  resultList = new ArrayList(templateList);
 
         MyHashMap hashMap = new MyHashMap(sizeList);
         MyTreeMap treeMap = new MyTreeMap(sizeList);
@@ -50,26 +45,22 @@ public class MapsPagerFragment extends BaseFragment {
         return resultList;
     }
 
-    public void beginNewThread(int i, MyHashMap hashMap, ArrayList resultList, int y) {
-        Runnable task = new Runnable() {
+    public void beginNewThread(int i, MyHashMap hashMap, List <String> resultList, int y) {
+        service.submit(new Runnable() {
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, hashMap.myHashMap(y));
-//                fillDataRecycler(resultList);
             }
-        };
-        Executors.newCachedThreadPool().execute(task);
+        });
     }
 
-    public void beginNewThread(int i, MyTreeMap treeMap, ArrayList resultList, int y) {
-        Runnable task = new Runnable() {
+    public void beginNewThread(int i, MyTreeMap treeMap, List <String> resultList, int y) {
+        service.submit(new Runnable() {
             public void run() {
                 resultList.set(i, "");
                 resultList.set(i, treeMap.myTreeMap(y));
-//                fillDataRecycler(resultList);
             }
-        };
-        Executors.newCachedThreadPool().execute(task);
+        });
     }
 
 }
