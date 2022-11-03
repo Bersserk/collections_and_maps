@@ -69,12 +69,11 @@ public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.Ben
         void bindTo(String s) {
 
             if (s.isEmpty()) {
-                progressBar.setAlpha(0.0f);
                 progressBar.animate()
-                        .setDuration(2000)
+                        .setDuration(1500)
                         .alpha(1.0f);
-                progressBar.setVisibility(View.VISIBLE);
             } else {
+                progressBar.setVisibility(View.INVISIBLE);
                 nameView.setText(s);
             }
         }
