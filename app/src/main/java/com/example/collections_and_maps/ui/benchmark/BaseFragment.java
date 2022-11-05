@@ -71,7 +71,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         service.submit(new Runnable() {
             @Override
             public void run() {
-                List<String> ls = getResults(adapter.getCurrentList(), getSizeList());
+                List <String> ls = getResults(adapter.getCurrentList(), getSizeList());
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
@@ -85,20 +85,19 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         });
     }
 
-    protected abstract List getResults(List<String> templateList, int sizeList);
+    protected abstract List <String> getResults(List<String> templateList, int sizeList);
 
-    protected abstract List<String> createTemplateList();
+    protected abstract List <String> createTemplateList();
 
-    protected List<String> createTemplateList(int listNamesMainItem, int listNamesItem) {
+    protected List <String> createTemplateList(int listNamesMainItem, int listNamesItem) {
 
         String[] listMain = getResources().getStringArray(listNamesMainItem);
         String[] listItem = getResources().getStringArray(listNamesItem);
 
-        List<String> templateList = new ArrayList();
-        templateList.addAll(Arrays.asList(listMain));
+        List <String> templateList = new ArrayList<>(Arrays.asList(listMain));
 
-        for (int y = 0; y < listItem.length; y++) {
-            templateList.add(listItem[y]);
+        for (String s : listItem) {
+            templateList.add(s);
             for (int i = 0; i < listMain.length; i++) {
                 templateList.add("...");
             }
@@ -107,7 +106,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
     public int getSizeList() {
-        int size = 0;
+        int size;
         try {
             size = Integer.parseInt(collectionSize.getText().toString());
             if (size > 0) {
