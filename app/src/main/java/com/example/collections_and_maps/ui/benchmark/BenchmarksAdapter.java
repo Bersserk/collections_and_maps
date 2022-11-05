@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.logger.Logger;
 
-
 public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.BenchmarkViewHolder> {
 
     public static final DiffUtil.ItemCallback<String> DIFF_CALLBACK =

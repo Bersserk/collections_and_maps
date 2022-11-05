@@ -4,7 +4,7 @@
     <string name="collections">Collections</string>
     <string name="maps">Maps</string>
     <string name="askTextView">Введите размер коллекции!</string>
-    <string name="calcButton">Расcчитать!</string>
+    <string name="calcButton">Расчитать!</string>
     <string name="collectionSize_hint"> <font size="14">  Впишите размер!</font></string>
     <string name="ToastsText">Размер необходимо задавать только числами</string>
     <string name="CrashText">Введите числовое значение.</string>

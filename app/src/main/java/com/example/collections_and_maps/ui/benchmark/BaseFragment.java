@@ -28,11 +28,9 @@ import java.util.concurrent.Executors;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
     protected static final String TYPE_BENCHMARK = "type";
-
-    private ExecutorService service;
-
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
     protected EditText collectionSize;
+    private ExecutorService service;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,11 +45,12 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         calcButton.setOnClickListener(this);
 
         final int spans = getSpanCount();
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
-                spans, LinearLayoutManager.VERTICAL, false);
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(
+                this.getActivity(), spans, LinearLayoutManager.VERTICAL, false
+        );
         gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(spans + 1, 1, spans));
 
-        RecyclerView listRecycler = getView().findViewById(R.id.recyclerLayoutItems);
+        RecyclerView listRecycler = view.findViewById(R.id.recyclerLayoutItems);
         listRecycler.addItemDecoration(new BenchmarksItemDecoration());
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
@@ -66,38 +65,26 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-//        Log.i("life", "onClick");
-
         final Handler handler = new Handler(Looper.getMainLooper());
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                List <String> ls = getResults(adapter.getCurrentList(), getSizeList());
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        // обновляем UI отсюда
-                        Log.i("exe", "handler.post");
-                        adapter.submitList(ls);
-                    }
-                });
-                Log.i("exe", "finish");
-            }
+        service.submit(() -> {
+            List<String> ls = getResults(adapter.getCurrentList(), getSizeList());
+            handler.post(() -> {
+                Log.i("exe", "handler.post");
+                adapter.submitList(ls);
+            });
+            Log.i("exe", "finish");
         });
         service.shutdown();
     }
 
-    protected abstract List <String> getResults(List<String> templateList, int sizeList);
+    protected abstract List<String> getResults(List<String> templateList, int sizeList);
 
-    protected abstract List <String> createTemplateList();
+    protected abstract List<String> createTemplateList();
 
-    protected List <String> createTemplateList(int listNamesMainItem, int listNamesItem) {
-
-        String[] listMain = getResources().getStringArray(listNamesMainItem);
-        String[] listItem = getResources().getStringArray(listNamesItem);
-
-        List <String> templateList = new ArrayList<>(Arrays.asList(listMain));
-
+    protected List<String> createTemplateList(int listNamesMainItem, int listNamesItem) {
+        final String[] listMain = getResources().getStringArray(listNamesMainItem);
+        final String[] listItem = getResources().getStringArray(listNamesItem);
+        final List<String> templateList = new ArrayList<>(Arrays.asList(listMain));
         for (String s : listItem) {
             templateList.add(s);
             for (int i = 0; i < listMain.length; i++) {
@@ -132,5 +119,4 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 //        fragment.setArguments(args);
 //        return fragment;
 //    }
-
 }

@@ -9,7 +9,7 @@ public class MyCopyOnWriteArrayList extends CopyOnWriteArrayList {
     private String result;
 
     public MyCopyOnWriteArrayList(int sizeArray) {
-        copyOnWriteArrayList = new CopyOnWriteArrayList ();
+        copyOnWriteArrayList = new CopyOnWriteArrayList();
         for (int i = 0; i < sizeArray; i++) {
             copyOnWriteArrayList.add(i);
         }

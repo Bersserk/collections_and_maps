@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class BenchmarksItemDecoration extends RecyclerView.ItemDecoration {
 
-    private final int strokeWidth = 5;
     private final int offset = 4;
     private final Paint paintOne;
     private final Paint paintTwo;
@@ -39,7 +38,7 @@ public class BenchmarksItemDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void onDraw(
-            @NonNull Canvas c, RecyclerView parent, @NonNull RecyclerView.State state
+            @NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state
     ) {
         super.onDraw(c, parent, state);
 
@@ -52,18 +51,20 @@ public class BenchmarksItemDecoration extends RecyclerView.ItemDecoration {
             final View child = parent.getChildAt(i);
 
             c.drawRect(
-                    layoutManager.getDecoratedLeft(child)+ offset+5,
-                    layoutManager.getDecoratedTop(child)+ offset*6,
-                    layoutManager.getDecoratedRight(child)- offset*6,
-                    layoutManager.getDecoratedBottom(child)- offset-4,
-                    paintOne);
+                    layoutManager.getDecoratedLeft(child) + offset + 5,
+                    layoutManager.getDecoratedTop(child) + offset * 6,
+                    layoutManager.getDecoratedRight(child) - offset * 6,
+                    layoutManager.getDecoratedBottom(child) - offset - 4,
+                    paintOne
+            );
 
             c.drawRect(
-                    layoutManager.getDecoratedLeft(child) + offset+5,
-                    layoutManager.getDecoratedTop(child) + offset*4,
-                    layoutManager.getDecoratedRight(child) - offset*4,
-                    layoutManager.getDecoratedBottom(child) - offset-5,
-                    paintTwo);
+                    layoutManager.getDecoratedLeft(child) + offset + 5,
+                    layoutManager.getDecoratedTop(child) + offset * 4,
+                    layoutManager.getDecoratedRight(child) - offset * 4,
+                    layoutManager.getDecoratedBottom(child) - offset - 5,
+                    paintTwo
+            );
         }
     }
 }

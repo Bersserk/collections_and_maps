@@ -3,7 +3,7 @@ package com.example.collections_and_maps.models.benchmarks;
 import java.util.HashMap;
 import java.util.Random;
 
-public class MyHashMap extends HashMap{
+public class MyHashMap extends HashMap {
 
     private HashMap hashMap;
     private String result;
@@ -11,7 +11,7 @@ public class MyHashMap extends HashMap{
     public MyHashMap(int sizeList) {
         hashMap = new HashMap();
         for (int i = 0; i < sizeList; i++) {
-            hashMap.put(i,"");
+            hashMap.put(i, "");
         }
     }
 

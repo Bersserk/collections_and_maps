@@ -20,8 +20,8 @@ public class MapsPagerFragment extends BaseFragment {
     }
 
     @Override
-    protected List getResults(List <String> templateList, int sizeList) {
-        List <String>  resultList = new ArrayList<>(templateList);
+    protected List<String> getResults(List<String> templateList, int sizeList) {
+        final List<String> resultList = new ArrayList<>(templateList);
 
         MyHashMap hashMap = new MyHashMap(sizeList);
         MyTreeMap treeMap = new MyTreeMap(sizeList);
@@ -36,22 +36,13 @@ public class MapsPagerFragment extends BaseFragment {
         return resultList;
     }
 
-    public void beginNewThread(int i, MyHashMap hashMap, List <String> resultList, int y) {
-//        service.submit(new Runnable() {
-//            public void run() {
-                resultList.set(i, "");
-                resultList.set(i, hashMap.myHashMap(y));
-//            }
-//        });
+    public void beginNewThread(int i, MyHashMap hashMap, List<String> resultList, int y) {
+        resultList.set(i, "");
+        resultList.set(i, hashMap.myHashMap(y));
     }
 
-    public void beginNewThread(int i, MyTreeMap treeMap, List <String> resultList, int y) {
-//        service.submit(new Runnable() {
-//            public void run() {
-                resultList.set(i, "");
-                resultList.set(i, treeMap.myTreeMap(y));
-//            }
-//        });
+    public void beginNewThread(int i, MyTreeMap treeMap, List<String> resultList, int y) {
+        resultList.set(i, "");
+        resultList.set(i, treeMap.myTreeMap(y));
     }
-
 }
