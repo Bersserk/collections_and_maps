@@ -30,8 +30,9 @@ public class MainActivity extends AppCompatActivity {
         PagerViewAdapter adapter = new PagerViewAdapter(this);
         viewPager2.setAdapter(adapter);
 
-        tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager2, (tab, position)
-                -> tab.setText(position == 0 ? getString(R.string.Collections) : getString(R.string.Maps)));
+        tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager2, (tab, position) ->
+                tab.setText(position == 0 ? getString(R.string.Collections) : getString(R.string.Maps))
+        );
         tabLayoutMediator.attach();
     }
 

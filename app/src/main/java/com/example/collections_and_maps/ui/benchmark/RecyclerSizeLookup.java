@@ -15,6 +15,6 @@ public class RecyclerSizeLookup extends GridLayoutManager.SpanSizeLookup {
 
     @Override
     public int getSpanSize(int position) {
-            return (position % spanPos == spanCnt2 ? spanCnt2 : spanCnt1);
+        return (position % spanPos == spanCnt2 ? spanCnt2 : spanCnt1);
     }
 }

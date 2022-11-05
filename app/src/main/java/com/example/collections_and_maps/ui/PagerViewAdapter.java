@@ -16,15 +16,15 @@ public class PagerViewAdapter extends FragmentStateAdapter {
         Logger.mlog(this.getClass(), Thread.currentThread().getStackTrace()[2]);
     }
 
-        @NonNull
-        @Override
-        public Fragment createFragment(int position) {
-            if (position == 0) {
-                return new CollectionsPagerFragment();
-            } else {
-                return new MapsPagerFragment();
-            }
+    @NonNull
+    @Override
+    public Fragment createFragment(int position) {
+        if (position == 0) {
+            return new CollectionsPagerFragment();
+        } else {
+            return new MapsPagerFragment();
         }
+    }
 
     @Override
     public int getItemCount() {
