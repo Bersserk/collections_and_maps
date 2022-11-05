@@ -29,9 +29,9 @@ import java.util.concurrent.Executors;
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
     protected static final String TYPE_BENCHMARK = "type";
 
-    protected ExecutorService service;
+    private ExecutorService service;
 
-    protected final BenchmarksAdapter adapter = new BenchmarksAdapter();
+    private final BenchmarksAdapter adapter = new BenchmarksAdapter();
     protected EditText collectionSize;
 
     @Override
@@ -68,11 +68,12 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public void onClick(View view) {
 //        Log.i("life", "onClick");
 
+        final Handler handler = new Handler(Looper.getMainLooper());
         service.submit(new Runnable() {
             @Override
             public void run() {
                 List <String> ls = getResults(adapter.getCurrentList(), getSizeList());
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                handler.post(new Runnable() {
                     @Override
                     public void run() {
                         // обновляем UI отсюда
@@ -83,6 +84,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
                 Log.i("exe", "finish");
             }
         });
+        service.shutdown();
     }
 
     protected abstract List <String> getResults(List<String> templateList, int sizeList);
@@ -99,7 +101,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         for (String s : listItem) {
             templateList.add(s);
             for (int i = 0; i < listMain.length; i++) {
-                templateList.add("...");
+                templateList.add("");
             }
         }
         return templateList;

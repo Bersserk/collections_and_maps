@@ -3,12 +3,15 @@ package com.example.collections_and_maps.ui.benchmark;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.logger.Logger;
 
@@ -57,15 +60,11 @@ public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.Ben
         }
 
         void bindTo(String s) {
-
-            if (s.equals("")) {
-                progressBar.animate()
-                        .setDuration(100)
-                        .alpha(1.0f);
+            ViewPropertyAnimator vp = progressBar.animate();
+            if (s.isEmpty()) {
+                vp.setDuration(100).alpha(1.0f);
             } else {
-                progressBar.animate()
-                        .setDuration(1500)
-                        .alpha(0.0f);
+                vp.setDuration(1500).alpha(0.0f);
                 nameView.setText(s);
             }
         }
