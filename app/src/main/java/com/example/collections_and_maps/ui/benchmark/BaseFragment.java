@@ -23,13 +23,18 @@ import com.example.collections_and_maps.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
     protected static final String TYPE_BENCHMARK = "type";
 
-    private ExecutorService service;
+
+    private ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private Handler handler = new Handler(Looper.getMainLooper());
 
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
     protected EditText collectionSize;
@@ -58,45 +63,45 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
         adapter.submitList(this.createTemplateList());
         listRecycler.setAdapter(adapter);
-
-        service = Executors.newSingleThreadExecutor();
     }
 
     protected abstract int getSpanCount();
 
     @Override
     public void onClick(View view) {
-//        Log.i("life", "onClick");
-
-        final Handler handler = new Handler(Looper.getMainLooper());
-        service.submit(new Runnable() {
+        handler.post(new Runnable() {
             @Override
             public void run() {
-                List <String> ls = getResults(adapter.getCurrentList(), getSizeList());
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        // обновляем UI отсюда
-                        Log.i("exe", "handler.post");
-                        adapter.submitList(ls);
-                    }
-                });
-                Log.i("exe", "finish");
+                    adapter.submitList(madeList());
             }
         });
-        service.shutdown();
     }
 
-    protected abstract List <String> getResults(List<String> templateList, int sizeList);
+    public List <String> madeList (){
 
-    protected abstract List <String> createTemplateList();
+        List <String> list = new ArrayList<>(adapter.getCurrentList());
+        service.execute(new Runnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                list.add(i, "new");
+                i++;
+            }
+        });
+        return list;
+    }
 
-    protected List <String> createTemplateList(int listNamesMainItem, int listNamesItem) {
+
+    protected abstract List<String> getResults(List<String> templateList, int sizeList);
+
+    protected abstract List<String> createTemplateList();
+
+    protected List<String> createTemplateList(int listNamesMainItem, int listNamesItem) {
 
         String[] listMain = getResources().getStringArray(listNamesMainItem);
         String[] listItem = getResources().getStringArray(listNamesItem);
 
-        List <String> templateList = new ArrayList<>(Arrays.asList(listMain));
+        List<String> templateList = new ArrayList<>(Arrays.asList(listMain));
 
         for (String s : listItem) {
             templateList.add(s);
@@ -134,3 +139,9 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 //    }
 
 }
+
+
+
+
+
+
