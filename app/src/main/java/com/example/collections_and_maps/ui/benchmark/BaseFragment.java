@@ -1,24 +1,20 @@
 package com.example.collections_and_maps.ui.benchmark;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.collections_and_maps.R;
-
+import com.example.collections_and_maps.models.benchmarks.Compute;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,9 +24,7 @@ import java.util.concurrent.Executors;
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
     protected static final String TYPE_BENCHMARK = "type";
 
-
-    private ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private final ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
     protected EditText collectionSize;
@@ -61,102 +55,21 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         listRecycler.setAdapter(adapter);
     }
 
-    protected abstract int getSpanCount();
-
-                List <String> newList2;
-
     @Override
     public void onClick(View view) {
+        int sizeList = getSizeList();
 
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(3000);
-                    newList2 = new ArrayList<>(adapter.getCurrentList());
-                    newList2.set(5, String.valueOf(getSizeList()));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.submitList(newList2);
-                    }
-                });
+        for (int i = 4; i < 15; i++) {
+            if (i != 7 && i != 11) {
+                service.submit(new Compute(adapter, sizeList, i));
             }
-        });
-
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1500);
-                    newList2 = new ArrayList<>(adapter.getCurrentList());
-                    newList2.set(4, String.valueOf(getSizeList()));
-                    newList2.set(5, "second");
-                    newList2.set(6, "thirty");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.submitList(newList2);
-                    }
-                });
-            }
-        });
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(4000);
-                    newList2 = new ArrayList<>(adapter.getCurrentList());
-                    newList2.set(8, String.valueOf(getSizeList()));
-                    newList2.set(9, "fourth");
-                    newList2.set(10, "fifth");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.submitList(newList2);
-                    }
-                });
-            }
-        });
-
-
-
-
+        }
     }
 
-    private List<String> updateList(List<String> currentList) {
-        return currentList;
-    }
-//        });
 
+    protected abstract int getSpanCount();
 
-//        handler.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                    adapter.submitList(new Compute(adapter.getCurrentList(), getSizeList()));
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//
-//                        }
-//                    }).start();
-//            }
-//        });
-
-
-    protected abstract List<String> getResults(List<String> templateList, int sizeList);
+//    protected abstract List<String> getResults(List<String> templateList, int sizeList);
 
     protected abstract List<String> createTemplateList();
 

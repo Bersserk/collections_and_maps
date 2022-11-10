@@ -6,8 +6,6 @@ import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.MyArrayList;
 import com.example.collections_and_maps.models.benchmarks.MyCopyOnWriteArrayList;
 import com.example.collections_and_maps.models.benchmarks.MyLinkedList;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class CollectionsPagerFragment extends BaseFragment {
@@ -27,33 +25,13 @@ public class CollectionsPagerFragment extends BaseFragment {
 //
 //        List <String> resultList = new ArrayList<>(templateList);
 //
-//        MyArrayList arrayList = new MyArrayList(sizeList);
-//        MyLinkedList linkedList = new MyLinkedList(sizeList);
-//        MyCopyOnWriteArrayList copyOnWriteArrayList = new MyCopyOnWriteArrayList(sizeList);
-//
-//        for (int i = 0, y = 0; i < templateList.size(); i++) {
+//        for (int i = 0; i < templateList.size(); i++) {
 //            if (templateList.get(i).isEmpty()) {
-//                beginNewThread(i++, arrayList, resultList, y);
-//                beginNewThread(i++, linkedList, resultList, y);
-//                beginNewThread(i++, copyOnWriteArrayList, resultList, y);
-//                y++;
+//                resultList.set(i, String.valueOf(i*100));
 //            }
 //        }
 //        return resultList;
 //    }
-
-    @Override
-    protected List getResults(List<String> templateList, int sizeList) {
-
-        List <String> resultList = new ArrayList<>(templateList);
-
-        for (int i = 0; i < templateList.size(); i++) {
-            if (templateList.get(i).isEmpty()) {
-                resultList.set(i, String.valueOf(i*100));
-            }
-        }
-        return resultList;
-    }
 
 
     public void beginNewThread(int i, MyArrayList arrayList, List <String> resultList, int y) {
