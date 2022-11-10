@@ -3,7 +3,6 @@ package com.example.collections_and_maps.ui.benchmark;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +22,8 @@ import com.example.collections_and_maps.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
     protected static final String TYPE_BENCHMARK = "type";
@@ -67,29 +63,97 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     protected abstract int getSpanCount();
 
+                List <String> newList2;
+
     @Override
     public void onClick(View view) {
-        handler.post(new Runnable() {
+
+
+        service.submit(new Runnable() {
             @Override
             public void run() {
-                    adapter.submitList(madeList());
+                try {
+                    Thread.sleep(3000);
+                    newList2 = new ArrayList<>(adapter.getCurrentList());
+                    newList2.set(5, String.valueOf(getSizeList()));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.submitList(newList2);
+                    }
+                });
             }
         });
-    }
 
-    public List <String> madeList (){
 
-        List <String> list = new ArrayList<>(adapter.getCurrentList());
-        service.execute(new Runnable() {
-            int i = 0;
+        service.submit(new Runnable() {
             @Override
             public void run() {
-                list.add(i, "new");
-                i++;
+                try {
+                    Thread.sleep(1500);
+                    newList2 = new ArrayList<>(adapter.getCurrentList());
+                    newList2.set(4, String.valueOf(getSizeList()));
+                    newList2.set(5, "second");
+                    newList2.set(6, "thirty");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.submitList(newList2);
+                    }
+                });
             }
         });
-        return list;
+
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(4000);
+                    newList2 = new ArrayList<>(adapter.getCurrentList());
+                    newList2.set(8, String.valueOf(getSizeList()));
+                    newList2.set(9, "fourth");
+                    newList2.set(10, "fifth");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.submitList(newList2);
+                    }
+                });
+            }
+        });
+
+
+
+
     }
+
+    private List<String> updateList(List<String> currentList) {
+        return currentList;
+    }
+//        });
+
+
+//        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                    adapter.submitList(new Compute(adapter.getCurrentList(), getSizeList()));
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//
+//                        }
+//                    }).start();
+//            }
+//        });
 
 
     protected abstract List<String> getResults(List<String> templateList, int sizeList);
