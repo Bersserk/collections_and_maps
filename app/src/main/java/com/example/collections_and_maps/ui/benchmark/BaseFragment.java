@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.Compute;
+import com.example.collections_and_maps.models.benchmarks.Item;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,9 +24,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
+
+
+
+
     protected static final String TYPE_BENCHMARK = "type";
 
-    private final ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+//    private final ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
     protected EditText collectionSize;
@@ -59,11 +65,11 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public void onClick(View view) {
         int sizeList = getSizeList();
 
-        for (int i = 4; i < 15; i++) {
-            if (i != 7 && i != 11) {
-                service.submit(new Compute(adapter, sizeList, i));
-            }
-        }
+//        for (int i = 4; i < 15; i++) {
+//            if (i != 7 && i != 11) {
+                new Compute(adapter, sizeList).beginThread();
+//            }
+//        }
     }
 
 
@@ -71,19 +77,22 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
 //    protected abstract List<String> getResults(List<String> templateList, int sizeList);
 
-    protected abstract List<String> createTemplateList();
+    protected abstract List<Item> createTemplateList();
 
-    protected List<String> createTemplateList(int listNamesMainItem, int listNamesItem) {
+    protected List<Item> createTemplateList(int listNamesMainItem, int listNamesItem) {
 
-        String[] listMain = getResources().getStringArray(listNamesMainItem);
-        String[] listItem = getResources().getStringArray(listNamesItem);
+        final String[] listMain = getResources().getStringArray(listNamesMainItem);
+        final String[] listItem = getResources().getStringArray(listNamesItem);
 
-        List<String> templateList = new ArrayList<>(Arrays.asList(listMain));
+        final List <Item> templateList = new ArrayList<>();
+        for (String s: listMain) {
+            templateList.add(new Item(s));
+        }
 
         for (String s : listItem) {
-            templateList.add(s);
+            templateList.add(new Item(s));
             for (int i = 0; i < listMain.length; i++) {
-                templateList.add("");
+                templateList.add(new Item(listMain[i], s));
             }
         }
         return templateList;

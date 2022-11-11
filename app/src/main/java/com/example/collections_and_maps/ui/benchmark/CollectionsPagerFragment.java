@@ -3,6 +3,7 @@ package com.example.collections_and_maps.ui.benchmark;
 
 import android.util.Log;
 import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.models.benchmarks.Item;
 import com.example.collections_and_maps.models.benchmarks.MyArrayList;
 import com.example.collections_and_maps.models.benchmarks.MyCopyOnWriteArrayList;
 import com.example.collections_and_maps.models.benchmarks.MyLinkedList;
@@ -16,7 +17,7 @@ public class CollectionsPagerFragment extends BaseFragment {
     }
 
     @Override
-    protected List<String> createTemplateList() {
+    protected List<Item> createTemplateList() {
         return super.createTemplateList(R.array.collections, R.array.collections_item);
     }
 
@@ -34,33 +35,33 @@ public class CollectionsPagerFragment extends BaseFragment {
 //    }
 
 
-    public void beginNewThread(int i, MyArrayList arrayList, List <String> resultList, int y) {
-//        service.submit(new Runnable() {
-//            @Override
-//            public void run() {
-                resultList.set(i, "");
-                resultList.set(i, arrayList.myArrayList(y));
-                Log.i("exe", "run");
-//            }
-//        });
-    }
+//    public void beginNewThread(int i, MyArrayList arrayList, List <String> resultList, int y) {
+////        service.submit(new Runnable() {
+////            @Override
+////            public void run() {
+//                resultList.set(i, "");
+//                resultList.set(i, arrayList.myArrayList(y));
+//                Log.i("exe", "run");
+////            }
+////        });
+//    }
 
-    public void beginNewThread(int i, MyLinkedList linkedList, List <String> resultList, int y) {
-//        service.submit(new Runnable() {
-//            public void run() {
-                resultList.set(i, "");
-                resultList.set(i, linkedList.myLinkedList(y));
-//            }
-//        });
-    }
+//    public void beginNewThread(int i, MyLinkedList linkedList, List <String> resultList, int y) {
+////        service.submit(new Runnable() {
+////            public void run() {
+//                resultList.set(i, "");
+//                resultList.set(i, linkedList.myLinkedList(y));
+////            }
+////        });
+//    }
 
-    public void beginNewThread(int i, MyCopyOnWriteArrayList copyOnWriteArrayList, List <String> resultList, int y) {
-//        service.submit(new Runnable() {
-//            public void run() {
-                resultList.set(i, "");
-                resultList.set(i, copyOnWriteArrayList.myCopyOnWriteArrayList(y));
-//            }
-//        });
-    }
+//    public void beginNewThread(int i, MyCopyOnWriteArrayList copyOnWriteArrayList, List <String> resultList, int y) {
+////        service.submit(new Runnable() {
+////            public void run() {
+//                resultList.set(i, "");
+//                resultList.set(i, copyOnWriteArrayList.myCopyOnWriteArrayList(y));
+////            }
+////        });
+//    }
 }
 

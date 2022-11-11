@@ -1,5 +1,7 @@
 package com.example.collections_and_maps.ui.benchmark;
 
+import android.icu.util.LocaleData;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,32 +10,41 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.models.benchmarks.Item;
 import com.example.collections_and_maps.models.logger.Logger;
 
+import java.util.List;
 
-public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.BenchmarkViewHolder> {
 
-    public static final DiffUtil.ItemCallback<String> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<String>() {
+public class BenchmarksAdapter extends ListAdapter<Item, BenchmarksAdapter.BenchmarkViewHolder> {
+
+    public static final DiffUtil.ItemCallback<Item> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<Item>() {
                 @Override
-                public boolean areItemsTheSame(@NonNull String oldItem, @NonNull String newItem) {
-                    return oldItem == newItem;
+                public boolean areItemsTheSame(@NonNull Item oldItem, @NonNull Item newItem) {
+                    Log.i("----", "oldItem: " + oldItem.getResult());
+                    Log.i("----", "newItem: " + newItem.getResult());
+                    return oldItem.getResult() == newItem.getResult();
                 }
 
                 @Override
-                public boolean areContentsTheSame(@NonNull String oldItem, @NonNull String newItem) {
-                    return oldItem.equals(newItem);
+                public boolean areContentsTheSame(@NonNull Item oldItem, @NonNull Item newItem) {
+                    Log.i("----", "oldItem2: " + oldItem.getResult());
+                    Log.i("----", "newItem2: " + newItem.getResult());
+                    return oldItem.getResult().equals(newItem.getResult());
                 }
             };
 
     public BenchmarksAdapter() {
         super(DIFF_CALLBACK);
-        Logger.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+        Log.i("----", "DIFF_CALLBACK: " + DIFF_CALLBACK);
+
     }
 
     @NonNull
@@ -49,6 +60,12 @@ public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.Ben
         holder.bindTo(getItem(position));
     }
 
+    @Override
+    public void submitList(@Nullable List<Item> list) {
+        super.submitList(list);
+        Log.i("--", "submitList: " + list.get(5).getResult() + " : " + list.get(6).getResult() );
+    }
+
     class BenchmarkViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameView;
         private final ProgressBar progressBar;
@@ -59,13 +76,14 @@ public class BenchmarksAdapter extends ListAdapter<String, BenchmarksAdapter.Ben
             progressBar = view.findViewById(R.id.progressBar);
         }
 
-        void bindTo(String s) {
+        void bindTo(Item s) {
+            Log.i("---", "bindTo: " + s.getResult());
             ViewPropertyAnimator vp = progressBar.animate();
-            if (s.isEmpty()) {
+            if (s.getResult().isEmpty()) {
                 vp.setDuration(100).alpha(1.0f);
             } else {
                 vp.setDuration(1500).alpha(0.0f);
-                nameView.setText(s);
+                nameView.setText(s.getResult());
             }
         }
     }

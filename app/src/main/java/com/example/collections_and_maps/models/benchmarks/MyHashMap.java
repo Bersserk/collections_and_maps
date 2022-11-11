@@ -15,6 +15,10 @@ public class MyHashMap extends HashMap{
         }
     }
 
+    public MyHashMap(String methodName) {
+        //запускаем метод согласно входящему имени
+    }
+
     public String myHashMap(int i) {
 
         switch (i) {

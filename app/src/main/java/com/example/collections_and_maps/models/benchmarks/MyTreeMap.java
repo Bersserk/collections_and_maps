@@ -15,6 +15,10 @@ public class MyTreeMap extends TreeMap {
         }
     }
 
+    public MyTreeMap(String methodName) {
+        //запускаем метод согласно входящему имени
+    }
+
     public String myTreeMap(int i) {
 
         switch (i) {

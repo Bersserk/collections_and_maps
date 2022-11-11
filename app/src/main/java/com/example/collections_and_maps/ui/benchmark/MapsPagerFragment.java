@@ -1,6 +1,7 @@
 package com.example.collections_and_maps.ui.benchmark;
 
 import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.models.benchmarks.Item;
 import com.example.collections_and_maps.models.benchmarks.MyHashMap;
 import com.example.collections_and_maps.models.benchmarks.MyTreeMap;
 import java.util.List;
@@ -13,7 +14,7 @@ public class MapsPagerFragment extends BaseFragment {
     }
 
     @Override
-    protected List<String> createTemplateList() {
+    protected List<Item> createTemplateList() {
         return super.createTemplateList(R.array.maps, R.array.maps_item);
     }
 
