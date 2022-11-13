@@ -1,39 +1,36 @@
 package com.example.collections_and_maps.ui.benchmark;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.Compute;
 import com.example.collections_and_maps.models.benchmarks.Item;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
-
-
-
+    private Handler mHandler = new Handler();
 
     protected static final String TYPE_BENCHMARK = "type";
 
-//    private final ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
     protected EditText collectionSize;
+    boolean yes = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,17 +62,18 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public void onClick(View view) {
         int sizeList = getSizeList();
 
-//        for (int i = 4; i < 15; i++) {
-//            if (i != 7 && i != 11) {
-                new Compute(adapter, sizeList).beginThread();
-//            }
-//        }
+        Compute compute = new Compute(adapter, sizeList, mHandler);
+
+        if(yes){
+            adapter.submitList(this.createTemplateList());
+            adapter.notifyDataSetChanged();
+        }
+        yes = true;
+        compute.beginThread();
+        adapter.notifyDataSetChanged();
     }
 
-
     protected abstract int getSpanCount();
-
-//    protected abstract List<String> getResults(List<String> templateList, int sizeList);
 
     protected abstract List<Item> createTemplateList();
 
@@ -85,14 +83,16 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         final String[] listItem = getResources().getStringArray(listNamesItem);
 
         final List <Item> templateList = new ArrayList<>();
+
+        int id = 0;
         for (String s: listMain) {
-            templateList.add(new Item(s));
+            templateList.add(new Item(s, id++));
         }
 
         for (String s : listItem) {
-            templateList.add(new Item(s));
+            templateList.add(new Item(s, id++));
             for (int i = 0; i < listMain.length; i++) {
-                templateList.add(new Item(listMain[i], s));
+                templateList.add(new Item(listMain[i], s, id++));
             }
         }
         return templateList;

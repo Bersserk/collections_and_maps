@@ -22,6 +22,11 @@ public class CollectionsPagerFragment extends BaseFragment {
     }
 
 //    @Override
+//    protected List<Item> createTemplateList() {
+//        return super.createTemplateList(R.array.collections, R.array.collections_item);
+//    }
+
+//    @Override
 //    protected List getResults(List<String> templateList, int sizeList) {
 //
 //        List <String> resultList = new ArrayList<>(templateList);

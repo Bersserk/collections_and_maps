@@ -19,6 +19,11 @@ public class MapsPagerFragment extends BaseFragment {
     }
 
 //    @Override
+//    protected List<Item> testCreateTemplateList() {
+//        return super.testCreateTemplateList(R.array.maps, R.array.maps_item);
+//    }
+
+//    @Override
 //    protected List getResults(List <String> templateList, int sizeList) {
 //        List <String>  resultList = new ArrayList<>(templateList);
 //
