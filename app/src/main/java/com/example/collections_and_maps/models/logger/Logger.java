@@ -2,6 +2,8 @@ package com.example.collections_and_maps.models.logger;
 
 import android.util.Log;
 
+import java.lang.reflect.Field;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,9 +13,12 @@ import java.util.regex.Pattern;
 public class Logger {
 
     static String TAG = "info";
+    private static Field[] declaredFields;
+    private static Object object;
+    private static Object object1;
 
 
-    public static void log(Class<?> aClass, StackTraceElement nameMethod) {
+    public static void mlog(Class<?> aClass, StackTraceElement nameMethod) {
 
         Pattern pat = Pattern.compile("[A-Z]");
         Matcher match = pat.matcher(aClass.toString());
@@ -28,7 +33,7 @@ public class Logger {
         Log.i(TAG, s + nameMethod.getMethodName());
     }
 
-    public static void log(Class<?> aClass, StackTraceElement nameMethod, int spanCount) {
+    public static void mlog(Class<?> aClass, StackTraceElement nameMethod, int spanCount) {
 
         Pattern pat = Pattern.compile("[A-Z]");
         Matcher match = pat.matcher(aClass.toString());
@@ -45,7 +50,7 @@ public class Logger {
 
     }
 
-    public static void log(Class<?> aClass, StackTraceElement nameMethod, String t) {
+    public static void mlog(Class<?> aClass, StackTraceElement nameMethod, String t) {
 
         Pattern pat = Pattern.compile("[A-Z]");
         Matcher match = pat.matcher(aClass.toString());
@@ -62,7 +67,7 @@ public class Logger {
 
     }
 
-    public static void log(String t, Class<?> aClass, StackTraceElement nameMethod) {
+    public static void mlog(String t, Class<?> aClass, StackTraceElement nameMethod) {
 
         Pattern pat = Pattern.compile("[A-Z]");
         Matcher match = pat.matcher(aClass.toString());
@@ -78,4 +83,22 @@ public class Logger {
         Log.i(TAG, s + nameMethod.getMethodName() + end);
 
     }
+
+    public static void mlog(String tag, String outPut, int value) {
+        Log.i(tag, outPut + " = " + value);
+    }
+
+    public static void mlog(String tag, String outPut, List<?> list) {
+        int i = 0;
+        StringBuilder s = new StringBuilder();
+        for (Object v: list) {
+
+            s.append("<"+i+++">");
+        }
+
+
+
+        Log.i(tag, outPut + " = " + s);
+    }
+
 }

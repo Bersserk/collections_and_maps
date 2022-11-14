@@ -13,7 +13,7 @@ public class PagerViewAdapter extends FragmentStateAdapter {
 
     public PagerViewAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
-        Logger.log(this.getClass(), Thread.currentThread().getStackTrace()[2]);
+        Logger.mlog(this.getClass(), Thread.currentThread().getStackTrace()[2]);
     }
 
         @NonNull

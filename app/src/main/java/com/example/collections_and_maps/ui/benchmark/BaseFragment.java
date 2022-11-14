@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.Compute;
 import com.example.collections_and_maps.models.benchmarks.Item;
+import com.example.collections_and_maps.models.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     protected static final String TYPE_BENCHMARK = "type";
 
-    private final BenchmarksAdapter adapter = new BenchmarksAdapter();
+    private  BenchmarksAdapter adapter = new BenchmarksAdapter();
     protected EditText collectionSize;
     boolean yes = false;
 
@@ -54,7 +55,9 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
 
-        adapter.submitList(this.createTemplateList());
+        List<Item> list = this.createTemplateList();
+        Logger.mlog("list", "templateList", list);
+        adapter.submitList(list);
         listRecycler.setAdapter(adapter);
     }
 
@@ -62,15 +65,18 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public void onClick(View view) {
         int sizeList = getSizeList();
 
-        Compute compute = new Compute(adapter, sizeList, mHandler);
 
-        if(yes){
-            adapter.submitList(this.createTemplateList());
-            adapter.notifyDataSetChanged();
+                    List<Item> list = this.createTemplateList();
+                    Compute compute = new Compute(adapter, sizeList, mHandler);
+        if (yes) {
+            compute.clearList(list);
+//            compute.stop();
+            compute.updateUI();
+
+        } else {
+            yes = true;
+            compute.updateUI();
         }
-        yes = true;
-        compute.beginThread();
-        adapter.notifyDataSetChanged();
     }
 
     protected abstract int getSpanCount();
@@ -82,10 +88,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         final String[] listMain = getResources().getStringArray(listNamesMainItem);
         final String[] listItem = getResources().getStringArray(listNamesItem);
 
-        final List <Item> templateList = new ArrayList<>();
+        final List<Item> templateList = new ArrayList<>();
 
         int id = 0;
-        for (String s: listMain) {
+        for (String s : listMain) {
             templateList.add(new Item(s, id++));
         }
 
