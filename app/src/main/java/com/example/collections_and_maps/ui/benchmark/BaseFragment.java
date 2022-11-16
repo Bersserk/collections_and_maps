@@ -62,12 +62,18 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
         adapter.submitList(this.createTemplateList());
         listRecycler.setAdapter(adapter);
+        compute = new Compute(adapter);
     }
 
     @Override
     public void onClick(View view) {
-        if (inputData.isNoEqual() || inputData.getInputData() == 0) {
-            compute = new Compute(adapter, inputData.getInputData());
+        if(compute.isFlag()){
+            compute.set(false);
+            compute.solve(inputData.getInputData());
+
+        } else if (inputData.isNoEqual() || inputData.getInputData() != 0) {
+            compute.clear();
+            compute.solve(inputData.getInputData());
         } else {
             Toast.makeText(getContext(), R.string.OtherValue, Toast.LENGTH_LONG).show();
         }
