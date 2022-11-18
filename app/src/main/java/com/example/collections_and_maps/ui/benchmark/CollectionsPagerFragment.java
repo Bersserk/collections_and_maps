@@ -1,12 +1,9 @@
 package com.example.collections_and_maps.ui.benchmark;
 
 
-import android.util.Log;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.Item;
-import com.example.collections_and_maps.models.benchmarks.MyArrayList;
-import com.example.collections_and_maps.models.benchmarks.MyCopyOnWriteArrayList;
-import com.example.collections_and_maps.models.benchmarks.MyLinkedList;
+
 import java.util.List;
 
 public class CollectionsPagerFragment extends BaseFragment {

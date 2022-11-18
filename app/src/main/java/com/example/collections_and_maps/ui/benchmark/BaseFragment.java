@@ -1,40 +1,32 @@
 package com.example.collections_and_maps.ui.benchmark;
 
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.Compute;
 import com.example.collections_and_maps.models.benchmarks.Item;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
-    private Handler handler = new Handler(Looper.getMainLooper());
     private InputData inputData;
-    Compute compute;
+    private Compute compute;
 
     protected static final String TYPE_BENCHMARK = "type";
 
     private BenchmarksAdapter adapter = new BenchmarksAdapter();
-    protected EditText collectionSize;
+
     boolean yes = false;
 
     @Override
@@ -46,7 +38,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         EditText collectionSize = view.findViewById(R.id.collectionSize);
-        inputData = new InputData(collectionSize, this.getContext());
+        inputData = new InputData(collectionSize, view.getContext());
         Button calcButton = view.findViewById(R.id.calcButton);
         calcButton.setOnClickListener(this);
 
@@ -67,16 +59,21 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if(compute.isFlag()){
-            compute.set(false);
-            compute.solve(inputData.getInputData());
-
-        } else if (inputData.isNoEqual() || inputData.getInputData() != 0) {
-            compute.clear();
-            compute.solve(inputData.getInputData());
+        int newData = inputData.getInputData();
+        int oldData = compute.getOldData();
+        if(oldData == newData){
+            Toast.makeText(getContext(), R.string.MustDiffValue, Toast.LENGTH_LONG).show();
+        } else if (compute.getOldData() > 0 && newData == 0) {
+            compute.toClear();
+            Toast.makeText(getContext(), R.string.OverZero, Toast.LENGTH_LONG).show();
+        } else if (oldData > 0 && newData > 0) {
+            compute.toClear();
+            compute.toSolve(newData);
         } else {
-            Toast.makeText(getContext(), R.string.OtherValue, Toast.LENGTH_LONG).show();
+            compute.toSolve(newData);
         }
+
+
     }
 
     protected abstract int getSpanCount();
@@ -114,51 +111,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 //        return fragment;
 //    }
 
-}
-
-class InputData {
-    public int getInputData() {
-        return inputData;
-    }
-
-    int inputData;
-    EditText fieldInputData;
-    Context context;
-
-    public InputData(EditText fieldInputData, Context context) {
-        this.fieldInputData = fieldInputData;
-        this.context = context;
-    }
-
-    public int set() {
-        String text = fieldInputData.getText().toString();
-        try {
-            int newInputData = Integer.parseInt(text);
-            if (newInputData > 0) {
-                return newInputData;
-            } else {
-                Toast.makeText(context, R.string.OverZero, Toast.LENGTH_LONG).show();
-                return 0;
-            }
-        } catch (NumberFormatException e) {
-            if (text.toCharArray().length > 0) {
-                Toast.makeText(context, R.string.ToastsText, Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(context, R.string.NeedAnyValue, Toast.LENGTH_LONG).show();
-            }
-            return 0;
-        }
-    }
-
-    public boolean isNoEqual() {
-        int temp = set();
-        if (inputData != temp) {
-            inputData = temp;
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
 
 
