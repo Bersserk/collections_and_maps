@@ -20,14 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
-    private InputData inputData;
+    private InputData enteredValue;
     private Compute compute;
-
-    protected static final String TYPE_BENCHMARK = "type";
-
-    private BenchmarksAdapter adapter = new BenchmarksAdapter();
-
-    boolean yes = false;
+    private final BenchmarksAdapter adapter = new BenchmarksAdapter();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,9 +32,9 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        EditText collectionSize = view.findViewById(R.id.collectionSize);
-        inputData = new InputData(collectionSize, view.getContext());
-        Button calcButton = view.findViewById(R.id.calcButton);
+        final EditText collectionSize = view.findViewById(R.id.collectionSize);
+        enteredValue = new InputData(collectionSize, view.getContext());
+        final Button calcButton = view.findViewById(R.id.calcButton);
         calcButton.setOnClickListener(this);
 
         final int spans = getSpanCount();
@@ -47,7 +42,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
                 spans, LinearLayoutManager.VERTICAL, false);
         gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(spans + 1, 1, spans));
 
-        RecyclerView listRecycler = getView().findViewById(R.id.recyclerLayoutItems);
+        final RecyclerView listRecycler = getView().findViewById(R.id.recyclerLayoutItems);
         listRecycler.addItemDecoration(new BenchmarksItemDecoration());
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
@@ -59,21 +54,20 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        int newData = inputData.getInputData();
-        int oldData = compute.getOldData();
-        if(oldData == newData){
+        final int newValue = enteredValue.getNewValue();
+        final int oldValue = enteredValue.getOldValue();
+
+        if(oldValue == newValue){
             Toast.makeText(getContext(), R.string.MustDiffValue, Toast.LENGTH_LONG).show();
-        } else if (compute.getOldData() > 0 && newData == 0) {
-            compute.toClear();
+        } else if (oldValue > 0 && newValue == 0) {
             Toast.makeText(getContext(), R.string.OverZero, Toast.LENGTH_LONG).show();
-        } else if (oldData > 0 && newData > 0) {
+        } else if (oldValue > 0 && newValue > 0) {
             compute.toClear();
-            compute.toSolve(newData);
+            compute.toSolve(newValue);
         } else {
-            compute.toSolve(newData);
+            compute.toSolve(newValue);
         }
-
-
+        enteredValue.rewriteOldValue();
     }
 
     protected abstract int getSpanCount();
@@ -110,7 +104,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 //        fragment.setArguments(args);
 //        return fragment;
 //    }
-
 }
 
 

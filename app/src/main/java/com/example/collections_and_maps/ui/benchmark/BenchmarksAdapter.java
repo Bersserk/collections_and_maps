@@ -3,6 +3,7 @@ package com.example.collections_and_maps.ui.benchmark;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -24,7 +25,7 @@ public class BenchmarksAdapter extends ListAdapter<Item, BenchmarksAdapter.Bench
             new DiffUtil.ItemCallback<Item>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull Item oldItem, @NonNull Item newItem) {
-                    return oldItem.getId() == newItem.getId();
+                    return oldItem == newItem;
                 }
                 @Override
                 public boolean areContentsTheSame(@NonNull Item oldItem, @NonNull Item newItem) {
@@ -57,11 +58,11 @@ public class BenchmarksAdapter extends ListAdapter<Item, BenchmarksAdapter.Bench
         }
 
         synchronized void bindTo(Item s) {
-//            ViewPropertyAnimator vp = progressBar.animate();
+            ViewPropertyAnimator vp = progressBar.animate();
             if (s.getResult().isEmpty()) {
-//                vp.setDuration(100).alpha(1.0f);
+                vp.setDuration(300).alpha(1.0f);
             } else {
-//                vp.setDuration(1500).alpha(0.0f);
+                vp.setDuration(300).alpha(0.0f);
                 nameView.setText(s.getResult());
             }
         }
