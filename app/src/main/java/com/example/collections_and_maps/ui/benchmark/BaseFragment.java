@@ -18,6 +18,7 @@ import com.example.collections_and_maps.models.benchmarks.Compute;
 import com.example.collections_and_maps.models.benchmarks.Item;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
     private InputData enteredValue;
@@ -42,14 +43,14 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
                 spans, LinearLayoutManager.VERTICAL, false);
         gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(spans + 1, 1, spans));
 
-        final RecyclerView listRecycler = getView().findViewById(R.id.recyclerLayoutItems);
+        final RecyclerView listRecycler = requireView().findViewById(R.id.recyclerLayoutItems);
         listRecycler.addItemDecoration(new BenchmarksItemDecoration());
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
 
         adapter.submitList(this.createTemplateList());
         listRecycler.setAdapter(adapter);
-        compute = new Compute(adapter);
+        compute = new Compute(adapter, this);
     }
 
     @Override
@@ -88,8 +89,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
         for (String s : listItem) {
             templateList.add(new Item(s, id++));
-            for (int i = 0; i < listMain.length; i++) {
-                templateList.add(new Item(listMain[i], s, id++));
+            for (String value : listMain) {
+                templateList.add(new Item(value, s, id++));
             }
         }
         return templateList;

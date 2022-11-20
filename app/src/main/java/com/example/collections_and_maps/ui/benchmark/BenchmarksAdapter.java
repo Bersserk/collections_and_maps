@@ -57,13 +57,13 @@ public class BenchmarksAdapter extends ListAdapter<Item, BenchmarksAdapter.Bench
             progressBar = view.findViewById(R.id.progressBar);
         }
 
-        synchronized void bindTo(Item s) {
+        synchronized void bindTo(Item item) {
             ViewPropertyAnimator vp = progressBar.animate();
-            if (s.getResult().isEmpty()) {
+            if (item.getResult().isEmpty()) {
                 vp.setDuration(300).alpha(1.0f);
             } else {
                 vp.setDuration(300).alpha(0.0f);
-                nameView.setText(s.getResult());
+                nameView.setText(item.getResult());
             }
         }
     }

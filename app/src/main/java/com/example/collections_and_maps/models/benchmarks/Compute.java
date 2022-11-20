@@ -3,6 +3,7 @@ package com.example.collections_and_maps.models.benchmarks;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.example.collections_and_maps.ui.benchmark.BaseFragment;
 import com.example.collections_and_maps.ui.benchmark.BenchmarksAdapter;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class Compute {
 
     private static Access currentKey;
 
-    public Compute(BenchmarksAdapter adapter) {
+    public Compute(BenchmarksAdapter adapter, BaseFragment baseFragment) {
         this.adapter = adapter;
         clearList = new ArrayList<>(adapter.getCurrentList());
         currentKey = new Access();
@@ -37,31 +38,50 @@ public class Compute {
 
         if (service == null || service.isShutdown()) {
             service = Executors.newCachedThreadPool();
-            beginThread(inputData);
+            beginThread(inputData, new Collections(currentKey));
+//            beginThread(inputData, new Maps(currentKey));
         }
     }
 
-    private void beginThread(int inputData) {
+    private void beginThread(int inputData, Collections collections) {
 
-        final Collections result = new Collections(currentKey);
+        final Collections result = collections;
+
         for (Item item : newDataList) {
             if (item.getCollectionName() != null) {
                 int id = item.getId();
-                service.submit(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        final String newRes = result.getResult(item.getMethodName());
-                        if(result.getKey() == currentKey.getValue()) {
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
+                service.submit(() -> {
+                    final String newRes = result.getResult(item.getMethodName());
+                    if(result.getKey() == currentKey.getValue()) {
+                        handler.post(() -> {
                             newDataList.set(id, new Item(newRes, id));
                             adapter.submitList(newDataList);
                             adapter.notifyItemChanged(id);
-                                }
-                            });
-                        }
+                        });
+                    }
+                });
+            }
+        }
+    }
+
+    private void beginThread(int inputData, Maps maps) {
+
+        final Maps result = maps;
+
+        for (Item item : newDataList) {
+            if (item.getCollectionName() != null) {
+                int id = item.getId();
+                service.submit(() -> {
+                    final String newRes = result.getResult(item.getMethodName());
+                    if(result.getKey() == currentKey.getValue()) {
+                        handler.post(() -> {
+
+                        // to build a logical for Maps
+
+                            newDataList.set(id, new Item(newRes, id));
+                            adapter.submitList(newDataList);
+                            adapter.notifyItemChanged(id);
+                        });
                     }
                 });
             }

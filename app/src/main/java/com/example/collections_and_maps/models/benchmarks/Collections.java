@@ -5,41 +5,24 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Collections {
-    int tillTime = 7000;
-    int sinceTime = 0;
+public class Collections extends BaseCall{
 
-    private List listForCalculate; // this list for next using in calculation of methods
-    private String result;
-    private double key;
-
-    public double getKey() {
-        return key;
-    }
+    private List <String> listForCalculate; // this list for next using in calculation of methods
 
     public Collections(Access key) {
         this.key = key.getValue();
     }
 
-    private void toRandomValue (int since, int till){
-        try {
-            double d = since + Math.random() * (till-since);
-            Thread.sleep ((long) (d));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     public Collections(String methodName) {
         switch (methodName){
             case "ArrayList":
-                listForCalculate = new ArrayList();
+                listForCalculate = new ArrayList<>();
                 break;
             case "LinkedList":
-                listForCalculate = new LinkedList();
+                listForCalculate = new LinkedList<>();
                 break;
             case "CopyOnWriteArrayList":
-                listForCalculate = new CopyOnWriteArrayList();
+                listForCalculate = new CopyOnWriteArrayList<>();
                 break;
         }
     }
