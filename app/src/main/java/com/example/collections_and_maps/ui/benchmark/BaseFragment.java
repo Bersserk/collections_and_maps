@@ -1,29 +1,34 @@
 package com.example.collections_and_maps.ui.benchmark;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.models.benchmarks.Compute;
 import com.example.collections_and_maps.models.benchmarks.Item;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public abstract class BaseFragment extends Fragment implements View.OnClickListener {
-    private InputData enteredValue;
-    private Compute compute;
+public abstract class BaseFragment extends Fragment implements View.OnClickListener, CreateTemplateList {
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
+    private final ExecutorService service = Executors.newCachedThreadPool();
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,8 +38,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final EditText collectionSize = view.findViewById(R.id.collectionSize);
-        enteredValue = new InputData(collectionSize, view.getContext());
+        final EditText inputFiled = view.findViewById(R.id.inputField);
+        this.setEnterTransition(inputFiled);
         final Button calcButton = view.findViewById(R.id.calcButton);
         calcButton.setOnClickListener(this);
 
@@ -50,33 +55,35 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
         adapter.submitList(this.createTemplateList());
         listRecycler.setAdapter(adapter);
-        compute = new Compute(adapter, this);
     }
 
     @Override
     public void onClick(View view) {
-        final int newValue = enteredValue.getNewValue();
-        final int oldValue = enteredValue.getOldValue();
-
-        if(oldValue == newValue){
-            Toast.makeText(getContext(), R.string.MustDiffValue, Toast.LENGTH_LONG).show();
-        } else if (oldValue > 0 && newValue == 0) {
-            Toast.makeText(getContext(), R.string.OverZero, Toast.LENGTH_LONG).show();
-        } else if (oldValue > 0 && newValue > 0) {
-            compute.toClear();
-            compute.toSolve(newValue);
-        } else {
-            compute.toSolve(newValue);
+        final EditText enteredText = (EditText) this.getEnterTransition();
+        try {
+            final int value = Integer.parseInt(enteredText.getText().toString());
+            if (value > 0 && value < 10000001) {
+                // передать введеное значение и запустить расчет☺
+            } else if (value > 10000000) {
+                Toast.makeText(getContext(), R.string.LimitValue, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getContext(), R.string.OverZero, Toast.LENGTH_LONG).show();
+            }
+        } catch (NumberFormatException e) {
+            String s = e.getMessage();
+            if (enteredText.length() == 0) {
+                Toast.makeText(getContext(), R.string.NeedAnyValue, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getContext(), R.string.OnlyNumber, Toast.LENGTH_LONG).show();
+                enteredText.setText("");
+            }
+            e.printStackTrace();
         }
-        enteredValue.rewriteOldValue();
     }
 
     protected abstract int getSpanCount();
 
-    protected abstract List<Item> createTemplateList();
-
     protected List<Item> createTemplateList(int listNamesMainItem, int listNamesItem) {
-
         final String[] listMain = getResources().getStringArray(listNamesMainItem);
         final String[] listItem = getResources().getStringArray(listNamesItem);
 
@@ -94,6 +101,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
             }
         }
         return templateList;
+
     }
 
 

@@ -7,12 +7,12 @@
     <string name="calcButton">Расчитать!</string>
     <string name="collectionSize_hint"> <font size="14">  Впишите размер!</font></string>
     <string name="ToastsText">Размер необходимо задавать только числами</string>
-    <string name="CrashText">Введите числовое значение.</string>
+    <string name="OnlyNumber">Введите числовое значение.</string>
     <string name="OverZero">Значение должно быть больше нуля.</string>
     <string name="Collections">Collections</string>
     <string name="Maps">Maps</string>
     <string name="OtherValue">Введите иное значение</string>
     <string name="NeedAnyValue">Введите значение</string>
-    <string name="MustDiffValue">Введите новое значение</string>
+    <string name="LimitValue">Допустимое значение не более 10 000 000</string>
 
 </resources>

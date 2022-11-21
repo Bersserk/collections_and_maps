@@ -13,7 +13,7 @@ public class MapsPagerFragment extends BaseFragment {
     }
 
     @Override
-    protected List<Item> createTemplateList() {
+    public List<Item> createTemplateList() {
         return super.createTemplateList(R.array.maps, R.array.maps_item);
     }
 }

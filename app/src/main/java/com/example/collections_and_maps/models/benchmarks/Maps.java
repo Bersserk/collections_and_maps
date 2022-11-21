@@ -4,13 +4,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Maps extends BaseCall{
+public class Maps {
+
+    private final int tillTime = 7000;
+    private final int sinceTime = 0;
+
+    private String result;
+
+    private void toRandomValue (int since, int till){
+        try {
+            double d = since + Math.random() * (till-since);
+            Thread.sleep ((long) (d));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     private Map <Integer, String> listForCalculate; // this list for next using in calculation of methods
-
-    public Maps(Access key) {
-        this.key = key.getValue();
-    }
 
     public Maps(String methodName) {
         switch (methodName){

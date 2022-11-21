@@ -5,13 +5,23 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Collections extends BaseCall{
+public class Collections {
 
-    private List <String> listForCalculate; // this list for next using in calculation of methods
+    private final int tillTime = 7000;
+    private final int sinceTime = 0;
 
-    public Collections(Access key) {
-        this.key = key.getValue();
+    private String result;
+
+    private void toRandomValue (int since, int till){
+        try {
+            double d = since + Math.random() * (till-since);
+            Thread.sleep ((long) (d));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
+
+    private List <String> listForCalculate;  // this list for next using in calculation of methods
 
     public Collections(String methodName) {
         switch (methodName){
