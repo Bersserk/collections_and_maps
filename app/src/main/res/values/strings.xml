@@ -14,5 +14,6 @@
     <string name="OtherValue">Введите иное значение</string>
     <string name="NeedAnyValue">Введите значение</string>
     <string name="LimitValue">Допустимое значение не более 10 000 000</string>
+    <string name="WrongNameMethod">Не верное имя метода</string>
 
 </resources>

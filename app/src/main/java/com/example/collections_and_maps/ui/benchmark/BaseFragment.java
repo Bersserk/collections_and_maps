@@ -25,10 +25,15 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public abstract class BaseFragment extends Fragment implements View.OnClickListener, CreateTemplateList {
+public abstract class BaseFragment extends Fragment implements View.OnClickListener {
+    private static final int MAX_LIST_SIZE = 10000001;
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
-    private final ExecutorService service = Executors.newCachedThreadPool();
+    private ExecutorService service = Executors.newCachedThreadPool();
     private final Handler handler = new Handler(Looper.getMainLooper());
+
+    protected final int tillTime = 7000;
+    protected final int sinceTime = 0;
+    protected String result;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,20 +62,20 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         listRecycler.setAdapter(adapter);
     }
 
+
     @Override
     public void onClick(View view) {
         final EditText enteredText = (EditText) this.getEnterTransition();
         try {
             final int value = Integer.parseInt(enteredText.getText().toString());
-            if (value > 0 && value < 10000001) {
+            if (value > 0 && value < MAX_LIST_SIZE) {
                 // передать введеное значение и запустить расчет☺
-            } else if (value > 10000000) {
+            } else if (value >= MAX_LIST_SIZE) {
                 Toast.makeText(getContext(), R.string.LimitValue, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getContext(), R.string.OverZero, Toast.LENGTH_LONG).show();
             }
         } catch (NumberFormatException e) {
-            String s = e.getMessage();
             if (enteredText.length() == 0) {
                 Toast.makeText(getContext(), R.string.NeedAnyValue, Toast.LENGTH_LONG).show();
             } else {
@@ -82,6 +87,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
     protected abstract int getSpanCount();
+
+    protected abstract List<Item> createTemplateList();
 
     protected List<Item> createTemplateList(int listNamesMainItem, int listNamesItem) {
         final String[] listMain = getResources().getStringArray(listNamesMainItem);
@@ -102,6 +109,16 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         }
         return templateList;
 
+    }
+
+
+    protected void toRandomValue (int since, int till){
+        try {
+            double d = since + Math.random() * (till-since);
+            Thread.sleep ((long) (d));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
