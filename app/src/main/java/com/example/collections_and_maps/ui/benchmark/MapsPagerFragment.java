@@ -1,8 +1,8 @@
 package com.example.collections_and_maps.ui.benchmark;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.models.benchmarks.Item;
-import com.example.collections_and_maps.models.benchmarks.MyException;
+import com.example.collections_and_maps.models.benchmarks.ResultItem;
+import com.example.collections_and_maps.ui.MyException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +17,7 @@ public class MapsPagerFragment extends BaseFragment {
     }
 
     @Override
-    public List<Item> createTemplateList() {
+    public List<ResultItem> createTemplateList() {
         return super.createTemplateList(R.array.maps, R.array.maps_item);
     }
 
@@ -67,17 +67,17 @@ public class MapsPagerFragment extends BaseFragment {
     }
 
     public void addingNew() {
-        toRandomValue(sinceTime, tillTime);
+        toRandomValue(fromTime, toTime);
 //        hashMap.put(i, i);
     }
 
     protected void searchByKey() {
-        toRandomValue(sinceTime, tillTime);
+        toRandomValue(fromTime, toTime);
 //        hashMap.get(i).toString();
     }
 
     private void removing() {
-        toRandomValue(sinceTime, tillTime);
+        toRandomValue(fromTime, toTime);
 //        hashMap.remove(i);
     }
 }

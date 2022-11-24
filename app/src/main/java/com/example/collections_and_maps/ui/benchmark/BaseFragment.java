@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.models.benchmarks.Item;
+import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +31,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     private ExecutorService service = Executors.newCachedThreadPool();
     private final Handler handler = new Handler(Looper.getMainLooper());
 
-    protected final int tillTime = 7000;
-    protected final int sinceTime = 0;
+    protected final int toTime = 7000;
+    protected final int fromTime = 0;
     protected String result;
 
     @Override
@@ -88,23 +88,23 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     protected abstract int getSpanCount();
 
-    protected abstract List<Item> createTemplateList();
+    protected abstract List<ResultItem> createTemplateList();
 
-    protected List<Item> createTemplateList(int listNamesMainItem, int listNamesItem) {
+    protected List<ResultItem> createTemplateList(int listNamesMainItem, int listNamesItem) {
         final String[] listMain = getResources().getStringArray(listNamesMainItem);
         final String[] listItem = getResources().getStringArray(listNamesItem);
 
-        final List<Item> templateList = new ArrayList<>();
+        final List<ResultItem> templateList = new ArrayList<>();
 
         int id = 0;
         for (String s : listMain) {
-            templateList.add(new Item(s, id++));
+            templateList.add(new ResultItem(s, id++));
         }
 
         for (String s : listItem) {
-            templateList.add(new Item(s, id++));
+            templateList.add(new ResultItem(s, id++));
             for (String value : listMain) {
-                templateList.add(new Item(value, s, id++));
+                templateList.add(new ResultItem(value, s, id++));
             }
         }
         return templateList;

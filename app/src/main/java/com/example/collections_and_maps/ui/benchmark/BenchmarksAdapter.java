@@ -13,22 +13,23 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.models.benchmarks.Item;
+import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
-public class BenchmarksAdapter extends ListAdapter<Item, BenchmarksAdapter.BenchmarkViewHolder> {
+public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter.BenchmarkViewHolder> {
 
     public BenchmarksAdapter() {
         super(DIFF_CALLBACK);
     }
 
-    public static final DiffUtil.ItemCallback<Item> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<Item>() {
+    public static final DiffUtil.ItemCallback<ResultItem> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<ResultItem>() {
                 @Override
-                public boolean areItemsTheSame(@NonNull Item oldItem, @NonNull Item newItem) {
+                public boolean areItemsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
                     return oldItem == newItem;
                 }
+
                 @Override
-                public boolean areContentsTheSame(@NonNull Item oldItem, @NonNull Item newItem) {
+                public boolean areContentsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
                     return oldItem.getResult().equals(newItem.getResult());
                 }
             };
@@ -50,20 +51,21 @@ public class BenchmarksAdapter extends ListAdapter<Item, BenchmarksAdapter.Bench
     class BenchmarkViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameView;
         private final ProgressBar progressBar;
+        private final ViewPropertyAnimator animator;
 
         BenchmarkViewHolder(View view) {
             super(view);
             nameView = view.findViewById(R.id.nameViewList);
             progressBar = view.findViewById(R.id.progressBar);
+            animator = progressBar.animate();
         }
 
-        synchronized void bindTo(Item item) {
-            ViewPropertyAnimator vp = progressBar.animate();
-            if (item.getResult().isEmpty()) {
-                vp.setDuration(300).alpha(1.0f);
-            } else {
-                vp.setDuration(300).alpha(0.0f);
+        synchronized void bindTo(ResultItem item) {
+            if (!item.getResult().isEmpty()) {
                 nameView.setText(item.getResult());
+            } else {
+                animator.setDuration(300).alpha(1.0f);
+
             }
         }
     }

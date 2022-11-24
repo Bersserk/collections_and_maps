@@ -1,19 +1,19 @@
 package com.example.collections_and_maps.models.benchmarks;
 
-public class Item {
+public class ResultItem {
     private String methodName;
     private String result;
     private String collectionName;
     private int id;
 
-    public Item(String collectionName, String methodName, int id) {
+    public ResultItem(String collectionName, String methodName, int id) {
         this.collectionName = collectionName;
         this.methodName = methodName;
         result = "";
         this.id = id;
     }
 
-    public Item(String result, int id) {
+    public ResultItem(String result, int id) {
         this.result = result;
         this.id = id;
     }

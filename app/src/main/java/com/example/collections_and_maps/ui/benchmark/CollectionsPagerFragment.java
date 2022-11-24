@@ -2,8 +2,8 @@ package com.example.collections_and_maps.ui.benchmark;
 
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.models.benchmarks.Item;
-import com.example.collections_and_maps.models.benchmarks.MyException;
+import com.example.collections_and_maps.models.benchmarks.ResultItem;
+import com.example.collections_and_maps.ui.MyException;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -18,7 +18,7 @@ public class CollectionsPagerFragment extends BaseFragment {
     }
 
     @Override
-    public List<Item> createTemplateList() {
+    public List<ResultItem> createTemplateList() {
         return super.createTemplateList(R.array.collections, R.array.collections_item);
     }
 
@@ -84,25 +84,25 @@ public class CollectionsPagerFragment extends BaseFragment {
 
     private void addItemToStart() {
 //        Log.i("Collections", " - addItemToStart()");
-        toRandomValue(sinceTime, tillTime);
+        toRandomValue(fromTime, toTime);
 //        list.add(0, null);
     }
 
     private void addItemToMiddle() {
 //        Log.i("Collections", " - addItemToMiddle()");
-        toRandomValue(sinceTime, tillTime);
+        toRandomValue(fromTime, toTime);
 //        list.add(list.size() / 2, null);
     }
 
     private void addItemToEnd() {
 //        Log.i("Collections", " - addItemToEnd()");
-        toRandomValue(sinceTime, tillTime);
+        toRandomValue(fromTime, toTime);
 //        list.add(list.size(), null);
     }
 
     private void searchByValue() {
 //        Log.i("Collections", " - searchByValue()");
-        toRandomValue(sinceTime, tillTime);
+        toRandomValue(fromTime, toTime);
 
 //        int index = 0;
 //        for (int i = 0; i < 10; i++) {
@@ -118,21 +118,21 @@ public class CollectionsPagerFragment extends BaseFragment {
 
     private void removingInBeginning() {
 //        Log.i("Collections", " - removingInBeginning()");
-        toRandomValue(sinceTime, tillTime);
+        toRandomValue(fromTime, toTime);
 
 //        list.remove(0);
     }
 
     private void removingInMiddle() {
 //        Log.i("Collections", " - removingInMiddle()");
-        toRandomValue(sinceTime, tillTime);
+        toRandomValue(fromTime, toTime);
 
 //        list.remove(list.size() / 2);
     }
 
     private void removingInEnd() {
 //        Log.i("Collections", " - removingInEnd()");
-        toRandomValue(sinceTime, tillTime);
+        toRandomValue(fromTime, toTime);
 
 //        list.remove(list.size() - 1);
     }
