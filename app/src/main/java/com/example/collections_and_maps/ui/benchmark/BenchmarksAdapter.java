@@ -17,10 +17,6 @@ import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
 public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter.BenchmarkViewHolder> {
 
-    public BenchmarksAdapter() {
-        super(DIFF_CALLBACK);
-    }
-
     public static final DiffUtil.ItemCallback<ResultItem> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<ResultItem>() {
                 @Override
@@ -35,6 +31,10 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
             };
 
 
+    public BenchmarksAdapter() {
+        super(DIFF_CALLBACK);
+    }
+
     @NonNull
     @Override
     public BenchmarkViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -48,7 +48,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         holder.bindTo(getItem(position));
     }
 
-    class BenchmarkViewHolder extends RecyclerView.ViewHolder {
+    static class BenchmarkViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameView;
         private final ProgressBar progressBar;
         private final ViewPropertyAnimator animator;
@@ -61,11 +61,10 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         }
 
         synchronized void bindTo(ResultItem item) {
-            if (!item.getResult().isEmpty()) {
-                nameView.setText(item.getResult());
-            } else {
+            if (item.getResult().isEmpty()) {
                 animator.setDuration(300).alpha(1.0f);
-
+            } else {
+                nameView.setText(item.getResult());
             }
         }
     }

@@ -44,13 +44,14 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final EditText inputFiled = view.findViewById(R.id.inputField);
-        this.setEnterTransition(inputFiled);
+        setEnterTransition(inputFiled);
         final Button calcButton = view.findViewById(R.id.calcButton);
         calcButton.setOnClickListener(this);
 
         final int spans = getSpanCount();
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
-                spans, LinearLayoutManager.VERTICAL, false);
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(
+                getActivity(), spans, LinearLayoutManager.VERTICAL, false
+        );
         gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(spans + 1, 1, spans));
 
         final RecyclerView listRecycler = requireView().findViewById(R.id.recyclerLayoutItems);
