@@ -1,6 +1,5 @@
 package com.example.collections_and_maps.ui.benchmark;
 
-
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
