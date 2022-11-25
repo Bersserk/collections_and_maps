@@ -4,24 +4,16 @@ public class ResultItem {
     private String methodName;
     private String result;
     private String collectionName;
-    private int id;
 
-    public ResultItem(String collectionName, String methodName, int id) {
+    public ResultItem(String collectionName, String methodName) {
         this.collectionName = collectionName;
         this.methodName = methodName;
         result = "";
-        this.id = id;
     }
 
-    public ResultItem(String result, int id) {
+    public ResultItem(String result) {
         this.result = result;
-        this.id = id;
     }
-
-    protected int getId() {
-        return id;
-    }
-
 
     protected String getCollectionName() {
         return collectionName;

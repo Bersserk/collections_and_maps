@@ -26,14 +26,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
-    private static final int MAX_LIST_SIZE = 10000001;
+
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
     private ExecutorService service = Executors.newCachedThreadPool();
     private final Handler handler = new Handler(Looper.getMainLooper());
-
-    protected final int toTime = 7000;
-    protected final int fromTime = 0;
-    protected String result;
+    private EditText inputFiled;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,8 +40,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final EditText inputFiled = view.findViewById(R.id.inputField);
-        this.setEnterTransition(inputFiled);
+        inputFiled = view.findViewById(R.id.inputField);
         final Button calcButton = view.findViewById(R.id.calcButton);
         calcButton.setOnClickListener(this);
 
@@ -65,22 +61,22 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        final EditText enteredText = (EditText) this.getEnterTransition();
+
         try {
-            final int value = Integer.parseInt(enteredText.getText().toString());
-            if (value > 0 && value < MAX_LIST_SIZE) {
+            final int value = Integer.parseInt(inputFiled.getText().toString());
+            if (value > 0 && value < 10000001) {
                 // передать введеное значение и запустить расчет☺
-            } else if (value >= MAX_LIST_SIZE) {
+            } else if (value >= 10000001) {
                 Toast.makeText(getContext(), R.string.LimitValue, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getContext(), R.string.OverZero, Toast.LENGTH_LONG).show();
             }
         } catch (NumberFormatException e) {
-            if (enteredText.length() == 0) {
+            if (inputFiled.length() == 0) {
                 Toast.makeText(getContext(), R.string.NeedAnyValue, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getContext(), R.string.OnlyNumber, Toast.LENGTH_LONG).show();
-                enteredText.setText("");
+                inputFiled.setText("");
             }
             e.printStackTrace();
         }
@@ -96,15 +92,14 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
         final List<ResultItem> templateList = new ArrayList<>();
 
-        int id = 0;
         for (String s : listMain) {
-            templateList.add(new ResultItem(s, id++));
+            templateList.add(new ResultItem(s));
         }
 
         for (String s : listItem) {
-            templateList.add(new ResultItem(s, id++));
+            templateList.add(new ResultItem(s));
             for (String value : listMain) {
-                templateList.add(new ResultItem(value, s, id++));
+                templateList.add(new ResultItem(value, s));
             }
         }
         return templateList;

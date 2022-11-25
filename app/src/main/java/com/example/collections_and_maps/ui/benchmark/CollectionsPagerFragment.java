@@ -3,12 +3,8 @@ package com.example.collections_and_maps.ui.benchmark;
 
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
-import com.example.collections_and_maps.ui.MyException;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CollectionsPagerFragment extends BaseFragment {
 
@@ -22,87 +18,67 @@ public class CollectionsPagerFragment extends BaseFragment {
         return super.createTemplateList(R.array.collections, R.array.collections_item);
     }
 
-    private List <String> listForCalculate;  // this list for next using in calculation of methods
-
     public CollectionsPagerFragment() {
     }
 
-    public CollectionsPagerFragment(String methodName) {
-        switch (methodName){
-            case "ArrayList":
-                listForCalculate = new ArrayList<>();
-                break;
-            case "LinkedList":
-                listForCalculate = new LinkedList<>();
-                break;
-            case "CopyOnWriteArrayList":
-                listForCalculate = new CopyOnWriteArrayList<>();
-                break;
-        }
-    }
-
-    public String getResult(String methodName) {
+    public String getResult(int methodName) {
+        String result;
         double start = System.nanoTime();
         getChose(methodName);
         result = String.valueOf((System.nanoTime() - start) / 1000000);
-
         return result;
     }
 
-    void getChose (String methodName){
+    void getChose (int methodName){
 //        Log.i("Collections", " - getChose (String methodName) - " + methodName);
         switch (methodName) {
-            case "adding in the beginning":
+            case ADDING_BEGIN:
                 addItemToStart();
                 break;
-            case "adding in the middle":
+            case ADDING_MIDDLE:
                 addItemToMiddle();
                 break;
-            case "adding in the end":
+            case ADDING_END:
                 addItemToEnd();
                 break;
-            case "search by value":
+            case SEARCH_VALUE:
                 searchByValue();
                 break;
-            case "removing in the beginning":
+            case REMOVING_BEGIN:
                 removingInBeginning();
                 break;
-            case "removing in the middle":
+            case REMOVING_MIDDLE:
                 removingInMiddle();
                 break;
-            case "removing in the end":
+            case REMOVING_END:
                 removingInEnd();
                 break;
             default:
-                try {
-                    throw new MyException(R.string.WrongNameMethod);
-                } catch (MyException e) {
-                    e.printStackTrace();
-                }
+                throw new IllegalArgumentException();
         }
     }
 
     private void addItemToStart() {
 //        Log.i("Collections", " - addItemToStart()");
-        toRandomValue(fromTime, toTime);
+        toRandomValue(0, 7000);
 //        list.add(0, null);
     }
 
     private void addItemToMiddle() {
 //        Log.i("Collections", " - addItemToMiddle()");
-        toRandomValue(fromTime, toTime);
+        toRandomValue(0, 7000);
 //        list.add(list.size() / 2, null);
     }
 
     private void addItemToEnd() {
 //        Log.i("Collections", " - addItemToEnd()");
-        toRandomValue(fromTime, toTime);
+        toRandomValue(0, 7000);
 //        list.add(list.size(), null);
     }
 
     private void searchByValue() {
 //        Log.i("Collections", " - searchByValue()");
-        toRandomValue(fromTime, toTime);
+        toRandomValue(0, 7000);
 
 //        int index = 0;
 //        for (int i = 0; i < 10; i++) {
@@ -118,23 +94,31 @@ public class CollectionsPagerFragment extends BaseFragment {
 
     private void removingInBeginning() {
 //        Log.i("Collections", " - removingInBeginning()");
-        toRandomValue(fromTime, toTime);
+        toRandomValue(0, 7000);
 
 //        list.remove(0);
     }
 
     private void removingInMiddle() {
 //        Log.i("Collections", " - removingInMiddle()");
-        toRandomValue(fromTime, toTime);
+        toRandomValue(0, 7000);
 
 //        list.remove(list.size() / 2);
     }
 
     private void removingInEnd() {
 //        Log.i("Collections", " - removingInEnd()");
-        toRandomValue(fromTime, toTime);
+        toRandomValue(0, 7000);
 
 //        list.remove(list.size() - 1);
     }
+
+    private final int ADDING_BEGIN = 1;
+    private final int ADDING_MIDDLE = 2;
+    private final int ADDING_END = 3;
+    private final int SEARCH_VALUE = 4;
+    private final int REMOVING_BEGIN = 5;
+    private final int REMOVING_MIDDLE = 6;
+    private final int REMOVING_END = 7;
 }
 

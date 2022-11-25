@@ -1,13 +1,10 @@
 package com.example.collections_and_maps.ui.benchmark;
 
+
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
-import com.example.collections_and_maps.ui.MyException;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class MapsPagerFragment extends BaseFragment {
 
@@ -21,23 +18,13 @@ public class MapsPagerFragment extends BaseFragment {
         return super.createTemplateList(R.array.maps, R.array.maps_item);
     }
 
-    private Map<Integer, String> listForCalculate; // this list for next using in calculation of methods
 
     public MapsPagerFragment() {
     }
 
-    public MapsPagerFragment(String methodName) {
-        switch (methodName){
-            case "HashMap":
-                listForCalculate = new HashMap<>();
-                break;
-            case "TreeMap":
-                listForCalculate = new TreeMap<>();
-                break;
-        }
-    }
 
-    public String getResult(String methodName) {
+    public String getResult(int methodName) {
+        String result;
         double start = System.nanoTime();
         getChose(methodName);
         result = String.valueOf((System.nanoTime() - start) / 1000000);
@@ -45,39 +32,41 @@ public class MapsPagerFragment extends BaseFragment {
         return result;
     }
 
-    void getChose (String methodName){
+    void getChose (int methodName){
 
         switch (methodName) {
-            case "addingNew":
+            case ADDINGNEW:
                 addingNew();
                 break;
-            case "searchByKey":
+            case SEARCHBYKEY:
                 searchByKey();
                 break;
-            case "removing":
+            case REMOVING:
                 removing();
                 break;
             default:
-                try {
-                    throw new MyException(R.string.WrongNameMethod);
-                } catch (MyException e) {
-                    e.printStackTrace();
-                }
+                throw new IllegalArgumentException();
         }
     }
 
     public void addingNew() {
-        toRandomValue(fromTime, toTime);
+//        toRandomValue(fromTime, toTime);
 //        hashMap.put(i, i);
     }
 
     protected void searchByKey() {
-        toRandomValue(fromTime, toTime);
+//        toRandomValue(fromTime, toTime);
 //        hashMap.get(i).toString();
     }
 
     private void removing() {
-        toRandomValue(fromTime, toTime);
+//        toRandomValue(fromTime, toTime);
 //        hashMap.remove(i);
     }
+
+    private final int ADDINGNEW = 1;
+    private final int SEARCHBYKEY = 2;
+    private final int REMOVING = 3;
+
+
 }

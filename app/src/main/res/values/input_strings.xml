@@ -14,7 +14,7 @@
     <string-array name="collections">
         <item>ArrayList</item>
         <item>LinkedList</item>
-        <item>CopyOnWriteArrayList</item>
+        <item>CopyOnWrite</item>
     </string-array>
 
     <string-array name="collections_item">
