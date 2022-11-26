@@ -23,12 +23,11 @@ import com.example.collections_and_maps.models.benchmarks.ResultItem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
 
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
-    private ExecutorService service = Executors.newCachedThreadPool();
+    private ExecutorService service;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private EditText inputFiled;
 
@@ -87,25 +86,18 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected abstract List<ResultItem> createTemplateList();
 
     protected List<ResultItem> createTemplateList(int listNamesMainItem, int listNamesItem) {
-        final String[] listMain = getResources().getStringArray(listNamesMainItem);
-        final String[] listItem = getResources().getStringArray(listNamesItem);
 
-        final List<ResultItem> templateList = new ArrayList<>();
+        final int lengthListMain = getResources().getStringArray(listNamesMainItem).length;
+        final int lengthListItem = getResources().getStringArray(listNamesItem).length;
+        final int sizeList = lengthListMain + lengthListMain*lengthListItem + lengthListItem;
+        final List<ResultItem> templateList = new ArrayList<>(sizeList);
 
-        for (String s : listMain) {
-            templateList.add(new ResultItem(s));
+        for (int i = 0; i < sizeList; i++) {
+            templateList.add(new ResultItem(listNamesMainItem, listNamesItem));
         }
 
-        for (String s : listItem) {
-            templateList.add(new ResultItem(s));
-            for (String value : listMain) {
-                templateList.add(new ResultItem(value, s));
-            }
-        }
         return templateList;
-
     }
-
 
     protected void toRandomValue (int since, int till){
         try {
@@ -115,6 +107,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
             e.printStackTrace();
         }
     }
+
 
 
     // we will need this block later ***

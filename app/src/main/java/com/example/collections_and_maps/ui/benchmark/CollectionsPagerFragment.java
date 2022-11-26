@@ -17,9 +17,6 @@ public class CollectionsPagerFragment extends BaseFragment {
         return super.createTemplateList(R.array.collections, R.array.collections_item);
     }
 
-    public CollectionsPagerFragment() {
-    }
-
     public String getResult(int methodName) {
         String result;
         double start = System.nanoTime();
@@ -31,25 +28,25 @@ public class CollectionsPagerFragment extends BaseFragment {
     void getChose (int methodName){
 //        Log.i("Collections", " - getChose (String methodName) - " + methodName);
         switch (methodName) {
-            case ADDING_BEGIN:
+            case 1:
                 addItemToStart();
                 break;
-            case ADDING_MIDDLE:
+            case 2:
                 addItemToMiddle();
                 break;
-            case ADDING_END:
+            case 3:
                 addItemToEnd();
                 break;
-            case SEARCH_VALUE:
+            case 4:
                 searchByValue();
                 break;
-            case REMOVING_BEGIN:
+            case 5:
                 removingInBeginning();
                 break;
-            case REMOVING_MIDDLE:
+            case 6:
                 removingInMiddle();
                 break;
-            case REMOVING_END:
+            case 7:
                 removingInEnd();
                 break;
             default:
@@ -112,12 +109,5 @@ public class CollectionsPagerFragment extends BaseFragment {
 //        list.remove(list.size() - 1);
     }
 
-    private final int ADDING_BEGIN = 1;
-    private final int ADDING_MIDDLE = 2;
-    private final int ADDING_END = 3;
-    private final int SEARCH_VALUE = 4;
-    private final int REMOVING_BEGIN = 5;
-    private final int REMOVING_MIDDLE = 6;
-    private final int REMOVING_END = 7;
 }
 

@@ -19,10 +19,6 @@ public class MapsPagerFragment extends BaseFragment {
     }
 
 
-    public MapsPagerFragment() {
-    }
-
-
     public String getResult(int methodName) {
         String result;
         double start = System.nanoTime();
@@ -35,13 +31,13 @@ public class MapsPagerFragment extends BaseFragment {
     void getChose (int methodName){
 
         switch (methodName) {
-            case ADDINGNEW:
+            case 1:
                 addingNew();
                 break;
-            case SEARCHBYKEY:
+            case 2:
                 searchByKey();
                 break;
-            case REMOVING:
+            case 3:
                 removing();
                 break;
             default:
@@ -63,10 +59,5 @@ public class MapsPagerFragment extends BaseFragment {
 //        toRandomValue(fromTime, toTime);
 //        hashMap.remove(i);
     }
-
-    private final int ADDINGNEW = 1;
-    private final int SEARCHBYKEY = 2;
-    private final int REMOVING = 3;
-
 
 }

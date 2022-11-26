@@ -1,30 +1,28 @@
 package com.example.collections_and_maps.models.benchmarks;
 
 public class ResultItem {
-    private String methodName;
-    private String result;
-    private String collectionName;
+    private final int methodName;
+    private long result;
+    private final int collectionName;
 
-    public ResultItem(String collectionName, String methodName) {
+    public ResultItem(int collectionName, int methodName) {
         this.collectionName = collectionName;
         this.methodName = methodName;
-        result = "";
     }
 
-    public ResultItem(String result) {
-        this.result = result;
-    }
-
-    protected String getCollectionName() {
+    public int getCollectionName() {
         return collectionName;
     }
 
-
-    protected String getMethodName() {
+    public int getMethodName() {
         return methodName;
     }
 
-    public String getResult() {
+    public void setResult(long result) {
+        this.result = result;
+    }
+
+    public long getResult() {
         return result;
     }
 }
