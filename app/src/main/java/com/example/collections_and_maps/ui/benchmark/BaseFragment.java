@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
@@ -53,7 +52,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
 
-        adapter.submitList(this.createTemplateList());
+        adapter.submitList(createTemplateList());
         listRecycler.setAdapter(adapter);
     }
 
@@ -84,20 +83,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected abstract int getSpanCount();
 
     protected abstract List<ResultItem> createTemplateList();
-
-    protected List<ResultItem> createTemplateList(int listNamesMainItem, int listNamesItem) {
-
-        final int lengthListMain = getResources().getStringArray(listNamesMainItem).length;
-        final int lengthListItem = getResources().getStringArray(listNamesItem).length;
-        final int sizeList = lengthListMain + lengthListMain*lengthListItem + lengthListItem;
-        final List<ResultItem> templateList = new ArrayList<>(sizeList);
-
-        for (int i = 0; i < sizeList; i++) {
-            templateList.add(new ResultItem(listNamesMainItem, listNamesItem));
-        }
-
-        return templateList;
-    }
 
     protected void toRandomValue (int since, int till){
         try {

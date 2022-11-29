@@ -3,6 +3,7 @@ package com.example.collections_and_maps.ui.benchmark;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CollectionsPagerFragment extends BaseFragment {
@@ -13,9 +14,27 @@ public class CollectionsPagerFragment extends BaseFragment {
     }
 
     @Override
-    public List<ResultItem> createTemplateList() {
-        return super.createTemplateList(R.array.collections, R.array.collections_item);
+    protected List<ResultItem> createTemplateList() {
+
+        final List<ResultItem> templateList = new ArrayList<>();
+
+        templateList.add(new ResultItem(R.string.ArrayList, 0));
+        templateList.add(new ResultItem(R.string.LinkedList, 0));
+        templateList.add(new ResultItem(R.string.CopyOnWrite, 0));
+
+        int[] listMethodsId = {R.string.add_begin, R.string.add_middle, R.string.add_end,
+                R.string.search_value, R.string.remove_begin,
+                R.string.remove_middle, R.string.remove_end};
+
+        for (int id : listMethodsId) {
+            templateList.add(new ResultItem(0, id));
+            for (int i = 0; i < 3; i++) {
+                templateList.add(new ResultItem(0, 0));
+            }
+        }
+        return templateList;
     }
+
 
     public String getResult(int methodName) {
         String result;
@@ -25,7 +44,7 @@ public class CollectionsPagerFragment extends BaseFragment {
         return result;
     }
 
-    void getChose (int methodName){
+    void getChose(int methodName) {
 //        Log.i("Collections", " - getChose (String methodName) - " + methodName);
         switch (methodName) {
             case 1:

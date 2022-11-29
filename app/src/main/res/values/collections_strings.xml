@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ArrayList">ArrayList</string>
+    <string name="LinkedList">LinkedList</string>
+    <string name="CopyOnWrite">CopyOnWrite</string>
+
+    <string name="add_begin">adding in the beginning</string>
+    <string name="add_middle">adding in the middle</string>
+    <string name="add_end">adding in the end</string>
+    <string name="search_value">search by value</string>
+    <string name="remove_begin">removing in the beginning</string>
+    <string name="remove_middle">removing in the middle</string>
+    <string name="remove_end">removing in the end</string>
+</resources>

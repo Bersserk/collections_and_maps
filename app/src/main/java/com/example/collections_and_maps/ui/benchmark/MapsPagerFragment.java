@@ -4,6 +4,7 @@ package com.example.collections_and_maps.ui.benchmark;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MapsPagerFragment extends BaseFragment {
@@ -15,7 +16,20 @@ public class MapsPagerFragment extends BaseFragment {
 
     @Override
     public List<ResultItem> createTemplateList() {
-        return super.createTemplateList(R.array.maps, R.array.maps_item);
+        final List<ResultItem> templateList = new ArrayList<>();
+
+        templateList.add(new ResultItem(R.string.HashMap, 0));
+        templateList.add(new ResultItem(R.string.TreeMap, 0));
+
+        int[] listMethodsId = {R.string.add_new, R.string.search_key, R.string.removing};
+
+        for (int id : listMethodsId) {
+            templateList.add(new ResultItem(0, id));
+            for (int i = 0; i < 2; i++) {
+                templateList.add(new ResultItem(0, 0));
+            }
+        }
+        return templateList;
     }
 
 
@@ -28,7 +42,7 @@ public class MapsPagerFragment extends BaseFragment {
         return result;
     }
 
-    void getChose (int methodName){
+    void getChose(int methodName) {
 
         switch (methodName) {
             case 1:
