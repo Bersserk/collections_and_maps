@@ -10,4 +10,10 @@ public class ResultItem {
         this.methodName = methodName;
         result = 0;
     }
+
+    public ResultItem(long result) {
+        this.headerText = 0;
+        this.methodName = 0;
+        this.result = result;
+    }
 }

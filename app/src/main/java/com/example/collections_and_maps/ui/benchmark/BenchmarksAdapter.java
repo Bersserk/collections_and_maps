@@ -21,28 +21,28 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
             new DiffUtil.ItemCallback<ResultItem>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
-                    System.out.println("areItemsTheSame");
+//                    System.out.println("areItemsTheSame");
                     return oldItem == newItem;
                 }
 
                 @Override
                 public boolean areContentsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
-                    System.out.println("areContentsTheSame");
-                    return oldItem.result == newItem.result;
+//                    System.out.println("areContentsTheSame");
+                    return oldItem.methodName == newItem.methodName;
                 }
             };
 
 
     public BenchmarksAdapter() {
         super(DIFF_CALLBACK);
-        System.out.println("BenchmarksAdapter");
+//        System.out.println("BenchmarksAdapter");
     }
 
     // 1
     @NonNull
     @Override
     public BenchmarkViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        System.out.println("onCreateViewHolder");
+//        System.out.println("onCreateViewHolder");
         final LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         final View view = layoutInflater.inflate(R.layout.item_benchmark, parent, false);
         return new BenchmarkViewHolder(view);
@@ -51,7 +51,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
     // 3
     @Override
     public void onBindViewHolder(BenchmarkViewHolder holder, int position) {
-        System.out.println("onBindViewHolder");
+//        System.out.println("onBindViewHolder");
         holder.bindTo(getItem(position));
     }
 
@@ -63,7 +63,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         // 2
         BenchmarkViewHolder(View view) {
             super(view);
-            System.out.println("BenchmarkViewHolder");
+//            System.out.println("BenchmarkViewHolder");
             nameView = view.findViewById(R.id.nameViewList);
             progressBar = view.findViewById(R.id.progressBar);
             animator = progressBar.animate();
@@ -81,9 +81,10 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 //        }
 
         synchronized void bindTo(ResultItem item) {
-            System.out.println("bindTo");
+//            System.out.println("bindTo");
             if (item.result != 0) {
                 // print result
+                nameView.setText(String.valueOf(item.result));
             } else if (item.methodName != 0) {
                 nameView.setText(item.methodName);
             } else if (item.headerText != 0) {
