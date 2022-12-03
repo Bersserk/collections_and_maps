@@ -58,24 +58,15 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        System.out.println("onClick");
-
-
         try {
             final int value = Integer.parseInt(inputFiled.getText().toString());
 
-
             if (value > 0 && value < 10000001) {
-
-                // передать введеное значение и запустить расчет☺
-                //----------------//
 
                 if (compute != null) {
                     compute.removePreviousTasks(templateList);
                 }
                 compute = new Compute(adapter, value);
-
-                //-----------------//
 
             } else if (value >= 10000001) {
                 Toast.makeText(getContext(), R.string.LimitValue, Toast.LENGTH_LONG).show();
@@ -92,7 +83,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
             e.printStackTrace();
         }
     }
-
 
     protected abstract int getSpanCount();
 

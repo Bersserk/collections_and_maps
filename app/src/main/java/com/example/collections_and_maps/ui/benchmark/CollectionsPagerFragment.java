@@ -45,7 +45,6 @@ public class CollectionsPagerFragment extends BaseFragment {
     }
 
     void getChose(int methodName) {
-//        Log.i("Collections", " - getChose (String methodName) - " + methodName);
         switch (methodName) {
             case 1:
                 addItemToStart();
