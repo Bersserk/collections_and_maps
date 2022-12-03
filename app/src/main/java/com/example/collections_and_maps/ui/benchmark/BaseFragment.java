@@ -1,8 +1,6 @@
 package com.example.collections_and_maps.ui.benchmark;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,18 +20,14 @@ import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.Compute;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
-import java.sql.Time;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
 
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
     private EditText inputFiled;
+    private Compute compute;
+    private final List<ResultItem> templateList = createTemplateList();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,22 +51,32 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
 
-        adapter.submitList(createTemplateList());
+        adapter.submitList(templateList);
         listRecycler.setAdapter(adapter);
     }
 
 
     @Override
     public void onClick(View view) {
+        System.out.println("onClick");
+
 
         try {
             final int value = Integer.parseInt(inputFiled.getText().toString());
+
+
             if (value > 0 && value < 10000001) {
+
                 // передать введеное значение и запустить расчет☺
                 //----------------//
-                new Compute(adapter, value, createTemplateList());
+
+                if (compute != null) {
+                    compute.removePreviousTasks(templateList);
+                }
+                compute = new Compute(adapter, value);
 
                 //-----------------//
+
             } else if (value >= 10000001) {
                 Toast.makeText(getContext(), R.string.LimitValue, Toast.LENGTH_LONG).show();
             } else {
@@ -96,18 +100,9 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     protected void toRandomValue(int since, int till) {
         System.out.println("in - toRandomValue");
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-        try {
-            double d = since + Math.random() * (till - since);
-            Thread.sleep((long) (d * 1000));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("out - toRandomValue");
-//            }
-//        }).start();
+
+        double d = since + Math.random() * (till - since);
+        SystemClock.sleep((long) (d * 1000));
     }
 
 

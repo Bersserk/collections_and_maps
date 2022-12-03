@@ -51,7 +51,8 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
     // 3
     @Override
     public void onBindViewHolder(BenchmarkViewHolder holder, int position) {
-//        System.out.println("onBindViewHolder");
+
+        System.out.println("holder, position = " + position + "; res = " + getItem(position).result);
         holder.bindTo(getItem(position));
     }
 
@@ -81,16 +82,26 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 //        }
 
         synchronized void bindTo(ResultItem item) {
-//            System.out.println("bindTo");
+            System.out.println("bindTo - start");
+            System.out.println("item: result = " + item.result + "; head = " + item.headerText + "; method = " + item.methodName);
+
             if (item.result != 0) {
                 // print result
+                System.out.println("item.result != 0 --- " + item.result);
                 nameView.setText(String.valueOf(item.result));
             } else if (item.methodName != 0) {
+                System.out.println("item.methodName != 0 --- " + item.methodName);
                 nameView.setText(item.methodName);
             } else if (item.headerText != 0) {
+                System.out.println("item.headerText != 0 --- " + item.headerText);
                 nameView.setText(item.headerText);
             }
+            System.out.println("bindTo - finish");
+            System.out.println("---------------------------------------------------");
 
         }
     }
+
+
+
 }

@@ -2,6 +2,7 @@ package com.example.collections_and_maps.models.benchmarks;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 
 import com.example.collections_and_maps.ui.benchmark.BenchmarksAdapter;
 
@@ -12,73 +13,64 @@ import java.util.concurrent.Executors;
 
 public class Compute {
 
-    private final BenchmarksAdapter adapter;
-    private final ExecutorService service;
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private List <ResultItem> newList;
+    private final BenchmarksAdapter adapter;
+    private final Object token = new Object();
+    private ExecutorService service;
+    private List<ResultItem> newList;
 
-    public Compute(BenchmarksAdapter adapter, long value, List<ResultItem> templateList) {
+
+    public Compute(BenchmarksAdapter adapter, long value) {
         this.adapter = adapter;
-        service = Executors.newCachedThreadPool();
-        calc(value, templateList);
-        service.shutdown();
+        calc(value);
     }
 
-    private void calc(long value, List<ResultItem> templateList) {
-
-        newList = templateList;
-
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                adapter.submitList(new ArrayList<>(newList));
-            }
-        });
-
+    private void calc(long value) {
+        service = Executors.newCachedThreadPool();
+        newList = new ArrayList<>(adapter.getCurrentList());
 
         int i = 0;
-        for (ResultItem res: newList) {
-            if (res.headerText == 0 && res.methodName == 0){
+        for (ResultItem res : newList) {
+            if (res.headerText == 0 && res.methodName == 0) {
                 addTask(i);
             }
             i++;
         }
 
+        service.shutdownNow();
     }
 
     private void addTask(int i) {
         service.submit(new Runnable() {
             @Override
             public void run() {
-                toRandomValue(0, 10);
-                ResultItem resultItem = new ResultItem((long) (1.0 +(Math.random() * 100)));
-//                newList.set(i, resultItem);
-                updateUI(i, resultItem);
+                updateUI(i, new ResultItem(toRandomValue(0, 3)));
             }
         });
     }
 
-    private void updateUI(int i, ResultItem resultItem){
+    private void updateUI(int i, ResultItem resultItem) {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 newList.set(i, resultItem);
                 adapter.submitList(new ArrayList<>(newList));
             }
-        }, 1000);
+        }, token, 1000);
+    }
+
+    public void removePreviousTasks(List<ResultItem> templateList) {
+        handler.removeCallbacksAndMessages(token);
+        service.shutdownNow();
+        adapter.submitList(templateList);
     }
 
 
-    private void toRandomValue(int since, int till) {
-        System.out.println("in - toRandomValue");
-
-        try {
-            double d = since + Math.random() * (till - since);
-            Thread.sleep((long) (d * 1000));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("out - toRandomValue");
-
+    private long toRandomValue(int since, int till) {
+        double d = since + Math.random() * (till - since);
+        long res = (long) (d * 1000);
+        SystemClock.sleep(res);
+        return res;
     }
+
 }
