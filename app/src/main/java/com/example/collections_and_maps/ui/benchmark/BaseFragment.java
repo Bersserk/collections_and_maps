@@ -1,6 +1,8 @@
 package com.example.collections_and_maps.ui.benchmark;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,14 +22,17 @@ import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.Compute;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
 
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
     private EditText inputFiled;
-    private Compute compute;
-    private final List<ResultItem> templateList = createTemplateList();
+    private ExecutorService service;
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,22 +56,40 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
 
-        adapter.submitList(templateList);
+        adapter.submitList(createTemplateList());
         listRecycler.setAdapter(adapter);
     }
 
 
     @Override
     public void onClick(View view) {
+        service = Executors.newCachedThreadPool();
+
         try {
             final int value = Integer.parseInt(inputFiled.getText().toString());
 
             if (value > 0 && value < 10000001) {
 
-                if (compute != null) {
-                    compute.removePreviousTasks(templateList);
+                final List<ResultItem> tempList = createTemplateList();
+
+                for (int i = 0; i < tempList.size(); i++) {
+                    int index = i;
+                    service.submit(new Runnable() {
+                        @Override
+                        public void run() {
+                            final ResultItem resultItem = new Compute(tempList.get(index)).getResultItem();
+                            tempList.set(index, resultItem);
+
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    updateUI(new ArrayList<>(tempList));
+                                }
+                            }, 1000);
+                        }
+                    });
                 }
-                compute = new Compute(adapter, value);
+                service.shutdown();
 
             } else if (value >= 10000001) {
                 Toast.makeText(getContext(), R.string.LimitValue, Toast.LENGTH_LONG).show();
@@ -94,6 +117,32 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         double d = since + Math.random() * (till - since);
         SystemClock.sleep((long) (d * 1000));
     }
+
+
+    private void updateUI(List<ResultItem> resultList) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                adapter.submitList(resultList);
+            }
+        });
+    }
+
+
+//    private void calc(long value) {
+//        service = Executors.newCachedThreadPool();
+//        newList = new ArrayList<>(adapter.getCurrentList());
+//
+//        int i = 0;
+//        for (ResultItem res : newList) {
+//            if (res.headerText == 0 && res.methodName == 0) {
+//                addTask(i);
+//            }
+//            i++;
+//        }
+//
+//        service.shutdownNow();
+//    }
 
 
     // we will need this block later ***
