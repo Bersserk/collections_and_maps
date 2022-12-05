@@ -3,7 +3,6 @@ package com.example.collections_and_maps.ui.benchmark;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +32,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     private EditText inputFiled;
     private ExecutorService service;
     private final Handler handler = new Handler(Looper.getMainLooper());
+    private int startedTasks;
+
+    protected BaseFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,15 +66,18 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        service = Executors.newCachedThreadPool();
 
         try {
             final int value = Integer.parseInt(inputFiled.getText().toString());
+            final List<ResultItem> tempList = createTemplateList();
 
-            if (value > 0 && value < 10000001) {
+            if (startedTasks > 0) {
+                // to do stopping the calculation
+                System.out.println("stop the calculation, startedTasks = " + startedTasks);
+            } else if (value > 0 && value < 10000001) {
 
-                final List<ResultItem> tempList = createTemplateList();
-
+                startedTasks = tempList.size();
+                service = Executors.newCachedThreadPool();
                 for (int i = 0; i < tempList.size(); i++) {
                     int index = i;
                     service.submit(new Runnable() {
@@ -80,16 +86,29 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
                             final ResultItem resultItem = new Compute(tempList.get(index)).getResultItem();
                             tempList.set(index, resultItem);
 
-                            handler.postDelayed(new Runnable() {
+                            handler.post(new Runnable() {
                                 @Override
                                 public void run() {
                                     updateUI(new ArrayList<>(tempList));
+                                    startedTasks--;
+                                    System.out.println("handler.post (" + index + "), startedTasks = " + startedTasks);
                                 }
-                            }, 1000);
+                            });
                         }
                     });
                 }
-                service.shutdown();
+
+//                System.out.println("handler.toString() = " + handler.toString());
+//                System.out.println("handler.getLooper() = " + handler.getLooper());
+//                System.out.println("isTerminated() = " + service.isTerminated());
+//                System.out.println("isShutdown() = " + service.isShutdown());
+//                SystemClock.sleep(2000);
+////                service.shutdown();
+//                System.out.println("isTerminated(2) = " + service.isTerminated());
+//                System.out.println("isShutdown(2) = " + service.isShutdown());
+//                SystemClock.sleep(5000);
+//                System.out.println("isTerminated(5) = " + service.isTerminated());
+//                System.out.println("isShutdown(5) = " + service.isShutdown());
 
             } else if (value >= 10000001) {
                 Toast.makeText(getContext(), R.string.LimitValue, Toast.LENGTH_LONG).show();
@@ -111,21 +130,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     protected abstract List<ResultItem> createTemplateList();
 
-    protected void toRandomValue(int since, int till) {
-        System.out.println("in - toRandomValue");
-
-        double d = since + Math.random() * (till - since);
-        SystemClock.sleep((long) (d * 1000));
-    }
-
-
     private void updateUI(List<ResultItem> resultList) {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                adapter.submitList(resultList);
-            }
-        });
+        adapter.submitList(resultList);
     }
 
 

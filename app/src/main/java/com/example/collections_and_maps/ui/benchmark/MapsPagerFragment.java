@@ -74,4 +74,15 @@ public class MapsPagerFragment extends BaseFragment {
 //        hashMap.remove(i);
     }
 
+    private long toRandomValue(int since, int till) {
+        double d = since + Math.random() * (till - since);
+        long res = (long) (d * 1000);
+        try {
+            Thread.sleep(res);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
 }
