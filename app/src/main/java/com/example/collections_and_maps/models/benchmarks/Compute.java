@@ -8,12 +8,8 @@ public class Compute {
         return resultItem;
     }
 
-    public Compute(ResultItem resultItem) {
-        if (resultItem.headerText == 0 && resultItem.methodName == 0) {
-            this.resultItem = new ResultItem(toRandomValue(0, 5));
-        } else {
-            this.resultItem = resultItem;
-        }
+    public Compute() {
+            this.resultItem = new ResultItem(0,0, toRandomValue(0, 5));
     }
 
     private long toRandomValue(int since, int till) {

@@ -18,18 +18,18 @@ public class CollectionsPagerFragment extends BaseFragment {
 
         final List<ResultItem> templateList = new ArrayList<>();
 
-        templateList.add(new ResultItem(R.string.ArrayList, 0));
-        templateList.add(new ResultItem(R.string.LinkedList, 0));
-        templateList.add(new ResultItem(R.string.CopyOnWrite, 0));
+        templateList.add(new ResultItem(R.string.ArrayList, 0, 0));
+        templateList.add(new ResultItem(R.string.LinkedList, 0, 0));
+        templateList.add(new ResultItem(R.string.CopyOnWrite, 0, 0));
 
         int[] listMethodsId = {R.string.add_begin, R.string.add_middle, R.string.add_end,
                 R.string.search_value, R.string.remove_begin,
                 R.string.remove_middle, R.string.remove_end};
 
         for (int id : listMethodsId) {
-            templateList.add(new ResultItem(0, id));
+            templateList.add(new ResultItem(0, id, 0));
             for (int i = 0; i < 3; i++) {
-                templateList.add(new ResultItem(0, 0));
+                templateList.add(new ResultItem(0, 0, 0));
             }
         }
         return templateList;

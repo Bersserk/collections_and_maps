@@ -73,43 +73,30 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
             if (startedTasks > 0) {
                 // to do stopping the calculation
-                System.out.println("stop the calculation, startedTasks = " + startedTasks);
             } else if (value > 0 && value < 10000001) {
 
                 startedTasks = tempList.size();
                 service = Executors.newCachedThreadPool();
                 for (int i = 0; i < tempList.size(); i++) {
                     int index = i;
-                    service.submit(new Runnable() {
-                        @Override
-                        public void run() {
-                            final ResultItem resultItem = new Compute(tempList.get(index)).getResultItem();
-                            tempList.set(index, resultItem);
 
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    updateUI(new ArrayList<>(tempList));
-                                    startedTasks--;
-                                    System.out.println("handler.post (" + index + "), startedTasks = " + startedTasks);
-                                }
-                            });
-                        }
-                    });
+                    if (tempList.get(index).result != -1) {
+                        service.submit(new Runnable() {
+                            @Override
+                            public void run() {
+                                tempList.set(index, new Compute().getResultItem());
+
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        updateUI(new ArrayList<>(tempList));
+                                        startedTasks--;
+                                    }
+                                });
+                            }
+                        });
+                    }
                 }
-
-//                System.out.println("handler.toString() = " + handler.toString());
-//                System.out.println("handler.getLooper() = " + handler.getLooper());
-//                System.out.println("isTerminated() = " + service.isTerminated());
-//                System.out.println("isShutdown() = " + service.isShutdown());
-//                SystemClock.sleep(2000);
-////                service.shutdown();
-//                System.out.println("isTerminated(2) = " + service.isTerminated());
-//                System.out.println("isShutdown(2) = " + service.isShutdown());
-//                SystemClock.sleep(5000);
-//                System.out.println("isTerminated(5) = " + service.isTerminated());
-//                System.out.println("isShutdown(5) = " + service.isShutdown());
-
             } else if (value >= 10000001) {
                 Toast.makeText(getContext(), R.string.LimitValue, Toast.LENGTH_LONG).show();
             } else {
@@ -133,23 +120,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     private void updateUI(List<ResultItem> resultList) {
         adapter.submitList(resultList);
     }
-
-
-//    private void calc(long value) {
-//        service = Executors.newCachedThreadPool();
-//        newList = new ArrayList<>(adapter.getCurrentList());
-//
-//        int i = 0;
-//        for (ResultItem res : newList) {
-//            if (res.headerText == 0 && res.methodName == 0) {
-//                addTask(i);
-//            }
-//            i++;
-//        }
-//
-//        service.shutdownNow();
-//    }
-
 
     // we will need this block later ***
 //    public static CollectionsPagerFragment newInstance(String fragmentData) {

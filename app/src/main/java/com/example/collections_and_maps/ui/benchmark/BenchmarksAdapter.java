@@ -75,12 +75,12 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 //        }
 
         synchronized void bindTo(ResultItem item) {
-            if (item.result != 0) {
+            if (item.result > 0) {
                 // print result
                 nameView.setText(String.valueOf(item.result));
-            } else if (item.methodName != 0) {
+            } else if (item.methodName > 0) {
                 nameView.setText(item.methodName);
-            } else if (item.headerText != 0) {
+            } else if (item.headerText > 0) {
                 nameView.setText(item.headerText);
             }
         }
