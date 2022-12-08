@@ -23,6 +23,7 @@ import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -32,10 +33,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     private EditText inputFiled;
     private ExecutorService service;
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private int startedTasks;
-
-    protected BaseFragment() {
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,11 +68,14 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
             final int value = Integer.parseInt(inputFiled.getText().toString());
             final List<ResultItem> tempList = createTemplateList();
 
-            if (startedTasks > 0) {
+            if (service != null && !service.isTerminated()) {
+
+                Toast.makeText(getContext(), "расчет не закончен", Toast.LENGTH_LONG).show();
+                service.shutdownNow();
+
                 // to do stopping the calculation
             } else if (value > 0 && value < 10000001) {
 
-                startedTasks = tempList.size();
                 service = Executors.newCachedThreadPool();
                 for (int i = 0; i < tempList.size(); i++) {
                     int index = i;
@@ -85,18 +85,17 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
                             @Override
                             public void run() {
                                 tempList.set(index, new Compute().getResultItem());
-
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
                                         updateUI(new ArrayList<>(tempList));
-                                        startedTasks--;
                                     }
                                 });
                             }
                         });
                     }
                 }
+                service.shutdown();
             } else if (value >= 10000001) {
                 Toast.makeText(getContext(), R.string.LimitValue, Toast.LENGTH_LONG).show();
             } else {
