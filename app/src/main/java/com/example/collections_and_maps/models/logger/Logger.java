@@ -101,4 +101,16 @@ public class Logger {
         Log.i(tag, outPut + " = " + s);
     }
 
+    private void print(String service) {
+        System.out.println(service);
+    }
+
+    public void print(String b1, Object o) {
+        if(o == null){
+            System.out.println(b1 + " = null");
+        } else {
+            System.out.println(b1 + " = " + o);
+        }
+    }
+
 }

@@ -18,12 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.models.benchmarks.Compute;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -31,8 +28,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
     private EditText inputFiled;
-    private ExecutorService service;
-    private final Handler handler = new Handler(Looper.getMainLooper());
+    protected ExecutorService service;
+    protected final Handler handler = new Handler(Looper.getMainLooper());
+    protected final List<ResultItem> tempList = createTemplateList();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,42 +65,35 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
         try {
             final int value = Integer.parseInt(inputFiled.getText().toString());
-            final List<ResultItem> tempList = createTemplateList();
 
             if (service != null && !service.isTerminated()) {
 
-                Toast.makeText(getContext(), "расчет не закончен", Toast.LENGTH_LONG).show();
-                service.shutdownNow();
+                service.shutdown();
 
                 // to do stopping the calculation
             } else if (value > 0 && value < 10000001) {
-
                 service = Executors.newCachedThreadPool();
                 for (int i = 0; i < tempList.size(); i++) {
-                    int index = i;
+                    final int index = i;
 
-                    if (tempList.get(index).result != -1) {
-                        service.submit(new Runnable() {
-                            @Override
-                            public void run() {
-                                tempList.set(index, new Compute().getResultItem());
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        updateUI(new ArrayList<>(tempList));
-                                    }
-                                });
-                            }
-                        });
+                    try {
+                        service.submit(myRunnable(i));
+                        System.out.println("service run, index = " + i);
+                    } catch (NullPointerException e) {
+                        System.out.println("task null, index = " + i);
+//                        e.printStackTrace();
                     }
                 }
-                service.shutdown();
+//                service.shutdown();
+
+
             } else if (value >= 10000001) {
                 Toast.makeText(getContext(), R.string.LimitValue, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getContext(), R.string.OverZero, Toast.LENGTH_LONG).show();
             }
-        } catch (NumberFormatException e) {
+        } catch (
+                NumberFormatException e) {
             if (inputFiled.length() == 0) {
                 Toast.makeText(getContext(), R.string.NeedAnyValue, Toast.LENGTH_LONG).show();
             } else {
@@ -110,14 +102,29 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
             }
             e.printStackTrace();
         }
+
     }
+
+    protected abstract Runnable myRunnable(int i);
+
+    synchronized private void updateList(ResultItem resultItem, List<ResultItem> tempList, int index) {
+        tempList.set(index, resultItem);
+    }
+
+
+    protected abstract long toRandomValue(int i, int i1);
 
     protected abstract int getSpanCount();
 
     protected abstract List<ResultItem> createTemplateList();
 
-    private void updateUI(List<ResultItem> resultList) {
-        adapter.submitList(resultList);
+    protected void updateUI(List<ResultItem> resultList) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                adapter.submitList(resultList);
+            }
+        });
     }
 
     // we will need this block later ***
@@ -128,6 +135,21 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 //        fragment.setArguments(args);
 //        return fragment;
 //    }
+}
+
+class Task implements Runnable {
+
+
+    public synchronized void updateList() {
+
+    }
+
+
+    @Override
+    public void run() {
+
+
+    }
 }
 
 

@@ -36,6 +36,31 @@ public class CollectionsPagerFragment extends BaseFragment {
     }
 
 
+    @Override
+    protected Runnable myRunnable(int index) {
+        if (tempList.get(index).result == -1) {
+            return null;
+        } else {
+            return newTask(index);
+        }
+    }
+
+
+    synchronized private Runnable newTask(int index) {
+        return new Runnable() {
+            @Override
+            public void run() {
+                tempList.set(index, new ResultItem(0, 0, toRandomValue(0, 7)));
+                if (service.isShutdown()) {
+                    updateUI(createTemplateList());
+                } else {
+                    updateUI(new ArrayList<>(tempList));
+                }
+            }
+        };
+    }
+
+
     public String getResult(int methodName) {
         String result;
         double start = System.nanoTime();
@@ -128,7 +153,7 @@ public class CollectionsPagerFragment extends BaseFragment {
     }
 
 
-    private long toRandomValue(int since, int till) {
+    protected long toRandomValue(int since, int till) {
         double d = since + Math.random() * (till - since);
         long res = (long) (d * 1000);
         try {
@@ -138,6 +163,7 @@ public class CollectionsPagerFragment extends BaseFragment {
         }
         return res;
     }
+
 
 }
 

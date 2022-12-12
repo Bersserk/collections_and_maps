@@ -74,7 +74,13 @@ public class MapsPagerFragment extends BaseFragment {
 //        hashMap.remove(i);
     }
 
-    private long toRandomValue(int since, int till) {
+
+    @Override
+    protected Runnable myRunnable(int i) {
+        return null;
+    }
+
+    protected long toRandomValue(int since, int till) {
         double d = since + Math.random() * (till - since);
         long res = (long) (d * 1000);
         try {
