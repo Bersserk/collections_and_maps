@@ -9,6 +9,8 @@ import java.util.List;
 
 public class MapsPagerFragment extends BaseFragment {
 
+    private final List<ResultItem> tempList = createTemplateList();
+
     @Override
     protected int getSpanCount() {
         return 2;
@@ -30,6 +32,29 @@ public class MapsPagerFragment extends BaseFragment {
             }
         }
         return templateList;
+    }
+
+    @Override
+    protected Runnable myRunnable(int index) {
+        if (tempList.get(index).result == -1) {
+            return null;
+        } else {
+            return newTask(index);
+        }
+    }
+
+
+    synchronized private Runnable newTask(int index) {
+        return new Runnable() {
+            @Override
+            public void run() {
+                ResultItem resultItem = new ResultItem(0, 0, toRandomValue(0, 5));
+                if (!service.isShutdown()) {
+                    tempList.set(index, resultItem);
+                    updateUI(new ArrayList<>(tempList));
+                }
+            }
+        };
     }
 
 
@@ -74,11 +99,6 @@ public class MapsPagerFragment extends BaseFragment {
 //        hashMap.remove(i);
     }
 
-
-    @Override
-    protected Runnable myRunnable(int i) {
-        return null;
-    }
 
     protected long toRandomValue(int since, int till) {
         double d = since + Math.random() * (till - since);

@@ -8,6 +8,8 @@ import java.util.List;
 
 public class CollectionsPagerFragment extends BaseFragment {
 
+    private final List<ResultItem> tempList = createTemplateList();
+
     @Override
     protected int getSpanCount() {
         return 3;
@@ -46,15 +48,14 @@ public class CollectionsPagerFragment extends BaseFragment {
     }
 
 
-    synchronized private Runnable newTask(int index) {
+    private Runnable newTask(int index) {
         return new Runnable() {
             @Override
             public void run() {
-                tempList.set(index, new ResultItem(0, 0, toRandomValue(0, 7)));
-                if (service.isShutdown()) {
-                    updateUI(createTemplateList());
-                } else {
-                    updateUI(new ArrayList<>(tempList));
+                final ResultItem resultItem = new ResultItem(0, 0, toRandomValue(0, 5));
+                if (!service.isShutdown()) {
+                    tempList.set(index, resultItem);
+                    updateUI(tempList);
                 }
             }
         };

@@ -18,12 +18,4 @@ public class ResultItem {
             this.result = desiredResult;
         }
     }
-
-//    public ResultItem(ResultItem resultItem) {
-//        if (resultItem.headerText > 0 || resultItem.methodName > 0) {
-//            return;
-//        } else {
-//            this.result = desiredResult;
-//        }
-//    }
 }

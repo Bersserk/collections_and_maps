@@ -30,8 +30,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     private EditText inputFiled;
     protected ExecutorService service;
     protected final Handler handler = new Handler(Looper.getMainLooper());
-    protected final List<ResultItem> tempList = createTemplateList();
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,27 +64,20 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         try {
             final int value = Integer.parseInt(inputFiled.getText().toString());
 
-            if (service != null && !service.isTerminated()) {
-
+            if (service != null && !service.isShutdown()) {
                 service.shutdown();
+                service.shutdownNow();
+                adapter.submitList(createTemplateList());
 
-                // to do stopping the calculation
             } else if (value > 0 && value < 10000001) {
                 service = Executors.newCachedThreadPool();
-                for (int i = 0; i < tempList.size(); i++) {
-                    final int index = i;
-
+                for (int indexOfList = 0; indexOfList < adapter.getCurrentList().size(); indexOfList++) {
                     try {
-                        service.submit(myRunnable(i));
-                        System.out.println("service run, index = " + i);
+                        service.submit(myRunnable(indexOfList));
                     } catch (NullPointerException e) {
-                        System.out.println("task null, index = " + i);
-//                        e.printStackTrace();
+                        e.printStackTrace();
                     }
                 }
-//                service.shutdown();
-
-
             } else if (value >= 10000001) {
                 Toast.makeText(getContext(), R.string.LimitValue, Toast.LENGTH_LONG).show();
             } else {
@@ -106,11 +97,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
     protected abstract Runnable myRunnable(int i);
-
-    synchronized private void updateList(ResultItem resultItem, List<ResultItem> tempList, int index) {
-        tempList.set(index, resultItem);
-    }
-
 
     protected abstract long toRandomValue(int i, int i1);
 
@@ -135,22 +121,9 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 //        fragment.setArguments(args);
 //        return fragment;
 //    }
+
 }
 
-class Task implements Runnable {
-
-
-    public synchronized void updateList() {
-
-    }
-
-
-    @Override
-    public void run() {
-
-
-    }
-}
 
 
 
