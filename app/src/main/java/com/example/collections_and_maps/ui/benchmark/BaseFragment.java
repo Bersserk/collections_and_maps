@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -62,26 +63,27 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public void onClick(View view) {
 
         try {
-            final int value = Integer.parseInt(inputFiled.getText().toString());
-
             if (service != null && !service.isShutdown()) {
                 service.shutdown();
                 service.shutdownNow();
-                adapter.submitList(createTemplateList());
-
-            } else if (value > 0 && value < 10000001) {
-                service = Executors.newCachedThreadPool();
-                for (int indexOfList = 0; indexOfList < adapter.getCurrentList().size(); indexOfList++) {
-                    try {
-                        service.submit(myRunnable(indexOfList));
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else if (value >= 10000001) {
-                Toast.makeText(getContext(), R.string.LimitValue, Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(getContext(), R.string.OverZero, Toast.LENGTH_LONG).show();
+                service = Executors.newCachedThreadPool();
+                final int value = Integer.parseInt(inputFiled.getText().toString());
+                List<ResultItem> newList = createTemplateList();
+                for (ResultItem rItem : newList) {
+                    service.submit(new Runnable() {
+                        @Override
+                        public void run() {
+                            final ResultItem resultItem = toRandomValue(rItem, value);
+
+                            if (!service.isShutdown()) {
+                                int index = newList.indexOf(rItem);
+                                newList.set(index, resultItem);
+                                updateUI(newList);
+                            }
+                        }
+                    });
+                }
             }
         } catch (
                 NumberFormatException e) {
@@ -93,22 +95,19 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
             }
             e.printStackTrace();
         }
-
     }
 
-    protected abstract Runnable myRunnable(int i);
-
-    protected abstract long toRandomValue(int i, int i1);
+    protected abstract ResultItem toRandomValue(ResultItem rItem, int value);
 
     protected abstract int getSpanCount();
 
     protected abstract List<ResultItem> createTemplateList();
 
-    protected void updateUI(List<ResultItem> resultList) {
+    synchronized protected void updateUI(List<ResultItem> resultList) {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                adapter.submitList(resultList);
+                adapter.submitList(new ArrayList<>(resultList));
             }
         });
     }

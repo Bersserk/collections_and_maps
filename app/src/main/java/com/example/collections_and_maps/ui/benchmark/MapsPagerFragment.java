@@ -9,8 +9,6 @@ import java.util.List;
 
 public class MapsPagerFragment extends BaseFragment {
 
-    private final List<ResultItem> tempList = createTemplateList();
-
     @Override
     protected int getSpanCount() {
         return 2;
@@ -20,42 +18,23 @@ public class MapsPagerFragment extends BaseFragment {
     public List<ResultItem> createTemplateList() {
         final List<ResultItem> templateList = new ArrayList<>();
 
-        templateList.add(new ResultItem(R.string.HashMap, 0, 0));
-        templateList.add(new ResultItem(R.string.TreeMap, 0, 0));
+        templateList.add(new ResultItem(R.string.HashMap, 0));
+        templateList.add(new ResultItem(R.string.TreeMap, 0));
 
         int[] listMethodsId = {R.string.add_new, R.string.search_key, R.string.removing};
 
         for (int id : listMethodsId) {
-            templateList.add(new ResultItem(0, id, 0));
+            templateList.add(new ResultItem(0, id));
             for (int i = 0; i < 2; i++) {
-                templateList.add(new ResultItem(0, 0, 0));
+                templateList.add(new ResultItem());
             }
         }
         return templateList;
     }
 
-    @Override
-    protected Runnable myRunnable(int index) {
-        if (tempList.get(index).result == -1) {
-            return null;
-        } else {
-            return newTask(index);
-        }
-    }
 
 
-    synchronized private Runnable newTask(int index) {
-        return new Runnable() {
-            @Override
-            public void run() {
-                ResultItem resultItem = new ResultItem(0, 0, toRandomValue(0, 5));
-                if (!service.isShutdown()) {
-                    tempList.set(index, resultItem);
-                    updateUI(new ArrayList<>(tempList));
-                }
-            }
-        };
-    }
+
 
 
     public String getResult(int methodName) {
@@ -100,8 +79,17 @@ public class MapsPagerFragment extends BaseFragment {
     }
 
 
-    protected long toRandomValue(int since, int till) {
-        double d = since + Math.random() * (till - since);
+    @Override
+    protected ResultItem toRandomValue(ResultItem rItem, int value) {
+        if (rItem.result == -1) {
+            return rItem;
+        } else {
+            return new ResultItem(toRandomValue(0, 7));
+        }
+    }
+
+    public long toRandomValue(int from, int to) {
+        double d = from + Math.random() * (to - from);
         long res = (long) (d * 1000);
         try {
             Thread.sleep(res);

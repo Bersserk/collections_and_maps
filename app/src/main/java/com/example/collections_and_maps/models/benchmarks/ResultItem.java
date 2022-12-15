@@ -9,13 +9,23 @@ public class ResultItem {
     public final long result;
     private static final int EMPTY_RESULT = -1;
 
-    public ResultItem(int headerText, int methodName, long desiredResult) {
+    public ResultItem(int headerText, int methodName) {
         this.headerText = headerText;
         this.methodName = methodName;
-        if (headerText > 0 || methodName > 0) {
-            this.result = EMPTY_RESULT;
-        } else {
-            this.result = desiredResult;
-        }
+        this.result = EMPTY_RESULT;
     }
+
+    public ResultItem() {
+        this.methodName = 0;
+        this.headerText = 0;
+        this.result = 0;
+    }
+
+    public ResultItem(long toRandomValue) {
+        this.methodName = 0;
+        this.headerText = 0;
+        this.result = toRandomValue;
+    }
+
+
 }
