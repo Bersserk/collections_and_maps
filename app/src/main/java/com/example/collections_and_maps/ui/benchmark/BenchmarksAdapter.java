@@ -85,5 +85,4 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
             }
         }
     }
-
 }

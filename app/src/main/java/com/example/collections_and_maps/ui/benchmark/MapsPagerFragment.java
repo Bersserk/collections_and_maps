@@ -16,25 +16,21 @@ public class MapsPagerFragment extends BaseFragment {
 
     @Override
     public List<ResultItem> createTemplateList() {
-        final List<ResultItem> templateList = new ArrayList<>();
+        final List<ResultItem> items = new ArrayList<>();
 
-        templateList.add(new ResultItem(R.string.HashMap, 0));
-        templateList.add(new ResultItem(R.string.TreeMap, 0));
+        items.add(new ResultItem(R.string.HashMap, 0));
+        items.add(new ResultItem(R.string.TreeMap, 0));
 
-        int[] listMethodsId = {R.string.add_new, R.string.search_key, R.string.removing};
+        final int[] listMethodsId = {R.string.add_new, R.string.search_key, R.string.removing};
 
         for (int id : listMethodsId) {
-            templateList.add(new ResultItem(0, id));
+            items.add(new ResultItem(0, id));
             for (int i = 0; i < 2; i++) {
-                templateList.add(new ResultItem());
+                items.add(new ResultItem());
             }
         }
-        return templateList;
+        return items;
     }
-
-
-
-
 
 
     public String getResult(int methodName) {

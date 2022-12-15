@@ -17,8 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
         Logger.mlog(this.getClass(), Thread.currentThread().getStackTrace()[2]);
         setContentView(R.layout.activity_main);
 

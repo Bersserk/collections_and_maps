@@ -16,23 +16,23 @@ public class CollectionsPagerFragment extends BaseFragment {
     @Override
     protected List<ResultItem> createTemplateList() {
 
-        final List<ResultItem> templateList = new ArrayList<>();
+        final List<ResultItem> items = new ArrayList<>();
 
-        templateList.add(new ResultItem(R.string.ArrayList, 0));
-        templateList.add(new ResultItem(R.string.LinkedList, 0));
-        templateList.add(new ResultItem(R.string.CopyOnWrite, 0));
+        items.add(new ResultItem(R.string.ArrayList, 0));
+        items.add(new ResultItem(R.string.LinkedList, 0));
+        items.add(new ResultItem(R.string.CopyOnWrite, 0));
 
-        int[] listMethodsId = {R.string.add_begin, R.string.add_middle, R.string.add_end,
-                R.string.search_value, R.string.remove_begin,
+        final int[] listMethodsId = {R.string.add_begin, R.string.add_middle,
+                R.string.add_end, R.string.search_value, R.string.remove_begin,
                 R.string.remove_middle, R.string.remove_end};
 
         for (int id : listMethodsId) {
-            templateList.add(new ResultItem(0, id));
+            items.add(new ResultItem(0, id));
             for (int i = 0; i < 3; i++) {
-                templateList.add(new ResultItem());
+                items.add(new ResultItem());
             }
         }
-        return templateList;
+        return items;
     }
 
 
@@ -147,7 +147,5 @@ public class CollectionsPagerFragment extends BaseFragment {
         }
         return res;
     }
-
-
 }
 

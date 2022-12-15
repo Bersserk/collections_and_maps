@@ -27,10 +27,11 @@ import java.util.concurrent.Executors;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
 
-    private final BenchmarksAdapter adapter = new BenchmarksAdapter();
-    private EditText inputFiled;
-    protected ExecutorService service;
     protected final Handler handler = new Handler(Looper.getMainLooper());
+    private final BenchmarksAdapter adapter = new BenchmarksAdapter();
+    protected ExecutorService service;
+    private EditText inputFiled;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,8 +46,9 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         calcButton.setOnClickListener(this);
 
         final int spans = getSpanCount();
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(),
-                spans, LinearLayoutManager.VERTICAL, false);
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(
+                this.getActivity(), spans, LinearLayoutManager.VERTICAL, false
+        );
         gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(spans + 1, 1, spans));
 
         final RecyclerView listRecycler = requireView().findViewById(R.id.recyclerLayoutItems);
@@ -61,7 +63,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-
         try {
             if (service != null && !service.isShutdown()) {
                 service.shutdown();
@@ -71,29 +72,25 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
                 final int value = Integer.parseInt(inputFiled.getText().toString());
                 List<ResultItem> newList = createTemplateList();
                 for (ResultItem rItem : newList) {
-                    service.submit(new Runnable() {
-                        @Override
-                        public void run() {
-                            final ResultItem resultItem = toRandomValue(rItem, value);
+                    service.submit(() -> {
+                        final ResultItem resultItem = toRandomValue(rItem, value);
 
-                            if (!service.isShutdown()) {
-                                int index = newList.indexOf(rItem);
-                                newList.set(index, resultItem);
-                                updateUI(newList);
-                            }
+                        if (!service.isShutdown()) {
+                            int index = newList.indexOf(rItem);
+                            newList.set(index, resultItem);
+                            updateUI(newList);
                         }
                     });
                 }
             }
-        } catch (
-                NumberFormatException e) {
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
             if (inputFiled.length() == 0) {
                 Toast.makeText(getContext(), R.string.NeedAnyValue, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getContext(), R.string.OnlyNumber, Toast.LENGTH_LONG).show();
                 inputFiled.setText("");
             }
-            e.printStackTrace();
         }
     }
 
@@ -104,12 +101,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected abstract List<ResultItem> createTemplateList();
 
     synchronized protected void updateUI(List<ResultItem> resultList) {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                adapter.submitList(new ArrayList<>(resultList));
-            }
-        });
+        handler.post(() -> adapter.submitList(new ArrayList<>(resultList)));
     }
 
     // we will need this block later ***
