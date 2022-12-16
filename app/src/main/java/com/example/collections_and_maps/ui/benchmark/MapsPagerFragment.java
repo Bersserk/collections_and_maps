@@ -1,6 +1,8 @@
 package com.example.collections_and_maps.ui.benchmark;
 
 
+import androidx.annotation.NonNull;
+
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
@@ -18,15 +20,16 @@ public class MapsPagerFragment extends BaseFragment {
     public List<ResultItem> createTemplateList() {
         final List<ResultItem> items = new ArrayList<>();
 
-        items.add(new ResultItem(R.string.HashMap, 0));
-        items.add(new ResultItem(R.string.TreeMap, 0));
+        items.add(new ResultItem(R.string.HashMap, R.string.empty, R.string.empty));
+        items.add(new ResultItem(R.string.TreeMap, R.string.empty, R.string.empty));
 
+        final int[] listHeadsId = {R.string.HashMap, R.string.TreeMap};
         final int[] listMethodsId = {R.string.add_new, R.string.search_key, R.string.removing};
 
-        for (int id : listMethodsId) {
-            items.add(new ResultItem(0, id));
-            for (int i = 0; i < 2; i++) {
-                items.add(new ResultItem());
+        for (int methodsID : listMethodsId) {
+            items.add(new ResultItem(R.string.empty, methodsID, R.string.empty));
+            for (int headsID : listHeadsId) {
+                items.add(new ResultItem(headsID, methodsID, R.string.emptyResult));
             }
         }
         return items;
@@ -45,13 +48,13 @@ public class MapsPagerFragment extends BaseFragment {
     void getChose(int methodName) {
 
         switch (methodName) {
-            case 1:
+            case R.string.add_new:
                 addingNew();
                 break;
-            case 2:
+            case R.string.search_key:
                 searchByKey();
                 break;
-            case 3:
+            case R.string.removing:
                 removing();
                 break;
             default:
@@ -76,11 +79,11 @@ public class MapsPagerFragment extends BaseFragment {
 
 
     @Override
-    protected ResultItem toRandomValue(ResultItem rItem, int value) {
-        if (rItem.result == -1) {
+    protected ResultItem toRandomValue(@NonNull ResultItem rItem, int value) {
+        if (rItem.result == R.string.empty) {
             return rItem;
         } else {
-            return new ResultItem(toRandomValue(0, 7));
+            return new ResultItem(rItem.headerText, rItem.methodName, toRandomValue(0, 7));
         }
     }
 

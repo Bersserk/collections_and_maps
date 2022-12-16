@@ -46,7 +46,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 
     // 3
     @Override
-    public void onBindViewHolder(BenchmarkViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BenchmarkViewHolder holder, int position) {
         holder.bindTo(getItem(position));
     }
 
@@ -61,6 +61,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
             nameView = view.findViewById(R.id.nameViewList);
             progressBar = view.findViewById(R.id.progressBar);
             animator = progressBar.animate();
+
         }
 
         // 4
@@ -74,13 +75,14 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 //            }
 //        }
 
-        synchronized void bindTo(ResultItem item) {
-            if (item.result > 0) {
-                // print result
+        public void bindTo(@NonNull ResultItem item) {
+            if (item.result != R.string.emptyResult && item.result != R.string.empty) {
                 nameView.setText(String.valueOf(item.result));
-            } else if (item.methodName > 0) {
+            } else if (item.result == R.string.emptyResult) {
+                nameView.setText("");
+            } else if (item.methodName != R.string.empty) {
                 nameView.setText(item.methodName);
-            } else if (item.headerText > 0) {
+            } else if (item.headerText != R.string.empty) {
                 nameView.setText(item.headerText);
             }
         }

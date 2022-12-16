@@ -1,5 +1,7 @@
 package com.example.collections_and_maps.ui.benchmark;
 
+import androidx.annotation.NonNull;
+
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
@@ -18,18 +20,19 @@ public class CollectionsPagerFragment extends BaseFragment {
 
         final List<ResultItem> items = new ArrayList<>();
 
-        items.add(new ResultItem(R.string.ArrayList, 0));
-        items.add(new ResultItem(R.string.LinkedList, 0));
-        items.add(new ResultItem(R.string.CopyOnWrite, 0));
+        items.add(new ResultItem(R.string.ArrayList, R.string.empty, R.string.empty));
+        items.add(new ResultItem(R.string.LinkedList, R.string.empty, R.string.empty));
+        items.add(new ResultItem(R.string.CopyOnWrite, R.string.empty, R.string.empty));
 
+        final int[] listHeadsId = {R.string.ArrayList, R.string.LinkedList, R.string.CopyOnWrite};
         final int[] listMethodsId = {R.string.add_begin, R.string.add_middle,
                 R.string.add_end, R.string.search_value, R.string.remove_begin,
                 R.string.remove_middle, R.string.remove_end};
 
-        for (int id : listMethodsId) {
-            items.add(new ResultItem(0, id));
-            for (int i = 0; i < 3; i++) {
-                items.add(new ResultItem());
+        for (int methodsID : listMethodsId) {
+            items.add(new ResultItem(R.string.empty, methodsID, R.string.empty));
+            for (int headsID : listHeadsId) {
+                items.add(new ResultItem(headsID, methodsID, R.string.emptyResult));
             }
         }
         return items;
@@ -46,25 +49,25 @@ public class CollectionsPagerFragment extends BaseFragment {
 
     void getChose(int methodName) {
         switch (methodName) {
-            case 1:
+            case R.string.add_begin:
                 addItemToStart();
                 break;
-            case 2:
+            case R.string.add_middle:
                 addItemToMiddle();
                 break;
-            case 3:
+            case R.string.add_end:
                 addItemToEnd();
                 break;
-            case 4:
+            case R.string.search_value:
                 searchByValue();
                 break;
-            case 5:
+            case R.string.remove_begin:
                 removingInBeginning();
                 break;
-            case 6:
+            case R.string.remove_middle:
                 removingInMiddle();
                 break;
-            case 7:
+            case R.string.remove_end:
                 removingInEnd();
                 break;
             default:
@@ -129,11 +132,11 @@ public class CollectionsPagerFragment extends BaseFragment {
 
 
     @Override
-    protected ResultItem toRandomValue(ResultItem rItem, int value) {
-        if (rItem.result == -1) {
+    protected ResultItem toRandomValue(@NonNull ResultItem rItem, int value) {
+        if (rItem.result == R.string.empty) {
             return rItem;
         } else {
-            return new ResultItem(toRandomValue(0, 7));
+            return new ResultItem(rItem.headerText, rItem.methodName, toRandomValue(0, 7));
         }
     }
 

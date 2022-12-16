@@ -3,7 +3,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="maps">Maps</string>
     <string name="askTextView">Введите размер коллекции!</string>
-    <string name="calcButton">Расчитать!</string>
+    <string name="calcButtonStart">Расчитать!</string>
+    <string name="calcButtonStop">Остановить!</string>
     <string name="collectionSize_hint"> <font size="14">  Впишите размер!</font></string>
     <string name="ToastsText">Размер необходимо задавать только числами</string>
     <string name="OnlyNumber">Введите числовое значение.</string>
@@ -13,4 +14,6 @@
     <string name="OtherValue">Введите иное значение</string>
     <string name="NeedAnyValue">Введите значение</string>
     <string name="LimitValue">Допустимое значение не более 10 000 000</string>
+    <string name="empty">-1</string>
+    <string name="emptyResult">0</string>
 </resources>

@@ -22,7 +22,7 @@
         android:id="@+id/calcButton"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:text="@string/calcButton"
+        android:text="@string/calcButtonStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/inputField"
         app:layout_constraintWidth_percent="0.28" />

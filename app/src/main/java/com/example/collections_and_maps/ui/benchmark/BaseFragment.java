@@ -27,10 +27,11 @@ import java.util.concurrent.Executors;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
 
-    protected final Handler handler = new Handler(Looper.getMainLooper());
+    private final Handler handler = new Handler(Looper.getMainLooper());
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
-    protected ExecutorService service;
+    private ExecutorService service;
     private EditText inputFiled;
+    private Button calcButton;
 
 
     @Override
@@ -42,7 +43,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         inputFiled = view.findViewById(R.id.inputField);
-        final Button calcButton = view.findViewById(R.id.calcButton);
+        calcButton = view.findViewById(R.id.calcButton);
         calcButton.setOnClickListener(this);
 
         final int spans = getSpanCount();
@@ -63,13 +64,16 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        try {
-            if (service != null && !service.isShutdown()) {
-                service.shutdown();
-                service.shutdownNow();
-            } else {
+        final String inputText = inputFiled.getText().toString();
+
+        if (service != null && !service.isShutdown()) {
+            service.shutdownNow();
+            calcButton.setText(R.string.calcButtonStart);
+        } else {
+            try {
+                final int value = Integer.parseInt(inputText);
+                calcButton.setText(R.string.calcButtonStop);
                 service = Executors.newCachedThreadPool();
-                final int value = Integer.parseInt(inputFiled.getText().toString());
                 List<ResultItem> newList = createTemplateList();
                 for (ResultItem rItem : newList) {
                     service.submit(() -> {
@@ -82,14 +86,14 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
                         }
                     });
                 }
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            if (inputFiled.length() == 0) {
-                Toast.makeText(getContext(), R.string.NeedAnyValue, Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(getContext(), R.string.OnlyNumber, Toast.LENGTH_LONG).show();
-                inputFiled.setText("");
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                if (inputText.isEmpty()) {
+                    Toast.makeText(getContext(), R.string.NeedAnyValue, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext(), R.string.OnlyNumber, Toast.LENGTH_LONG).show();
+                    inputFiled.setText("");
+                }
             }
         }
     }
