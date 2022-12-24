@@ -57,7 +57,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
 
-        adapter.submitList(createTemplateList());
+        adapter.submitList(createTemplateList(false));
         listRecycler.setAdapter(adapter);
     }
 
@@ -74,11 +74,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
                 final int value = Integer.parseInt(inputText);
                 calcButton.setText(R.string.calcButtonStop);
                 service = Executors.newCachedThreadPool();
-                List<ResultItem> newList = createTemplateList();
+                List<ResultItem> newList = createTemplateList(true);
                 for (ResultItem rItem : newList) {
                     service.submit(() -> {
                         final ResultItem resultItem = toRandomValue(rItem, value);
-
                         if (!service.isShutdown()) {
                             int index = newList.indexOf(rItem);
                             newList.set(index, resultItem);
@@ -104,7 +103,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     protected abstract int getSpanCount();
 
-    protected abstract List<ResultItem> createTemplateList();
+    protected abstract List<ResultItem> createTemplateList(boolean setAnimateItem);
 
     synchronized protected void updateUI(List<ResultItem> resultList) {
         handler.post(() -> adapter.submitList(new ArrayList<>(resultList)));

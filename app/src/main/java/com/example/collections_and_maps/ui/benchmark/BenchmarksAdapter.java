@@ -26,7 +26,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 
                 @Override
                 public boolean areContentsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
-                    return oldItem.methodName == newItem.methodName;
+                    return oldItem.result == newItem.result;
                 }
             };
 
@@ -35,7 +35,6 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         super(DIFF_CALLBACK);
     }
 
-    // 1
     @NonNull
     @Override
     public BenchmarkViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -44,7 +43,6 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         return new BenchmarkViewHolder(view);
     }
 
-    // 3
     @Override
     public void onBindViewHolder(@NonNull BenchmarkViewHolder holder, int position) {
         holder.bindTo(getItem(position));
@@ -52,33 +50,24 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 
     static class BenchmarkViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameView;
-        private final ProgressBar progressBar;
         private final ViewPropertyAnimator animator;
 
-        // 2
         BenchmarkViewHolder(View view) {
             super(view);
             nameView = view.findViewById(R.id.nameViewList);
-            progressBar = view.findViewById(R.id.progressBar);
-            animator = progressBar.animate();
-
+            animator = view.findViewById(R.id.progressBar).animate();
         }
 
-        // 4
-//        synchronized void bindTo(ResultItem item) {
-//            System.out.println("bindTo");
-//            if (item.getResult() == 0) {
-//                animator.setDuration(300).alpha(1.0f);
-//            } else {
-//                String st = String.valueOf(item.getResult());
-//                nameView.setText(st);
-//            }
-//        }
-
         public void bindTo(@NonNull ResultItem item) {
+
+            if (item.isAnimate && item.result == R.integer.emptyResult) {
+                animator.setDuration(300).alpha(1.0f);
+            }
+
             if (item.result != R.integer.emptyResult) {
                 if (item.result != R.integer.empty) {
                     nameView.setText(String.valueOf(item.result));
+                    animator.setDuration(300).alpha(0.0f);
                 } else if (item.methodName != R.integer.empty) {
                     nameView.setText(item.methodName);
                 } else if (item.headerText != R.integer.empty) {
