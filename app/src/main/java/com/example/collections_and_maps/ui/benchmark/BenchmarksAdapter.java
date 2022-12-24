@@ -76,14 +76,14 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 //        }
 
         public void bindTo(@NonNull ResultItem item) {
-            if (item.result != R.string.emptyResult && item.result != R.string.empty) {
-                nameView.setText(String.valueOf(item.result));
-            } else if (item.result == R.string.emptyResult) {
-                nameView.setText("");
-            } else if (item.methodName != R.string.empty) {
-                nameView.setText(item.methodName);
-            } else if (item.headerText != R.string.empty) {
-                nameView.setText(item.headerText);
+            if (item.result != R.integer.emptyResult) {
+                if (item.result != R.integer.empty) {
+                    nameView.setText(String.valueOf(item.result));
+                } else if (item.methodName != R.integer.empty) {
+                    nameView.setText(item.methodName);
+                } else if (item.headerText != R.integer.empty) {
+                    nameView.setText(item.headerText);
+                }
             }
         }
     }

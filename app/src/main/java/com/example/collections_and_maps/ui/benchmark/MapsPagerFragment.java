@@ -20,16 +20,16 @@ public class MapsPagerFragment extends BaseFragment {
     public List<ResultItem> createTemplateList() {
         final List<ResultItem> items = new ArrayList<>();
 
-        items.add(new ResultItem(R.string.HashMap, R.string.empty, R.string.empty));
-        items.add(new ResultItem(R.string.TreeMap, R.string.empty, R.string.empty));
+        items.add(new ResultItem(R.string.HashMap, R.integer.empty, R.integer.empty));
+        items.add(new ResultItem(R.string.TreeMap, R.integer.empty, R.integer.empty));
 
         final int[] listHeadsId = {R.string.HashMap, R.string.TreeMap};
         final int[] listMethodsId = {R.string.add_new, R.string.search_key, R.string.removing};
 
         for (int methodsID : listMethodsId) {
-            items.add(new ResultItem(R.string.empty, methodsID, R.string.empty));
+            items.add(new ResultItem(R.integer.empty, methodsID, R.integer.empty));
             for (int headsID : listHeadsId) {
-                items.add(new ResultItem(headsID, methodsID, R.string.emptyResult));
+                items.add(new ResultItem(headsID, methodsID, R.integer.emptyResult));
             }
         }
         return items;
@@ -80,7 +80,7 @@ public class MapsPagerFragment extends BaseFragment {
 
     @Override
     protected ResultItem toRandomValue(@NonNull ResultItem rItem, int value) {
-        if (rItem.result == R.string.empty) {
+        if (rItem.result == R.integer.empty) {
             return rItem;
         } else {
             return new ResultItem(rItem.headerText, rItem.methodName, toRandomValue(0, 7));

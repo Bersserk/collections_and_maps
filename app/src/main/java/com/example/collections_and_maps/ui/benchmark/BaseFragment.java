@@ -94,6 +94,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
                     Toast.makeText(getContext(), R.string.OnlyNumber, Toast.LENGTH_LONG).show();
                     inputFiled.setText("");
                 }
+            } catch (RuntimeException e) {
+                e.printStackTrace();
             }
         }
     }
