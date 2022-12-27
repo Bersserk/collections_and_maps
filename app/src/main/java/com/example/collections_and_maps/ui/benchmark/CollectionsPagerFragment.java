@@ -3,10 +3,13 @@ package com.example.collections_and_maps.ui.benchmark;
 import androidx.annotation.NonNull;
 
 import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.models.benchmarks.ComputeTime;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CollectionsPagerFragment extends BaseFragment {
 
@@ -38,116 +41,33 @@ public class CollectionsPagerFragment extends BaseFragment {
         return items;
     }
 
-    public String getResult(int methodName) {
-        String result;
-        double start = System.nanoTime();
-        getChose(methodName);
-        result = String.valueOf((System.nanoTime() - start) / 1000000);
-        return result;
-    }
-
-    void getChose(int methodName) {
-        switch (methodName) {
-            case R.string.add_begin:
-                addItemToStart();
-                break;
-            case R.string.add_middle:
-                addItemToMiddle();
-                break;
-            case R.string.add_end:
-                addItemToEnd();
-                break;
-            case R.string.search_value:
-                searchByValue();
-                break;
-            case R.string.remove_begin:
-                removingInBeginning();
-                break;
-            case R.string.remove_middle:
-                removingInMiddle();
-                break;
-            case R.string.remove_end:
-                removingInEnd();
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
-    }
-
-    private void addItemToStart() {
-//        Log.i("Collections", " - addItemToStart()");
-        toRandomValue(0, 7000);
-//        list.add(0, null);
-    }
-
-    private void addItemToMiddle() {
-//        Log.i("Collections", " - addItemToMiddle()");
-        toRandomValue(0, 7000);
-//        list.add(list.size() / 2, null);
-    }
-
-    private void addItemToEnd() {
-//        Log.i("Collections", " - addItemToEnd()");
-        toRandomValue(0, 7000);
-//        list.add(list.size(), null);
-    }
-
-    private void searchByValue() {
-//        Log.i("Collections", " - searchByValue()");
-        toRandomValue(0, 7000);
-
-//        int index = 0;
-//        for (int i = 0; i < 10; i++) {
-//            if (list.size() < 0) {
-//                throw new IllegalArgumentException("Array's size must not be negative");
-//            }
-//            while (index == 0 || index == list.size()) {
-//                index = new Random().nextInt(list.size() + 1);
-//            }
-//        }
-//        list.get(index);
-    }
-
-    private void removingInBeginning() {
-//        Log.i("Collections", " - removingInBeginning()");
-        toRandomValue(0, 7000);
-
-//        list.remove(0);
-    }
-
-    private void removingInMiddle() {
-//        Log.i("Collections", " - removingInMiddle()");
-        toRandomValue(0, 7000);
-
-//        list.remove(list.size() / 2);
-    }
-
-    private void removingInEnd() {
-//        Log.i("Collections", " - removingInEnd()");
-        toRandomValue(0, 7000);
-
-//        list.remove(list.size() - 1);
-    }
-
 
     @Override
-    protected ResultItem toRandomValue(@NonNull ResultItem rItem, int value) {
+    protected ResultItem toMakeResultItem(@NonNull ResultItem rItem, int value) {
+
+
         if (rItem.result == R.integer.empty) {
             return rItem;
         } else {
-            return new ResultItem(rItem.headerText, rItem.methodName, toRandomValue(0, 7), true);
+            final List<Byte> list = getArray(rItem.headerText, value);
+            return new ResultItem(rItem.headerText, rItem.methodName, new ComputeTime(list, rItem).getResult(), true);
         }
     }
 
-    public long toRandomValue(int from, int to) {
-        double d = from + Math.random() * (to - from);
-        long res = (long) (d * 1000);
-        try {
-            Thread.sleep(res);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    private List<Byte> getArray(int headerText, int value) {
+
+        final List<Byte> arrayList = new ArrayList<>(value);
+        for (int i = 0; i < value; i++) {
+            arrayList.add(null);
         }
-        return res;
+
+        if (headerText == R.string.LinkedList) {
+            return new LinkedList<>(arrayList);
+        } else if (headerText == R.string.CopyOnWrite) {
+            return new CopyOnWriteArrayList<>(arrayList);
+        } else {
+            return arrayList;
+        }
     }
 }
 

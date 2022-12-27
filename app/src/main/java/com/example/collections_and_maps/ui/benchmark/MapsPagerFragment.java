@@ -79,7 +79,7 @@ public class MapsPagerFragment extends BaseFragment {
 
 
     @Override
-    protected ResultItem toRandomValue(@NonNull ResultItem rItem, int value) {
+    protected ResultItem toMakeResultItem(@NonNull ResultItem rItem, int value) {
         if (rItem.result == R.integer.empty) {
             return rItem;
         } else {

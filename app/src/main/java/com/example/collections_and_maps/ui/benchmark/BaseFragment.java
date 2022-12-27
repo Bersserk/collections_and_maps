@@ -73,11 +73,12 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
             try {
                 final int value = Integer.parseInt(inputText);
                 calcButton.setText(R.string.calcButtonStop);
-                service = Executors.newCachedThreadPool();
                 List<ResultItem> newList = createTemplateList(true);
+                service = Executors.newCachedThreadPool();
+
                 for (ResultItem rItem : newList) {
                     service.submit(() -> {
-                        final ResultItem resultItem = toRandomValue(rItem, value);
+                        final ResultItem resultItem = toMakeResultItem(rItem, value);
                         if (!service.isShutdown()) {
                             int index = newList.indexOf(rItem);
                             newList.set(index, resultItem);
@@ -85,6 +86,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
                         }
                     });
                 }
+
+
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 if (inputText.isEmpty()) {
@@ -99,7 +102,9 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         }
     }
 
-    protected abstract ResultItem toRandomValue(ResultItem rItem, int value);
+
+
+    protected abstract ResultItem toMakeResultItem(ResultItem rItem, int value);
 
     protected abstract int getSpanCount();
 
