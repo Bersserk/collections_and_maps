@@ -25,14 +25,20 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public abstract class BaseFragment extends Fragment implements View.OnClickListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Optional;
+import butterknife.Unbinder;
+
+public abstract class BaseFragment extends Fragment {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
     private ExecutorService service;
-    private EditText inputFiled;
-    private Button calcButton;
+    private Unbinder unbinder;
 
+    @Nullable @BindView (R.id.inputField) EditText inputFiled;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,9 +48,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        inputFiled = view.findViewById(R.id.inputField);
-        calcButton = view.findViewById(R.id.calcButton);
-        calcButton.setOnClickListener(this);
+        unbinder = ButterKnife.bind(this, view);
 
         final int spans = getSpanCount();
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(
@@ -62,17 +66,17 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
 
-    @Override
-    public void onClick(View view) {
-        final String inputText = inputFiled.getText().toString();
+    @Optional @OnClick (R.id.calcButton)
+    public void onClick(Button view) {
+        final String inputtedValue = inputFiled.getText().toString();
 
         if (service != null && !service.isShutdown()) {
             service.shutdownNow();
-            calcButton.setText(R.string.calcButtonStart);
+            view.setText(R.string.calcButtonStart);
         } else {
             try {
-                final int value = Integer.parseInt(inputText);
-                calcButton.setText(R.string.calcButtonStop);
+                final int value = Integer.parseInt(inputtedValue);
+                view.setText(R.string.calcButtonStop);
                 List<ResultItem> newList = createTemplateList(true);
                 service = Executors.newCachedThreadPool();
 
@@ -90,7 +94,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                if (inputText.isEmpty()) {
+                if (inputtedValue.isEmpty()) {
                     Toast.makeText(getContext(), R.string.NeedAnyValue, Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getContext(), R.string.OnlyNumber, Toast.LENGTH_LONG).show();
@@ -112,6 +116,12 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     synchronized protected void updateUI(List<ResultItem> resultList) {
         handler.post(() -> adapter.submitList(new ArrayList<>(resultList)));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     // we will need this block later ***
