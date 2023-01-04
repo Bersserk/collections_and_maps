@@ -4,9 +4,9 @@ public class ResultItem {
     public final int headerText;
     public final int methodName;
     public final double result;
-    public final boolean isAnimate;
+    public final int isAnimate;
 
-    public ResultItem(int headerText, int methodName, double result, boolean isAnimate) {
+    public ResultItem(int headerText, int methodName, double result, int isAnimate) {
         this.headerText = headerText;
         this.methodName = methodName;
         this.result = result;

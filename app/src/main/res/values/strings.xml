@@ -15,6 +15,14 @@
     <string name="NeedAnyValue">Введите значение</string>
     <string name="LimitValue">Допустимое значение не более 10 000 000</string>
 
+    <string name="clear">""</string>
+    <string name="animate">animate</string>
+    <string name="head">head</string>
+    <string name="method">method</string>
+    <string name="result">result</string>
+
     <integer name="empty">-1</integer>
     <integer name="emptyResult">0</integer>
+
+
 </resources>

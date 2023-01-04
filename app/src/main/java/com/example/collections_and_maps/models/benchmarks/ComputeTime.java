@@ -2,20 +2,16 @@ package com.example.collections_and_maps.models.benchmarks;
 
 import com.example.collections_and_maps.R;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ComputeTime {
-    private final List<Byte> list;
-    private final double resultValue;
+    private List<Byte> list;
 
-
-    public ComputeTime(List<Byte> list, ResultItem rItem) {
-        this.list = list;
-        resultValue = getChose(rItem);
-    }
-
-    private double getChose(ResultItem item) {
-        switch (item.methodName) {
+    private double getChose(int methodName) {
+        switch (methodName) {
             case R.string.add_begin:
                 return addItemToStart();
             case R.string.add_middle:
@@ -79,7 +75,25 @@ public class ComputeTime {
     }
 
 
-    public double getResult() {
-        return resultValue;
+
+    public double getResult(ResultItem rItem, int value) {
+        this.list = getArray(rItem.headerText, value);
+        return getChose(rItem.methodName);
+    }
+
+    private List<Byte> getArray(int headerText, int value) {
+
+        final List<Byte> arrayList = new ArrayList<>(value);
+        for (int i = 0; i < value; i++) {
+            arrayList.add(null);
+        }
+
+        if (headerText == R.string.LinkedList) {
+            return new LinkedList<>(arrayList);
+        } else if (headerText == R.string.CopyOnWrite) {
+            return new CopyOnWriteArrayList<>(arrayList);
+        } else {
+            return arrayList;
+        }
     }
 }

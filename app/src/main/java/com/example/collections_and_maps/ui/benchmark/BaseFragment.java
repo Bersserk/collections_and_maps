@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,7 +62,7 @@ public abstract class BaseFragment extends Fragment {
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
 
-        adapter.submitList(createTemplateList(false));
+        adapter.submitList(createTemplateList(R.string.clear));
         listRecycler.setAdapter(adapter);
     }
 
@@ -77,16 +78,24 @@ public abstract class BaseFragment extends Fragment {
             try {
                 final int value = Integer.parseInt(inputtedValue);
                 view.setText(R.string.calcButtonStop);
-                List<ResultItem> newList = createTemplateList(true);
+                List<ResultItem> newList = createTemplateList(R.string.animate);
                 service = Executors.newCachedThreadPool();
+                AtomicInteger counterActiveThreads = new AtomicInteger();
 
                 for (ResultItem rItem : newList) {
+                    counterActiveThreads.getAndIncrement();
                     service.submit(() -> {
                         final ResultItem resultItem = toMakeResultItem(rItem, value);
                         if (!service.isShutdown()) {
                             int index = newList.indexOf(rItem);
                             newList.set(index, resultItem);
                             updateUI(newList);
+
+                            counterActiveThreads.getAndDecrement();
+                            if(counterActiveThreads.get() == 0){
+                                service.shutdown();
+                                view.setText(R.string.calcButtonStart);
+                            }
                         }
                     });
                 }
@@ -112,7 +121,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getSpanCount();
 
-    protected abstract List<ResultItem> createTemplateList(boolean setAnimateItem);
+    protected abstract List<ResultItem> createTemplateList(int setAnimateItem);
 
     synchronized protected void updateUI(List<ResultItem> resultList) {
         handler.post(() -> adapter.submitList(new ArrayList<>(resultList)));

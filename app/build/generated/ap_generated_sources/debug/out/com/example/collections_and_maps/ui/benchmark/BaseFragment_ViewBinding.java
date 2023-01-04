@@ -23,15 +23,17 @@ public class BaseFragment_ViewBinding implements Unbinder {
     this.target = target;
 
     View view;
-    target.inputFiled = Utils.findRequiredViewAsType(source, R.id.inputField, "field 'inputFiled'", EditText.class);
-    view = Utils.findRequiredView(source, R.id.calcButton, "method 'onClick'");
-    view7f080064 = view;
-    view.setOnClickListener(new DebouncingOnClickListener() {
-      @Override
-      public void doClick(View p0) {
-        target.onClick(Utils.castParam(p0, "doClick", 0, "onClick", 0, Button.class));
-      }
-    });
+    target.inputFiled = Utils.findOptionalViewAsType(source, R.id.inputField, "field 'inputFiled'", EditText.class);
+    view = source.findViewById(R.id.calcButton);
+    if (view != null) {
+      view7f080064 = view;
+      view.setOnClickListener(new DebouncingOnClickListener() {
+        @Override
+        public void doClick(View p0) {
+          target.onClick(Utils.castParam(p0, "doClick", 0, "onClick", 0, Button.class));
+        }
+      });
+    }
   }
 
   @Override
@@ -43,7 +45,9 @@ public class BaseFragment_ViewBinding implements Unbinder {
 
     target.inputFiled = null;
 
-    view7f080064.setOnClickListener(null);
-    view7f080064 = null;
+    if (view7f080064 != null) {
+      view7f080064.setOnClickListener(null);
+      view7f080064 = null;
+    }
   }
 }
