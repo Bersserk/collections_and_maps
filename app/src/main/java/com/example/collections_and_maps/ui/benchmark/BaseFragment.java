@@ -78,9 +78,9 @@ public abstract class BaseFragment extends Fragment {
             try {
                 final int value = Integer.parseInt(inputtedValue);
                 view.setText(R.string.calcButtonStop);
-                List<ResultItem> newList = createTemplateList(R.string.animate);
+                final List<ResultItem> newList = createTemplateList(R.string.animate);
                 service = Executors.newCachedThreadPool();
-                AtomicInteger counterActiveThreads = new AtomicInteger();
+                final AtomicInteger counterActiveThreads = new AtomicInteger();
 
                 for (ResultItem rItem : newList) {
                     counterActiveThreads.getAndIncrement();

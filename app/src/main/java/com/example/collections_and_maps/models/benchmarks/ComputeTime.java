@@ -3,12 +3,16 @@ package com.example.collections_and_maps.models.benchmarks;
 import com.example.collections_and_maps.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ComputeTime {
-    private List<Byte> list;
+    private List list;
+    private Map map;
 
     private double getChose(int methodName) {
         switch (methodName) {
@@ -26,6 +30,12 @@ public class ComputeTime {
                 return removingInMiddle();
             case R.string.remove_end:
                 return removingInEnd();
+            case R.string.add_new:
+                return addingNew();
+            case R.string.search_key:
+                return searchByKey();
+            case R.string.removing:
+                return removing();
             default:
                 throw new IllegalArgumentException();
         }
@@ -74,26 +84,62 @@ public class ComputeTime {
         return (System.nanoTime() - start) / 1000000;
     }
 
+    private double addingNew() {
+        double start = System.nanoTime();
+        map.put(-1, null);
+        return (System.nanoTime() - start) / 1000000;
+    }
+
+    private double searchByKey() {
+        double start = System.nanoTime();
+        Object b = map.get(map.size()/2).toString();
+        return (System.nanoTime() - start) / 1000000;
+    }
+
+    private double removing() {
+        double start = System.nanoTime();
+        map.remove(map.size()/2);
+        return (System.nanoTime() - start) / 1000000;
+    }
 
 
     public double getResult(ResultItem rItem, int value) {
-        this.list = getArray(rItem.headerText, value);
+        switch (rItem.headerText){
+            case R.string.ArrayList:
+                this.list = toCreateArray(new ArrayList(value), value);
+                break;
+            case R.string.LinkedList:
+                this.list = toCreateArray(new LinkedList(), value);
+                break;
+            case R.string.CopyOnWrite:
+                this.list = toCreateArray(new CopyOnWriteArrayList(), value);
+                break;
+            case R.string.HashMap:
+                this.map = toCreateArray(new HashMap<Integer, Object>(), value);
+                break;
+            case R.string.TreeMap:
+                this.map = toCreateArray(new TreeMap<Integer, Object>(), value);
+                break;
+        }
         return getChose(rItem.methodName);
     }
 
-    private List<Byte> getArray(int headerText, int value) {
+    public List toCreateArray (List list, int size){
 
-        final List<Byte> arrayList = new ArrayList<>(value);
-        for (int i = 0; i < value; i++) {
-            arrayList.add(null);
+        List mList = list;
+        for (int i = 0; i < size; i++) {
+            mList.add(null);
         }
-
-        if (headerText == R.string.LinkedList) {
-            return new LinkedList<>(arrayList);
-        } else if (headerText == R.string.CopyOnWrite) {
-            return new CopyOnWriteArrayList<>(arrayList);
-        } else {
-            return arrayList;
-        }
+        return mList;
     }
+
+    public Map toCreateArray (Map mMap, int size){
+
+        Map map = mMap;
+        for (int i = 0; i < size; i++) {
+            map.put(i, null);
+        }
+        return map;
+    }
+
 }

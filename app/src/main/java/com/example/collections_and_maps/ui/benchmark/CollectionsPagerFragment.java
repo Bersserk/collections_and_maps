@@ -7,9 +7,7 @@ import com.example.collections_and_maps.models.benchmarks.ComputeTime;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CollectionsPagerFragment extends BaseFragment {
 
@@ -44,15 +42,11 @@ public class CollectionsPagerFragment extends BaseFragment {
 
     @Override
     protected ResultItem toMakeResultItem(@NonNull ResultItem rItem, int value) {
-        System.out.println("toMakeResultItem()");
         if (rItem.result == R.integer.empty) {
             return rItem;
         } else {
-            ResultItem resIt = new ResultItem(rItem.headerText, rItem.methodName, new ComputeTime().getResult(rItem, value), R.string.result);
-            System.out.println("head = " + rItem.headerText + "; met = " + rItem.methodName +
-                    "; res = " + resIt.result + "; anim = " + resIt.isAnimate);
-            return resIt;
-//            return new ResultItem(rItem.headerText, rItem.methodName, new ComputeTime().getResult(rItem, value), true);
+            return new ResultItem(rItem.headerText, rItem.methodName,
+                    new ComputeTime().getResult(rItem, value), R.string.result);
         }
     }
 
