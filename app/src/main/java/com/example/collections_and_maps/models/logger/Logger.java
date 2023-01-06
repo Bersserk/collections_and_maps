@@ -83,8 +83,8 @@ public class Logger {
         Log.i(tag, outPut + " = " + s);
     }
 
-    private void print(String service) {
-        System.out.println(service);
+    private void print(String text) {
+        System.out.println(text);
     }
 
     public void print(String b1, Object o) {

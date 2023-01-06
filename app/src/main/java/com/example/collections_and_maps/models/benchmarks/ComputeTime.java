@@ -45,61 +45,61 @@ public class ComputeTime {
     private double addItemToStart() {
         double start = System.nanoTime();
         list.add(null);
-        return (System.nanoTime() - start) / 1000000;
+        return (System.nanoTime() - start);
     }
 
     private double addItemToMiddle() {
         double start = System.nanoTime();
         list.add(list.size() / 2, null);
-        return (System.nanoTime() - start) / 1000000;
+        return (System.nanoTime() - start);
     }
 
     private double addItemToEnd() {
         double start = System.nanoTime();
         list.add(list.size(), null);
-        return (System.nanoTime() - start) / 1000000;
+        return (System.nanoTime() - start);
     }
 
     private double searchByValue() {
         double start = System.nanoTime();
         Object valueByIndex = list.get((int) (list.size() / 3 * 2));
-        return (System.nanoTime() - start) / 1000000;
+        return (System.nanoTime() - start);
     }
 
     private double removingInBeginning() {
         double start = System.nanoTime();
         list.remove(0);
-        return (System.nanoTime() - start) / 1000000;
+        return (System.nanoTime() - start);
     }
 
     private double removingInMiddle() {
         double start = System.nanoTime();
         list.remove(list.size() / 2);
-        return (System.nanoTime() - start) / 1000000;
+        return (System.nanoTime() - start);
     }
 
     private double removingInEnd() {
         double start = System.nanoTime();
         list.remove(list.size() - 1);
-        return (System.nanoTime() - start) / 1000000;
+        return (System.nanoTime() - start);
     }
 
     private double addingNew() {
         double start = System.nanoTime();
         map.put(-1, null);
-        return (System.nanoTime() - start) / 1000000;
+        return (System.nanoTime() - start);
     }
 
     private double searchByKey() {
         double start = System.nanoTime();
-        Object b = map.get(map.size()/2).toString();
-        return (System.nanoTime() - start) / 1000000;
+        Object b = map.get(map.size()/2);
+        return (System.nanoTime() - start);
     }
 
     private double removing() {
         double start = System.nanoTime();
         map.remove(map.size()/2);
-        return (System.nanoTime() - start) / 1000000;
+        return (System.nanoTime() - start);
     }
 
 
@@ -125,16 +125,14 @@ public class ComputeTime {
     }
 
     public List toCreateArray (List list, int size){
-
         List mList = list;
         for (int i = 0; i < size; i++) {
-            mList.add(null);
+            list.add(null);
         }
         return mList;
     }
 
     public Map toCreateArray (Map mMap, int size){
-
         Map map = mMap;
         for (int i = 0; i < size; i++) {
             map.put(i, null);

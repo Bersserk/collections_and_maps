@@ -39,7 +39,6 @@ public class CollectionsPagerFragment extends BaseFragment {
         return items;
     }
 
-
     @Override
     protected ResultItem toMakeResultItem(@NonNull ResultItem rItem, int value) {
         if (rItem.result == R.integer.empty) {
@@ -49,6 +48,5 @@ public class CollectionsPagerFragment extends BaseFragment {
                     new ComputeTime().getResult(rItem, value), R.string.result);
         }
     }
-
 }
 

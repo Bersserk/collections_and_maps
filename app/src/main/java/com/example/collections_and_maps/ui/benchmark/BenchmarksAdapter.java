@@ -30,10 +30,9 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 
                 @Override
                 public boolean areContentsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
-                    return oldItem.result == newItem.result;
+                    return oldItem.result == newItem.result && oldItem.isAnimate == newItem.isAnimate;
                 }
             };
-
 
     public BenchmarksAdapter() {
         super(DIFF_CALLBACK);
@@ -51,7 +50,6 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
     public void onBindViewHolder(@NonNull BenchmarkViewHolder holder, int position) {
         holder.bindTo(getItem(position));
     }
-
 
     static class BenchmarkViewHolder extends RecyclerView.ViewHolder {
         @Nullable
@@ -71,30 +69,21 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 
         public void bindTo(@NonNull ResultItem item) {
             switch (item.isAnimate) {
-                case R.string.clear:
-                    // для отображения без анимации бара и чистым текстом, иначе будет дубль холдера
-                    animator.setDuration(300).alpha(0.0f);
+                case R.string.clear:      // для отображения без анимации бара и чистым текстом, иначе будет дубль холдера
                     nameView.setText(R.string.clear);
                     break;
-                case R.string.animate:
-                    // для отображения ячейки без текста но с анимацией бара
+                case R.string.animate:        // для отображения ячейки без текста но с анимацией бара
                     animator.setDuration(300).alpha(1.0f);
                     nameView.setText(R.string.clear);
                     break;
-                case R.string.result:
-                    // для отображения результата и остановки анимации бара
-                    animator.setDuration(300).alpha(1.0f);
+                case R.string.result:             // для отображения результата и остановки анимации бара
                     nameView.setText(String.valueOf(item.result));
                     animator.setDuration(300).alpha(0.0f);
                     break;
-                case R.string.head:
-                    // для отображения ячейки с head текстом и без анимации бара у холдера
-                    animator.setDuration(1).alpha(0.0f);
+                case R.string.head:             // для отображения ячейки с head текстом и без анимации бара у холдера
                     nameView.setText(item.headerText);
                     break;
-                case R.string.method:
-                    // для отображения ячейки с method текстом и без анимации бара у холдера
-                    animator.setDuration(1).alpha(0.0f);
+                case R.string.method:             // для отображения ячейки с method текстом и без анимации бара у холдера
                     nameView.setText(item.methodName);
                     break;
             }

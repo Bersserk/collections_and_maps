@@ -39,7 +39,9 @@ public abstract class BaseFragment extends Fragment {
     private ExecutorService service;
     private Unbinder unbinder;
 
-    @Nullable @BindView (R.id.inputField) EditText inputFiled;
+    @Nullable
+    @BindView(R.id.inputField)
+    EditText inputFiled;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,17 +69,18 @@ public abstract class BaseFragment extends Fragment {
     }
 
 
-    @Optional @OnClick (R.id.calcButton)
-    public void onClick(Button view) {
+    @Optional
+    @OnClick(R.id.calcButton)
+    public void onClick(Button button) {
         final String inputtedValue = inputFiled.getText().toString();
 
         if (service != null && !service.isShutdown()) {
             service.shutdownNow();
-            view.setText(R.string.calcButtonStart);
+            button.setText(R.string.calcButtonStart);
         } else {
             try {
                 final int value = Integer.parseInt(inputtedValue);
-                view.setText(R.string.calcButtonStop);
+                button.setText(R.string.calcButtonStop);
                 final List<ResultItem> newList = createTemplateList(R.string.animate);
                 service = Executors.newCachedThreadPool();
                 final AtomicInteger counterActiveThreads = new AtomicInteger();
@@ -92,14 +95,13 @@ public abstract class BaseFragment extends Fragment {
                             updateUI(newList);
 
                             counterActiveThreads.getAndDecrement();
-                            if(counterActiveThreads.get() == 0){
+                            if (counterActiveThreads.get() == 0) {
                                 service.shutdown();
-                                view.setText(R.string.calcButtonStart);
+                                button.setText(R.string.calcButtonStart);
                             }
                         }
                     });
                 }
-
 
             } catch (NumberFormatException e) {
                 e.printStackTrace();
@@ -114,7 +116,6 @@ public abstract class BaseFragment extends Fragment {
             }
         }
     }
-
 
 
     protected abstract ResultItem toMakeResultItem(ResultItem rItem, int value);

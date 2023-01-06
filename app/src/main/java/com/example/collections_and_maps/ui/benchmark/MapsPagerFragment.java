@@ -45,5 +45,4 @@ public class MapsPagerFragment extends BaseFragment {
                     new ComputeTime().getResult(rItem, value), R.string.result);
         }
     }
-
 }
