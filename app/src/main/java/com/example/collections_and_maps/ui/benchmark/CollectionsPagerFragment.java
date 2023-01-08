@@ -3,7 +3,8 @@ package com.example.collections_and_maps.ui.benchmark;
 import androidx.annotation.NonNull;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.models.benchmarks.ComputeTime;
+import com.example.collections_and_maps.models.benchmarks.CollectionsComputeTime;
+import com.example.collections_and_maps.models.benchmarks.MapsComputeTime;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
 import java.util.ArrayList;
@@ -40,12 +41,12 @@ public class CollectionsPagerFragment extends BaseFragment {
     }
 
     @Override
-    protected ResultItem toMakeResultItem(@NonNull ResultItem rItem, int value) {
+    protected ResultItem createNewResultItem(@NonNull ResultItem rItem, int value) {
         if (rItem.result == R.integer.empty) {
             return rItem;
         } else {
             return new ResultItem(rItem.headerText, rItem.methodName,
-                    new ComputeTime().getResult(rItem, value), R.string.result);
+                    new CollectionsComputeTime().getResult(rItem, value), R.string.result);
         }
     }
 }

@@ -10,13 +10,15 @@
         android:layout_height="wrap_content"
         android:hint="@string/collectionSize_hint"
         android:minHeight="48dp"
-        android:textColorHint="#757575"
+        android:textColorHint="#616161"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/calcButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.049"
-        app:layout_constraintWidth_percent="0.7" />
+        app:layout_constraintWidth_percent="0.7"
+        android:inputType="number"
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/calcButton"
@@ -36,7 +38,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputField"
-        app:layout_constraintWidth_percent="50" />
+        app:layout_constraintTop_toBottomOf="@+id/inputField" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

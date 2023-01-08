@@ -78,31 +78,29 @@ public abstract class BaseFragment extends Fragment {
             service.shutdownNow();
             button.setText(R.string.calcButtonStart);
         } else {
+            button.setText(R.string.calcButtonStop);
+            final List<ResultItem> newList = createTemplateList(R.string.animate);
+            service = Executors.newCachedThreadPool();
+            final AtomicInteger counterActiveThreads = new AtomicInteger();
+
             try {
                 final int value = Integer.parseInt(inputtedValue);
-                button.setText(R.string.calcButtonStop);
-                final List<ResultItem> newList = createTemplateList(R.string.animate);
-                service = Executors.newCachedThreadPool();
-                final AtomicInteger counterActiveThreads = new AtomicInteger();
-
                 for (ResultItem rItem : newList) {
                     counterActiveThreads.getAndIncrement();
                     service.submit(() -> {
-                        final ResultItem resultItem = toMakeResultItem(rItem, value);
+                        final ResultItem resultItem = createNewResultItem(rItem, value);
                         if (!service.isShutdown()) {
                             int index = newList.indexOf(rItem);
                             newList.set(index, resultItem);
                             updateUI(newList);
 
-                            counterActiveThreads.getAndDecrement();
-                            if (counterActiveThreads.get() == 0) {
+                            if (counterActiveThreads.decrementAndGet() == 0) {
                                 service.shutdown();
                                 button.setText(R.string.calcButtonStart);
                             }
                         }
                     });
                 }
-
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 if (inputtedValue.isEmpty()) {
@@ -118,7 +116,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
 
-    protected abstract ResultItem toMakeResultItem(ResultItem rItem, int value);
+    protected abstract ResultItem createNewResultItem(ResultItem rItem, int value);
 
     protected abstract int getSpanCount();
 
