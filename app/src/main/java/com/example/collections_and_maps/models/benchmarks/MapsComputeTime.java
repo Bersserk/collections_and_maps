@@ -8,11 +8,11 @@ import java.util.TreeMap;
 
 public class MapsComputeTime {
 
-    public double toGetResult(ResultItem rItem, int value) {
+    public double getResult(ResultItem rItem, int value) {
         final Map map;
         switch (rItem.headerText) {
             case R.string.HashMap:
-                map = createArray(new HashMap<Integer, Integer>(), value);
+                map = createArray(new HashMap<Integer, Integer>(value), value);
                 break;
             case R.string.TreeMap:
                 map = createArray(new TreeMap<Integer, Integer>(), value);

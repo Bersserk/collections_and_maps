@@ -3,6 +3,7 @@ package com.example.collections_and_maps.models.benchmarks;
 import com.example.collections_and_maps.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -13,13 +14,13 @@ public class CollectionsComputeTime {
         final List list;
         switch (rItem.headerText) {
             case R.string.ArrayList:
-                list = toCreateArray(new ArrayList(value), value);
+                list = new ArrayList(Collections.nCopies(value, 0));
                 break;
             case R.string.LinkedList:
-                list = toCreateArray(new LinkedList(), value);
+                list = new LinkedList(Collections.nCopies(value, 0));
                 break;
             case R.string.CopyOnWrite:
-                list = toCreateArray(new CopyOnWriteArrayList(), value);
+                list = new CopyOnWriteArrayList(Collections.nCopies(value, 0));
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + rItem.headerText);
@@ -89,14 +90,5 @@ public class CollectionsComputeTime {
         double start = System.nanoTime();
         list.remove(list.size() - 1);
         return (System.nanoTime() - start);
-    }
-
-
-    public List toCreateArray(List list, int size) {
-        final List mList = list;
-        for (int i = 0; i < size; i++) {
-            list.add(i);
-        }
-        return mList;
     }
 }

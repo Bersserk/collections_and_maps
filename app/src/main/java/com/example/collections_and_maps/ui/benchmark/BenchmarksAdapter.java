@@ -25,12 +25,12 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
             new DiffUtil.ItemCallback<ResultItem>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
-                    return oldItem.methodName == newItem.methodName;
+                    return oldItem.headerText == newItem.headerText || oldItem.methodName == newItem.methodName;
                 }
 
                 @Override
                 public boolean areContentsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
-                    return oldItem.result == newItem.result && oldItem.isAnimate == newItem.isAnimate;
+                    return oldItem.result == newItem.result && oldItem.isHeader == newItem.isHeader;
                 }
             };
 
@@ -68,24 +68,22 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         }
 
         public void bindTo(@NonNull ResultItem item) {
-            switch (item.isAnimate) {
-                case R.string.clear:      // для отображения без анимации бара и чистым текстом, иначе будет дубль холдера
-                    nameView.setText(R.string.clear);
-                    break;
-                case R.string.animate:        // для отображения ячейки без текста но с анимацией бара
-                    animator.setDuration(300).alpha(1.0f);
-                    nameView.setText(R.string.clear);
-                    break;
-                case R.string.result:             // для отображения результата и остановки анимации бара
+
+            if (item.result == R.integer.zero && item.isHeader) {
+                animator.setDuration(300).alpha(1.0f);
+                nameView.setText("");
+            } else {
+                animator.setDuration(0).alpha(0.0f);
+
+                if(item.headerText != R.string.empty && item.methodName != R.string.empty && item.result == R.integer.zero){
+                    nameView.setText("");
+                } else if(item.headerText != R.string.empty && item.methodName != R.string.empty){
                     nameView.setText(String.valueOf(item.result));
-                    animator.setDuration(300).alpha(0.0f);
-                    break;
-                case R.string.head:             // для отображения ячейки с head текстом и без анимации бара у холдера
+                } else if (item.headerText != R.string.empty){
                     nameView.setText(item.headerText);
-                    break;
-                case R.string.method:             // для отображения ячейки с method текстом и без анимации бара у холдера
+                } else if (item.methodName != R.string.empty){
                     nameView.setText(item.methodName);
-                    break;
+                }
             }
         }
     }

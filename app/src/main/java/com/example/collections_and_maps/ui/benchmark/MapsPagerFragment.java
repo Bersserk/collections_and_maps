@@ -18,19 +18,19 @@ public class MapsPagerFragment extends BaseFragment {
     }
 
     @Override
-    public List<ResultItem> createTemplateList(int animateStatus) {
+    public List<ResultItem> createTemplateList(boolean isAnimate) {
         final List<ResultItem> items = new ArrayList<>();
 
-        items.add(new ResultItem(R.string.HashMap, R.integer.empty, R.integer.empty, R.string.head));
-        items.add(new ResultItem(R.string.TreeMap, R.integer.empty, R.integer.empty, R.string.head));
+        items.add(new ResultItem(R.string.HashMap, R.string.empty, R.string.empty, false));
+        items.add(new ResultItem(R.string.TreeMap, R.string.empty, R.string.empty, false));
 
         final int[] listHeadsId = {R.string.HashMap, R.string.TreeMap};
         final int[] listMethodsId = {R.string.add_new, R.string.search_key, R.string.removing};
 
         for (int methodsID : listMethodsId) {
-            items.add(new ResultItem(R.integer.empty, methodsID, R.integer.empty, R.string.method));
+            items.add(new ResultItem(R.string.empty, methodsID, R.string.empty, false));
             for (int headsID : listHeadsId) {
-                items.add(new ResultItem(headsID, methodsID, R.integer.emptyResult, animateStatus));
+                items.add(new ResultItem(headsID, methodsID, R.integer.zero, isAnimate));
             }
         }
         return items;
@@ -38,11 +38,11 @@ public class MapsPagerFragment extends BaseFragment {
 
     @Override
     protected ResultItem createNewResultItem(@NonNull ResultItem rItem, int value) {
-        if (rItem.result == R.integer.empty) {
+        if (rItem.result == R.string.empty) {
             return rItem;
         } else {
             return new ResultItem(rItem.headerText, rItem.methodName,
-                    new MapsComputeTime().toGetResult(rItem, value), R.string.result);
+                    new MapsComputeTime().getResult(rItem, value), false);
         }
     }
 }

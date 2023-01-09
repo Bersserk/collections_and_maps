@@ -4,12 +4,12 @@ public class ResultItem {
     public final int headerText;
     public final int methodName;
     public final double result;
-    public final int isAnimate;
+    public final boolean isHeader;
 
-    public ResultItem(int headerText, int methodName, double result, int isAnimate) {
+    public ResultItem(int headerText, int methodName, double result, boolean isHeader) {
         this.headerText = headerText;
         this.methodName = methodName;
         this.result = result;
-        this.isAnimate = isAnimate;
+        this.isHeader = isHeader;
     }
 }

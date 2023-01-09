@@ -64,7 +64,7 @@ public abstract class BaseFragment extends Fragment {
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
 
-        adapter.submitList(createTemplateList(R.string.clear));
+        adapter.submitList(createTemplateList(false));
         listRecycler.setAdapter(adapter);
     }
 
@@ -79,7 +79,7 @@ public abstract class BaseFragment extends Fragment {
             button.setText(R.string.calcButtonStart);
         } else {
             button.setText(R.string.calcButtonStop);
-            final List<ResultItem> newList = createTemplateList(R.string.animate);
+            final List<ResultItem> newList = createTemplateList(true);
             service = Executors.newCachedThreadPool();
             final AtomicInteger counterActiveThreads = new AtomicInteger();
 
@@ -120,7 +120,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getSpanCount();
 
-    protected abstract List<ResultItem> createTemplateList(int setAnimateItem);
+    protected abstract List<ResultItem> createTemplateList(boolean isAnimate);
 
     synchronized protected void updateUI(List<ResultItem> resultList) {
         handler.post(() -> adapter.submitList(new ArrayList<>(resultList)));
@@ -140,7 +140,6 @@ public abstract class BaseFragment extends Fragment {
 //        fragment.setArguments(args);
 //        return fragment;
 //    }
-
 }
 
 

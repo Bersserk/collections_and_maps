@@ -18,13 +18,13 @@ public class CollectionsPagerFragment extends BaseFragment {
     }
 
     @Override
-    protected List<ResultItem> createTemplateList(int animateStatus) {
+    protected List<ResultItem> createTemplateList(boolean isAnimate) {
 
         final List<ResultItem> items = new ArrayList<>();
 
-        items.add(new ResultItem(R.string.ArrayList, R.integer.empty, R.integer.empty, R.string.head));
-        items.add(new ResultItem(R.string.LinkedList, R.integer.empty, R.integer.empty, R.string.head));
-        items.add(new ResultItem(R.string.CopyOnWrite, R.integer.empty, R.integer.empty, R.string.head));
+        items.add(new ResultItem(R.string.ArrayList, R.string.empty, R.string.empty, false));
+        items.add(new ResultItem(R.string.LinkedList, R.string.empty, R.string.empty, false));
+        items.add(new ResultItem(R.string.CopyOnWrite, R.string.empty, R.string.empty, false));
 
         final int[] listHeadsId = {R.string.ArrayList, R.string.LinkedList, R.string.CopyOnWrite};
         final int[] listMethodsId = {R.string.add_begin, R.string.add_middle,
@@ -32,9 +32,9 @@ public class CollectionsPagerFragment extends BaseFragment {
                 R.string.remove_middle, R.string.remove_end};
 
         for (int methodsID : listMethodsId) {
-            items.add(new ResultItem(R.integer.empty, methodsID, R.integer.empty, R.string.method));
+            items.add(new ResultItem(R.string.empty, methodsID, R.string.empty, false));
             for (int headsID : listHeadsId) {
-                items.add(new ResultItem(headsID, methodsID, R.integer.emptyResult, animateStatus));
+                items.add(new ResultItem(headsID, methodsID, R.integer.zero, isAnimate));
             }
         }
         return items;
@@ -42,11 +42,11 @@ public class CollectionsPagerFragment extends BaseFragment {
 
     @Override
     protected ResultItem createNewResultItem(@NonNull ResultItem rItem, int value) {
-        if (rItem.result == R.integer.empty) {
+        if (rItem.result == R.string.empty) {
             return rItem;
         } else {
             return new ResultItem(rItem.headerText, rItem.methodName,
-                    new CollectionsComputeTime().getResult(rItem, value), R.string.result);
+                    new CollectionsComputeTime().getResult(rItem, value), false);
         }
     }
 }

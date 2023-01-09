@@ -11,4 +11,7 @@
     <string name="remove_begin">removing in the beginning</string>
     <string name="remove_middle">removing in the middle</string>
     <string name="remove_end">removing in the end</string>
+
+    <string name="empty">""</string>
+    <integer name="zero">0</integer>
 </resources>
