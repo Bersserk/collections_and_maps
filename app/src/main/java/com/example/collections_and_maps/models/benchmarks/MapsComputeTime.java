@@ -8,7 +8,7 @@ import java.util.TreeMap;
 
 public class MapsComputeTime {
 
-    public double getResult(ResultItem rItem, int value) {
+    public double measureTime(ResultItem rItem, int value) {
         final Map map;
         switch (rItem.headerText) {
             case R.string.HashMap:

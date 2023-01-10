@@ -30,7 +30,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 
                 @Override
                 public boolean areContentsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
-                    return oldItem.result == newItem.result && oldItem.isHeader == newItem.isHeader;
+                    return oldItem.result == newItem.result && oldItem.progressActivated == newItem.progressActivated;
                 }
             };
 
@@ -69,7 +69,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 
         public void bindTo(@NonNull ResultItem item) {
 
-            if (item.result == R.integer.zero && item.isHeader) {
+            if (item.result == R.integer.zero && item.progressActivated) {
                 animator.setDuration(300).alpha(1.0f);
                 nameView.setText("");
             } else {

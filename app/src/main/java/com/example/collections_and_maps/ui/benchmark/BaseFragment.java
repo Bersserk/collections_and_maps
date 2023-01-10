@@ -120,7 +120,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getSpanCount();
 
-    protected abstract List<ResultItem> createTemplateList(boolean isAnimate);
+    protected abstract List<ResultItem> createTemplateList(boolean showProgress);
 
     synchronized protected void updateUI(List<ResultItem> resultList) {
         handler.post(() -> adapter.submitList(new ArrayList<>(resultList)));

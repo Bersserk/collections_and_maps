@@ -10,17 +10,17 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CollectionsComputeTime {
 
-    public double getResult(ResultItem rItem, int value) {
-        final List list;
+    public double measureTime(ResultItem rItem, int value) {
+        final List <Integer> list;
         switch (rItem.headerText) {
             case R.string.ArrayList:
-                list = new ArrayList(Collections.nCopies(value, 0));
+                list = new ArrayList<>(Collections.nCopies(value, 0));
                 break;
             case R.string.LinkedList:
-                list = new LinkedList(Collections.nCopies(value, 0));
+                list = new LinkedList<>(Collections.nCopies(value, 0));
                 break;
             case R.string.CopyOnWrite:
-                list = new CopyOnWriteArrayList(Collections.nCopies(value, 0));
+                list = new CopyOnWriteArrayList<>(Collections.nCopies(value, 0));
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + rItem.headerText);
@@ -28,7 +28,7 @@ public class CollectionsComputeTime {
         return calculateResult(rItem.methodName, list);
     }
 
-    private double calculateResult(int methodName, List list) {
+    private double calculateResult(int methodName, List <Integer> list) {
         switch (methodName) {
             case R.string.add_begin:
                 return addItemToStart(list);
@@ -69,8 +69,10 @@ public class CollectionsComputeTime {
     }
 
     private double searchByValue(List list) {
+        int middleNumberOfList = list.size() / 3 * 2;
+        list.add(middleNumberOfList, middleNumberOfList);
         double start = System.nanoTime();
-        list.get((list.size() / 3 * 2));
+        boolean has = list.contains(100);
         return (System.nanoTime() - start);
     }
 

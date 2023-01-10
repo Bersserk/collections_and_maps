@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.CollectionsComputeTime;
-import com.example.collections_and_maps.models.benchmarks.MapsComputeTime;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class CollectionsPagerFragment extends BaseFragment {
     }
 
     @Override
-    protected List<ResultItem> createTemplateList(boolean isAnimate) {
+    protected List<ResultItem> createTemplateList(boolean showProgress) {
 
         final List<ResultItem> items = new ArrayList<>();
 
@@ -34,7 +33,7 @@ public class CollectionsPagerFragment extends BaseFragment {
         for (int methodsID : listMethodsId) {
             items.add(new ResultItem(R.string.empty, methodsID, R.string.empty, false));
             for (int headsID : listHeadsId) {
-                items.add(new ResultItem(headsID, methodsID, R.integer.zero, isAnimate));
+                items.add(new ResultItem(headsID, methodsID, R.integer.zero, showProgress));
             }
         }
         return items;
@@ -46,7 +45,7 @@ public class CollectionsPagerFragment extends BaseFragment {
             return rItem;
         } else {
             return new ResultItem(rItem.headerText, rItem.methodName,
-                    new CollectionsComputeTime().getResult(rItem, value), false);
+                    new CollectionsComputeTime().measureTime(rItem, value), false);
         }
     }
 }
