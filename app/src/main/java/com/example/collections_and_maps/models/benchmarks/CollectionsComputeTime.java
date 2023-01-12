@@ -69,10 +69,10 @@ public class CollectionsComputeTime {
     }
 
     private double searchByValue(List list) {
-        int middleNumberOfList = list.size() / 3 * 2;
+        int middleNumberOfList = (int) Math.random() * list.size();
         list.add(middleNumberOfList, middleNumberOfList);
         double start = System.nanoTime();
-        boolean has = list.contains(100);
+        boolean has = list.contains(middleNumberOfList);
         return (System.nanoTime() - start);
     }
 
