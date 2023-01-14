@@ -15,10 +15,17 @@ public class ResultItem {
         this.valueTV = headerText == R.string.empty ? methodName : headerText;
     }
 
-    public boolean isHeader() {
+    public final boolean isHeader() {
         return headerText == R.string.empty || methodName == R.string.empty;
     }
 
+    public final boolean isWaitingResult() {
+        return result == 0;
+    }
+
+    public final boolean isResult() {
+        return result != R.string.empty;
+    }
 }
 
 

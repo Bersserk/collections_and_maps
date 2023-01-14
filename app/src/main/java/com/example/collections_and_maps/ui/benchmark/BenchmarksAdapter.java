@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.databinding.ItemBenchmarkBinding;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
@@ -51,7 +50,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         private final ViewPropertyAnimator animator;
         private final ItemBenchmarkBinding binding;
 
-        BenchmarkViewHolder(ItemBenchmarkBinding binding) {
+        BenchmarkViewHolder(@NonNull ItemBenchmarkBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             animator = binding.progressBar.animate();
@@ -62,9 +61,9 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
             if (item.isHeader()) {
                 animator.setDuration(0).alpha(0.0f);
                 binding.nameView.setText(item.valueTV);
-            } else if (item.result == 0) {
+            } else if (item.isWaitingResult()) {
                 animator.setDuration(300).alpha(1.0f);
-            } else if (item.result != R.string.empty) {
+            } else if (item.isResult()) {
                 animator.setDuration(0).alpha(0.0f);
                 binding.nameView.setText(String.valueOf(item.result));
             }
