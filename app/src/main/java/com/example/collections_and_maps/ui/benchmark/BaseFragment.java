@@ -7,18 +7,15 @@ import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.databinding.FragmentBenchmarkBinding;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -54,7 +51,7 @@ public abstract class BaseFragment extends Fragment {
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
 
-        adapter.submitList(createTemplateList(false));
+        adapter.submitList(createTemplateList(R.string.empty));
         listRecycler.setAdapter(adapter);
 
         binding.calcButton.setOnClickListener(v -> toCalculate());
@@ -68,7 +65,7 @@ public abstract class BaseFragment extends Fragment {
             binding.calcButton.setText(R.string.calcButtonStart);
         } else if (value > 0) {
             binding.calcButton.setText(R.string.calcButtonStop);
-            final List<ResultItem> newList = createTemplateList(true);
+            final List<ResultItem> newList = createTemplateList(0);
             service = Executors.newCachedThreadPool();
             final AtomicInteger counterActiveThreads = new AtomicInteger();
 
@@ -91,7 +88,7 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-    private int checkValidateValue(Editable inputtedValue) {
+    private int checkValidateValue(@NonNull Editable inputtedValue) {
         final String in = inputtedValue.toString();
         int value;
         try {
@@ -108,7 +105,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getSpanCount();
 
-    protected abstract List<ResultItem> createTemplateList(boolean showProgress);
+    protected abstract List<ResultItem> createTemplateList(int resultValue);
 
     synchronized protected void updateUI(List<ResultItem> resultList) {
         handler.post(() -> adapter.submitList(new ArrayList<>(resultList)));

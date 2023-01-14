@@ -24,7 +24,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 
                 @Override
                 public boolean areContentsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
-                    return oldItem.result == newItem.result && oldItem.progressActivated == newItem.progressActivated;
+                    return oldItem.result == newItem.result;
                 }
             };
 
@@ -59,21 +59,14 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 
         public void bindTo(@NonNull ResultItem item) {
 
-            if (item.result == R.integer.zero && item.progressActivated) {
-                animator.setDuration(300).alpha(1.0f);
-                binding.nameView.setText("");
-            } else {
+            if (item.isHeader()) {
                 animator.setDuration(0).alpha(0.0f);
-
-                if (item.headerText != R.string.empty && item.methodName != R.string.empty && item.result == R.integer.zero) {
-                    binding.nameView.setText("");
-                } else if (item.headerText != R.string.empty && item.methodName != R.string.empty) {
-                    binding.nameView.setText(String.valueOf(item.result));
-                } else if (item.headerText != R.string.empty) {
-                    binding.nameView.setText(item.headerText);
-                } else if (item.methodName != R.string.empty) {
-                    binding.nameView.setText(item.methodName);
-                }
+                binding.nameView.setText(item.valueTV);
+            } else if (item.result == 0) {
+                animator.setDuration(300).alpha(1.0f);
+            } else if (item.result != R.string.empty) {
+                animator.setDuration(0).alpha(0.0f);
+                binding.nameView.setText(String.valueOf(item.result));
             }
         }
     }

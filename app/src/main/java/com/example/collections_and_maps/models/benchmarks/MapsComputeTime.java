@@ -9,7 +9,7 @@ import java.util.TreeMap;
 public class MapsComputeTime {
 
     public double measureTime(ResultItem rItem, int value) {
-        final Map map;
+        final Map <Integer, Integer> map;
         switch (rItem.headerText) {
             case R.string.HashMap:
                 map = createArray(new HashMap<Integer, Integer>(value), value);
@@ -23,7 +23,7 @@ public class MapsComputeTime {
         return calculateResult(rItem.methodName, map);
     }
 
-    private double calculateResult(int methodName, Map map) {
+    private double calculateResult(int methodName, Map <Integer, Integer> map) {
         switch (methodName) {
             case R.string.add_new:
                 return addingNew(map);
@@ -37,26 +37,26 @@ public class MapsComputeTime {
     }
 
 
-    private double addingNew(Map map) {
+    private double addingNew(Map <Integer, Integer> map) {
         double start = System.nanoTime();
         map.put(-1, null);
         return (System.nanoTime() - start);
     }
 
-    private double searchByKey(Map map) {
+    private double searchByKey(Map <Integer, Integer> map) {
         double start = System.nanoTime();
         Object b = map.get(map.size() / 2);
         return (System.nanoTime() - start);
     }
 
-    private double removing(Map map) {
+    private double removing(Map <Integer, Integer> map) {
         double start = System.nanoTime();
         map.remove(map.size() / 2);
         return (System.nanoTime() - start);
     }
 
 
-    private Map createArray(Map mMap, int size) {
+    private Map createArray(Map <Integer, Integer> mMap, int size) {
         final Map map = mMap;
         for (int i = 0; i < size; i++) {
             map.put(i, i);

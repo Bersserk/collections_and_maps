@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class CollectionsComputeTime {
 
     public double measureTime(ResultItem rItem, int value) {
-        final List <Integer> list;
+        final List<Integer> list;
         switch (rItem.headerText) {
             case R.string.ArrayList:
                 list = new ArrayList<>(Collections.nCopies(value, 0));
@@ -28,7 +28,7 @@ public class CollectionsComputeTime {
         return calculateResult(rItem.methodName, list);
     }
 
-    private double calculateResult(int methodName, List <Integer> list) {
+    private double calculateResult(int methodName, List<Integer> list) {
         switch (methodName) {
             case R.string.add_begin:
                 return addItemToStart(list);
@@ -50,25 +50,25 @@ public class CollectionsComputeTime {
     }
 
 
-    private double addItemToStart(List list) {
+    private double addItemToStart(List<Integer> list) {
         double start = System.nanoTime();
         list.add(0);
         return (System.nanoTime() - start);
     }
 
-    private double addItemToMiddle(List list) {
+    private double addItemToMiddle(List<Integer> list) {
         double start = System.nanoTime();
         list.add(list.size() / 2, 0);
         return (System.nanoTime() - start);
     }
 
-    private double addItemToEnd(List list) {
+    private double addItemToEnd(List<Integer> list) {
         double start = System.nanoTime();
         list.add(list.size(), 0);
         return (System.nanoTime() - start);
     }
 
-    private double searchByValue(List list) {
+    private double searchByValue(List<Integer> list) {
         int middleNumberOfList = (int) Math.random() * list.size();
         list.add(middleNumberOfList, middleNumberOfList);
         double start = System.nanoTime();
@@ -76,19 +76,19 @@ public class CollectionsComputeTime {
         return (System.nanoTime() - start);
     }
 
-    private double removingInBeginning(List list) {
+    private double removingInBeginning(List<Integer> list) {
         double start = System.nanoTime();
         list.remove(0);
         return (System.nanoTime() - start);
     }
 
-    private double removingInMiddle(List list) {
+    private double removingInMiddle(List<Integer> list) {
         double start = System.nanoTime();
         list.remove(list.size() / 2);
         return (System.nanoTime() - start);
     }
 
-    private double removingInEnd(List list) {
+    private double removingInEnd(List<Integer> list) {
         double start = System.nanoTime();
         list.remove(list.size() - 1);
         return (System.nanoTime() - start);
