@@ -62,9 +62,9 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
             if (item.isHeader()) {
                 animator.setDuration(0).alpha(0.0f);
                 binding.nameView.setText(item.valueTV);
-            } else if (item.result == 0) {
+            } else if (item.isWaitingResult()) {
                 animator.setDuration(300).alpha(1.0f);
-            } else if (item.result != R.string.empty) {
+            } else if (item.isResult()) {
                 animator.setDuration(0).alpha(0.0f);
                 binding.nameView.setText(String.valueOf(item.result));
             }
