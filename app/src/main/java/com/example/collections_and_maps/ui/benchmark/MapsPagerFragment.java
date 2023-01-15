@@ -18,19 +18,19 @@ public class MapsPagerFragment extends BaseFragment {
     }
 
     @Override
-    public List<ResultItem> createTemplateList(int resultValue) {
+    public List<ResultItem> createTemplateList(boolean hasAnimated) {
         final List<ResultItem> items = new ArrayList<>();
 
-        items.add(new ResultItem(R.string.HashMap, R.string.empty, R.string.empty));
-        items.add(new ResultItem(R.string.TreeMap, R.string.empty, R.string.empty));
+        items.add(new ResultItem(R.string.HashMap, R.string.empty, R.string.empty, false));
+        items.add(new ResultItem(R.string.TreeMap, R.string.empty, R.string.empty, false));
 
         final int[] listHeadsId = {R.string.HashMap, R.string.TreeMap};
         final int[] listMethodsId = {R.string.add_new, R.string.search_key, R.string.removing};
 
         for (int methodsID : listMethodsId) {
-            items.add(new ResultItem(R.string.empty, methodsID, R.string.empty));
+            items.add(new ResultItem(R.string.empty, methodsID, R.string.empty, false));
             for (int headsID : listHeadsId) {
-                items.add(new ResultItem(headsID, methodsID, resultValue));
+                items.add(new ResultItem(headsID, methodsID, R.string.empty, hasAnimated));
             }
         }
         return items;
@@ -42,7 +42,7 @@ public class MapsPagerFragment extends BaseFragment {
             return rItem;
         } else {
             return new ResultItem(rItem.headerText, rItem.methodName,
-                    new MapsComputeTime().measureTime(rItem, value));
+                    new MapsComputeTime().measureTime(rItem, value), false);
         }
     }
 }
