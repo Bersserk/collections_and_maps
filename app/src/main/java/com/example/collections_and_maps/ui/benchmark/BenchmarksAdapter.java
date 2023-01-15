@@ -36,9 +36,9 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
     @NonNull
     @Override
     public BenchmarkViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        final ItemBenchmarkBinding binding = ItemBenchmarkBinding.inflate(LayoutInflater.from(parent.getContext()),
-                parent, false);
+        final ItemBenchmarkBinding binding = ItemBenchmarkBinding.inflate(
+                LayoutInflater.from(parent.getContext()), parent, false
+        );
         return new BenchmarkViewHolder(binding);
     }
 

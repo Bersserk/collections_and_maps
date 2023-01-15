@@ -54,21 +54,18 @@ public abstract class BaseFragment extends Fragment {
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
 
-        adapter.submitList(createTemplateList(false));
+        adapter.submitList(createTemplateList(R.string.empty));
         listRecycler.setAdapter(adapter);
 
         binding.calcButton.setOnClickListener(v -> toCalculate());
     }
 
     private void toCalculate() {
+        final int value = checkValidateValue(binding.inputField.getText());
 
-        if (service != null && !service.isShutdown()) {
-            service.shutdownNow();
-            binding.calcButton.setText(R.string.calcButtonStart);
-        } else {
-            final int value = checkValidateValue(binding.inputField.getText());
+        if (service == null || service.isShutdown()) {
             binding.calcButton.setText(R.string.calcButtonStop);
-            final List<ResultItem> newList = createTemplateList(true);
+            final List<ResultItem> newList = createTemplateList(0);
             service = Executors.newCachedThreadPool();
             final AtomicInteger counterActiveThreads = new AtomicInteger();
 
@@ -88,6 +85,9 @@ public abstract class BaseFragment extends Fragment {
                     }
                 });
             }
+        } else if (value > 0) {
+            service.shutdownNow();
+            binding.calcButton.setText(R.string.calcButtonStart);
         }
     }
 
@@ -108,7 +108,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getSpanCount();
 
-    protected abstract List<ResultItem> createTemplateList(boolean hasAnimated);
+    protected abstract List<ResultItem> createTemplateList(int resultValue);
 
     synchronized protected void updateUI(List<ResultItem> resultList) {
         handler.post(() -> adapter.submitList(new ArrayList<>(resultList)));
@@ -129,10 +129,3 @@ public abstract class BaseFragment extends Fragment {
 //        return fragment;
 //    }
 }
-
-
-
-
-
-
-
