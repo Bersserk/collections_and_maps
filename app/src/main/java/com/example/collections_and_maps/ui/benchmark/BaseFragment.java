@@ -7,15 +7,18 @@ import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.databinding.FragmentBenchmarkBinding;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -60,10 +63,7 @@ public abstract class BaseFragment extends Fragment {
     private void toCalculate() {
         final int value = checkValidateValue(binding.inputField.getText());
 
-        if (service != null && !service.isShutdown()) {
-            service.shutdownNow();
-            binding.calcButton.setText(R.string.calcButtonStart);
-        } else if (value > 0) {
+        if (service == null || service.isShutdown()) {
             binding.calcButton.setText(R.string.calcButtonStop);
             final List<ResultItem> newList = createTemplateList(0);
             service = Executors.newCachedThreadPool();
@@ -85,6 +85,9 @@ public abstract class BaseFragment extends Fragment {
                     }
                 });
             }
+        } else if (value > 0) {
+            service.shutdownNow();
+            binding.calcButton.setText(R.string.calcButtonStart);
         }
     }
 
@@ -126,10 +129,3 @@ public abstract class BaseFragment extends Fragment {
 //        return fragment;
 //    }
 }
-
-
-
-
-
-
-
