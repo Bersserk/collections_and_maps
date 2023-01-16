@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.databinding.ItemBenchmarkBinding;
-import com.example.collections_and_maps.models.benchmarks.DataTV;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
 import java.util.Objects;
@@ -60,25 +59,12 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         public void bindTo(@NonNull ResultItem item) {
 
             toSwitchAnimation(item.hasAnimated());
-            if (item.isHeader()){
-                binding.nameView.setText(item.getValueTV);
-            } else {
-                binding.nameView.setText(item.getResult());
-            }
-//            if (item.isHeader()) {
-//                toSwitchAnimation(false);
-//                binding.nameView.setText(item.valueTV);
-//            } else if (item.isWaitingResult()) {
-//                toSwitchAnimation(true);
-//            } else if (item.hasResult()) {
-//                toSwitchAnimation(false);
-//                binding.nameView.setText("sss");
-//            }
+            item.setDataForTV(binding);
         }
 
-        private void toSwitchAnimation(boolean switcher){
+        private void toSwitchAnimation(boolean switcher) {
             final ViewPropertyAnimator animator = binding.progressBar.animate();
-            if (switcher){
+            if (switcher) {
                 animator.setDuration(300).alpha(1.0f);
             } else {
                 animator.setDuration(100).alpha(0.0f);

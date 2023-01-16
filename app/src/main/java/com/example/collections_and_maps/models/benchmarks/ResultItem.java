@@ -1,20 +1,18 @@
 package com.example.collections_and_maps.models.benchmarks;
 
-import android.renderscript.Sampler;
-
 import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.databinding.ItemBenchmarkBinding;
 
-public class ResultItem{
+public class ResultItem {
     public final int headerText;
     public final int methodName;
     public final boolean hasAnimated;
-    public String result;
-    public int getValueTV;
+    public double result;
 
     public ResultItem(int headerText, int methodName, double result, boolean hasAnimated) {
         this.headerText = headerText;
         this.methodName = methodName;
-        this.result = String.valueOf(result);
+        this.result = result;
         this.hasAnimated = hasAnimated;
     }
 
@@ -23,29 +21,14 @@ public class ResultItem{
         return hasAnimated;
     }
 
-    public boolean isHeader() {
+    public void setDataForTV(ItemBenchmarkBinding binding) {
 
-        if (headerText == R.string.empty){
-            getValueTV = methodName;
-            return true;
-        } else if (methodName == R.string.empty){
-            getValueTV = headerText;
-            return true;
-        } else {
-
-        return false;
-        }
-
-
-
-
-    }
-
-    public String getResult() {
-        if(hasAnimated){
-            return result = "";
-        } else {
-            return result;
+        if (headerText == R.string.empty) {
+            binding.nameView.setText(methodName);
+        } else if (methodName == R.string.empty) {
+            binding.nameView.setText(headerText);
+        } else if (!(result == R.string.empty)) {
+            binding.nameView.setText(String.format("%s ms", result));
         }
     }
 }

@@ -41,7 +41,7 @@ public class CollectionsPagerFragment extends BaseFragment {
 
     @Override
     protected ResultItem createNewResultItem(@NonNull ResultItem rItem, int value) {
-        if (rItem.isHeader()) {
+        if (rItem.headerText == R.string.empty || rItem.methodName == R.string.empty) {
             return rItem;
         } else {
             return new ResultItem(rItem.headerText, rItem.methodName,
