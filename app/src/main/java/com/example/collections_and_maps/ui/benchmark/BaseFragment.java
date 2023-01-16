@@ -26,7 +26,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements View.OnClickListener {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
@@ -54,20 +54,20 @@ public abstract class BaseFragment extends Fragment {
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
 
-        adapter.submitList(createTemplateList(R.string.empty));
+        adapter.submitList(createTemplateList(false));
         listRecycler.setAdapter(adapter);
 
-        binding.calcButton.setOnClickListener(v -> toCalculate());
+        binding.calcButton.setOnClickListener(this);
     }
 
-    private void toCalculate() {
-        final int value = checkValidateValue(binding.inputField.getText());
-
+    @Override
+    public void onClick(View v) {
         if (service == null || service.isShutdown()) {
             binding.calcButton.setText(R.string.calcButtonStop);
-            final List<ResultItem> newList = createTemplateList(0);
+            final List<ResultItem> newList = createTemplateList(true);
             service = Executors.newCachedThreadPool();
             final AtomicInteger counterActiveThreads = new AtomicInteger();
+            final int value = checkValidateValue(binding.inputField.getText());
 
             for (ResultItem rItem : newList) {
                 counterActiveThreads.getAndIncrement();
@@ -85,7 +85,7 @@ public abstract class BaseFragment extends Fragment {
                     }
                 });
             }
-        } else if (value > 0) {
+        } else {
             service.shutdownNow();
             binding.calcButton.setText(R.string.calcButtonStart);
         }
@@ -108,7 +108,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getSpanCount();
 
-    protected abstract List<ResultItem> createTemplateList(int resultValue);
+    protected abstract List<ResultItem> createTemplateList(boolean itemAnimated);
 
     synchronized protected void updateUI(List<ResultItem> resultList) {
         handler.post(() -> adapter.submitList(new ArrayList<>(resultList)));
@@ -119,6 +119,8 @@ public abstract class BaseFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+
 
     // we will need this block later ***
 //    public static CollectionsPagerFragment newInstance(String fragmentData) {

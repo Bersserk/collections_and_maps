@@ -18,7 +18,7 @@ public class MapsPagerFragment extends BaseFragment {
     }
 
     @Override
-    public List<ResultItem> createTemplateList(boolean hasAnimated) {
+    public List<ResultItem> createTemplateList(boolean itemAnimated) {
         final List<ResultItem> items = new ArrayList<>();
 
         items.add(new ResultItem(R.string.HashMap, R.string.empty, R.string.empty, false));
@@ -30,7 +30,7 @@ public class MapsPagerFragment extends BaseFragment {
         for (int methodsID : listMethodsId) {
             items.add(new ResultItem(R.string.empty, methodsID, R.string.empty, false));
             for (int headsID : listHeadsId) {
-                items.add(new ResultItem(headsID, methodsID, R.string.empty, hasAnimated));
+                items.add(new ResultItem(headsID, methodsID, R.string.empty, itemAnimated));
             }
         }
         return items;
