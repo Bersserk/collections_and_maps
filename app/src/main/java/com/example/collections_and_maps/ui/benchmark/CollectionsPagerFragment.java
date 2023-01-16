@@ -17,7 +17,7 @@ public class CollectionsPagerFragment extends BaseFragment {
     }
 
     @Override
-    protected List<ResultItem> createTemplateList(boolean hasAnimated) {
+    protected List<ResultItem> createTemplateList(boolean itemAnimated) {
 
         final List<ResultItem> items = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class CollectionsPagerFragment extends BaseFragment {
         for (int methodsID : listMethodsId) {
             items.add(new ResultItem(R.string.empty, methodsID, R.string.empty, false));
             for (int headsID : listHeadsId) {
-                items.add(new ResultItem(headsID, methodsID, R.string.empty, hasAnimated));
+                items.add(new ResultItem(headsID, methodsID, R.string.empty, itemAnimated));
             }
         }
         return items;
