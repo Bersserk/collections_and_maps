@@ -23,7 +23,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 
                 @Override
                 public boolean areContentsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
-                    return oldItem.resultItemTV != newItem.resultItemTV && (oldItem.itemAnimated == newItem.itemAnimated);
+                    return oldItem.timing != newItem.timing && (oldItem.progressVisible == newItem.progressVisible);
                 }
             };
 
@@ -55,26 +55,24 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         }
 
         public void bindTo(@NonNull ResultItem item) {
-            switchAnimation(item.itemAnimated);
+            toSwitchAnimation(item.progressVisible);
             setDataForTV(item);
         }
 
-        private void switchAnimation(boolean switcher) {
+        private void toSwitchAnimation(boolean switcher) {
             if (switcher) {
-                binding.progressBar.animate().
-                        setDuration(300).alpha(1.0f);
+                binding.progressBar.animate().setDuration(300).alpha(1.0f);
             } else {
                 binding.progressBar.setAlpha(0.0f);
             }
         }
 
-        private void setDataForTV(@NonNull ResultItem item) {
+        public void setDataForTV(@NonNull ResultItem item) {
             if (item.isHeader()) {
                 binding.nameView.setText(item.getNameForHeader());
-            } else if (!(item.resultItemTV == R.string.empty)) {
-                binding.nameView.setText(String.format("%s ms", item.resultItemTV));
+            } else if (!(item.timing == R.string.empty)) {
+                binding.nameView.setText(String.format("%s ms", item.timing));
             }
         }
-
     }
 }
