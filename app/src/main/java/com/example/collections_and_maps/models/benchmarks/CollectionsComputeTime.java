@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CollectionsComputeTime {
+    private final Random random = new Random();
 
     public double measureTime(ResultItem rItem, int value) {
         final List<Integer> list;
@@ -69,10 +71,10 @@ public class CollectionsComputeTime {
     }
 
     private double searchByValue(List<Integer> list) {
-        int middleNumberOfList = (int) Math.random() * list.size();
-        list.add(middleNumberOfList, middleNumberOfList);
+        int index = random.nextInt(list.size());
+        list.add(index, index);
         double start = System.nanoTime();
-        boolean has = list.contains(middleNumberOfList);
+        boolean has = list.contains(index);
         return (System.nanoTime() - start);
     }
 
