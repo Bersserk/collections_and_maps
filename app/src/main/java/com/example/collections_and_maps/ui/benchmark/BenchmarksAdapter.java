@@ -1,15 +1,14 @@
 package com.example.collections_and_maps.ui.benchmark;
 
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.databinding.ItemBenchmarkBinding;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
@@ -19,7 +18,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
             new DiffUtil.ItemCallback<ResultItem>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
-                    return oldItem.headerText == newItem.headerText && oldItem.methodName == newItem.methodName;
+                    return oldItem.isHeader() == newItem.isHeader();
                 }
 
                 @Override
@@ -56,28 +55,28 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         }
 
         public void bindTo(@NonNull ResultItem item) {
-            toSwitchAnimation(item.progressVisible);
-            setDataForTV(item);
+            if (toSwitchAnimation(item.progressVisible)) {
+                setDataForTV(item);
+            }
         }
 
-        private void toSwitchAnimation(boolean switcher) {
+        private boolean toSwitchAnimation(boolean switcher) {
+            final ViewPropertyAnimator viewPropertyAnimator = binding.progressBar.animate();
+            viewPropertyAnimator.setDuration(300);
             if (switcher) {
-                binding.progressBar.animate().setDuration(300).alpha(1.0f);
+                viewPropertyAnimator.alpha(1.0f);
+                return false;
             } else {
-                binding.progressBar.setAlpha(0.0f);
+                viewPropertyAnimator.alpha(0.0f);
+                return true;
             }
         }
 
         public void setDataForTV(@NonNull ResultItem item) {
-            if (item.isHeader()) {
-                binding.nameView.setText(item.getNameForHeader());
-            } else if (!(item.timing == R.string.empty)) {
-
-                String strMeatFormat = Resources.getSystem().getString(R.string.tim);
-                String strMeatMsg = String.format(strMeatFormat, item.timing);
-
-//            String s = String.((R.string.timing), item.timing);
-                binding.nameView.setText(strMeatMsg);
+            if (item.isNoEmptyResult()) {
+                binding.nameView.setText(String.format("%s ms", item.timing));
+            } else if (item.isHeader()) {
+                binding.nameView.setText(item.nameForHeader);
             }
         }
     }

@@ -7,29 +7,25 @@ public class ResultItem {
     public final int methodName;
     public final boolean progressVisible;
     public final double timing;
-
-    private int nameForHeader;
+    public final int nameForHeader;
 
     public ResultItem(int headerText, int methodName, double timing, boolean progressVisible) {
         this.headerText = headerText;
         this.methodName = methodName;
         this.timing = timing;
         this.progressVisible = progressVisible;
+        this.nameForHeader = setNameForHeader();
+    }
+
+    private int setNameForHeader() {
+        return headerText == R.string.empty ? methodName : headerText;
     }
 
     public boolean isHeader() {
-        if (headerText == R.string.empty) {
-            nameForHeader = methodName;
-            return true;
-        } else if (methodName == R.string.empty) {
-            nameForHeader = headerText;
-            return true;
-        } else {
-            return false;
-        }
+        return headerText == R.string.empty || methodName == R.string.empty;
     }
 
-    public int getNameForHeader() {
-        return nameForHeader;
+    public boolean isNoEmptyResult() {
+        return timing != R.string.empty;
     }
 }

@@ -121,7 +121,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
 
-
     // we will need this block later ***
 //    public static CollectionsPagerFragment newInstance(String fragmentData) {
 //        CollectionsPagerFragment fragment = new CollectionsPagerFragment();
