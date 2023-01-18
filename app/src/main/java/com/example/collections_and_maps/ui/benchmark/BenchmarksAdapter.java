@@ -1,5 +1,6 @@
 package com.example.collections_and_maps.ui.benchmark;
 
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -71,7 +72,12 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
             if (item.isHeader()) {
                 binding.nameView.setText(item.getNameForHeader());
             } else if (!(item.timing == R.string.empty)) {
-                binding.nameView.setText(String.format("%s ms", item.timing));
+
+                String strMeatFormat = Resources.getSystem().getString(R.string.tim);
+                String strMeatMsg = String.format(strMeatFormat, item.timing);
+
+//            String s = String.((R.string.timing), item.timing);
+                binding.nameView.setText(strMeatMsg);
             }
         }
     }
