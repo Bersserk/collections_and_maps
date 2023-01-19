@@ -1,8 +1,8 @@
 package com.example.collections_and_maps.ui.benchmark;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -52,25 +52,24 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         BenchmarkViewHolder(@NonNull ItemBenchmarkBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.progressBar.animate().setDuration(300).alpha(1.0f);
+        }
+
+        private boolean switchAnimation(boolean switcher) {
+            if (!switcher) {
+                binding.progressBar.setVisibility(View.INVISIBLE);
+                return true;
+            } else {
+                return false;
+            }
         }
 
         public void bindTo(@NonNull ResultItem item) {
-            if (toSwitchAnimation(item.progressVisible)) {
+            if (switchAnimation(item.progressVisible)) {
                 setDataForTV(item);
             }
         }
 
-        private boolean toSwitchAnimation(boolean switcher) {
-            final ViewPropertyAnimator viewPropertyAnimator = binding.progressBar.animate();
-            viewPropertyAnimator.setDuration(300);
-            if (switcher) {
-                viewPropertyAnimator.alpha(1.0f);
-                return false;
-            } else {
-                viewPropertyAnimator.alpha(0.0f);
-                return true;
-            }
-        }
 
         public void setDataForTV(@NonNull ResultItem item) {
             if (item.isNoEmptyResult()) {

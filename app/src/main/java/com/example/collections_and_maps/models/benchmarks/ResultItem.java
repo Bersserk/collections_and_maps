@@ -14,11 +14,7 @@ public class ResultItem {
         this.methodName = methodName;
         this.timing = timing;
         this.progressVisible = progressVisible;
-        this.nameForHeader = setNameForHeader();
-    }
-
-    private int setNameForHeader() {
-        return headerText == R.string.empty ? methodName : headerText;
+        this.nameForHeader = headerText == R.string.empty ? methodName : headerText;
     }
 
     public boolean isHeader() {
@@ -26,6 +22,6 @@ public class ResultItem {
     }
 
     public boolean isNoEmptyResult() {
-        return timing != R.string.empty;
+        return timing != R.integer.no_result;
     }
 }

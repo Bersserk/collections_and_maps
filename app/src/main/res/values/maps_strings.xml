@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="HashMap">HashMap</string>
-    <string name="TreeMap">TreeMap</string>
-
-    <string name="add_new">adding new</string>
-    <string name="search_key">search by key</string>
-    <string name="removing">removing</string>
-</resources>

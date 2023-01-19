@@ -12,5 +12,4 @@
     <string name="Maps">Maps</string>
     <string name="OtherValue">Введите иное значение</string>
     <string name="NeedAnyValue">Введите значение</string>
-    <string name="tim">%1$d ms</string>
 </resources>
