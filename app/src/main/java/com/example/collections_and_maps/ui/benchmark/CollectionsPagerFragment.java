@@ -45,7 +45,7 @@ public class CollectionsPagerFragment extends BaseFragment {
             return rItem;
         } else {
             return new ResultItem(rItem.headerText, rItem.methodName,
-                    new CollectionsComputeTime().measureTime(rItem, value), false);
+                    new CollectionsComputeTime().getMeasureTime(rItem, value), false);
         }
     }
 }

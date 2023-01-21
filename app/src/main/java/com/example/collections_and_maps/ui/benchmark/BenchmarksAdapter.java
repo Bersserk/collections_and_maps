@@ -1,7 +1,6 @@
 package com.example.collections_and_maps.ui.benchmark;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -45,38 +44,30 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         holder.bindTo(getItem(position));
     }
 
-    static class BenchmarkViewHolder extends RecyclerView.ViewHolder {
-
+    static class BenchmarkViewHolder extends RecyclerView.ViewHolder implements Animation {
         private final ItemBenchmarkBinding binding;
 
         BenchmarkViewHolder(@NonNull ItemBenchmarkBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.progressBar.animate().setDuration(300).alpha(1.0f);
-        }
-
-        private boolean switchAnimation(boolean switcher) {
-            if (!switcher) {
-                binding.progressBar.setVisibility(View.INVISIBLE);
-                return true;
-            } else {
-                return false;
-            }
         }
 
         public void bindTo(@NonNull ResultItem item) {
-            if (switchAnimation(item.progressVisible)) {
-                setDataForTV(item);
+            switchAnimation(item.progressVisible ? ON : OFF);
+            setDisplayItemData(item);
+        }
+
+        public void setDisplayItemData(@NonNull ResultItem item) {
+            if (item.isHeader()) {
+                binding.nameView.setText(item.nameForHeader);
+            } else if (item.isNoEmptyResult()) {
+                binding.nameView.setText(String.format("%s ms", item.timing));
             }
         }
 
-
-        public void setDataForTV(@NonNull ResultItem item) {
-            if (item.isNoEmptyResult()) {
-                binding.nameView.setText(String.format("%s ms", item.timing));
-            } else if (item.isHeader()) {
-                binding.nameView.setText(item.nameForHeader);
-            }
+        @Override
+        public void switchAnimation(float alphaValue) {
+            binding.progressBar.animate().setDuration(300).alpha(alphaValue);
         }
     }
 }

@@ -12,7 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class CollectionsComputeTime {
     private final Random random = new Random();
 
-    public double measureTime(ResultItem rItem, int value) {
+    public double getMeasureTime(ResultItem rItem, int value) {
         final List<Integer> list;
         switch (rItem.headerText) {
             case R.string.ArrayList:

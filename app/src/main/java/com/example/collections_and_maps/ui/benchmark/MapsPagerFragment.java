@@ -38,11 +38,7 @@ public class MapsPagerFragment extends BaseFragment {
 
     @Override
     protected ResultItem createNewResultItem(@NonNull ResultItem rItem, int value) {
-        if (rItem.isHeader()) {
-            return rItem;
-        } else {
-            return new ResultItem(rItem.headerText, rItem.methodName,
-                    new MapsComputeTime().measureTime(rItem, value), false);
-        }
+        return rItem.isHeader() ? rItem : new ResultItem(rItem.headerText, rItem.methodName,
+                    new MapsComputeTime().getMeasureTime(rItem, value), false);
     }
 }
