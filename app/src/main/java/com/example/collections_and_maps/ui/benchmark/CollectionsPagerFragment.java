@@ -21,9 +21,9 @@ public class CollectionsPagerFragment extends BaseFragment {
 
         final List<ResultItem> items = new ArrayList<>();
 
-        items.add(new ResultItem(R.string.ArrayList, R.string.empty, R.integer.no_result, false));
-        items.add(new ResultItem(R.string.LinkedList, R.string.empty, R.integer.no_result, false));
-        items.add(new ResultItem(R.string.CopyOnWrite, R.string.empty, R.integer.no_result, false));
+        items.add(new ResultItem(R.string.ArrayList, R.string.empty, EMPTY, false));
+        items.add(new ResultItem(R.string.LinkedList, R.string.empty, EMPTY, false));
+        items.add(new ResultItem(R.string.CopyOnWrite, R.string.empty, EMPTY, false));
 
         final int[] listHeadsId = {R.string.ArrayList, R.string.LinkedList, R.string.CopyOnWrite};
         final int[] listMethodsId = {R.string.add_begin, R.string.add_middle,
@@ -31,9 +31,9 @@ public class CollectionsPagerFragment extends BaseFragment {
                 R.string.remove_middle, R.string.remove_end};
 
         for (int methodsID : listMethodsId) {
-            items.add(new ResultItem(R.string.empty, methodsID, R.integer.no_result, false));
+            items.add(new ResultItem(R.string.empty, methodsID, EMPTY, false));
             for (int headsID : listHeadsId) {
-                items.add(new ResultItem(headsID, methodsID, R.integer.no_result, itemAnimated));
+                items.add(new ResultItem(headsID, methodsID, EMPTY, itemAnimated));
             }
         }
         return items;

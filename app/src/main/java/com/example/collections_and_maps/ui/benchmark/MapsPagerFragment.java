@@ -21,16 +21,16 @@ public class MapsPagerFragment extends BaseFragment {
     public List<ResultItem> createTemplateList(boolean itemAnimated) {
         final List<ResultItem> items = new ArrayList<>();
 
-        items.add(new ResultItem(R.string.HashMap, R.string.empty, R.integer.no_result, false));
-        items.add(new ResultItem(R.string.TreeMap, R.string.empty, R.integer.no_result, false));
+        items.add(new ResultItem(R.string.HashMap, R.string.empty, EMPTY, false));
+        items.add(new ResultItem(R.string.TreeMap, R.string.empty, EMPTY, false));
 
         final int[] listHeadsId = {R.string.HashMap, R.string.TreeMap};
         final int[] listMethodsId = {R.string.add_new, R.string.search_key, R.string.removing};
 
         for (int methodsID : listMethodsId) {
-            items.add(new ResultItem(R.string.empty, methodsID, R.integer.no_result, false));
+            items.add(new ResultItem(R.string.empty, methodsID, EMPTY, false));
             for (int headsID : listHeadsId) {
-                items.add(new ResultItem(headsID, methodsID, R.integer.no_result, itemAnimated));
+                items.add(new ResultItem(headsID, methodsID, EMPTY, itemAnimated));
             }
         }
         return items;

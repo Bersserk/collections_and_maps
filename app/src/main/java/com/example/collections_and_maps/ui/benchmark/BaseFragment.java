@@ -28,6 +28,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
 
+    protected static final double EMPTY = -1;
+
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
     private ExecutorService service;

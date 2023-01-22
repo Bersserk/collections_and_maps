@@ -47,16 +47,21 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
     }
 
     static class BenchmarkViewHolder extends RecyclerView.ViewHolder {
+        private static final float ON = 1.0f;
+        private static final float OFF = 0.0f;
         private final ItemBenchmarkBinding binding;
 
         BenchmarkViewHolder(@NonNull ItemBenchmarkBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.progressBar.animate().setDuration(300);
         }
 
         public void bindTo(@NonNull ResultItem item) {
-            binding.progressBar.setAlpha(item.progressVisible ? 1.0f : 0.0f);
+            if (item.progressVisible){
+                binding.progressBar.animate().setDuration(300).alpha(ON);
+            } else {
+                binding.progressBar.setAlpha(OFF);
+            }
             setDisplayItemData(item);
         }
 
@@ -64,7 +69,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         public void setDisplayItemData(@NonNull ResultItem item) {
             if (item.isHeader()) {
                 binding.nameView.setText(item.nameForHeader);
-            } else if (item.isNoEmptyResult()) {
+            } else if (item.isResult()) {
                 binding.nameView.setText(itemView.getContext().getString(R.string.timing, item.timing));
             }
         }

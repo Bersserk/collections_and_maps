@@ -21,7 +21,7 @@ public class ResultItem {
         return headerText == R.string.empty || methodName == R.string.empty;
     }
 
-    public boolean isNoEmptyResult() {
-        return timing != R.integer.no_result;
+    public boolean isResult() {
+        return timing >= 0;
     }
 }

@@ -10,11 +10,17 @@ public class MapsComputeTime {
 
     public double getMeasureTime(ResultItem rItem, int value) {
         if (value < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalStateException("Unexpected value: " + value);
         }
-        final Map map = rItem.headerText == R.string.HashMap
-                ? createArray(new HashMap<Integer, Integer>(value), value)
-                : createArray(new TreeMap<Integer, Integer>(), value);
+
+        final Map<Integer, Integer> map;
+        if (rItem.headerText == R.string.HashMap) {
+            map = createArray(new HashMap<Integer, Integer>(value), value);
+        } else if (rItem.headerText == R.string.TreeMap) {
+            map = createArray(new TreeMap<Integer, Integer>(), value);
+        } else {
+            throw new IllegalStateException("Unexpected value: " + rItem.headerText);
+        }
 
         return calculateResult(rItem.methodName, map);
     }
@@ -49,7 +55,7 @@ public class MapsComputeTime {
         return (System.nanoTime() - start);
     }
 
-    private Map createArray(Map<Integer, Integer> map, int size) {
+    private Map<Integer, Integer> createArray(Map<Integer, Integer> map, int size) {
         for (int i = 0; i < size; i++) {
             map.put(i, i);
         }
