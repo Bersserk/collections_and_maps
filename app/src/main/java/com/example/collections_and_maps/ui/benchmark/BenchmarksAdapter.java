@@ -1,5 +1,6 @@
 package com.example.collections_and_maps.ui.benchmark;
 
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.databinding.ItemBenchmarkBinding;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
@@ -44,7 +46,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         holder.bindTo(getItem(position));
     }
 
-    static class BenchmarkViewHolder extends RecyclerView.ViewHolder implements Animation {
+    static class BenchmarkViewHolder extends RecyclerView.ViewHolder {
         private final ItemBenchmarkBinding binding;
 
         BenchmarkViewHolder(@NonNull ItemBenchmarkBinding binding) {
@@ -53,7 +55,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         }
 
         public void bindTo(@NonNull ResultItem item) {
-            switchAnimation(item.progressVisible ? ON : OFF);
+            binding.progressBar.animate().setDuration(300).alpha(item.progressVisible ? 1.0f : 0.0f);
             setDisplayItemData(item);
         }
 
@@ -65,9 +67,5 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
             }
         }
 
-        @Override
-        public void switchAnimation(float alphaValue) {
-            binding.progressBar.animate().setDuration(300).alpha(alphaValue);
-        }
     }
 }

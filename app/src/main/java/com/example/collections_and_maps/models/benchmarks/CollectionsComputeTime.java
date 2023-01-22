@@ -1,5 +1,7 @@
 package com.example.collections_and_maps.models.benchmarks;
 
+import android.annotation.SuppressLint;
+
 import com.example.collections_and_maps.R;
 
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class CollectionsComputeTime {
     private final Random random = new Random();
 
+    @SuppressLint("NonConstantResourceId")
     public double getMeasureTime(ResultItem rItem, int value) {
         final List<Integer> list;
         switch (rItem.headerText) {
@@ -30,6 +33,7 @@ public class CollectionsComputeTime {
         return calculateResult(rItem.methodName, list);
     }
 
+    @SuppressLint("NonConstantResourceId")
     private double calculateResult(int methodName, List<Integer> list) {
         switch (methodName) {
             case R.string.add_begin:
