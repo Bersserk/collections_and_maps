@@ -21,7 +21,6 @@
 
     <string name="empty">""</string>
     <integer name="no_result">-1</integer>
-    <string name="tim">%1$d ms</string>
-
+    <string name="timing">%s millis</string>
 
 </resources>

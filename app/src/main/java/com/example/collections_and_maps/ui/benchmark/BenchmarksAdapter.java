@@ -1,6 +1,6 @@
 package com.example.collections_and_maps.ui.benchmark;
 
-import android.content.res.Resources;
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -52,20 +52,21 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         BenchmarkViewHolder(@NonNull ItemBenchmarkBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.progressBar.animate().setDuration(300);
         }
 
         public void bindTo(@NonNull ResultItem item) {
-            binding.progressBar.animate().setDuration(300).alpha(item.progressVisible ? 1.0f : 0.0f);
+            binding.progressBar.setAlpha(item.progressVisible ? 1.0f : 0.0f);
             setDisplayItemData(item);
         }
 
+        @SuppressLint("StringFormatMatches")
         public void setDisplayItemData(@NonNull ResultItem item) {
             if (item.isHeader()) {
                 binding.nameView.setText(item.nameForHeader);
             } else if (item.isNoEmptyResult()) {
-                binding.nameView.setText(String.format("%s ms", item.timing));
+                binding.nameView.setText(itemView.getContext().getString(R.string.timing, item.timing));
             }
         }
-
     }
 }

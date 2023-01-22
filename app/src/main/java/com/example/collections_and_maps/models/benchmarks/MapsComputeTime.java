@@ -9,9 +9,12 @@ import java.util.TreeMap;
 public class MapsComputeTime {
 
     public double getMeasureTime(ResultItem rItem, int value) {
+        if (value < 0) {
+            throw new IllegalArgumentException();
+        }
         final Map map = rItem.headerText == R.string.HashMap
-                ? createArray(new HashMap<>(value), value)
-                : createArray(new TreeMap<>(), value);
+                ? createArray(new HashMap<Integer, Integer>(value), value)
+                : createArray(new TreeMap<Integer, Integer>(), value);
 
         return calculateResult(rItem.methodName, map);
     }
@@ -21,8 +24,10 @@ public class MapsComputeTime {
             return addingNew(map);
         } else if (methodName == R.string.search_key) {
             return searchByKey(map);
-        } else {
+        } else if (methodName == R.string.removing) {
             return removing(map);
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 
