@@ -15,9 +15,9 @@ public class MapsComputeTime {
 
         final Map<Integer, Integer> map;
         if (rItem.headerText == R.string.HashMap) {
-            map = createArray(new HashMap<Integer, Integer>(value), value);
+            map = createMap(new HashMap<Integer, Integer>(), value);
         } else if (rItem.headerText == R.string.TreeMap) {
-            map = createArray(new TreeMap<Integer, Integer>(), value);
+            map = createMap(new TreeMap<Integer, Integer>(), value);
         } else {
             throw new IllegalStateException("Unexpected value: " + rItem.headerText);
         }
@@ -55,7 +55,7 @@ public class MapsComputeTime {
         return (System.nanoTime() - start);
     }
 
-    private Map<Integer, Integer> createArray(Map<Integer, Integer> map, int size) {
+    private Map<Integer, Integer> createMap(Map<Integer, Integer> map, int size) {
         for (int i = 0; i < size; i++) {
             map.put(i, i);
         }

@@ -1,5 +1,7 @@
 package com.example.collections_and_maps.ui.benchmark;
 
+import static com.example.collections_and_maps.models.benchmarks.ResultItem.EMPTY;
+
 import androidx.annotation.NonNull;
 
 import com.example.collections_and_maps.R;

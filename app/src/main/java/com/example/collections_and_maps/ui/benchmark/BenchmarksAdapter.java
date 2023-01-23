@@ -1,6 +1,5 @@
 package com.example.collections_and_maps.ui.benchmark;
 
-import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -57,7 +56,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         }
 
         public void bindTo(@NonNull ResultItem item) {
-            if (item.progressVisible){
+            if (item.progressVisible) {
                 binding.progressBar.animate().setDuration(300).alpha(ON);
             } else {
                 binding.progressBar.setAlpha(OFF);
@@ -65,12 +64,12 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
             setDisplayItemData(item);
         }
 
-        @SuppressLint("StringFormatMatches")
         public void setDisplayItemData(@NonNull ResultItem item) {
             if (item.isHeader()) {
                 binding.nameView.setText(item.nameForHeader);
             } else if (item.isResult()) {
-                binding.nameView.setText(itemView.getContext().getString(R.string.timing, item.timing));
+                binding.nameView.setText(itemView.getContext().
+                        getString(R.string.timing, String.valueOf(item.timing)));
             }
         }
     }
