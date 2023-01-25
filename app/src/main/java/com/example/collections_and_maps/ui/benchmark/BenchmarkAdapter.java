@@ -1,7 +1,9 @@
 package com.example.collections_and_maps.ui.benchmark;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -12,11 +14,10 @@ import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.databinding.ItemBenchmarkBinding;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
-public class BenchmarkAdapter extends ListAdapter<ResultItem, BenchmarkAdapter.BenchmarkViewHolder> {
+public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter.BenchmarkViewHolder> {
 
     public static final DiffUtil.ItemCallback<ResultItem> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<ResultItem>() {
-
                 @Override
                 public boolean areItemsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
                     return oldItem.isHeader() == newItem.isHeader();
@@ -24,11 +25,11 @@ public class BenchmarkAdapter extends ListAdapter<ResultItem, BenchmarkAdapter.B
 
                 @Override
                 public boolean areContentsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
-                    return !newItem.progressVisible && oldItem.timing == newItem.timing;
+                    return oldItem.timing != newItem.timing && (oldItem.progressVisible == newItem.progressVisible);
                 }
             };
 
-    public BenchmarkAdapter() {
+    public BenchmarksAdapter() {
         super(DIFF_CALLBACK);
     }
 
@@ -44,6 +45,7 @@ public class BenchmarkAdapter extends ListAdapter<ResultItem, BenchmarkAdapter.B
     @Override
     public void onBindViewHolder(@NonNull BenchmarkViewHolder holder, int position) {
         holder.bindTo(getItem(position));
+        holder.itemView.animate().setDuration(300);
     }
 
     static class BenchmarkViewHolder extends RecyclerView.ViewHolder {
@@ -57,10 +59,7 @@ public class BenchmarkAdapter extends ListAdapter<ResultItem, BenchmarkAdapter.B
         }
 
         public void bindTo(@NonNull ResultItem item) {
-            final float showProgress = item.progressVisible ? ON : OFF;
-            if (binding.progressBar.getAlpha() != showProgress) {
-                binding.progressBar.animate().setDuration(300).alpha(showProgress).start();
-            }
+            binding.progressBar.setAlpha(item.progressVisible?ON:OFF);
             setDisplayItemData(item);
         }
 
@@ -70,8 +69,6 @@ public class BenchmarkAdapter extends ListAdapter<ResultItem, BenchmarkAdapter.B
             } else if (item.isResult()) {
                 binding.nameView.setText(itemView.getContext().
                         getString(R.string.timing, String.valueOf(item.timing)));
-            } else {
-                binding.nameView.setText("");
             }
         }
     }
