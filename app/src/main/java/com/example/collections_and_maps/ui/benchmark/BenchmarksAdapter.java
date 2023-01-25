@@ -43,6 +43,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
     @Override
     public void onBindViewHolder(@NonNull BenchmarkViewHolder holder, int position) {
         holder.bindTo(getItem(position));
+        holder.itemView.animate().setDuration(300);
     }
 
     static class BenchmarkViewHolder extends RecyclerView.ViewHolder {
@@ -56,11 +57,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         }
 
         public void bindTo(@NonNull ResultItem item) {
-            if (item.progressVisible) {
-                binding.progressBar.animate().setDuration(300).alpha(ON);
-            } else {
-                binding.progressBar.setAlpha(OFF);
-            }
+            binding.progressBar.setAlpha(item.progressVisible ? ON : OFF);
             setDisplayItemData(item);
         }
 
