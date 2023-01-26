@@ -23,7 +23,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 
                 @Override
                 public boolean areContentsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
-                    return oldItem.timing != newItem.timing && (oldItem.progressVisible == newItem.progressVisible);
+                    return !newItem.progressVisible && oldItem.isResult() == newItem.isResult();
                 }
             };
 
@@ -43,7 +43,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
     @Override
     public void onBindViewHolder(@NonNull BenchmarkViewHolder holder, int position) {
         holder.bindTo(getItem(position));
-        holder.itemView.animate().setDuration(300);
+        System.out.println("position = " + position);
     }
 
     static class BenchmarkViewHolder extends RecyclerView.ViewHolder {
@@ -57,7 +57,11 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         }
 
         public void bindTo(@NonNull ResultItem item) {
-            binding.progressBar.setAlpha(item.progressVisible ? ON : OFF);
+            if (binding.progressBar.getAlpha() == OFF) {
+                binding.progressBar.animate().setDuration(300).alpha(item.progressVisible ? ON : OFF);
+            } else {
+                binding.progressBar.setAlpha(item.progressVisible ? ON : OFF);
+            }
             setDisplayItemData(item);
         }
 
@@ -67,6 +71,8 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
             } else if (item.isResult()) {
                 binding.nameView.setText(itemView.getContext().
                         getString(R.string.timing, String.valueOf(item.timing)));
+            } else {
+                binding.nameView.setText("");
             }
         }
     }
