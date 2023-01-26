@@ -23,7 +23,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 
                 @Override
                 public boolean areContentsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
-                    return !newItem.progressVisible && oldItem.timing == newItem.timing;
+                    return !newItem.progressVisible && oldItem.isResult() == newItem.isResult();
                 }
             };
 
@@ -43,6 +43,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
     @Override
     public void onBindViewHolder(@NonNull BenchmarkViewHolder holder, int position) {
         holder.bindTo(getItem(position));
+        System.out.println("position = " + position);
     }
 
     static class BenchmarkViewHolder extends RecyclerView.ViewHolder {
@@ -57,8 +58,7 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
 
         public void bindTo(@NonNull ResultItem item) {
             if (binding.progressBar.getAlpha() == OFF) {
-                binding.progressBar.animate().setDuration(300)
-                        .alpha(item.progressVisible ? ON : OFF).start();
+                binding.progressBar.animate().setDuration(300).alpha(item.progressVisible ? ON : OFF);
             } else {
                 binding.progressBar.setAlpha(item.progressVisible ? ON : OFF);
             }
