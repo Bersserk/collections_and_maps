@@ -56,11 +56,11 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         }
 
         public void bindTo(@NonNull ResultItem item) {
+            final float relay = item.progressVisible ? ON : OFF;
             if (binding.progressBar.getAlpha() == OFF) {
-                binding.progressBar.animate().setDuration(300)
-                        .alpha(item.progressVisible ? ON : OFF).start();
+                binding.progressBar.animate().setDuration(300).alpha(relay).start();
             } else {
-                binding.progressBar.setAlpha(item.progressVisible ? ON : OFF);
+                binding.progressBar.setAlpha(relay);
             }
             setDisplayItemData(item);
         }
