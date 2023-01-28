@@ -2,7 +2,7 @@ package com.example.collections_and_maps.ui.benchmark;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.view.ViewPropertyAnimator;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -57,10 +57,14 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         }
 
         public void bindTo(@NonNull ResultItem item) {
-            final float showProgress = item.progressVisible ? ON : OFF;
-            if (binding.progressBar.getAlpha() != showProgress) {
-                binding.progressBar.animate().setDuration(300).alpha(showProgress).start();
+            ViewPropertyAnimator anim = binding.progressBar.animate();
+
+            if ((binding.progressBar.getAlpha() == OFF && item.progressVisible)) {
+                anim.setDuration(400).alpha(ON).start();
+            } else if (!item.progressVisible) {
+                anim.setDuration(300).alpha(OFF).start();
             }
+
             setDisplayItemData(item);
         }
 
