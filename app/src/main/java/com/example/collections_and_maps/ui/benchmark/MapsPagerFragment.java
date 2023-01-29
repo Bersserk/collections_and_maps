@@ -1,6 +1,5 @@
 package com.example.collections_and_maps.ui.benchmark;
 
-
 import static com.example.collections_and_maps.models.benchmarks.ResultItem.EMPTY;
 
 import androidx.annotation.NonNull;
@@ -41,6 +40,6 @@ public class MapsPagerFragment extends BaseFragment {
     @Override
     protected ResultItem createNewResultItem(@NonNull ResultItem rItem, int value) {
         return rItem.isHeader() ? rItem : new ResultItem(rItem.headerText, rItem.methodName,
-                    new MapsComputeTime().getMeasureTime(rItem, value), false);
+                new MapsComputeTime().getMeasureTime(rItem, value), false);
     }
 }
