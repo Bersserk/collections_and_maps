@@ -1,7 +1,6 @@
 package com.example.collections_and_maps.models.benchmarks;
 import com.example.collections_and_maps.R;
 
-
 public class ResultItem {
     public static final double EMPTY = -1.0;
 
