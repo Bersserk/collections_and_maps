@@ -2,6 +2,7 @@ package com.example.collections_and_maps.ui.benchmark;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -56,11 +57,9 @@ public class BenchmarksAdapter extends ListAdapter<ResultItem, BenchmarksAdapter
         }
 
         public void bindTo(@NonNull ResultItem item) {
-            final float relay = item.progressVisible ? ON : OFF;
-            if (binding.progressBar.getAlpha() == OFF) {
-                binding.progressBar.animate().setDuration(300).alpha(relay).start();
-            } else {
-                binding.progressBar.setAlpha(relay);
+            final float showProgress = item.progressVisible ? ON : OFF;
+            if (binding.progressBar.getAlpha() != showProgress) {
+                binding.progressBar.animate().setDuration(300).alpha(showProgress).start();
             }
             setDisplayItemData(item);
         }
