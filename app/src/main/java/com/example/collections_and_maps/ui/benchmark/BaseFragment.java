@@ -11,13 +11,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.databinding.FragmentBenchmarkBinding;
+import com.example.collections_and_maps.models.benchmarks.DataFilter;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
+import com.example.collections_and_maps.view_model.FragmentFactory;
+import com.example.collections_and_maps.view_model.FragmentViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +29,21 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class BaseFragment extends Fragment implements View.OnClickListener {
+public class BaseFragment extends Fragment implements View.OnClickListener {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final BenchmarksAdapter adapter = new BenchmarksAdapter();
     private ExecutorService service;
     private FragmentBenchmarkBinding binding;
+
+    private FragmentViewModel fragmentViewModel;
+    private FragmentFactory fragmentFactory;
+
+    private DataFilter dataFilter;
+
+    public void setDataForFragments(DataFilter dataForFragments) {
+        dataFilter = dataForFragments;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,29 +54,45 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // init FragmentFactory and inflate data for current Fragment
+        fragmentFactory = new FragmentFactory(dataFilter);
+        // init FragmentViewModel with FragmentFactory
+        fragmentViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) fragmentFactory)
+                .get(FragmentViewModel.class);
 
-        final int spans = getSpanCount();
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(
-                this.getActivity(), spans, LinearLayoutManager.VERTICAL, false
-        );
-        gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(spans + 1, 1, spans));
+                this.getActivity(), dataFilter.getSpan(), LinearLayoutManager.VERTICAL, false);
+        gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(dataFilter.getSpan() + 1, 1, dataFilter.getSpan()));
 
         final RecyclerView listRecycler = requireView().findViewById(R.id.recyclerLayoutItems);
         listRecycler.addItemDecoration(new BenchmarksItemDecoration());
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
 
-        adapter.submitList(createTemplateList(false));
-        listRecycler.setAdapter(adapter);
+        // set and get ResultList
+        fragmentFactory.createTemplateList(false);
+        subscribeToModel();
 
+        // send into recycler
+        listRecycler.setAdapter(adapter);
         binding.calcButton.setOnClickListener(this);
     }
+
+    private void subscribeToModel() {
+        fragmentViewModel.getLiveDataResultItem()
+                .observe(getViewLifecycleOwner(), this::updateUI);
+    }
+
 
     @Override
     public void onClick(View v) {
         if (service == null || service.isShutdown()) {
             binding.calcButton.setText(R.string.calcButtonStop);
-            final List<ResultItem> newList = createTemplateList(true);
+
+            // send clear list with animation
+            fragmentFactory.createTemplateList(true);
+            final List<ResultItem> newList = fragmentViewModel.getLiveDataResultItem().getValue();
+
             service = Executors.newCachedThreadPool();
             final AtomicInteger counterActiveThreads = new AtomicInteger();
             final int value = checkValidateValue(binding.inputField.getText());
@@ -71,10 +100,11 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
             for (ResultItem rItem : newList) {
                 counterActiveThreads.getAndIncrement();
                 service.submit(() -> {
-                    final ResultItem resultItem = createNewResultItem(rItem, value);
+                    final ResultItem resultItem = fragmentFactory.createNewResultItem(rItem, value);
                     if (!service.isShutdown()) {
                         int index = newList.indexOf(rItem);
                         newList.set(index, resultItem);
+                        System.out.println(newList);
                         updateUI(newList);
 
                         if (counterActiveThreads.decrementAndGet() == 0) {
@@ -102,13 +132,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         return value;
     }
 
-
-    protected abstract ResultItem createNewResultItem(ResultItem rItem, int value);
-
-    protected abstract int getSpanCount();
-
-    protected abstract List<ResultItem> createTemplateList(boolean itemAnimated);
-
     synchronized protected void updateUI(List<ResultItem> resultList) {
         handler.post(() -> adapter.submitList(new ArrayList<>(resultList)));
     }
@@ -119,10 +142,23 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         binding = null;
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("dataFilter", dataFilter);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            dataFilter = (DataFilter) savedInstanceState.getSerializable("dataFilter");
+        }
+    }
 
     // we will need this block later ***
-//    public static CollectionsPagerFragment newInstance(String fragmentData) {
-//        CollectionsPagerFragment fragment = new CollectionsPagerFragment();
+//    public static BaseFragment newInstance(String fragmentData) {
+//        BaseFragment fragment = new BaseFragment();
 //        Bundle args = new Bundle();
 //        args.putString(TYPE_BENCHMARK, fragmentData);
 //        fragment.setArguments(args);
