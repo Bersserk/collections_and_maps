@@ -155,13 +155,4 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
             dataFilter = (DataFilter) savedInstanceState.getSerializable("dataFilter");
         }
     }
-
-    // we will need this block later ***
-//    public static BaseFragment newInstance(String fragmentData) {
-//        BaseFragment fragment = new BaseFragment();
-//        Bundle args = new Bundle();
-//        args.putString(TYPE_BENCHMARK, fragmentData);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
 }
