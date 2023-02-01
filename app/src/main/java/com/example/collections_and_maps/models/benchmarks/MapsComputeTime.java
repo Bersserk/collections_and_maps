@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class MapsComputeTime {
+public class MapsComputeTime implements ComputeTime{
 
     public double getMeasureTime(ResultItem rItem, int value) {
         if (value < 0) {

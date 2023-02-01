@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class CollectionsComputeTime {
+public class CollectionsComputeTime implements ComputeTime{
     private final Random random = new Random();
 
     @SuppressLint("NonConstantResourceId")
