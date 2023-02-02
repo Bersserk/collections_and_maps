@@ -1,9 +1,8 @@
 package com.example.collections_and_maps.models.benchmarks;
 
 import com.example.collections_and_maps.R;
-import java.io.Serializable;
 
-public class DataFilter implements Serializable {
+public class DataFilter{
 
     private int span;
     private int[] listHeadsId;
