@@ -2,17 +2,14 @@ package com.example.collections_and_maps.view_model;
 
 import static com.example.collections_and_maps.models.benchmarks.ResultItem.EMPTY;
 
-import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.databinding.FragmentBenchmarkBinding;
@@ -26,7 +23,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class FragmentViewModel extends AndroidViewModel {
+public class FragmentViewModel extends ViewModel {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private ExecutorService service;
@@ -38,8 +35,7 @@ public class FragmentViewModel extends AndroidViewModel {
         return liveResultItem;
     }
 
-    public FragmentViewModel(@NonNull Application application, DataFilter dataFilter) {
-        super(application);
+    public FragmentViewModel(DataFilter dataFilter) {
         System.out.println("View - FragmentViewModel");
 
         this.dataFilter = dataFilter;
@@ -129,25 +125,6 @@ public class FragmentViewModel extends AndroidViewModel {
         return value;
     }
 
-
-    public static class FragmentFactory extends ViewModelProvider.NewInstanceFactory {
-
-        @NonNull
-        private final Application application;
-        private final int position;
-
-        public FragmentFactory(@NonNull Application application, int position) {
-            this.application = application;
-            this.position = position;
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        @NonNull
-        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T) new FragmentViewModel(application, new DataFilter(position));
-        }
-    }
 
 }
 
