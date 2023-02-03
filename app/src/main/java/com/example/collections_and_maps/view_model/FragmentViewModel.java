@@ -27,9 +27,8 @@ public class FragmentViewModel extends ViewModel {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private ExecutorService service;
-    private LiveData<List<ResultItem>> liveResultItem;
+    private final MutableLiveData<List<ResultItem>> liveResultItem = new MutableLiveData<>();
     private final DataFilter dataFilter;
-    public final int span;
 
     public LiveData<List<ResultItem>> getLiveResultItem() {
         return liveResultItem;
@@ -37,9 +36,7 @@ public class FragmentViewModel extends ViewModel {
 
     public FragmentViewModel(DataFilter dataFilter) {
         System.out.println("View - FragmentViewModel");
-
         this.dataFilter = dataFilter;
-        this.span = dataFilter.getSpan();
     }
 
 
@@ -59,7 +56,7 @@ public class FragmentViewModel extends ViewModel {
                 items.add(new ResultItem(headsID, methodsID, EMPTY, itemAnimated));
             }
         }
-        liveResultItem = new MutableLiveData<>(items);
+        liveResultItem.setValue(items);
     }
 
 
@@ -95,7 +92,7 @@ public class FragmentViewModel extends ViewModel {
                     if (!service.isShutdown()) {
                         int index = newList.indexOf(rItem);
                         newList.set(index, resultItem);
-                        liveResultItem = new MutableLiveData<>(newList);
+                        liveResultItem.setValue(newList);
                         updateUI(newList, adapter);
 
                         if (counterActiveThreads.decrementAndGet() == 0) {
@@ -124,7 +121,6 @@ public class FragmentViewModel extends ViewModel {
         }
         return value;
     }
-
 
 }
 

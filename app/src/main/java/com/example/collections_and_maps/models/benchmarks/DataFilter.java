@@ -2,20 +2,14 @@ package com.example.collections_and_maps.models.benchmarks;
 
 import com.example.collections_and_maps.R;
 
-public class DataFilter{
+public class DataFilter {
 
-    private int span;
+    private ComputeTime computeTime;
     private int[] listHeadsId;
     private int[] listMethodsId;
 
     public ComputeTime getComputeTime() {
         return computeTime;
-    }
-
-    private ComputeTime computeTime;
-
-    public int getSpan() {
-        return span;
     }
 
     public int[] getListHeadsId() {
@@ -30,13 +24,11 @@ public class DataFilter{
     public DataFilter(int namePagerView) {
         switch (namePagerView) {
             case R.string.Collections:
-                span = 3;
                 listHeadsId = collectionsHeads();
                 listMethodsId = collectionsMethods();
                 computeTime = new CollectionsComputeTime();
                 break;
             case R.string.Maps:
-                span = 2;
                 listHeadsId = mapsHeads();
                 listMethodsId = mapsMethods();
                 computeTime = new MapsComputeTime();
@@ -61,4 +53,6 @@ public class DataFilter{
     private int[] mapsMethods() {
         return new int[]{R.string.add_new, R.string.search_key, R.string.removing};
     }
+
+
 }
