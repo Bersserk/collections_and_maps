@@ -27,8 +27,8 @@ public class DataFilter{
     }
 
 
-    public DataFilter(int namePage) {
-        switch (namePage) {
+    public DataFilter(int namePagerView) {
+        switch (namePagerView) {
             case R.string.Collections:
                 span = 3;
                 listHeadsId = collectionsHeads();
