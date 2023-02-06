@@ -33,7 +33,6 @@ public class FragmentViewModel extends ViewModel {
     }
 
     public FragmentViewModel(DataFilter dataFilter) {
-        System.out.println("View - FragmentViewModel");
         this.dataFilter = dataFilter;
         liveResultItem.setValue(new ListCreator().create(dataFilter, false));
     }
@@ -41,7 +40,6 @@ public class FragmentViewModel extends ViewModel {
 
 
     public void send(BenchmarksAdapter adapter, String inputtedValue) {
-        System.out.println("View - onClick");
 
         if (inputtedValue.equals("")) {
             updateUI(getLiveResultItem().getValue(), adapter);
@@ -76,13 +74,11 @@ public class FragmentViewModel extends ViewModel {
         } else {
             service.shutdownNow();
             liveTextTV.setValue(R.string.calcButtonStart);
-
         }
     }
 
 
     private void updateUI(List<ResultItem> resultList, BenchmarksAdapter adapter) {
-        System.out.println("View - updateUI");
         handler.post(() -> adapter.submitList(new ArrayList<>(resultList)));
     }
 

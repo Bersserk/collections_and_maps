@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListCreator {
-    public List<ResultItem> create (DataFilter dataFilter, boolean itemAnimated){
+    public List<ResultItem> create(DataFilter dataFilter, boolean itemAnimated) {
         final List<ResultItem> items = new ArrayList<>();
 
         for (int itemOfListHead : dataFilter.getListHeadsId()) {
