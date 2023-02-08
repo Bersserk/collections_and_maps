@@ -1,8 +1,6 @@
 package com.example.collections_and_maps.view_model;
 
-import android.os.Handler;
-import android.os.Looper;
-
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -10,7 +8,6 @@ import androidx.lifecycle.ViewModel;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.DataFilter;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
-import com.example.collections_and_maps.ui.benchmark.BenchmarksAdapter;
 import com.example.collections_and_maps.view_model.models.ItemCreator;
 import com.example.collections_and_maps.view_model.models.ListCreator;
 
@@ -20,53 +17,59 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class FragmentViewModel extends ViewModel {
+public class BenchmarkViewModel extends ViewModel implements DefaultList {
 
-    private final Handler handler = new Handler(Looper.getMainLooper());
     private ExecutorService service;
-    private final MutableLiveData<List<ResultItem>> liveResultItem = new MutableLiveData<>();
+
+    private final MutableLiveData<List<ResultItem>> itemsLiveData = new MutableLiveData<>();
     private final MutableLiveData<Integer> liveTextTV = new MutableLiveData<>();
+
     private final DataFilter dataFilter;
 
-    public LiveData<List<ResultItem>> getLiveResultItem() {
-        return liveResultItem;
+    public LiveData<List<ResultItem>> getItemsLiveData() {
+        return itemsLiveData;
     }
 
-    public FragmentViewModel(DataFilter dataFilter) {
+    public LiveData<Integer> getLiveTextTV() {
+        return liveTextTV;
+    }
+
+
+    public BenchmarkViewModel(DataFilter dataFilter) {
         this.dataFilter = dataFilter;
-        liveResultItem.setValue(new ListCreator().create(dataFilter, false));
+    }
+
+    @Override
+    public void setDefaultList(boolean isItemAnimated) {
+        itemsLiveData.setValue(new ListCreator(dataFilter, isItemAnimated).itemsList);
     }
 
 
+    public void startMeasure(@NonNull String inputtedValue) {
+        final int value = checkValidateValue(inputtedValue);
 
-    public void send(BenchmarksAdapter adapter, String inputtedValue) {
-
-        if (inputtedValue.equals("")) {
-            updateUI(getLiveResultItem().getValue(), adapter);
-        } else if (service == null || service.isShutdown()) {
+        if (value >= 0 && service == null || service.isShutdown()) {
             liveTextTV.setValue(R.string.calcButtonStop);
 
             // send clear list with animation
-            liveResultItem.setValue(new ListCreator().create(dataFilter, true));
-            final List<ResultItem> newList = getLiveResultItem().getValue();
+            setDefaultList(true);
+            final List<ResultItem> items = getItemsLiveData().getValue();
+
+            assert items != null;
+            final AtomicInteger counterActiveThreads = new AtomicInteger(items.size());
 
             service = Executors.newCachedThreadPool();
-            final AtomicInteger counterActiveThreads = new AtomicInteger();
-            final int value = checkValidateValue(inputtedValue);
-
-            for (ResultItem rItem : newList) {
-                counterActiveThreads.getAndIncrement();
+            for (ResultItem rItem : items) {
                 service.submit(() -> {
                     final ResultItem resultItem = new ItemCreator().create(rItem, value, dataFilter);
                     if (!service.isShutdown()) {
-                        int index = newList.indexOf(rItem);
-                        newList.set(index, resultItem);
-                        liveResultItem.postValue(newList);
-                        updateUI(newList, adapter);
+                        int index = items.indexOf(rItem);
+                        items.set(index, resultItem);
+                        itemsLiveData.postValue(new ArrayList<>(items));
 
                         if (counterActiveThreads.decrementAndGet() == 0) {
                             service.shutdown();
-                            liveTextTV.setValue(R.string.calcButtonStart);
+                            liveTextTV.postValue(R.string.calcButtonStart);
                         }
                     }
                 });
@@ -78,17 +81,13 @@ public class FragmentViewModel extends ViewModel {
     }
 
 
-    private void updateUI(List<ResultItem> resultList, BenchmarksAdapter adapter) {
-        handler.post(() -> adapter.submitList(new ArrayList<>(resultList)));
-    }
-
     private int checkValidateValue(String inputtedValue) {
         int value;
         try {
             value = Integer.parseInt(inputtedValue);
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            value = 0;
+            value = -1;
         }
         return value;
     }
