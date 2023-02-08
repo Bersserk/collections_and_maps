@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.models.benchmarks.DataFilter;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
-import com.example.collections_and_maps.view_model.models.ItemCreator;
+import com.example.collections_and_maps.models.repository.ItemModel;
+import com.example.collections_and_maps.view_model.models.CheckedItem;
 import com.example.collections_and_maps.view_model.models.ListCreator;
 
 import java.util.ArrayList;
@@ -19,12 +19,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class BenchmarkViewModel extends ViewModel implements DefaultList {
 
+
     private ExecutorService service;
 
     private final MutableLiveData<List<ResultItem>> itemsLiveData = new MutableLiveData<>();
     private final MutableLiveData<Integer> liveTextTV = new MutableLiveData<>();
 
-    private final DataFilter dataFilter;
+    private final ItemModel itemModel;
 
     public LiveData<List<ResultItem>> getItemsLiveData() {
         return itemsLiveData;
@@ -35,13 +36,13 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
     }
 
 
-    public BenchmarkViewModel(DataFilter dataFilter) {
-        this.dataFilter = dataFilter;
+    public BenchmarkViewModel(ItemModel itemModel) {
+        this.itemModel = itemModel;
     }
 
     @Override
-    public void setDefaultList(boolean isItemAnimated) {
-        itemsLiveData.setValue(new ListCreator(dataFilter, isItemAnimated).itemsList);
+    public void onCreate(boolean isItemAnimated) {
+        itemsLiveData.setValue(new ListCreator(itemModel, isItemAnimated).itemsList);
     }
 
 
@@ -51,7 +52,7 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
         if (value >= 0 && service == null || service.isShutdown()) {
             liveTextTV.setValue(R.string.calcButtonStop);
 
-            setDefaultList(true);
+            onCreate(true);
             final List<ResultItem> items = getItemsLiveData().getValue();
 
             assert items != null;
@@ -60,7 +61,7 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
             service = Executors.newCachedThreadPool();
             for (ResultItem rItem : items) {
                 service.submit(() -> {
-                    final ResultItem resultItem = new ItemCreator().create(rItem, value, dataFilter);
+                    final ResultItem resultItem = new CheckedItem(rItem, value, itemModel).newResultItem;
                     if (!service.isShutdown()) {
                         int index = items.indexOf(rItem);
                         items.set(index, resultItem);
