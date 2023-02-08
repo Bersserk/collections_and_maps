@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setSelectedTabIndicatorColor(Color.YELLOW);
         ViewPager2 viewPager2 = findViewById(R.id.view_pager2);
 
-        PagerViewAdapter adapter = new PagerViewAdapter(this);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(adapter);
 
         tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager2, (tab, position) ->
