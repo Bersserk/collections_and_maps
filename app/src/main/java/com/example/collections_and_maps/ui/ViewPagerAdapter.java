@@ -1,6 +1,7 @@
 package com.example.collections_and_maps.ui;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
@@ -15,7 +16,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
 
     @NonNull
     @Override
-    public androidx.fragment.app.Fragment createFragment(int position) {
+    public Fragment createFragment(int position) {
         final int namePagerView = position == 0 ? R.string.Collections : R.string.Maps;
         return BenchmarkFragmentView.newInstance(namePagerView);
     }
