@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,7 +19,7 @@ import com.example.collections_and_maps.view_model.BenchmarkViewModel;
 import com.example.collections_and_maps.view_model.BenchmarkViewModelFactory;
 import com.example.collections_and_maps.view_model.DefaultList;
 
-public class BenchmarkFragmentView extends androidx.fragment.app.Fragment implements View.OnClickListener {
+public class BenchmarkFragmentView extends Fragment implements View.OnClickListener {
 
     private static final String NAME_PAGER_VIEW = "namePagerView";
 
@@ -40,7 +41,7 @@ public class BenchmarkFragmentView extends androidx.fragment.app.Fragment implem
         assert getArguments() != null;
 
         final BenchmarkViewModelFactory benchmarkFactory = new BenchmarkViewModelFactory(getArguments()
-                .getInt("namePagerView"));
+                .getInt(NAME_PAGER_VIEW));
 
         model = new ViewModelProvider(this, (ViewModelProvider.Factory) benchmarkFactory)
                 .get(BenchmarkViewModel.class);
@@ -75,14 +76,14 @@ public class BenchmarkFragmentView extends androidx.fragment.app.Fragment implem
         binding.calcButton.setOnClickListener(this);
     }
 
-    private void setDefaultList(DefaultList list){
-        list.setDefaultList(false);
+    private void setDefaultList(DefaultList list) {
+        list.onCreate(false);
     }
 
-    private int getSpan(){
+    private int getSpan() {
         assert getArguments() != null;
         final int key = getArguments().getInt(NAME_PAGER_VIEW);
-        switch (key){
+        switch (key) {
             case R.string.Collections:
                 return 3;
             case R.string.Maps:
