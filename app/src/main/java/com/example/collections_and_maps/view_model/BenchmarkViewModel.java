@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class BenchmarkViewModel extends ViewModel implements DefaultList {
 
+
     private ExecutorService service;
 
     private final MutableLiveData<List<ResultItem>> itemsLiveData = new MutableLiveData<>();
@@ -40,7 +41,7 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
     }
 
     @Override
-    public void setDefaultList(boolean isItemAnimated) {
+    public void onCreate(boolean isItemAnimated) {
         itemsLiveData.setValue(new ListCreator(dataFilter, isItemAnimated).itemsList);
     }
 
@@ -51,7 +52,7 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
         if (value >= 0 && service == null || service.isShutdown()) {
             liveTextTV.setValue(R.string.calcButtonStop);
 
-            setDefaultList(true);
+            onCreate(true);
             final List<ResultItem> items = getItemsLiveData().getValue();
 
             assert items != null;
