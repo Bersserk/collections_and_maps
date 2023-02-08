@@ -51,7 +51,6 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
         if (value >= 0 && service == null || service.isShutdown()) {
             liveTextTV.setValue(R.string.calcButtonStop);
 
-            // send clear list with animation
             setDefaultList(true);
             final List<ResultItem> items = getItemsLiveData().getValue();
 
