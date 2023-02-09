@@ -15,10 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.databinding.FragmentBenchmarkBinding;
-import com.example.collections_and_maps.view_model.BenchmarkViewModel;
-import com.example.collections_and_maps.view_model.BenchmarkViewModelFactory;
-import com.example.collections_and_maps.view_model.DefaultList;
-import com.example.collections_and_maps.view_model.new_models.ValueValidator;
+import com.example.collections_and_maps.ui.models.BenchmarkItemDecoration;
+import com.example.collections_and_maps.ui.models.RecyclerSizeLookup;
+import com.example.collections_and_maps.view_model.benchmark.BenchmarkViewModel;
+import com.example.collections_and_maps.view_model.benchmark.BenchmarkViewModelFactory;
+import com.example.collections_and_maps.view_model.interfases.DefaultList;
+import com.example.collections_and_maps.view_model.models.ValueValidator;
 
 public class BenchmarkFragmentView extends Fragment implements View.OnClickListener {
 

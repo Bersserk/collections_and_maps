@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.databinding.ItemBenchmarkBinding;
-import com.example.collections_and_maps.models.benchmarks.ResultItem;
+import com.example.collections_and_maps.domain.benchmarks.ResultItem;
 
 public class BenchmarkAdapter extends ListAdapter<ResultItem, BenchmarkAdapter.BenchmarkViewHolder> {
 

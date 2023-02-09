@@ -1,10 +1,10 @@
-package com.example.collections_and_maps.view_model;
+package com.example.collections_and_maps.view_model.benchmark;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.collections_and_maps.view_model.new_models.FragmentDataDistributor;
+import com.example.collections_and_maps.view_model.models.FragmentDataDistributor;
 
 public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 

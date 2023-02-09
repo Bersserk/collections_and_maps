@@ -1,4 +1,4 @@
-package com.example.collections_and_maps.view_model;
+package com.example.collections_and_maps.view_model.interfases;
 
 public interface DefaultList {
     void onCreate(boolean isItemAnimated);

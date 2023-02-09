@@ -1,7 +1,7 @@
-package com.example.collections_and_maps.models.benchmarks;
+package com.example.collections_and_maps.domain.benchmarks;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.view_model.new_models.Item;
+import com.example.collections_and_maps.domain.models.Item;
 
 public class ResultItem extends Item {
     public static final double EMPTY = -1.0;
