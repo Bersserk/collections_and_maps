@@ -7,9 +7,10 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
-import com.example.collections_and_maps.models.repository.ItemModel;
-import com.example.collections_and_maps.view_model.models.CheckedItem;
-import com.example.collections_and_maps.view_model.models.ListCreator;
+import com.example.collections_and_maps.view_model.new_models.CheckedItem;
+import com.example.collections_and_maps.view_model.new_models.FragmentData;
+import com.example.collections_and_maps.view_model.new_models.ListCreator;
+import com.example.collections_and_maps.view_model.new_models.ValueValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +20,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class BenchmarkViewModel extends ViewModel implements DefaultList {
 
-
     private ExecutorService service;
 
     private final MutableLiveData<List<ResultItem>> itemsLiveData = new MutableLiveData<>();
     private final MutableLiveData<Integer> liveTextTV = new MutableLiveData<>();
 
-    private final ItemModel itemModel;
+    private final FragmentData fragmentData;
 
     public LiveData<List<ResultItem>> getItemsLiveData() {
         return itemsLiveData;
@@ -36,32 +36,33 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
     }
 
 
-    public BenchmarkViewModel(ItemModel itemModel) {
-        this.itemModel = itemModel;
+    public BenchmarkViewModel(FragmentData fragmentData) {
+        this.fragmentData = fragmentData;
     }
 
     @Override
     public void onCreate(boolean isItemAnimated) {
-        itemsLiveData.setValue(new ListCreator(itemModel, isItemAnimated).itemsList);
+        itemsLiveData.setValue(new ListCreator(fragmentData, isItemAnimated).itemsList);
     }
 
 
-    public void startMeasure(@NonNull String inputtedValue) {
-        final int value = checkValidateValue(inputtedValue);
+    public void startMeasure(@NonNull ValueValidator inputtedValue) {
+        final int value = inputtedValue.getValue();
 
-        if (value >= 0 && service == null || service.isShutdown()) {
+        if (service == null || service.isShutdown()) {
             liveTextTV.setValue(R.string.calcButtonStop);
 
             onCreate(true);
             final List<ResultItem> items = getItemsLiveData().getValue();
-
             assert items != null;
+
             final AtomicInteger counterActiveThreads = new AtomicInteger(items.size());
 
             service = Executors.newCachedThreadPool();
             for (ResultItem rItem : items) {
                 service.submit(() -> {
-                    final ResultItem resultItem = new CheckedItem(rItem, value, itemModel).newResultItem;
+                    final ResultItem resultItem = new CheckedItem(rItem, value, fragmentData).newResultItem;
+
                     if (!service.isShutdown()) {
                         int index = items.indexOf(rItem);
                         items.set(index, resultItem);
@@ -78,18 +79,6 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
             service.shutdownNow();
             liveTextTV.setValue(R.string.calcButtonStart);
         }
-    }
-
-
-    private int checkValidateValue(String inputtedValue) {
-        int value;
-        try {
-            value = Integer.parseInt(inputtedValue);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            value = -1;
-        }
-        return value;
     }
 
 }
