@@ -1,4 +1,4 @@
-package com.example.collections_and_maps.view_model;
+package com.example.collections_and_maps.view_model.benchmark;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -6,11 +6,12 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.models.benchmarks.ResultItem;
-import com.example.collections_and_maps.view_model.new_models.CheckedItem;
-import com.example.collections_and_maps.view_model.new_models.FragmentData;
-import com.example.collections_and_maps.view_model.new_models.ListCreator;
-import com.example.collections_and_maps.view_model.new_models.ValueValidator;
+import com.example.collections_and_maps.domain.benchmarks.ResultItem;
+import com.example.collections_and_maps.view_model.interfases.DefaultList;
+import com.example.collections_and_maps.domain.benchmarks.CheckedItem;
+import com.example.collections_and_maps.view_model.models.FragmentData;
+import com.example.collections_and_maps.domain.models.ListCreator;
+import com.example.collections_and_maps.view_model.models.ValueValidator;
 
 import java.util.ArrayList;
 import java.util.List;

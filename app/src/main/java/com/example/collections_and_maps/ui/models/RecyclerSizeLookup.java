@@ -1,4 +1,4 @@
-package com.example.collections_and_maps.ui.benchmark;
+package com.example.collections_and_maps.ui.models;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
