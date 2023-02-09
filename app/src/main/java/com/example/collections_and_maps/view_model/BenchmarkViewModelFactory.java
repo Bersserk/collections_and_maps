@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.collections_and_maps.models.benchmarks.DataFragment;
+import com.example.collections_and_maps.view_model.new_models.FragmentDataDistributor;
 
 public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
@@ -18,6 +18,6 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
     @Override
     @NonNull
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new BenchmarkViewModel(new DataFragment(benchmarkType).itemModel);
+        return (T) new BenchmarkViewModel(new FragmentDataDistributor(benchmarkType).fragmentData);
     }
 }
