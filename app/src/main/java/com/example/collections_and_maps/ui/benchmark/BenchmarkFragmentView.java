@@ -15,16 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.databinding.FragmentBenchmarkBinding;
-import com.example.collections_and_maps.ui.models.BenchmarkItemDecoration;
-import com.example.collections_and_maps.ui.models.RecyclerSizeLookup;
-import com.example.collections_and_maps.view_model.benchmark.BenchmarkViewModel;
-import com.example.collections_and_maps.view_model.benchmark.BenchmarkViewModelFactory;
-import com.example.collections_and_maps.view_model.interfases.DefaultList;
-import com.example.collections_and_maps.view_model.models.ValueValidator;
+import com.example.collections_and_maps.view_model.BenchmarkViewModel;
+import com.example.collections_and_maps.view_model.BenchmarkViewModelFactory;
+import com.example.collections_and_maps.view_model.DefaultList;
 
 public class BenchmarkFragmentView extends Fragment implements View.OnClickListener {
 
-    private static final String BENCHMARK_TYPE = "namePagerView";
+    private static final String NAME_PAGER_VIEW = "namePagerView";
 
     private final BenchmarkAdapter adapter = new BenchmarkAdapter();
     private FragmentBenchmarkBinding binding;
@@ -33,7 +30,7 @@ public class BenchmarkFragmentView extends Fragment implements View.OnClickListe
     public static BenchmarkFragmentView newInstance(int namePagerView) {
         BenchmarkFragmentView fragmentView = new BenchmarkFragmentView();
         Bundle args = new Bundle();
-        args.putInt(BENCHMARK_TYPE, namePagerView);
+        args.putInt(NAME_PAGER_VIEW, namePagerView);
         fragmentView.setArguments(args);
         return fragmentView;
     }
@@ -44,7 +41,7 @@ public class BenchmarkFragmentView extends Fragment implements View.OnClickListe
         assert getArguments() != null;
 
         final BenchmarkViewModelFactory benchmarkFactory = new BenchmarkViewModelFactory(getArguments()
-                .getInt(BENCHMARK_TYPE));
+                .getInt(NAME_PAGER_VIEW));
 
         model = new ViewModelProvider(this, (ViewModelProvider.Factory) benchmarkFactory)
                 .get(BenchmarkViewModel.class);
@@ -79,19 +76,14 @@ public class BenchmarkFragmentView extends Fragment implements View.OnClickListe
         binding.calcButton.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        model.startMeasure(new ValueValidator(binding.inputField.getText()));
-    }
-
-
     private void setDefaultList(DefaultList list) {
         list.onCreate(false);
     }
 
     private int getSpan() {
         assert getArguments() != null;
-        switch (getArguments().getInt(BENCHMARK_TYPE)) {
+        final int key = getArguments().getInt(NAME_PAGER_VIEW);
+        switch (key) {
             case R.string.Collections:
                 return 3;
             case R.string.Maps:
@@ -99,6 +91,11 @@ public class BenchmarkFragmentView extends Fragment implements View.OnClickListe
             default:
                 throw new IllegalArgumentException("key's value is Illegal");
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        model.startMeasure(binding.inputField.getText().toString());
     }
 
 
