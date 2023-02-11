@@ -40,7 +40,7 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
     }
 
     @Override
-    public void onCreate(boolean isItemAnimated) {
+    public void setDefaultList(boolean isItemAnimated) {
         itemsLiveData.setValue(new ListCreator(dataFilter, isItemAnimated).itemsList);
     }
 
@@ -51,7 +51,7 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
         if (value >= 0 && service == null || service.isShutdown()) {
             liveTextTV.setValue(R.string.calcButtonStop);
 
-            onCreate(true);
+            setDefaultList(true);
             final List<ResultItem> items = getItemsLiveData().getValue();
 
             assert items != null;
