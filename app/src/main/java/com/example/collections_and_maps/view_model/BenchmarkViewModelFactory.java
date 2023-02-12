@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.collections_and_maps.models.benchmarks.DataFilter;
+import com.example.collections_and_maps.models.benchmarks.DataInflater;
 
 public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
@@ -18,6 +18,6 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
     @Override
     @NonNull
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new BenchmarkViewModel(new DataFilter(benchmarkType));
+        return (T) new BenchmarkViewModel(new DataInflater(benchmarkType));
     }
 }
