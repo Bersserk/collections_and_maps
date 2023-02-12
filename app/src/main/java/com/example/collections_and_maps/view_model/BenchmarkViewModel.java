@@ -46,14 +46,17 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
 
 
     public void startMeasure(@NonNull String inputtedValue) {
-        final int value = checkValidateValue(inputtedValue);
 
-        if (value >= 0 && service == null || service.isShutdown()) {
+        if (service == null || service.isShutdown()) {
+            final int value = checkValidateValue(inputtedValue);
+            if (value < 0) {
+                return;
+            }
+
             liveTextTV.setValue(R.string.calcButtonStop);
 
             onCreate(true);
             final List<ResultItem> items = getItemsLiveData().getValue();
-
             assert items != null;
             final AtomicInteger counterActiveThreads = new AtomicInteger(items.size());
 
@@ -81,12 +84,11 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
 
 
     private int checkValidateValue(String inputtedValue) {
-        int value;
+        int value = -1;
         try {
             value = Integer.parseInt(inputtedValue);
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            value = -1;
         }
         return value;
     }
