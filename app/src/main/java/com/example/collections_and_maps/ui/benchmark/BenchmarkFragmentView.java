@@ -45,7 +45,6 @@ public class BenchmarkFragmentView extends Fragment implements View.OnClickListe
 
         model = new ViewModelProvider(this, (ViewModelProvider.Factory) benchmarkFactory)
                 .get(BenchmarkViewModel.class);
-        setDefaultList(model);
     }
 
     @Override
@@ -67,6 +66,7 @@ public class BenchmarkFragmentView extends Fragment implements View.OnClickListe
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
 
+        setDefaultList(model);
         model.getItemsLiveData().observe(getViewLifecycleOwner(), adapter::submitList);
 
         model.getLiveTextTV().observe(getViewLifecycleOwner(),
@@ -76,7 +76,7 @@ public class BenchmarkFragmentView extends Fragment implements View.OnClickListe
         binding.calcButton.setOnClickListener(this);
     }
 
-    private void setDefaultList(@NonNull DefaultList list) {
+    private void setDefaultList(DefaultList list) {
         list.onCreate(false);
     }
 

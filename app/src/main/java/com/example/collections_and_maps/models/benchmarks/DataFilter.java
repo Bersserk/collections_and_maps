@@ -2,10 +2,15 @@ package com.example.collections_and_maps.models.benchmarks;
 
 import com.example.collections_and_maps.R;
 
-public class DataInflater {
+public class DataFilter {
 
+    private ComputeTime computeTime;
     private int[] listHeadsId;
     private int[] listMethodsId;
+
+    public ComputeTime getComputeTime() {
+        return computeTime;
+    }
 
     public int[] getListHeadsId() {
         return listHeadsId;
@@ -15,19 +20,21 @@ public class DataInflater {
         return listMethodsId;
     }
 
-    public DataInflater(int namePagerView) {
+
+    public DataFilter(int namePagerView) {
         switch (namePagerView) {
             case R.string.Collections:
                 listHeadsId = collectionsHeads();
                 listMethodsId = collectionsMethods();
+                computeTime = new CollectionsComputeTime();
                 break;
             case R.string.Maps:
                 listHeadsId = mapsHeads();
                 listMethodsId = mapsMethods();
+                computeTime = new MapsComputeTime();
                 break;
         }
     }
-
 
     private int[] collectionsHeads() {
         return new int[]{R.string.ArrayList, R.string.LinkedList, R.string.CopyOnWrite};
