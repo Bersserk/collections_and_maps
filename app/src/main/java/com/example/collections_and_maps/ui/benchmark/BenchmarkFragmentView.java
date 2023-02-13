@@ -1,9 +1,12 @@
 package com.example.collections_and_maps.ui.benchmark;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -71,6 +74,10 @@ public class BenchmarkFragmentView extends Fragment implements View.OnClickListe
 
         model.getLiveTextTV().observe(getViewLifecycleOwner(),
                 integer -> binding.calcButton.setText(integer));
+
+        model.getLiveShowerMessages().observe(getViewLifecycleOwner(),
+                toastMessage -> Toast.makeText(BenchmarkFragmentView.this.getContext(),
+                        toastMessage, LENGTH_SHORT).show());
 
         listRecycler.setAdapter(adapter);
         binding.calcButton.setOnClickListener(this);
