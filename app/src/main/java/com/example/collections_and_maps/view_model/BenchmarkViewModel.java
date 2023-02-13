@@ -24,6 +24,7 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
 
     private final MutableLiveData<List<ResultItem>> itemsLiveData = new MutableLiveData<>();
     private final MutableLiveData<Integer> liveTextTV = new MutableLiveData<>();
+    private final MutableLiveData<Integer> liveShowerMessages = new MutableLiveData<>();
 
     private final DataFilter dataFilter;
 
@@ -33,6 +34,10 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
 
     public LiveData<Integer> getLiveTextTV() {
         return liveTextTV;
+    }
+
+    public LiveData<Integer> getLiveShowerMessages() {
+        return liveShowerMessages;
     }
 
 
@@ -51,6 +56,7 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
         if (service == null || service.isShutdown()) {
             final int value = checkValidateValue(inputtedValue);
             if (value < 0) {
+                liveShowerMessages.setValue(R.string.OtherValue);
                 return;
             }
 
@@ -93,6 +99,9 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
         }
         return value;
     }
+
+
+
 
 }
 
