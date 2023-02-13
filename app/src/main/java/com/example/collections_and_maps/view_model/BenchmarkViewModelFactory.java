@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.collections_and_maps.models.benchmarks.DataFilter;
+import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.models.benchmarks.CollectionsComputeTime;
+import com.example.collections_and_maps.models.benchmarks.ComputeTime;
+import com.example.collections_and_maps.models.benchmarks.MapsComputeTime;
 
 public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
@@ -18,6 +21,12 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
     @Override
     @NonNull
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new BenchmarkViewModel(new DataFilter(benchmarkType));
+        return (T) new BenchmarkViewModel(getClassFragment());
+    }
+
+    private ComputeTime getClassFragment (){
+        return benchmarkType == R.string.Collections ?
+                new CollectionsComputeTime():
+                new MapsComputeTime();
     }
 }

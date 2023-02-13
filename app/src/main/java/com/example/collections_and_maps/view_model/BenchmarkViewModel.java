@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.models.benchmarks.DataFilter;
+import com.example.collections_and_maps.models.benchmarks.ComputeTime;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 import com.example.collections_and_maps.view_model.models.ItemCreator;
 import com.example.collections_and_maps.view_model.models.ListCreator;
@@ -19,14 +19,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class BenchmarkViewModel extends ViewModel implements DefaultList {
 
-
     private ExecutorService service;
 
     private final MutableLiveData<List<ResultItem>> itemsLiveData = new MutableLiveData<>();
     private final MutableLiveData<Integer> liveTextTV = new MutableLiveData<>();
     private final MutableLiveData<Integer> liveShowerMessages = new MutableLiveData<>();
 
-    private final DataFilter dataFilter;
+    private final ComputeTime fragmentData;
 
     public LiveData<List<ResultItem>> getItemsLiveData() {
         return itemsLiveData;
@@ -41,13 +40,13 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
     }
 
 
-    public BenchmarkViewModel(DataFilter dataFilter) {
-        this.dataFilter = dataFilter;
+    public BenchmarkViewModel(ComputeTime fragmentData) {
+        this.fragmentData = fragmentData;
     }
 
     @Override
     public void onCreate(boolean isItemAnimated) {
-        itemsLiveData.setValue(new ListCreator(dataFilter, isItemAnimated).itemsList);
+        itemsLiveData.setValue(new ListCreator(fragmentData, isItemAnimated).itemsList);
     }
 
 
@@ -70,7 +69,7 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
             service = Executors.newCachedThreadPool();
             for (ResultItem rItem : items) {
                 service.submit(() -> {
-                    final ResultItem resultItem = new ItemCreator().create(rItem, value, dataFilter);
+                    final ResultItem resultItem = new ItemCreator().create(rItem, value, fragmentData);
                     if (!service.isShutdown()) {
                         int index = items.indexOf(rItem);
                         items.set(index, resultItem);
@@ -99,8 +98,6 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
         }
         return value;
     }
-
-
 
 
 }
