@@ -9,8 +9,40 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class CollectionsComputeTime implements ComputeTime{
+public class CollectionsComputeTime implements ComputeTime {
     private final Random random = new Random();
+
+    public final ComputeTime computeTime;
+    private final int[] listHeadsId;
+    private final int[] listMethodsId;
+
+    public CollectionsComputeTime() {
+        listHeadsId = collectionsHeads();
+        listMethodsId = collectionsMethods();
+        this.computeTime = this;
+    }
+
+
+    @Override
+    public int[] getListHeadsId() {
+        return listHeadsId;
+    }
+
+    @Override
+    public int[] getListMethodsId() {
+        return listMethodsId;
+    }
+
+    private int[] collectionsHeads() {
+        return new int[]{R.string.ArrayList, R.string.LinkedList, R.string.CopyOnWrite};
+    }
+
+    private int[] collectionsMethods() {
+        return new int[]{R.string.add_begin, R.string.add_middle,
+                R.string.add_end, R.string.search_value, R.string.remove_begin,
+                R.string.remove_middle, R.string.remove_end};
+    }
+
 
     public double getMeasureTime(ResultItem rItem, int value) {
         final List<Integer> list;

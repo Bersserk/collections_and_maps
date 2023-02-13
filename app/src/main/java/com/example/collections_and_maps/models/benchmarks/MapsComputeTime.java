@@ -6,7 +6,35 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class MapsComputeTime implements ComputeTime{
+public class MapsComputeTime implements ComputeTime {
+
+    private final int[] listHeadsId;
+    private final int[] listMethodsId;
+
+    public MapsComputeTime() {
+        listHeadsId = mapsHeads();
+        listMethodsId = mapsMethods();
+    }
+
+
+    @Override
+    public int[] getListHeadsId() {
+        return listHeadsId;
+    }
+
+    @Override
+    public int[] getListMethodsId() {
+        return listMethodsId;
+    }
+
+    private int[] mapsHeads() {
+        return new int[]{R.string.HashMap, R.string.TreeMap};
+    }
+
+    private int[] mapsMethods() {
+        return new int[]{R.string.add_new, R.string.search_key, R.string.removing};
+    }
+
 
     public double getMeasureTime(ResultItem rItem, int value) {
         if (value < 0) {
@@ -15,9 +43,9 @@ public class MapsComputeTime implements ComputeTime{
 
         final Map<Integer, Integer> map;
         if (rItem.headerText == R.string.HashMap) {
-            map = createMap(new HashMap<Integer, Integer>(), value);
+            map = createMap(new HashMap<>(), value);
         } else if (rItem.headerText == R.string.TreeMap) {
-            map = createMap(new TreeMap<Integer, Integer>(), value);
+            map = createMap(new TreeMap<>(), value);
         } else {
             throw new IllegalStateException("Unexpected value: " + rItem.headerText);
         }
