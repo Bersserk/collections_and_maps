@@ -1,4 +1,4 @@
-package com.example.collections_and_maps.view_model;
+package com.example.collections_and_maps.ui.benchmark;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -6,10 +6,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.models.benchmarks.ComputeTime;
+import com.example.collections_and_maps.models.benchmarks.Benchmark;
+import com.example.collections_and_maps.models.benchmarks.DefaultList;
+import com.example.collections_and_maps.models.benchmarks.ItemCreator;
+import com.example.collections_and_maps.models.benchmarks.ListCreator;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
-import com.example.collections_and_maps.view_model.models.ItemCreator;
-import com.example.collections_and_maps.view_model.models.ListCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +20,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class BenchmarkViewModel extends ViewModel implements DefaultList {
 
-    private ExecutorService service;
-
     private final MutableLiveData<List<ResultItem>> itemsLiveData = new MutableLiveData<>();
     private final MutableLiveData<Integer> liveTextTV = new MutableLiveData<>();
     private final MutableLiveData<Integer> liveShowerMessages = new MutableLiveData<>();
+    private final Benchmark fragmentData;
+    private ExecutorService service;
 
-    private final ComputeTime fragmentData;
+    public BenchmarkViewModel(Benchmark fragmentData) {
+        this.fragmentData = fragmentData;
+    }
 
     public LiveData<List<ResultItem>> getItemsLiveData() {
         return itemsLiveData;
@@ -39,19 +42,12 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
         return liveShowerMessages;
     }
 
-
-    public BenchmarkViewModel(ComputeTime fragmentData) {
-        this.fragmentData = fragmentData;
-    }
-
     @Override
     public void onCreate(boolean isItemAnimated) {
         itemsLiveData.setValue(new ListCreator(fragmentData, isItemAnimated).itemsList);
     }
 
-
     public void startMeasure(@NonNull String inputtedValue) {
-
         if (service == null || service.isShutdown()) {
             final int value = checkValidateValue(inputtedValue);
             if (value < 0) {
@@ -60,25 +56,21 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
             }
 
             liveTextTV.setValue(R.string.calcButtonStop);
-
             onCreate(true);
             final List<ResultItem> items = getItemsLiveData().getValue();
-            assert items != null;
             final AtomicInteger counterActiveThreads = new AtomicInteger(items.size());
 
             service = Executors.newCachedThreadPool();
             for (ResultItem rItem : items) {
                 service.submit(() -> {
                     final ResultItem resultItem = new ItemCreator().create(rItem, value, fragmentData);
-                    if (!service.isShutdown()) {
-                        int index = items.indexOf(rItem);
-                        items.set(index, resultItem);
-                        itemsLiveData.postValue(new ArrayList<>(items));
+                    int index = items.indexOf(rItem);
+                    items.set(index, resultItem);
+                    itemsLiveData.postValue(new ArrayList<>(items));
 
-                        if (counterActiveThreads.decrementAndGet() == 0) {
-                            service.shutdown();
-                            liveTextTV.postValue(R.string.calcButtonStart);
-                        }
+                    if (counterActiveThreads.decrementAndGet() == 0) {
+                        service.shutdown();
+                        liveTextTV.postValue(R.string.calcButtonStart);
                     }
                 });
             }
@@ -98,7 +90,4 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
         }
         return value;
     }
-
-
 }
-

@@ -1,10 +1,8 @@
-package com.example.collections_and_maps.view_model.models;
+package com.example.collections_and_maps.models.benchmarks;
 
 import static com.example.collections_and_maps.models.benchmarks.ResultItem.EMPTY;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.models.benchmarks.ComputeTime;
-import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +10,7 @@ import java.util.List;
 public class ListCreator {
     public final List<ResultItem> itemsList;
 
-    public ListCreator(ComputeTime fragmentData, boolean itemAnimated) {
+    public ListCreator(Benchmark fragmentData, boolean itemAnimated) {
         itemsList = new ArrayList<>();
 
         for (int itemOfListHead : fragmentData.getListHeadsId()) {

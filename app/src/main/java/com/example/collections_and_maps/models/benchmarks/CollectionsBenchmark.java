@@ -9,17 +9,17 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class CollectionsComputeTime implements ComputeTime {
+public class CollectionsBenchmark implements Benchmark {
     private final Random random = new Random();
 
-    public final ComputeTime computeTime;
+    public final Benchmark benchmark;
     private final int[] listHeadsId;
     private final int[] listMethodsId;
 
-    public CollectionsComputeTime() {
+    public CollectionsBenchmark() {
         listHeadsId = collectionsHeads();
         listMethodsId = collectionsMethods();
-        this.computeTime = this;
+        this.benchmark = this;
     }
 
 

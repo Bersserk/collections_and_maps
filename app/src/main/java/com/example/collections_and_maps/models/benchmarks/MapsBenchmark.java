@@ -6,16 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class MapsComputeTime implements ComputeTime {
+public class MapsBenchmark implements Benchmark {
 
     private final int[] listHeadsId;
     private final int[] listMethodsId;
 
-    public MapsComputeTime() {
+    public MapsBenchmark() {
         listHeadsId = mapsHeads();
         listMethodsId = mapsMethods();
     }
-
 
     @Override
     public int[] getListHeadsId() {
