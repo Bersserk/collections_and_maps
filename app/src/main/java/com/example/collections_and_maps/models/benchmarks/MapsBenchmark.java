@@ -1,40 +1,39 @@
 package com.example.collections_and_maps.models.benchmarks;
 
+import static com.example.collections_and_maps.models.benchmarks.ResultItem.EMPTY;
+
 import com.example.collections_and_maps.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class MapsBenchmark implements Benchmark {
 
-    private final int[] listHeadsId;
-    private final int[] listMethodsId;
+    public final int[] listHeadsId = new int[]{R.string.HashMap, R.string.TreeMap};
+    public final int[] listMethodsId = new int[]{R.string.add_new, R.string.search_key, R.string.removing};
 
-    public MapsBenchmark() {
-        listHeadsId = mapsHeads();
-        listMethodsId = mapsMethods();
+
+    @Override
+    public List<ResultItem> getItemsList(boolean itemAnimated) {
+        List<ResultItem> itemsList = new ArrayList<>();
+
+        for (int itemOfListHead : listHeadsId) {
+            itemsList.add(new ResultItem(itemOfListHead, R.string.empty, EMPTY, false));
+        }
+
+        for (int methodsID : listMethodsId) {
+            itemsList.add(new ResultItem(R.string.empty, methodsID, EMPTY, false));
+            for (int headsID : listHeadsId) {
+                itemsList.add(new ResultItem(headsID, methodsID, EMPTY, itemAnimated));
+            }
+        }
+        return itemsList;
     }
 
     @Override
-    public int[] getListHeadsId() {
-        return listHeadsId;
-    }
-
-    @Override
-    public int[] getListMethodsId() {
-        return listMethodsId;
-    }
-
-    private int[] mapsHeads() {
-        return new int[]{R.string.HashMap, R.string.TreeMap};
-    }
-
-    private int[] mapsMethods() {
-        return new int[]{R.string.add_new, R.string.search_key, R.string.removing};
-    }
-
-
     public double getMeasureTime(ResultItem rItem, int value) {
         if (value < 0) {
             throw new IllegalStateException("Unexpected value: " + value);
@@ -51,6 +50,7 @@ public class MapsBenchmark implements Benchmark {
 
         return calculateResult(rItem.methodName, map);
     }
+
 
     private double calculateResult(int methodName, Map<Integer, Integer> map) {
         if (methodName == R.string.add_new) {
