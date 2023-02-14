@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.ui.benchmark.BenchmarkFragmentView;
+import com.example.collections_and_maps.ui.benchmark.BenchmarkFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
@@ -17,7 +17,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     @Override
     public androidx.fragment.app.Fragment createFragment(int position) {
         final int namePagerView = position == 0 ? R.string.Collections : R.string.Maps;
-        return BenchmarkFragmentView.newInstance(namePagerView);
+        return BenchmarkFragment.newInstance(namePagerView);
     }
 
     @Override

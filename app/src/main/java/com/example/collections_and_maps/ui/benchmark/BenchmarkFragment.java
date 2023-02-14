@@ -18,11 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.databinding.FragmentBenchmarkBinding;
-import com.example.collections_and_maps.view_model.BenchmarkViewModel;
-import com.example.collections_and_maps.view_model.BenchmarkViewModelFactory;
-import com.example.collections_and_maps.view_model.DefaultList;
+import com.example.collections_and_maps.models.benchmarks.DefaultList;
 
-public class BenchmarkFragmentView extends Fragment implements View.OnClickListener {
+public class BenchmarkFragment extends Fragment implements View.OnClickListener {
 
     private static final String NAME_PAGER_VIEW = "namePagerView";
 
@@ -30,9 +28,9 @@ public class BenchmarkFragmentView extends Fragment implements View.OnClickListe
     private FragmentBenchmarkBinding binding;
     private BenchmarkViewModel model;
 
-    public static BenchmarkFragmentView newInstance(int namePagerView) {
-        BenchmarkFragmentView fragmentView = new BenchmarkFragmentView();
-        Bundle args = new Bundle();
+    public static BenchmarkFragment newInstance(int namePagerView) {
+        final BenchmarkFragment fragmentView = new BenchmarkFragment();
+        final Bundle args = new Bundle();
         args.putInt(NAME_PAGER_VIEW, namePagerView);
         fragmentView.setArguments(args);
         return fragmentView;
@@ -41,7 +39,6 @@ public class BenchmarkFragmentView extends Fragment implements View.OnClickListe
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        assert getArguments() != null;
 
         final BenchmarkViewModelFactory benchmarkFactory = new BenchmarkViewModelFactory(getArguments()
                 .getInt(NAME_PAGER_VIEW));
@@ -61,7 +58,8 @@ public class BenchmarkFragmentView extends Fragment implements View.OnClickListe
         super.onViewCreated(view, savedInstanceState);
         final int span = getSpan();
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(
-                this.getActivity(), span, LinearLayoutManager.VERTICAL, false);
+                this.getActivity(), span, LinearLayoutManager.VERTICAL, false
+        );
         gridLayoutManager.setSpanSizeLookup(new RecyclerSizeLookup(span + 1, 1, span));
 
         final RecyclerView listRecycler = requireView().findViewById(R.id.recyclerLayoutItems);
@@ -73,11 +71,13 @@ public class BenchmarkFragmentView extends Fragment implements View.OnClickListe
         model.getItemsLiveData().observe(getViewLifecycleOwner(), adapter::submitList);
 
         model.getLiveTextTV().observe(getViewLifecycleOwner(),
-                integer -> binding.calcButton.setText(integer));
+                integer -> binding.calcButton.setText(integer)
+        );
 
         model.getLiveShowerMessages().observe(getViewLifecycleOwner(),
-                toastMessage -> Toast.makeText(BenchmarkFragmentView.this.getContext(),
-                        toastMessage, LENGTH_SHORT).show());
+                toastMessage -> Toast.makeText(BenchmarkFragment.this.getContext(),
+                        toastMessage, LENGTH_SHORT).show()
+        );
 
         listRecycler.setAdapter(adapter);
         binding.calcButton.setOnClickListener(this);
@@ -111,5 +111,4 @@ public class BenchmarkFragmentView extends Fragment implements View.OnClickListe
         super.onDestroyView();
         binding = null;
     }
-
 }

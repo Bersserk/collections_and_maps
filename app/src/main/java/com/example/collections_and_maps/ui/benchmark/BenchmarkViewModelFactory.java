@@ -1,13 +1,13 @@
-package com.example.collections_and_maps.view_model;
+package com.example.collections_and_maps.ui.benchmark;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.models.benchmarks.CollectionsComputeTime;
-import com.example.collections_and_maps.models.benchmarks.ComputeTime;
-import com.example.collections_and_maps.models.benchmarks.MapsComputeTime;
+import com.example.collections_and_maps.models.benchmarks.Benchmark;
+import com.example.collections_and_maps.models.benchmarks.CollectionsBenchmark;
+import com.example.collections_and_maps.models.benchmarks.MapsBenchmark;
 
 public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
@@ -24,9 +24,9 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
         return (T) new BenchmarkViewModel(getClassFragment());
     }
 
-    private ComputeTime getClassFragment (){
+    private Benchmark getClassFragment() {
         return benchmarkType == R.string.Collections ?
-                new CollectionsComputeTime():
-                new MapsComputeTime();
+                new CollectionsBenchmark() :
+                new MapsBenchmark();
     }
 }
