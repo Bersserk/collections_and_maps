@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.databinding.FragmentBenchmarkBinding;
-import com.example.collections_and_maps.models.benchmarks.DefaultList;
 
 public class BenchmarkFragment extends Fragment implements View.OnClickListener {
 
@@ -67,7 +66,6 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
 
-        setDefaultList(model);
         model.getItemsLiveData().observe(getViewLifecycleOwner(), adapter::submitList);
 
         model.getLiveTextTV().observe(getViewLifecycleOwner(),
@@ -81,10 +79,6 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
 
         listRecycler.setAdapter(adapter);
         binding.calcButton.setOnClickListener(this);
-    }
-
-    private void setDefaultList(DefaultList list) {
-        list.onCreate(false);
     }
 
     private int getSpan() {
