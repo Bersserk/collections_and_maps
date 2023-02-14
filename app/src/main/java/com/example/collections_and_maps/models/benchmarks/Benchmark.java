@@ -1,9 +1,8 @@
 package com.example.collections_and_maps.models.benchmarks;
 
+import java.util.List;
+
 public interface Benchmark {
     double getMeasureTime(ResultItem rItem, int value);
-
-    int[] getListHeadsId();
-
-    int[] getListMethodsId();
+    List<ResultItem> getItemsList(boolean setItemAnimation);
 }

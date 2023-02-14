@@ -1,5 +1,7 @@
 package com.example.collections_and_maps.models.benchmarks;
 
+import static com.example.collections_and_maps.models.benchmarks.ResultItem.EMPTY;
+
 import com.example.collections_and_maps.R;
 
 import java.util.ArrayList;
@@ -12,38 +14,29 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class CollectionsBenchmark implements Benchmark {
     private final Random random = new Random();
 
-    public final Benchmark benchmark;
-    private final int[] listHeadsId;
-    private final int[] listMethodsId;
-
-    public CollectionsBenchmark() {
-        listHeadsId = collectionsHeads();
-        listMethodsId = collectionsMethods();
-        this.benchmark = this;
-    }
-
+    public final int[] listHeadsId = new int[]{R.string.ArrayList, R.string.LinkedList, R.string.CopyOnWrite};
+    public final int[] listMethodsId = new int[]{R.string.add_begin, R.string.add_middle,
+            R.string.add_end, R.string.search_value, R.string.remove_begin,
+            R.string.remove_middle, R.string.remove_end};
 
     @Override
-    public int[] getListHeadsId() {
-        return listHeadsId;
+    public List<ResultItem> getItemsList(boolean itemAnimated) {
+        List<ResultItem> itemsList = new ArrayList<>();
+
+        for (int itemOfListHead : listHeadsId) {
+            itemsList.add(new ResultItem(itemOfListHead, R.string.empty, EMPTY, false));
+        }
+
+        for (int methodsID : listMethodsId) {
+            itemsList.add(new ResultItem(R.string.empty, methodsID, EMPTY, false));
+            for (int headsID : listHeadsId) {
+                itemsList.add(new ResultItem(headsID, methodsID, EMPTY, itemAnimated));
+            }
+        }
+        return itemsList;
     }
 
     @Override
-    public int[] getListMethodsId() {
-        return listMethodsId;
-    }
-
-    private int[] collectionsHeads() {
-        return new int[]{R.string.ArrayList, R.string.LinkedList, R.string.CopyOnWrite};
-    }
-
-    private int[] collectionsMethods() {
-        return new int[]{R.string.add_begin, R.string.add_middle,
-                R.string.add_end, R.string.search_value, R.string.remove_begin,
-                R.string.remove_middle, R.string.remove_end};
-    }
-
-
     public double getMeasureTime(ResultItem rItem, int value) {
         final List<Integer> list;
         switch (rItem.headerText) {
@@ -61,6 +54,7 @@ public class CollectionsBenchmark implements Benchmark {
         }
         return calculateResult(rItem.methodName, list);
     }
+
 
     private double calculateResult(int methodName, List<Integer> list) {
         switch (methodName) {
