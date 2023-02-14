@@ -22,7 +22,7 @@ import com.example.collections_and_maps.models.benchmarks.DefaultList;
 
 public class BenchmarkFragment extends Fragment implements View.OnClickListener {
 
-    private static final String NAME_PAGER_VIEW = "namePagerView";
+    private static final String FRAGMENT_TYPE = "fragmentType";
 
     private final BenchmarkAdapter adapter = new BenchmarkAdapter();
     private FragmentBenchmarkBinding binding;
@@ -31,7 +31,7 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
     public static BenchmarkFragment newInstance(int namePagerView) {
         final BenchmarkFragment fragmentView = new BenchmarkFragment();
         final Bundle args = new Bundle();
-        args.putInt(NAME_PAGER_VIEW, namePagerView);
+        args.putInt(FRAGMENT_TYPE, namePagerView);
         fragmentView.setArguments(args);
         return fragmentView;
     }
@@ -41,7 +41,7 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
         super.onCreate(savedInstanceState);
 
         final BenchmarkViewModelFactory benchmarkFactory = new BenchmarkViewModelFactory(getArguments()
-                .getInt(NAME_PAGER_VIEW));
+                .getInt(FRAGMENT_TYPE));
 
         model = new ViewModelProvider(this, (ViewModelProvider.Factory) benchmarkFactory)
                 .get(BenchmarkViewModel.class);
@@ -89,7 +89,7 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
 
     private int getSpan() {
         assert getArguments() != null;
-        final int key = getArguments().getInt(NAME_PAGER_VIEW);
+        final int key = getArguments().getInt(FRAGMENT_TYPE);
         switch (key) {
             case R.string.Collections:
                 return 3;
