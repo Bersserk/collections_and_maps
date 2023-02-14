@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.Benchmark;
-import com.example.collections_and_maps.models.benchmarks.DefaultList;
 import com.example.collections_and_maps.models.benchmarks.ItemCreator;
 import com.example.collections_and_maps.models.benchmarks.ListCreator;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
@@ -18,7 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BenchmarkViewModel extends ViewModel implements DefaultList {
+public class BenchmarkViewModel extends ViewModel {
 
     private final MutableLiveData<List<ResultItem>> itemsLiveData = new MutableLiveData<>();
     private final MutableLiveData<Integer> liveTextTV = new MutableLiveData<>();
@@ -28,6 +27,7 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
 
     public BenchmarkViewModel(Benchmark fragmentData) {
         this.fragmentData = fragmentData;
+        onCreate();
     }
 
     public LiveData<List<ResultItem>> getItemsLiveData() {
@@ -42,9 +42,8 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
         return liveShowerMessages;
     }
 
-    @Override
-    public void onCreate(boolean isItemAnimated) {
-        itemsLiveData.setValue(new ListCreator(fragmentData, isItemAnimated).itemsList);
+    private void onCreate() {
+        itemsLiveData.setValue(new ListCreator(fragmentData, false).itemsList);
     }
 
     public void startMeasure(@NonNull String inputtedValue) {
@@ -56,7 +55,7 @@ public class BenchmarkViewModel extends ViewModel implements DefaultList {
             }
 
             liveTextTV.setValue(R.string.calcButtonStop);
-            onCreate(true);
+            itemsLiveData.setValue(new ListCreator(fragmentData, true).itemsList);
             final List<ResultItem> items = getItemsLiveData().getValue();
             final AtomicInteger counterActiveThreads = new AtomicInteger(items.size());
 
