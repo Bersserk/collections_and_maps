@@ -42,6 +42,10 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
 
         model = new ViewModelProvider(this, (ViewModelProvider.Factory) benchmarkFactory)
                 .get(BenchmarkViewModel.class);
+
+        if (model.getItemsLiveData().getValue() == null) {
+            model.onCreate();
+        }
     }
 
     @Override
