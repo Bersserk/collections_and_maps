@@ -12,21 +12,21 @@ import java.util.TreeMap;
 
 public class MapsBenchmark implements Benchmark {
 
-    public final int[] listHeadsId = new int[]{R.string.HashMap, R.string.TreeMap};
-    public final int[] listMethodsId = new int[]{R.string.add_new, R.string.search_key, R.string.removing};
+    private final int[] listNamesForHead = new int[]{R.string.HashMap, R.string.TreeMap};
+    private final int[] listNamesForMethod = new int[]{R.string.add_new, R.string.search_key, R.string.removing};
 
 
     @Override
     public List<ResultItem> getItemsList(boolean itemAnimated) {
         List<ResultItem> itemsList = new ArrayList<>();
 
-        for (int itemOfListHead : listHeadsId) {
+        for (int itemOfListHead : listNamesForHead) {
             itemsList.add(new ResultItem(itemOfListHead, R.string.empty, EMPTY, false));
         }
 
-        for (int methodsID : listMethodsId) {
+        for (int methodsID : listNamesForMethod) {
             itemsList.add(new ResultItem(R.string.empty, methodsID, EMPTY, false));
-            for (int headsID : listHeadsId) {
+            for (int headsID : listNamesForHead) {
                 itemsList.add(new ResultItem(headsID, methodsID, EMPTY, itemAnimated));
             }
         }
