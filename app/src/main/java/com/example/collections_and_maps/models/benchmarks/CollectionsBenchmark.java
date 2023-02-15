@@ -14,8 +14,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class CollectionsBenchmark implements Benchmark {
     private final Random random = new Random();
 
-    public final int[] listHeadsId = new int[]{R.string.ArrayList, R.string.LinkedList, R.string.CopyOnWrite};
-    public final int[] listMethodsId = new int[]{R.string.add_begin, R.string.add_middle,
+    private final int[] listNamesForHead = new int[]{R.string.ArrayList, R.string.LinkedList, R.string.CopyOnWrite};
+    private final int[] listNamesForMethod = new int[]{R.string.add_begin, R.string.add_middle,
             R.string.add_end, R.string.search_value, R.string.remove_begin,
             R.string.remove_middle, R.string.remove_end};
 
@@ -23,13 +23,13 @@ public class CollectionsBenchmark implements Benchmark {
     public List<ResultItem> getItemsList(boolean itemAnimated) {
         List<ResultItem> itemsList = new ArrayList<>();
 
-        for (int itemOfListHead : listHeadsId) {
+        for (int itemOfListHead : listNamesForHead) {
             itemsList.add(new ResultItem(itemOfListHead, R.string.empty, EMPTY, false));
         }
 
-        for (int methodsID : listMethodsId) {
+        for (int methodsID : listNamesForMethod) {
             itemsList.add(new ResultItem(R.string.empty, methodsID, EMPTY, false));
-            for (int headsID : listHeadsId) {
+            for (int headsID : listNamesForHead) {
                 itemsList.add(new ResultItem(headsID, methodsID, EMPTY, itemAnimated));
             }
         }
