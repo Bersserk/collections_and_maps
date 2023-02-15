@@ -7,8 +7,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.Benchmark;
-import com.example.collections_and_maps.models.benchmarks.CollectionsBenchmark;
-import com.example.collections_and_maps.models.benchmarks.MapsBenchmark;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
 import java.util.ArrayList;
@@ -25,16 +23,12 @@ public class BenchmarkViewModel extends ViewModel {
     private final Benchmark benchmark;
     private ExecutorService service;
 
-    public BenchmarkViewModel(int benchmarkType) {
-        benchmark = getClassFragment(benchmarkType);
+    public BenchmarkViewModel(Benchmark benchmark) {
+        this.benchmark = benchmark;
         onCreate();
     }
 
-    private Benchmark getClassFragment(int benchmarkType) {
-        return benchmarkType == R.string.Collections ?
-                new CollectionsBenchmark() :
-                new MapsBenchmark();
-    }
+
 
     public LiveData<List<ResultItem>> getItemsLiveData() {
         return itemsLiveData;
