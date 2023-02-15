@@ -35,4 +35,5 @@
     <string name="empty">""</string>
     <integer name="no_result">-1</integer>
     <string name="timing">%s millis</string>
+    <string name="empty_input_value">Введите значение размера массива</string>
 </resources>
