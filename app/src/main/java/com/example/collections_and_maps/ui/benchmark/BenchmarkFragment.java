@@ -36,6 +36,7 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        assert getArguments() != null;
         final BenchmarkViewModelFactory benchmarkFactory = new BenchmarkViewModelFactory(getArguments()
                 .getInt(FRAGMENT_TYPE));
 
@@ -70,18 +71,18 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
                 integer -> binding.calcButton.setText(integer)
         );
 
-        model.getLiveShowerMessages().observe(getViewLifecycleOwner(),
-                integer -> binding.inputField.setError(getString(R.string.empty_input_value)));
-
-
         listRecycler.setAdapter(adapter);
         binding.calcButton.setOnClickListener(this);
     }
 
 
-
     @Override
     public void onClick(View v) {
+
+        if (binding.inputField.length() == 0) {
+            model.getLiveShowerMessages().observe(getViewLifecycleOwner(),
+                    integer -> binding.inputField.setError(getString(R.string.empty_input_value)));
+        }
         model.startMeasure(binding.inputField.getText().toString());
     }
 

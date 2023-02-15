@@ -29,7 +29,6 @@ public class BenchmarkViewModel extends ViewModel {
     }
 
 
-
     public LiveData<List<ResultItem>> getItemsLiveData() {
         return itemsLiveData;
     }
@@ -49,14 +48,16 @@ public class BenchmarkViewModel extends ViewModel {
     public void startMeasure(@NonNull String inputtedValue) {
         if (service == null || service.isShutdown()) {
             final int value = checkValidateValue(inputtedValue);
+
             if (value < 0) {
-                liveShowerMessages.setValue(R.string.OtherValue);
+                liveShowerMessages.setValue(value);
                 return;
             }
 
             liveTextTV.setValue(R.string.calcButtonStop);
             itemsLiveData.setValue(benchmark.getItemsList(true));
             final List<ResultItem> items = getItemsLiveData().getValue();
+            assert items != null;
             final AtomicInteger counterActiveThreads = new AtomicInteger(items.size());
 
             service = Executors.newCachedThreadPool();
