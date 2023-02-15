@@ -25,7 +25,6 @@ public class BenchmarkViewModel extends ViewModel {
 
     public BenchmarkViewModel(Benchmark benchmark) {
         this.benchmark = benchmark;
-        onCreate();
     }
 
 
@@ -41,7 +40,7 @@ public class BenchmarkViewModel extends ViewModel {
         return liveShowerMessages;
     }
 
-    private void onCreate() {
+    public void onCreate() {
         itemsLiveData.setValue(benchmark.getItemsList(false));
     }
 
