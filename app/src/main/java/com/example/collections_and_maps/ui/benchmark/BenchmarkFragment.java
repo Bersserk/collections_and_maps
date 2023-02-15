@@ -52,7 +52,8 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final int span = getSpan();
+        assert getArguments() != null;
+        final int span = model.getSpan(getArguments().getInt(FRAGMENT_TYPE));
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(
                 this.getActivity(), span, LinearLayoutManager.VERTICAL, false
         );
@@ -77,18 +78,7 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
         binding.calcButton.setOnClickListener(this);
     }
 
-    private int getSpan() {
-        assert getArguments() != null;
-        final int key = getArguments().getInt(FRAGMENT_TYPE);
-        switch (key) {
-            case R.string.Collections:
-                return 3;
-            case R.string.Maps:
-                return 2;
-            default:
-                throw new IllegalArgumentException("key's value is Illegal");
-        }
-    }
+
 
     @Override
     public void onClick(View v) {
