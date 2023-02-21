@@ -50,12 +50,7 @@ public class BenchmarkViewModel extends ViewModel {
         if (service == null || service.isShutdown()) {
             final int value = checkValidateValue(inputtedValue);
 
-            if (value < 0) {
-                liveShowerMessages.setValue(R.string.empty_input_value);
-                return;
-            } else {
-                liveShowerMessages.setValue(value);
-            }
+            if (value < 0) {return;}
 
             liveTextTV.setValue(R.string.calcButtonStop);
             itemsLiveData.setValue(benchmark.getItemsList(true));
@@ -98,11 +93,14 @@ public class BenchmarkViewModel extends ViewModel {
 
     private int checkValidateValue(String inputtedValue) {
         int value = -1;
+        Integer message = null;
         try {
             value = Integer.parseInt(inputtedValue);
         } catch (NumberFormatException e) {
+            message = R.string.empty_input_value;
             e.printStackTrace();
         }
+        liveShowerMessages.setValue(message);
         return value;
     }
 
