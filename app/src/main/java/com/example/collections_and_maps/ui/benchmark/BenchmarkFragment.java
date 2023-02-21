@@ -75,9 +75,8 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
                 integer -> binding.calcButton.setText(integer)
         );
 
-        model.setObserveErrorMessage();
         model.getLiveShowerMessages().observe(getViewLifecycleOwner(),
-                integer -> binding.inputField.setError(getString(integer)));
+                integer -> binding.inputField.setError(integer == null ? null : getText(integer)));
 
         listRecycler.setAdapter(adapter);
         binding.calcButton.setOnClickListener(this);
@@ -94,5 +93,6 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        model.clearLiveShowerMessage();
     }
 }
