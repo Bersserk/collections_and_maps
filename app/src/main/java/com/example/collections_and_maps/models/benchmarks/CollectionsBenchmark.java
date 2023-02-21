@@ -20,7 +20,7 @@ public class CollectionsBenchmark implements Benchmark {
             R.string.remove_middle, R.string.remove_end};
 
     @Override
-    public List<ResultItem> getItemsList(boolean itemAnimated) {
+    public List<ResultItem> getItemsList(boolean showProgress) {
         List<ResultItem> itemsList = new ArrayList<>();
 
         for (int itemOfListHead : listNamesForHead) {
@@ -30,7 +30,7 @@ public class CollectionsBenchmark implements Benchmark {
         for (int methodsID : listNamesForMethod) {
             itemsList.add(new ResultItem(R.string.empty, methodsID, EMPTY, false));
             for (int headsID : listNamesForHead) {
-                itemsList.add(new ResultItem(headsID, methodsID, EMPTY, itemAnimated));
+                itemsList.add(new ResultItem(headsID, methodsID, EMPTY, showProgress));
             }
         }
         return itemsList;
