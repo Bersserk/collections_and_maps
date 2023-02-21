@@ -35,7 +35,7 @@ public class BenchmarkViewModel extends ViewModel {
         return liveTextTV;
     }
 
-    public MutableLiveData<Integer> getLiveShowerMessages() {
+    public LiveData<Integer> getLiveShowerMessages() {
         return liveShowerMessages;
     }
 
