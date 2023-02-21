@@ -19,15 +19,13 @@ public class BenchmarkViewModel extends ViewModel {
 
     private final MutableLiveData<List<ResultItem>> itemsLiveData = new MutableLiveData<>();
     private final MutableLiveData<Integer> liveTextTV = new MutableLiveData<>();
-    private MutableLiveData<Integer> liveShowerMessages;
+    private final MutableLiveData<Integer> liveShowerMessages = new MutableLiveData<>();
     private final Benchmark benchmark;
     private ExecutorService service;
-
 
     public BenchmarkViewModel(Benchmark benchmark) {
         this.benchmark = benchmark;
     }
-
 
     public LiveData<List<ResultItem>> getItemsLiveData() {
         return itemsLiveData;
@@ -37,7 +35,7 @@ public class BenchmarkViewModel extends ViewModel {
         return liveTextTV;
     }
 
-    public LiveData<Integer> getLiveShowerMessages() {
+    public MutableLiveData<Integer> getLiveShowerMessages() {
         return liveShowerMessages;
     }
 
@@ -45,10 +43,9 @@ public class BenchmarkViewModel extends ViewModel {
         itemsLiveData.setValue(benchmark.getItemsList(false));
     }
 
-    public void setObserveErrorMessage() {
-        liveShowerMessages = new MutableLiveData<>();
+    public void clearLiveShowerMessage() {
+        liveShowerMessages.setValue(null);
     }
-
 
     public void startMeasure(@NonNull String inputtedValue) {
         if (service == null || service.isShutdown()) {
@@ -114,4 +111,6 @@ public class BenchmarkViewModel extends ViewModel {
         }
         return value;
     }
+
+
 }
