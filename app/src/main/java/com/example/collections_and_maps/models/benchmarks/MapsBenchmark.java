@@ -88,4 +88,9 @@ public class MapsBenchmark implements Benchmark {
         }
         return map;
     }
+
+    @Override
+    public int getSpan() {
+        return listNamesForHead.length;
+    }
 }

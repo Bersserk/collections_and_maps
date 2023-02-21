@@ -90,15 +90,8 @@ public class BenchmarkViewModel extends ViewModel {
         }
     }
 
-    public int getSpan(int fragmentType) {
-        switch (fragmentType) {
-            case R.string.Collections:
-                return 3;
-            case R.string.Maps:
-                return 2;
-            default:
-                throw new IllegalArgumentException("key's value is Illegal");
-        }
+    public int getSpan() {
+        return benchmark.getSpan();
     }
 
 

@@ -58,7 +58,7 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         assert getArguments() != null;
-        final int span = model.getSpan(getArguments().getInt(FRAGMENT_TYPE));
+        final int span = model.getSpan();
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(
                 this.getActivity(), span, LinearLayoutManager.VERTICAL, false
         );

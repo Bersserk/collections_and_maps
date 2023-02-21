@@ -36,6 +36,7 @@ public class CollectionsBenchmark implements Benchmark {
         return itemsList;
     }
 
+
     @Override
     public double getMeasureTime(ResultItem rItem, int value) {
         final List<Integer> list;
@@ -120,5 +121,10 @@ public class CollectionsBenchmark implements Benchmark {
         double start = System.nanoTime();
         list.remove(list.size() - 1);
         return (System.nanoTime() - start);
+    }
+
+    @Override
+    public int getSpan() {
+        return listNamesForHead.length;
     }
 }
