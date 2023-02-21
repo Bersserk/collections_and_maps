@@ -73,7 +73,7 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
         );
 
         model.getLiveShowerMessages().observe(getViewLifecycleOwner(),
-                integer -> binding.inputField.setError(integer != R.string.empty_input_value
+                integer -> binding.inputField.setError(integer == null
                         ? null : getText(integer)));
 
         listRecycler.setAdapter(adapter);
