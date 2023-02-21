@@ -40,7 +40,9 @@ public class BenchmarkViewModel extends ViewModel {
     }
 
     public void onCreate() {
-        itemsLiveData.setValue(benchmark.getItemsList(false));
+        if (itemsLiveData.getValue() == null) {
+            itemsLiveData.setValue(benchmark.getItemsList(false));
+        }
     }
 
     public void clearLiveShowerMessage() {
