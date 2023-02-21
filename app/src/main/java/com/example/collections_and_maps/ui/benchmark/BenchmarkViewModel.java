@@ -45,9 +45,6 @@ public class BenchmarkViewModel extends ViewModel {
         }
     }
 
-    public void clearLiveShowerMessage() {
-        liveShowerMessages.setValue(null);
-    }
 
     public void startMeasure(@NonNull String inputtedValue) {
         if (service == null || service.isShutdown()) {
@@ -56,6 +53,8 @@ public class BenchmarkViewModel extends ViewModel {
             if (value < 0) {
                 liveShowerMessages.setValue(R.string.empty_input_value);
                 return;
+            } else {
+                liveShowerMessages.setValue(value);
             }
 
             liveTextTV.setValue(R.string.calcButtonStop);
