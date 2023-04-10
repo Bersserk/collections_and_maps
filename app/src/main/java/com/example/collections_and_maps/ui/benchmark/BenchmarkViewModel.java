@@ -11,9 +11,10 @@ import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
+
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class BenchmarkViewModel extends ViewModel {
 
@@ -21,7 +22,7 @@ public class BenchmarkViewModel extends ViewModel {
     private final MutableLiveData<Integer> liveTextTV = new MutableLiveData<>();
     private final MutableLiveData<Integer> liveShowerMessages = new MutableLiveData<>();
     private final Benchmark benchmark;
-    private ExecutorService service;
+    private Disposable disposable;
 
     public BenchmarkViewModel(Benchmark benchmark) {
         this.benchmark = benchmark;
@@ -47,44 +48,36 @@ public class BenchmarkViewModel extends ViewModel {
 
 
     public void startMeasure(@NonNull String inputtedValue) {
-        if (service == null || service.isShutdown()) {
+        if (disposable != null && !disposable.isDisposed()) {
+            disposable.dispose();
+            liveTextTV.setValue(R.string.calcButtonStart);
+        } else {
             final int value = checkValidateValue(inputtedValue);
 
-            if (value < 0) {return;}
+            if (value < 0) {
+                return;
+            }
 
             liveTextTV.setValue(R.string.calcButtonStop);
             itemsLiveData.setValue(benchmark.getItemsList(true));
             final List<ResultItem> items = getItemsLiveData().getValue();
-            assert items != null;
-            final AtomicInteger counterActiveThreads = new AtomicInteger(items.size());
 
-            service = Executors.newCachedThreadPool();
-            for (ResultItem rItem : items) {
-                service.submit(() -> {
-
-                    if (!rItem.isHeader()) {
-
-                        final ResultItem resultItem = new ResultItem(rItem.headerText, rItem.methodName,
-                                benchmark.getMeasureTime(rItem, value), false);
-
-                        if (!service.isShutdown()) {
-                            int index = items.indexOf(rItem);
-                            items.set(index, resultItem);
-                            itemsLiveData.postValue(new ArrayList<>(items));
+            disposable = Observable.fromIterable(items)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(rItem -> {
+                        if (!rItem.isHeader()) {
+                            final ResultItem resultItem = new ResultItem(rItem.headerText, rItem.methodName,
+                                    benchmark.getMeasureTime(rItem, value), false);
+                            if (disposable != null) {
+                                int index = items.indexOf(rItem);
+                                items.set(index, resultItem);
+                                itemsLiveData.postValue(new ArrayList<>(items));
+                            }
                         }
-                    }
-
-                    if (counterActiveThreads.decrementAndGet() == 0) {
-                        service.shutdown();
-                        liveTextTV.postValue(R.string.calcButtonStart);
-                    }
-                });
-            }
-        } else {
-            service.shutdownNow();
-            liveTextTV.setValue(R.string.calcButtonStart);
+                    }, Throwable::printStackTrace, () -> liveTextTV.postValue(R.string.calcButtonStart));
         }
     }
+
 
     public int getSpan() {
         return benchmark.getSpan();
