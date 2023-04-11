@@ -22,7 +22,7 @@ public class BenchmarkViewModel extends ViewModel {
     private final MutableLiveData<Integer> liveTextTV = new MutableLiveData<>();
     private final MutableLiveData<Integer> liveShowerMessages = new MutableLiveData<>();
     private final Benchmark benchmark;
-    private Disposable disposable;
+    private Disposable disposable = Disposable.disposed();
 
     public BenchmarkViewModel(Benchmark benchmark) {
         this.benchmark = benchmark;
@@ -48,9 +48,8 @@ public class BenchmarkViewModel extends ViewModel {
 
 
     public void startMeasure(@NonNull String inputtedValue) {
-        if (disposable != null && !disposable.isDisposed()) {
+        if (!disposable.isDisposed()) {
             disposable.dispose();
-            liveTextTV.setValue(R.string.calcButtonStart);
         } else {
             final int value = checkValidateValue(inputtedValue);
 
@@ -63,18 +62,16 @@ public class BenchmarkViewModel extends ViewModel {
             final List<ResultItem> items = getItemsLiveData().getValue();
 
             disposable = Observable.fromIterable(items)
+                    .filter(item -> !item.isHeader())
                     .subscribeOn(Schedulers.io())
+                    .doFinally(() -> liveTextTV.postValue(R.string.calcButtonStart))
                     .subscribe(rItem -> {
-                        if (!rItem.isHeader()) {
-                            final ResultItem resultItem = new ResultItem(rItem.headerText, rItem.methodName,
-                                    benchmark.getMeasureTime(rItem, value), false);
-                            if (disposable != null) {
-                                int index = items.indexOf(rItem);
-                                items.set(index, resultItem);
-                                itemsLiveData.postValue(new ArrayList<>(items));
-                            }
-                        }
-                    }, Throwable::printStackTrace, () -> liveTextTV.postValue(R.string.calcButtonStart));
+                        final ResultItem resultItem = new ResultItem(rItem.headerText, rItem.methodName,
+                                benchmark.getMeasureTime(rItem, value), false);
+                        int index = items.indexOf(rItem);
+                        items.set(index, resultItem);
+                        itemsLiveData.postValue(new ArrayList<>(items));
+                    }, Throwable::printStackTrace);
         }
     }
 
