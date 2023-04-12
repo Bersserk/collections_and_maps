@@ -49,9 +49,13 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata:2.5.1"
     implementation "androidx.lifecycle:lifecycle-runtime:2.5.1"
 
-    // Rx_
+    // Rx_Java 3
     implementation "io.reactivex.rxjava3:rxjava:3.1.6"
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
+
+    // Dagger 2
+    implementation 'com.google.dagger:dagger:2.35.1'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.35.1'
 
     // Test
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
