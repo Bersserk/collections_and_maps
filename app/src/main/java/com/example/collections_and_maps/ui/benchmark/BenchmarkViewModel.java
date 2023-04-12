@@ -63,7 +63,7 @@ public class BenchmarkViewModel extends ViewModel {
 
             disposable = Observable.fromIterable(items)
                     .filter(item -> !item.isHeader())
-                    .subscribeOn(Schedulers.io())
+                    .subscribeOn(Schedulers.computation())
                     .doFinally(() -> liveTextTV.postValue(R.string.calcButtonStart))
                     .subscribe(rItem -> {
                         final ResultItem resultItem = new ResultItem(rItem.headerText, rItem.methodName,
