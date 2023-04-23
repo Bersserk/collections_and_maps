@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.inject.Inject;
+
+
 public class CollectionsBenchmark implements Benchmark {
     private final Random random = new Random();
 
@@ -18,6 +21,9 @@ public class CollectionsBenchmark implements Benchmark {
     private final int[] listNamesForMethod = new int[]{R.string.add_begin, R.string.add_middle,
             R.string.add_end, R.string.search_value, R.string.remove_begin,
             R.string.remove_middle, R.string.remove_end};
+
+    @Inject
+    public CollectionsBenchmark() {}
 
     @Override
     public List<ResultItem> getItemsList(boolean showProgress) {
