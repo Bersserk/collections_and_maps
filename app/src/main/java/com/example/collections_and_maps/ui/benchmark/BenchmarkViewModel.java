@@ -12,6 +12,7 @@ import com.example.collections_and_maps.models.benchmarks.ResultItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -46,7 +47,6 @@ public class BenchmarkViewModel extends ViewModel {
         }
     }
 
-
     public void startMeasure(@NonNull String inputtedValue) {
         if (!disposable.isDisposed()) {
             disposable.dispose();
@@ -64,22 +64,24 @@ public class BenchmarkViewModel extends ViewModel {
             disposable = Observable.fromIterable(items)
                     .filter(item -> !item.isHeader())
                     .subscribeOn(Schedulers.computation())
-                    .doFinally(() -> liveTextTV.postValue(R.string.calcButtonStart))
+                    .doFinally(() -> liveTextTV.setValue(R.string.calcButtonStart))
                     .subscribe(rItem -> {
                         final ResultItem resultItem = new ResultItem(rItem.headerText, rItem.methodName,
                                 benchmark.getMeasureTime(rItem, value), false);
                         int index = items.indexOf(rItem);
                         items.set(index, resultItem);
-                        itemsLiveData.postValue(new ArrayList<>(items));
+                        Observable.just(new ArrayList<>(items))
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(itemsList -> {
+                                    itemsLiveData.setValue(itemsList);
+                                });
                     }, Throwable::printStackTrace);
         }
     }
 
-
     public int getSpan() {
         return benchmark.getSpan();
     }
-
 
     private int checkValidateValue(String inputtedValue) {
         int value = -1;
@@ -93,6 +95,4 @@ public class BenchmarkViewModel extends ViewModel {
         liveShowerMessages.setValue(message);
         return value;
     }
-
-
 }
