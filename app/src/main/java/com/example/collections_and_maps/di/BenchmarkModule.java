@@ -10,12 +10,12 @@ import dagger.Provides;
 public class BenchmarkModule {
 
     @Provides
-    public static CollectionsBenchmark collections() {
+    public CollectionsBenchmark provideCollections() {
         return new CollectionsBenchmark();
     }
 
     @Provides
-    public static MapsBenchmark maps() {
+    public MapsBenchmark provideMaps() {
         return new MapsBenchmark();
     }
 
