@@ -22,7 +22,6 @@ public class CollectionsBenchmark implements Benchmark {
             R.string.add_end, R.string.search_value, R.string.remove_begin,
             R.string.remove_middle, R.string.remove_end};
 
-    @Inject
     public CollectionsBenchmark() {}
 
     @Override

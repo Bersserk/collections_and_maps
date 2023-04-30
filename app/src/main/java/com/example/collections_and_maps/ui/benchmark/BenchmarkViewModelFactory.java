@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.di.BenchmarkComponent;
-import com.example.collections_and_maps.di.DaggerBenchmarkComponent;
+import com.example.collections_and_maps.di.AppComponent;
+import com.example.collections_and_maps.di.DaggerAppComponent;
 import com.example.collections_and_maps.models.benchmarks.Benchmark;
 import com.example.collections_and_maps.models.benchmarks.CollectionsBenchmark;
 import com.example.collections_and_maps.models.benchmarks.MapsBenchmark;
@@ -24,7 +24,7 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
 
     public BenchmarkViewModelFactory(int benchmarkType) {
 
-        BenchmarkComponent component = DaggerBenchmarkComponent.create();
+        AppComponent component = DaggerAppComponent.create();
         component.inject(this);
 
         benchmark = benchmarkType == R.string.Collections ?
