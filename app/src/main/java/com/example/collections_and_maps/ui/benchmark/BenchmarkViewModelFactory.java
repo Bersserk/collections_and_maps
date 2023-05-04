@@ -25,6 +25,7 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
     public BenchmarkViewModelFactory(int benchmarkType) {
 
         App app = new App();
+        app.onCreate();
         app.getAppComponent().inject(this);
 
         benchmark = benchmarkType == R.string.Collections ?
