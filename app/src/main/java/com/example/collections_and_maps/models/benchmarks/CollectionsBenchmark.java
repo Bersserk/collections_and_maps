@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.inject.Inject;
-
 
 public class CollectionsBenchmark implements Benchmark {
     private final Random random = new Random();
