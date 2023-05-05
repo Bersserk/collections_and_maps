@@ -7,31 +7,31 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.app.App;
 import com.example.collections_and_maps.models.benchmarks.Benchmark;
-import com.example.collections_and_maps.models.benchmarks.CollectionsBenchmark;
-import com.example.collections_and_maps.models.benchmarks.MapsBenchmark;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final Benchmark benchmark;
 
     @Inject
-    CollectionsBenchmark collectionsBenchmark;
+    @Named("collection")
+    Benchmark collectionsBenchmark;
 
     @Inject
-    MapsBenchmark mapsBenchmark;
+    @Named("maps")
+    Benchmark mapsBenchmark;
 
     public BenchmarkViewModelFactory(int benchmarkType) {
 
-        App app = new App();
+        final App app = new App();
         app.onCreate();
         app.getAppComponent().inject(this);
 
         benchmark = benchmarkType == R.string.Collections ?
                 collectionsBenchmark :
                 mapsBenchmark;
-
     }
 
     @SuppressWarnings("unchecked")

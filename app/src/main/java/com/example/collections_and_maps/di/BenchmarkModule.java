@@ -4,6 +4,8 @@ import com.example.collections_and_maps.models.benchmarks.Benchmark;
 import com.example.collections_and_maps.models.benchmarks.CollectionsBenchmark;
 import com.example.collections_and_maps.models.benchmarks.MapsBenchmark;
 
+import javax.inject.Named;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -11,12 +13,14 @@ import dagger.Provides;
 public class BenchmarkModule {
 
     @Provides
-    public CollectionsBenchmark provideCollections() {
+    @Named("collection")
+    public Benchmark provideCollections() {
         return new CollectionsBenchmark();
     }
 
     @Provides
-    public MapsBenchmark provideMaps() {
+    @Named("maps")
+    public Benchmark provideMaps() {
         return new MapsBenchmark();
     }
 
