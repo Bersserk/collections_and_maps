@@ -4,8 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.collections_and_maps.App;
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.app.App;
 import com.example.collections_and_maps.models.benchmarks.Benchmark;
 
 import javax.inject.Inject;
@@ -38,5 +38,4 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         return (T) new BenchmarkViewModel(benchmark);
     }
-
 }
