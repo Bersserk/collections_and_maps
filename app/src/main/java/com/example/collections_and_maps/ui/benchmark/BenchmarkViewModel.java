@@ -42,9 +42,7 @@ public class BenchmarkViewModel extends ViewModel {
     }
 
     public void onCreate() {
-        if (itemsLiveData.getValue() == null) {
             itemsLiveData.setValue(benchmark.getItemsList(false));
-        }
     }
 
     public void startMeasure(@NonNull String inputtedValue) {
