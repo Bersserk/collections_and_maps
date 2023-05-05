@@ -1,4 +1,4 @@
-package com.example.collections_and_maps.di;
+package com.example.collections_and_maps.models;
 
 import com.example.collections_and_maps.models.benchmarks.Benchmark;
 import com.example.collections_and_maps.models.benchmarks.CollectionsBenchmark;
@@ -10,7 +10,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class BenchmarkModule {
+public class AppModule {
 
     @Provides
     @Named("collection")
