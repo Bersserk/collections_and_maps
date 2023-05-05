@@ -29,9 +29,7 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
         app.onCreate();
         app.getAppComponent().inject(this);
 
-        benchmark = benchmarkType == R.string.Collections ?
-                collectionsBenchmark :
-                mapsBenchmark;
+        benchmark = benchmarkType == R.string.Collections ? collectionsBenchmark : mapsBenchmark;
     }
 
     @SuppressWarnings("unchecked")

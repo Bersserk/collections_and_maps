@@ -48,18 +48,15 @@ public class BenchmarkViewModel extends ViewModel {
     }
 
     public void startMeasure(@NonNull String inputtedValue) {
-        if (!disposable.isDisposed()) {
-            disposable.dispose();
-        } else {
+        if (disposable.isDisposed()) {
             final int value = checkValidateValue(inputtedValue);
-
             if (value < 0) {
                 return;
             }
 
             liveTextTV.setValue(R.string.calcButtonStop);
-            itemsLiveData.setValue(benchmark.getItemsList(true));
-            final List<ResultItem> items = getItemsLiveData().getValue();
+            final List<ResultItem> items = benchmark.getItemsList(true);
+            itemsLiveData.setValue(new ArrayList<>(items));
 
             disposable = Observable.fromIterable(items)
                     .filter(item -> !item.isHeader())
@@ -76,6 +73,8 @@ public class BenchmarkViewModel extends ViewModel {
                                     itemsLiveData.setValue(itemsList);
                                 });
                     }, Throwable::printStackTrace);
+        } else {
+            disposable.dispose();
         }
     }
 
