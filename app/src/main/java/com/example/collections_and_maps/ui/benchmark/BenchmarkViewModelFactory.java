@@ -36,6 +36,8 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
     @Override
     @NonNull
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new BenchmarkViewModel(benchmarkType.getType() == R.string.Collections ? collectionsBenchmark : mapsBenchmark);
+        return (T) new BenchmarkViewModel(benchmarkType.getType() == R.string.Collections
+                ? collectionsBenchmark
+                : mapsBenchmark);
     }
 }

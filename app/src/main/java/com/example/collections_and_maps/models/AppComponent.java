@@ -1,6 +1,5 @@
 package com.example.collections_and_maps.models;
 
-import com.example.collections_and_maps.ui.benchmark.BenchmarkTypeModule;
 import com.example.collections_and_maps.ui.benchmark.BenchmarkViewModelFactory;
 
 import dagger.Component;
