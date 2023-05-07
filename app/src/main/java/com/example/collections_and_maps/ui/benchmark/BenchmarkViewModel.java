@@ -65,11 +65,13 @@ public class BenchmarkViewModel extends ViewModel {
                                 benchmark.getMeasureTime(rItem, value), false);
                         int index = items.indexOf(rItem);
                         items.set(index, resultItem);
+
                         Observable.just(new ArrayList<>(items))
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(itemsList -> {
                                     itemsLiveData.setValue(itemsList);
                                 });
+
                     }, Throwable::printStackTrace);
         } else {
             disposable.dispose();
