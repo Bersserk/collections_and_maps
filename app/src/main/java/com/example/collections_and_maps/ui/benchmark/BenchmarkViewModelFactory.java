@@ -13,8 +13,7 @@ import javax.inject.Named;
 
 public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    @Inject
-    BenchmarkType benchmarkType;
+    private int benchmarkType;
 
     @Inject
     @Named("collection")
@@ -25,9 +24,9 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
     Benchmark mapsBenchmark;
 
     public BenchmarkViewModelFactory(int benchmarkType) {
+        this.benchmarkType = benchmarkType;
 
         new App().getAppComponent().inject(this);
-        this.benchmarkType.setType(benchmarkType);
 
     }
 
@@ -35,7 +34,7 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
     @Override
     @NonNull
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new BenchmarkViewModel(benchmarkType.getType() == R.string.Collections
+        return (T) new BenchmarkViewModel(benchmarkType == R.string.Collections
                 ? collectionsBenchmark
                 : mapsBenchmark);
     }
