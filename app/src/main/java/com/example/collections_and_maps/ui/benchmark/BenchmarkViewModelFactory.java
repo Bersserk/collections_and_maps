@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.collections_and_maps.App;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.Benchmark;
-import com.example.collections_and_maps.models.benchmarks.BenchmarkType;
 
 import javax.inject.Inject;
 import javax.inject.Named;
