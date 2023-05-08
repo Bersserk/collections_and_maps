@@ -41,8 +41,10 @@ public class BenchmarkViewModel extends ViewModel {
         return liveShowerMessages;
     }
 
+    public int value;
+
     public void onCreate() {
-            itemsLiveData.setValue(benchmark.getItemsList(false));
+        itemsLiveData.setValue(benchmark.getItemsList(false));
     }
 
     public void startMeasure(@NonNull String inputtedValue) {
@@ -57,25 +59,41 @@ public class BenchmarkViewModel extends ViewModel {
             itemsLiveData.setValue(new ArrayList<>(items));
 
             disposable = Observable.fromIterable(items)
-                    .filter(item -> !item.isHeader())
-                    .subscribeOn(Schedulers.computation())
-                    .doFinally(() -> liveTextTV.setValue(R.string.calcButtonStart))
-                    .subscribe(rItem -> {
-                        final ResultItem resultItem = new ResultItem(rItem.headerText, rItem.methodName,
-                                benchmark.getMeasureTime(rItem, value), false);
+                    .filter(rItem -> !rItem.isHeader())
+                    .map(rItem -> {
+                        final ResultItem resultItem = new ResultItem(
+                                rItem.headerText, rItem.methodName,
+                                benchmark.getMeasureTime(rItem, value),
+                                false);
                         int index = items.indexOf(rItem);
                         items.set(index, resultItem);
+                        return resultItem;
+                    })
+                    .subscribeOn(Schedulers.computation())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            resultItem -> {
+                                itemsLiveData.setValue(new ArrayList<>(items));
+                            },
+                            Throwable::printStackTrace,
+                            () -> {
+                                liveTextTV.setValue(R.string.calcButtonStart);
+                            }
+                    );
 
-                        Observable.just(new ArrayList<>(items))
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(itemsList -> {
-                                    itemsLiveData.setValue(itemsList);
-                                });
-
-                    }, Throwable::printStackTrace);
         } else {
             disposable.dispose();
         }
+
+    }
+
+    public ResultItem todo(ResultItem rItem) {
+
+
+        return new ResultItem(rItem.headerText, rItem.methodName,
+                benchmark.getMeasureTime(rItem, value), false);
+
+
     }
 
     public int getSpan() {
