@@ -17,8 +17,13 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        final int fragmentType = position == 0 ? R.string.Collections : R.string.Maps;
-        return BenchmarkFragment.newInstance(fragmentType);
+        if (position == 0) {
+            return BenchmarkFragment.newInstance(R.string.Collections);
+        } else if (position == 1) {
+            return BenchmarkFragment.newInstance(R.string.Maps);
+        } else {
+            throw new RuntimeException("Unsupported type");
+        }
     }
 
     @Override

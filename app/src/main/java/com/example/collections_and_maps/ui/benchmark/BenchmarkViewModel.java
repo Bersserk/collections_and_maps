@@ -84,7 +84,6 @@ public class BenchmarkViewModel extends ViewModel {
         } else {
             disposable.dispose();
         }
-
     }
 
     public ResultItem todo(ResultItem rItem) {

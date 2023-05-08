@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-
 public class MapsBenchmark implements Benchmark {
 
     private final int[] listNamesForHead = new int[]{R.string.HashMap, R.string.TreeMap};

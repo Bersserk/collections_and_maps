@@ -13,8 +13,6 @@ import javax.inject.Named;
 
 public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private int benchmarkType;
-
     @Inject
     @Named("collection")
     Benchmark collectionsBenchmark;
@@ -22,6 +20,8 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
     @Inject
     @Named("maps")
     Benchmark mapsBenchmark;
+
+    private final int benchmarkType;
 
     public BenchmarkViewModelFactory(int benchmarkType) {
         this.benchmarkType = benchmarkType;
