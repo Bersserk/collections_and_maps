@@ -1,5 +1,7 @@
 package com.example.collections_and_maps.ui.benchmark;
 
+import android.util.Pair;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -55,44 +57,30 @@ public class BenchmarkViewModel extends ViewModel {
             }
 
             liveTextTV.setValue(R.string.calcButtonStop);
-            final List<ResultItem> items = benchmark.getItemsList(true);
+            List<ResultItem> items = benchmark.getItemsList(true);
             itemsLiveData.setValue(new ArrayList<>(items));
 
             disposable = Observable.fromIterable(items)
                     .filter(rItem -> !rItem.isHeader())
-                    .map(rItem -> {
-                        final ResultItem resultItem = new ResultItem(
-                                rItem.headerText, rItem.methodName,
-                                benchmark.getMeasureTime(rItem, value),
-                                false);
-                        int index = items.indexOf(rItem);
-                        items.set(index, resultItem);
-                        return resultItem;
-                    })
-                    .subscribeOn(Schedulers.computation())
+                    .concatMap(rItem -> Observable.just(rItem)
+                            .map(oldResultItem -> {
+                                ResultItem newResultItem = new ResultItem(oldResultItem, benchmark.getMeasureTime(oldResultItem, value));
+                                return Pair.create(oldResultItem, newResultItem);
+                            })
+                            .observeOn(Schedulers.computation()))
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                            resultItem -> {
-                                itemsLiveData.setValue(new ArrayList<>(items));
-                            },
-                            Throwable::printStackTrace,
-                            () -> {
-                                liveTextTV.setValue(R.string.calcButtonStart);
-                            }
-                    );
+                    .doFinally(() -> liveTextTV.setValue(R.string.calcButtonStart))
+                    .subscribe(pair -> {
+                        ResultItem oldResultItem = pair.first;
+                        ResultItem newResultItem = pair.second;
+                        int index = items.indexOf(oldResultItem);
+                        items.set(index, newResultItem);
+                        itemsLiveData.setValue(new ArrayList<>(items));
+                    }, Throwable::printStackTrace);
 
         } else {
             disposable.dispose();
         }
-
-    }
-
-    public ResultItem todo(ResultItem rItem) {
-
-
-        return new ResultItem(rItem.headerText, rItem.methodName,
-                benchmark.getMeasureTime(rItem, value), false);
-
 
     }
 

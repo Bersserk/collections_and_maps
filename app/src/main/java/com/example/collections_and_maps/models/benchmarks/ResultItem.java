@@ -1,7 +1,7 @@
 package com.example.collections_and_maps.models.benchmarks;
 import com.example.collections_and_maps.R;
 
-public class ResultItem {
+public class ResultItem{
     public static final double EMPTY = -1.0;
 
     public final int headerText;
@@ -15,6 +15,14 @@ public class ResultItem {
         this.methodName = methodName;
         this.timing = timing;
         this.progressVisible = progressVisible;
+        this.nameForHeader = headerText == R.string.empty ? methodName : headerText;
+    }
+
+    public ResultItem(ResultItem oldItem, double timing){
+        this.headerText = oldItem.headerText;
+        this.methodName = oldItem.methodName;
+        this.timing = timing;
+        this.progressVisible = false;
         this.nameForHeader = headerText == R.string.empty ? methodName : headerText;
     }
 
