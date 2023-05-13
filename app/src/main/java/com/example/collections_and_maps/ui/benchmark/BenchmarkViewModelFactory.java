@@ -1,5 +1,7 @@
 package com.example.collections_and_maps.ui.benchmark;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,7 +15,7 @@ import javax.inject.Named;
 
 public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private int benchmarkType;
+    private final int benchmarkType;
 
     @Inject
     @Named("collection")
@@ -23,11 +25,9 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
     @Named("maps")
     Benchmark mapsBenchmark;
 
-    public BenchmarkViewModelFactory(int benchmarkType) {
+    public BenchmarkViewModelFactory(int benchmarkType, Context context) {
         this.benchmarkType = benchmarkType;
-
-        new App().getAppComponent().inject(this);
-
+        ((App) context.getApplicationContext()).appComponent.inject(this);
     }
 
     @SuppressWarnings("unchecked")
