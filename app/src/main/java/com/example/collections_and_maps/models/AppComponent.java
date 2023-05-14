@@ -6,5 +6,5 @@ import dagger.Component;
 
 @Component(modules = {AppModule.class})
 public interface AppComponent {
-    void inject(BenchmarkViewModelFactory benchmarkViewModelFactory);
+    void inject(BenchmarkViewModelFactory factory);
 }

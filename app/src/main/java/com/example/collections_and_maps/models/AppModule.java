@@ -23,5 +23,4 @@ public class AppModule {
     public Benchmark provideMaps() {
         return new MapsBenchmark();
     }
-
 }

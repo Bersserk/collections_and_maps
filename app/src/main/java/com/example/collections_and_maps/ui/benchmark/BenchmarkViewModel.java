@@ -81,7 +81,6 @@ public class BenchmarkViewModel extends ViewModel {
         } else {
             disposable.dispose();
         }
-
     }
 
     public int getSpan() {
