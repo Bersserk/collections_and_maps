@@ -64,17 +64,15 @@ public class BenchmarkViewModel extends ViewModel {
                     .filter(rItem -> !rItem.isHeader())
                     .concatMap(rItem -> Observable.just(rItem)
                             .map(oldResultItem -> {
+                                Integer index = items.indexOf(oldResultItem);
                                 ResultItem newResultItem = new ResultItem(oldResultItem, benchmark.getMeasureTime(oldResultItem, value));
-                                return Pair.create(oldResultItem, newResultItem);
+                                return Pair.create(index, newResultItem);
                             })
                             .observeOn(Schedulers.computation()))
                     .observeOn(AndroidSchedulers.mainThread())
                     .doFinally(() -> liveTextTV.setValue(R.string.calcButtonStart))
                     .subscribe(pair -> {
-                        ResultItem oldResultItem = pair.first;
-                        ResultItem newResultItem = pair.second;
-                        int index = items.indexOf(oldResultItem);
-                        items.set(index, newResultItem);
+                        items.set(pair.first, pair.second);
                         itemsLiveData.setValue(new ArrayList<>(items));
                     }, Throwable::printStackTrace);
 
