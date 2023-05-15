@@ -38,7 +38,7 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
 
         assert getArguments() != null;
         final BenchmarkViewModelFactory benchmarkFactory = new BenchmarkViewModelFactory(getArguments()
-                .getInt(FRAGMENT_TYPE), getContext());
+                .getInt(FRAGMENT_TYPE));
 
         model = new ViewModelProvider(this, (ViewModelProvider.Factory) benchmarkFactory)
                 .get(BenchmarkViewModel.class);

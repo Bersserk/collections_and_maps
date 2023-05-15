@@ -25,9 +25,11 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
     @Named("maps")
     Benchmark mapsBenchmark;
 
-    public BenchmarkViewModelFactory(int benchmarkType, Context context) {
+    public BenchmarkViewModelFactory(int benchmarkType) {
         this.benchmarkType = benchmarkType;
-        ((App) context.getApplicationContext()).appComponent.inject(this);
+
+        ((App) App.getContext().getApplicationContext()).appComponent.inject(this);
+
     }
 
     @SuppressWarnings("unchecked")
