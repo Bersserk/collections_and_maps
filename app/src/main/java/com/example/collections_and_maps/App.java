@@ -1,16 +1,14 @@
 package com.example.collections_and_maps;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.example.collections_and_maps.models.AppComponent;
 import com.example.collections_and_maps.models.DaggerAppComponent;
 
-
 public class App extends Application {
 
-    public final AppComponent appComponent = DaggerAppComponent.create();
-    private static Context instance;
+    private final AppComponent appComponent = DaggerAppComponent.create();
+    private static App instance;
 
     @Override
     public void onCreate() {
@@ -18,7 +16,11 @@ public class App extends Application {
         instance = this;
     }
 
-    public static Context getContext() {
-        return instance.getApplicationContext();
+    public static App getInstance() {
+        return instance;
+    }
+
+    public AppComponent getAppComponent() {
+        return appComponent;
     }
 }
