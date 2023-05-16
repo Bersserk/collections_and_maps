@@ -64,8 +64,8 @@ public class BenchmarkViewModel extends ViewModel {
                     .filter(rItem -> !rItem.isHeader())
                     .flatMap(item -> Observable.fromCallable(() -> {
                         Integer index = items.indexOf(item);
-                        ResultItem newResultItem = new ResultItem(item, benchmark.getMeasureTime(item, value));
-                        return Pair.create(index, newResultItem);
+                        return Pair.create(index,
+                                item.getNewItem(item, benchmark.getMeasureTime(item, value)));
                     }).subscribeOn(Schedulers.io()))
                     .observeOn(AndroidSchedulers.mainThread())
                     .doFinally(() -> liveTextTV.setValue(R.string.calcButtonStart))

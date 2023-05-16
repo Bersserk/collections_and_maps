@@ -19,12 +19,8 @@ public class ResultItem{
         this.nameForHeader = headerText == R.string.empty ? methodName : headerText;
     }
 
-    public ResultItem(ResultItem oldItem, double timing){
-        this.headerText = oldItem.headerText;
-        this.methodName = oldItem.methodName;
-        this.timing = timing;
-        this.progressVisible = false;
-        this.nameForHeader = headerText == R.string.empty ? methodName : headerText;
+    public ResultItem getNewItem(ResultItem oldItem, double timing){
+        return new ResultItem(oldItem.headerText, oldItem.methodName, timing, false);
     }
 
     public boolean isHeader() {
