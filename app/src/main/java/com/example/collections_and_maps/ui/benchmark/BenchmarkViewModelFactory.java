@@ -1,7 +1,5 @@
 package com.example.collections_and_maps.ui.benchmark;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -36,12 +34,11 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
     @Override
     @NonNull
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        if (modelClass.isAssignableFrom(BenchmarkViewModel.class)) {
+        if (modelClass == BenchmarkViewModel.class) {
             return (T) new BenchmarkViewModel(benchmarkType == R.string.Collections
                     ? collectionsBenchmark
                     : mapsBenchmark);
-        } else {
-            throw new IllegalArgumentException("Unsupported ViewModel class: " + modelClass.getName());
-        }
+        } return null;
     }
 }
+
