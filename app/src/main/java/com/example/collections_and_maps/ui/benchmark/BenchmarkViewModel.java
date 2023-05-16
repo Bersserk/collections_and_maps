@@ -43,8 +43,6 @@ public class BenchmarkViewModel extends ViewModel {
         return liveShowerMessages;
     }
 
-    public int value;
-
     public void onCreate() {
         itemsLiveData.setValue(benchmark.getItemsList(false));
     }
@@ -57,16 +55,17 @@ public class BenchmarkViewModel extends ViewModel {
             }
 
             liveTextTV.setValue(R.string.calcButtonStop);
-            List<ResultItem> items = benchmark.getItemsList(true);
+            final List<ResultItem> items = benchmark.getItemsList(true);
             itemsLiveData.setValue(new ArrayList<>(items));
 
             disposable = Observable.fromIterable(items)
                     .filter(rItem -> !rItem.isHeader())
-                    .flatMap(item -> Observable.fromCallable(() -> {
-                        Integer index = items.indexOf(item);
-                        return Pair.create(index,
-                                item.getNewItem(item, benchmark.getMeasureTime(item, value)));
-                    }).subscribeOn(Schedulers.io()))
+                    .flatMap(item -> Observable.just(item)
+                            .subscribeOn(Schedulers.io())
+                            .map(it -> {
+                                return Pair.create(index,
+                                        item.getNewItem(item, benchmark.getMeasureTime(item, value)));
+                            }))
                     .observeOn(AndroidSchedulers.mainThread())
                     .doFinally(() -> liveTextTV.setValue(R.string.calcButtonStart))
                     .subscribe(pair -> {

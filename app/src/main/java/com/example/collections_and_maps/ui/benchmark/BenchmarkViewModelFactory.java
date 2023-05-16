@@ -26,8 +26,7 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
     public BenchmarkViewModelFactory(int benchmarkType) {
         this.benchmarkType = benchmarkType;
 
-        ((App) App.getContext().getApplicationContext()).appComponent.inject(this);
-
+        App.getInstance().getAppComponent().inject(this);
     }
 
     @SuppressWarnings("unchecked")
