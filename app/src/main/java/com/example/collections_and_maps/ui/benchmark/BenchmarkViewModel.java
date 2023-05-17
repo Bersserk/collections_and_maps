@@ -60,11 +60,10 @@ public class BenchmarkViewModel extends ViewModel {
 
             disposable = Observable.fromIterable(items)
                     .filter(rItem -> !rItem.isHeader())
-                    .flatMap(item -> Observable.just(item)
-                            .map(it -> Pair.create(items.indexOf(it),
-                                    it.copy(it, benchmark.getMeasureTime(item, value))))
+                    .flatMap(it -> Observable.fromCallable(() -> Pair.create(items.indexOf(it),
+                                    it.copy(it, benchmark.getMeasureTime(it, value))))
+                            .subscribeOn(Schedulers.io())
                     )
-                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doFinally(() -> liveTextTV.setValue(R.string.calcButtonStart))
                     .subscribe(pair -> {
