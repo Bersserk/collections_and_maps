@@ -32,13 +32,13 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
     @SuppressWarnings("unchecked")
     @Override
     @NonNull
-    public <T extends ViewModel> T create(@NonNull Class<T> modelClass){
-        if (modelClass == BenchmarkViewModel.class) {
+    public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+        try {
             return (T) new BenchmarkViewModel(benchmarkType == R.string.Collections
                     ? collectionsBenchmark
                     : mapsBenchmark);
-        } else {
-            throw new IllegalArgumentException("Unsupported ViewModel class: " + modelClass.getName());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }
