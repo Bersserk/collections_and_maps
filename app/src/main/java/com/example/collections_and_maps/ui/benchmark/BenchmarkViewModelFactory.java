@@ -33,17 +33,16 @@ public class BenchmarkViewModelFactory extends ViewModelProvider.NewInstanceFact
     @Override
     @NonNull
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-
         Benchmark benchmark = null;
-
-        if (benchmarkType == R.string.Collections) {
-            benchmark = collectionsBenchmark;
-        } else if (benchmarkType == R.string.Maps) {
-            benchmark = mapsBenchmark;
-        } else {
-            throw new RuntimeException("illegal class value");
+        if (modelClass == BenchmarkViewModel.class) {
+            if (benchmarkType == R.string.Collections) {
+                benchmark = collectionsBenchmark;
+            } else if (benchmarkType == R.string.Maps) {
+                benchmark = mapsBenchmark;
+            } else {
+                throw new RuntimeException("illegal class value");
+            }
         }
-
         return (T) new BenchmarkViewModel(benchmark);
     }
 }
