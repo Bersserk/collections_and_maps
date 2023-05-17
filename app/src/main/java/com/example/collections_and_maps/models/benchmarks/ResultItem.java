@@ -19,7 +19,7 @@ public class ResultItem{
         this.nameForHeader = headerText == R.string.empty ? methodName : headerText;
     }
 
-    public ResultItem getNewItem(ResultItem oldItem, double timing){
+    public ResultItem copy(ResultItem oldItem, double timing) {
         return new ResultItem(oldItem.headerText, oldItem.methodName, timing, false);
     }
 
