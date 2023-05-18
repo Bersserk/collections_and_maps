@@ -15,7 +15,6 @@ public class MapsBenchmark implements Benchmark {
     private final int[] listNamesForHead = new int[]{R.string.HashMap, R.string.TreeMap};
     private final int[] listNamesForMethod = new int[]{R.string.add_new, R.string.search_key, R.string.removing};
 
-
     @Override
     public List<ResultItem> getItemsList(boolean showProgress) {
         List<ResultItem> itemsList = new ArrayList<>();

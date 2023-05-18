@@ -1,9 +1,11 @@
 package com.example.collections_and_maps.ui.benchmark;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -73,8 +75,8 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
         );
 
         model.getLiveShowerMessages().observe(getViewLifecycleOwner(),
-                integer -> binding.inputField.setError(integer == null
-                        ? null : getText(integer)));
+                integer -> binding.inputField.setError(integer == null ? null : getText(integer))
+        );
 
         listRecycler.setAdapter(adapter);
         binding.calcButton.setOnClickListener(this);
@@ -84,6 +86,21 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         model.startMeasure(binding.inputField.getText().toString());
+        hideKeypad();
+    }
+
+    private void hideKeypad (){
+        InputMethodManager imm = null;
+        View currentFocus = null;
+        try {
+            imm = (InputMethodManager) (getContext().getSystemService(Context.INPUT_METHOD_SERVICE));
+            currentFocus = getView().findFocus();
+        } catch (NullPointerException e) {
+            throw new RuntimeException(e);
+        }
+        if (currentFocus != null) {
+            imm.hideSoftInputFromWindow(getView().findFocus().getWindowToken(), 0);
+        }
     }
 
 

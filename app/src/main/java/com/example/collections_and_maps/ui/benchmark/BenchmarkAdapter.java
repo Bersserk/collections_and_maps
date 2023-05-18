@@ -16,6 +16,7 @@ public class BenchmarkAdapter extends ListAdapter<ResultItem, BenchmarkAdapter.B
 
     public static final DiffUtil.ItemCallback<ResultItem> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<ResultItem>() {
+
                 @Override
                 public boolean areItemsTheSame(@NonNull ResultItem oldItem, @NonNull ResultItem newItem) {
                     return oldItem.isHeader() == newItem.isHeader();
