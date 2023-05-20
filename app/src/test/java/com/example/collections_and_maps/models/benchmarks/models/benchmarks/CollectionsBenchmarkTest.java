@@ -34,6 +34,16 @@ public class CollectionsBenchmarkTest {
     }
 
     @Test
+    public void getResultItem_ForEachFiledOfClass (){
+        ResultItem resultItem = new ResultItem(R.string.ArrayList, R.string.add_begin, 1000.0, true);
+
+        assertEquals(resultItem.headerText, R.string.ArrayList, 0);
+        assertEquals(resultItem.methodName, R.string.add_begin, 0);
+        assertEquals(resultItem.timing, 1000.0, 0);
+        assertTrue(resultItem.progressVisible);
+    }
+
+    @Test
     public void getMeasureTime_ForEachListAndMethod_ReturnsElapsedTime() {
         for (int nameList: listNamesForHead) {
             for (int nameMethod: listNamesForMethod) {

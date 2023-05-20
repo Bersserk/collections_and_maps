@@ -1,6 +1,7 @@
 package com.example.collections_and_maps.models.benchmarks.models.benchmarks;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -29,6 +30,16 @@ public class MapsBenchmarkTest {
         List<ResultItem> itemsList = mapsBenchmark.getItemsList(false);
         assertNotNull(itemsList);
         assertEquals(11, itemsList.size());
+    }
+
+    @Test
+    public void getResultItem_ForEachFiledOfClass (){
+        ResultItem resultItem = new ResultItem(R.string.HashMap, R.string.add_new, 500.0, false);
+
+        assertEquals(resultItem.headerText, R.string.HashMap, 0);
+        assertEquals(resultItem.methodName, R.string.add_new, 0);
+        assertEquals(resultItem.timing, 500.0, 0);
+        assertFalse(resultItem.progressVisible);
     }
 
     @Test
