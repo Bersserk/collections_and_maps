@@ -15,9 +15,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.junit.MockitoRule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +28,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 @RunWith(MockitoJUnitRunner.class)
 public class BenchmarkViewModelTest {
 
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
+//    @Rule
+//    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
@@ -65,6 +63,10 @@ public class BenchmarkViewModelTest {
         benchmarkViewModel.getLiveShowerMessages().observeForever(liveShowerMessagesObserver);
     }
 
+    private void verifyNoMore() {
+
+    }
+
     @Test
     public void onCreate_setsItemsLiveData() {
         List<ResultItem> expectedItems = new ArrayList<>();
@@ -73,6 +75,7 @@ public class BenchmarkViewModelTest {
         benchmarkViewModel.onCreate();
 
         Mockito.verify(itemsObserver).onChanged(expectedItems);
+        verifyNoMore();
     }
 
     @Test
