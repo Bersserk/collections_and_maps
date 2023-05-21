@@ -9,33 +9,38 @@ import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.robolectric.annotation.Config;
+import org.mockito.junit.MockitoRule;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.plugins.RxAndroidPlugins;
 import io.reactivex.rxjava3.core.Scheduler;
-import io.reactivex.rxjava3.plugins.RxJavaPlugins;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @RunWith(MockitoJUnitRunner.class)
-@Config(manifest = Config.NONE)
 public class BenchmarkViewModelTest {
+
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     @Mock
-    private Benchmark benchmark;
+    public Benchmark benchmark;
+
+    @Mock
+    private Disposable disposable = Disposable.disposed();
 
     @Mock
     private Observer<List<ResultItem>> itemsObserver;
@@ -46,20 +51,14 @@ public class BenchmarkViewModelTest {
     @Mock
     private Observer<Integer> liveShowerMessagesObserver;
 
-    private BenchmarkViewModel benchmarkViewModel;
 
-    @BeforeClass
-    public static void setupRxSchedulers() {
-        Scheduler immediateScheduler = Schedulers.trampoline();
-        RxJavaPlugins.setIoSchedulerHandler(scheduler -> immediateScheduler);
-        RxJavaPlugins.setComputationSchedulerHandler(scheduler -> immediateScheduler);
-        RxJavaPlugins.setNewThreadSchedulerHandler(scheduler -> immediateScheduler);
-        RxJavaPlugins.setSingleSchedulerHandler(scheduler -> immediateScheduler);
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler(schedulerCallable -> immediateScheduler);
-    }
+    private BenchmarkViewModel benchmarkViewModel;
 
     @Before
     public void setUp() {
+        Scheduler immediateScheduler = Schedulers.trampoline();
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler(schedulerCallable -> immediateScheduler);
+
         benchmarkViewModel = new BenchmarkViewModel(benchmark);
         benchmarkViewModel.getItemsLiveData().observeForever(itemsObserver);
         benchmarkViewModel.getLiveTextTV().observeForever(liveTextTVObserver);
@@ -100,6 +99,7 @@ public class BenchmarkViewModelTest {
 
         benchmarkViewModel.startMeasure(inputtedValue);
 
+        Mockito.verifyNoMoreInteractions(benchmark);
         Mockito.verify(liveShowerMessagesObserver).onChanged(ArgumentMatchers.eq(R.string.empty_input_value));
         Mockito.verify(benchmark, Mockito.never()).getItemsList(true);
         Mockito.verify(liveTextTVObserver, Mockito.never()).onChanged(ArgumentMatchers.anyInt());
