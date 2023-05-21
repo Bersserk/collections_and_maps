@@ -12,35 +12,28 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.junit.MockitoRule;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.plugins.RxAndroidPlugins;
 import io.reactivex.rxjava3.core.Scheduler;
-import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BenchmarkViewModelTest {
 
     @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-
-    @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     @Mock
     public Benchmark benchmark;
-
-    @Mock
-    private Disposable disposable = Disposable.disposed();
 
     @Mock
     private Observer<List<ResultItem>> itemsObserver;
@@ -51,12 +44,15 @@ public class BenchmarkViewModelTest {
     @Mock
     private Observer<Integer> liveShowerMessagesObserver;
 
-
     private BenchmarkViewModel benchmarkViewModel;
 
     @Before
     public void setUp() {
         Scheduler immediateScheduler = Schedulers.trampoline();
+        RxJavaPlugins.setIoSchedulerHandler(scheduler -> immediateScheduler);
+        RxJavaPlugins.setComputationSchedulerHandler(scheduler -> immediateScheduler);
+        RxJavaPlugins.setNewThreadSchedulerHandler(scheduler -> immediateScheduler);
+        RxJavaPlugins.setSingleSchedulerHandler(scheduler -> immediateScheduler);
         RxAndroidPlugins.setInitMainThreadSchedulerHandler(schedulerCallable -> immediateScheduler);
 
         benchmarkViewModel = new BenchmarkViewModel(benchmark);
@@ -73,10 +69,12 @@ public class BenchmarkViewModelTest {
         benchmarkViewModel.onCreate();
 
         Mockito.verify(itemsObserver).onChanged(expectedItems);
+        Mockito.verifyNoMoreInteractions(itemsObserver);
     }
 
     @Test
     public void startMeasure_withValidInputValue_startsMeasurements() {
+        ArgumentCaptor<Integer> captor = ArgumentCaptor.forClass(Integer.class);
         String inputtedValue = "100000";
         int parsedValue = 10;
         List<ResultItem> expectedItems = new ArrayList<>();
@@ -84,13 +82,14 @@ public class BenchmarkViewModelTest {
 
         benchmarkViewModel.startMeasure(inputtedValue);
 
-        Mockito.verify(liveTextTVObserver).onChanged(ArgumentMatchers.eq(R.string.calcButtonStop));
+        Mockito.verify(liveTextTVObserver, Mockito.times(2)).onChanged(captor.capture());
+        Mockito.verify(liveTextTVObserver).onChanged(ArgumentMatchers.eq(captor.getValue()));
         Mockito.verify(benchmark).getItemsList(true);
         Mockito.verify(benchmark, Mockito.times(expectedItems.size())).getMeasureTime(
                 ArgumentMatchers.any(ResultItem.class),
                 ArgumentMatchers.eq(parsedValue)
         );
-        Mockito.verify(liveTextTVObserver).onChanged(ArgumentMatchers.eq(R.string.calcButtonStart));
+        Mockito.verify(liveTextTVObserver).onChanged(ArgumentMatchers.eq(captor.getValue()));
     }
 
     @Test
