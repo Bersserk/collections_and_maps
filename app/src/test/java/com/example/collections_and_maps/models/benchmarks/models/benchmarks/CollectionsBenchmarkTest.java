@@ -60,4 +60,3 @@ public class CollectionsBenchmarkTest {
         assertEquals(3, span);
     }
 }
-

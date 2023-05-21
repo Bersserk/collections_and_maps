@@ -61,6 +61,10 @@ public class BenchmarkViewModelTest {
         benchmarkViewModel.getLiveShowerMessages().observeForever(liveShowerMessagesObserver);
     }
 
+    private void verifyNoMore() {
+        Mockito.verifyNoMoreInteractions(itemsObserver);
+    }
+
     @Test
     public void onCreate_setsItemsLiveData() {
         List<ResultItem> expectedItems = new ArrayList<>();
@@ -69,7 +73,7 @@ public class BenchmarkViewModelTest {
         benchmarkViewModel.onCreate();
 
         Mockito.verify(itemsObserver).onChanged(expectedItems);
-        Mockito.verifyNoMoreInteractions(itemsObserver);
+        verifyNoMore();
     }
 
     @Test
