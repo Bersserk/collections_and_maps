@@ -61,8 +61,8 @@ public class BenchmarkViewModelTest {
         benchmarkViewModel.getLiveShowerMessages().observeForever(liveShowerMessagesObserver);
     }
 
-    private void verifyNoMore() {
-        Mockito.verifyNoMoreInteractions(itemsObserver);
+    private void verifyNoMore(Object mockObject) {
+        Mockito.verifyNoMoreInteractions(mockObject);
     }
 
     @Test
@@ -73,7 +73,7 @@ public class BenchmarkViewModelTest {
         benchmarkViewModel.onCreate();
 
         Mockito.verify(itemsObserver).onChanged(expectedItems);
-        verifyNoMore();
+        verifyNoMore(itemsObserver);
     }
 
     @Test
@@ -94,6 +94,8 @@ public class BenchmarkViewModelTest {
                 ArgumentMatchers.eq(parsedValue)
         );
         Mockito.verify(liveTextTVObserver).onChanged(ArgumentMatchers.eq(captor.getValue()));
+        verifyNoMore(benchmark);
+        verifyNoMore(liveTextTVObserver);
     }
 
     @Test
@@ -107,6 +109,11 @@ public class BenchmarkViewModelTest {
         Mockito.verify(benchmark, Mockito.never()).getItemsList(true);
         Mockito.verify(liveTextTVObserver, Mockito.never()).onChanged(ArgumentMatchers.anyInt());
         Mockito.verify(itemsObserver, Mockito.never()).onChanged(ArgumentMatchers.any());
+        verifyNoMore(liveShowerMessagesObserver);
+        verifyNoMore(benchmark);
+        verifyNoMore(liveTextTVObserver);
+        verifyNoMore(itemsObserver);
+
     }
 
     @Test
@@ -118,6 +125,8 @@ public class BenchmarkViewModelTest {
         Mockito.verify(liveTextTVObserver).onChanged(ArgumentMatchers.eq(R.string.calcButtonStop));
         Mockito.verify(liveTextTVObserver).onChanged(ArgumentMatchers.eq(R.string.calcButtonStart));
         Mockito.verify(itemsObserver, Mockito.times(1)).onChanged(ArgumentMatchers.any());
+        verifyNoMore(liveTextTVObserver);
+        verifyNoMore(itemsObserver);
     }
 
     @Test
