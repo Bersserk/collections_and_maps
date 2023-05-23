@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.Observer;
 
 import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.RxSchedulersRule;
 import com.example.collections_and_maps.models.benchmarks.Benchmark;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
@@ -21,16 +22,15 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.rxjava3.android.plugins.RxAndroidPlugins;
-import io.reactivex.rxjava3.core.Scheduler;
-import io.reactivex.rxjava3.plugins.RxJavaPlugins;
-import io.reactivex.rxjava3.schedulers.Schedulers;
-
 @RunWith(MockitoJUnitRunner.class)
 public class BenchmarkViewModelTest {
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+
+    @Rule
+    public RxSchedulersRule rxSchedulersRule = new RxSchedulersRule();
+
 
     @Mock
     public Benchmark benchmark;
@@ -48,13 +48,6 @@ public class BenchmarkViewModelTest {
 
     @Before
     public void setUp() {
-        Scheduler immediateScheduler = Schedulers.trampoline();
-        RxJavaPlugins.setIoSchedulerHandler(scheduler -> immediateScheduler);
-        RxJavaPlugins.setComputationSchedulerHandler(scheduler -> immediateScheduler);
-        RxJavaPlugins.setNewThreadSchedulerHandler(scheduler -> immediateScheduler);
-        RxJavaPlugins.setSingleSchedulerHandler(scheduler -> immediateScheduler);
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler(schedulerCallable -> immediateScheduler);
-
         benchmarkViewModel = new BenchmarkViewModel(benchmark);
         benchmarkViewModel.getItemsLiveData().observeForever(itemsObserver);
         benchmarkViewModel.getLiveTextTV().observeForever(liveTextTVObserver);
