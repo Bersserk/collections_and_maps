@@ -44,10 +44,12 @@ dependencies {
 
     // ViewModel
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel:2.6.1"
-    implementation "androidx.lifecycle:lifecycle-livedata:2.6.1"
-    implementation "androidx.lifecycle:lifecycle-runtime:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1" // no increase this version
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.5.1" // no increase this version
+    implementation "androidx.lifecycle:lifecycle-livedata:2.5.1" // no increase this version
+    implementation "androidx.lifecycle:lifecycle-runtime:2.5.1" // no increase this version
+    // Increasing version will ensure the duplication of classes in Gradle
+    // and the Project won't be compiled
 
     // Rx_Java 3
     implementation "io.reactivex.rxjava3:rxjava:3.1.6"
@@ -66,6 +68,6 @@ dependencies {
     // unit test
     testImplementation 'org.mockito:mockito-core:5.3.1'
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'junit:junit:4.12'
 
 }
