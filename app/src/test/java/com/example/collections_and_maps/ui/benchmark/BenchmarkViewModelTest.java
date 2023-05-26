@@ -1,5 +1,10 @@
 package com.example.collections_and_maps.ui.benchmark;
 
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.Observer;
 
@@ -17,10 +22,16 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.hamcrest.MockitoHamcrest;
+import org.mockito.internal.matchers.Matches;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.rxjava3.disposables.Disposable;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BenchmarkViewModelTest {
@@ -30,8 +41,6 @@ public class BenchmarkViewModelTest {
 
     @Rule
     public RxSchedulersRule rxSchedulersRule = new RxSchedulersRule();
-
-
     @Mock
     public Benchmark benchmark;
 
@@ -45,6 +54,7 @@ public class BenchmarkViewModelTest {
     private Observer<Integer> liveShowerMessagesObserver;
 
     private BenchmarkViewModel benchmarkViewModel;
+    private String inputtedValue = "100000";
 
     @Before
     public void setUp() {
@@ -61,32 +71,55 @@ public class BenchmarkViewModelTest {
     @Test
     public void onCreate_setsItemsLiveData() {
         List<ResultItem> expectedItems = new ArrayList<>();
-        Mockito.when(benchmark.getItemsList(false)).thenReturn(expectedItems);
+        when(benchmark.getItemsList(false)).thenReturn(expectedItems);
 
         benchmarkViewModel.onCreate();
 
-        Mockito.verify(itemsObserver).onChanged(expectedItems);
+        verify(itemsObserver).onChanged(expectedItems);
         verifyNoMore(itemsObserver);
     }
 
     @Test
-    public void startMeasure_withValidInputValue_startsMeasurements() {
-        ArgumentCaptor<Integer> captor = ArgumentCaptor.forClass(Integer.class);
-        String inputtedValue = "100000";
-        int parsedValue = 10;
-        List<ResultItem> expectedItems = new ArrayList<>();
-        Mockito.when(benchmark.getItemsList(true)).thenReturn(expectedItems);
+    public void testStartMeasure_DisposableDisposed() {
+        // Подготовка данных
+        Disposable disposable = Mockito.mock(Disposable.class);
+        lenient().when(disposable.isDisposed()).thenReturn(true);
 
         benchmarkViewModel.startMeasure(inputtedValue);
 
-        Mockito.verify(liveTextTVObserver, Mockito.times(2)).onChanged(captor.capture());
-        Mockito.verify(liveTextTVObserver).onChanged(ArgumentMatchers.eq(captor.getValue()));
-        Mockito.verify(benchmark).getItemsList(true);
-        Mockito.verify(benchmark, Mockito.times(expectedItems.size())).getMeasureTime(
+        verify(disposable, never()).dispose();
+    }
+
+    @Test
+    public void testStartMeasure_DisposableNotDisposed() {
+        // Подготовка данных
+        Disposable disposable = Mockito.mock(Disposable.class);
+        disposable.dispose();
+
+        benchmarkViewModel.startMeasure(inputtedValue);
+
+        verify(disposable).dispose();
+    }
+
+    @Test
+    public void startMeasure_with_ValidInputValue_startsMeasurements() {
+        ResultItem item = Mockito.mock(ResultItem.class);
+        ArgumentCaptor<Integer> captor = ArgumentCaptor.forClass(Integer.class);
+        int afterValidValue = 100000;
+        List<ResultItem> expectedItems = new ArrayList<>();
+
+        when(benchmark.getItemsList(true)).thenReturn(expectedItems);
+
+        benchmarkViewModel.startMeasure(inputtedValue);
+
+        verify(liveTextTVObserver, Mockito.times(2)).onChanged(captor.capture());
+        verify(liveTextTVObserver).onChanged(ArgumentMatchers.eq(captor.getValue()));
+        verify(benchmark).getItemsList(true);
+        verify(benchmark, Mockito.times(expectedItems.size())).getMeasureTime(
                 ArgumentMatchers.any(ResultItem.class),
-                ArgumentMatchers.eq(parsedValue)
+                ArgumentMatchers.eq(afterValidValue)
         );
-        Mockito.verify(liveTextTVObserver).onChanged(ArgumentMatchers.eq(captor.getValue()));
+        verify(liveTextTVObserver).onChanged(ArgumentMatchers.eq(captor.getValue()));
         verifyNoMore(benchmark);
         verifyNoMore(liveTextTVObserver);
     }
@@ -98,10 +131,10 @@ public class BenchmarkViewModelTest {
         benchmarkViewModel.startMeasure(inputtedValue);
 
         Mockito.verifyNoMoreInteractions(benchmark);
-        Mockito.verify(liveShowerMessagesObserver).onChanged(ArgumentMatchers.eq(R.string.empty_input_value));
-        Mockito.verify(benchmark, Mockito.never()).getItemsList(true);
-        Mockito.verify(liveTextTVObserver, Mockito.never()).onChanged(ArgumentMatchers.anyInt());
-        Mockito.verify(itemsObserver, Mockito.never()).onChanged(ArgumentMatchers.any());
+        verify(liveShowerMessagesObserver).onChanged(ArgumentMatchers.eq(R.string.empty_input_value));
+        verify(benchmark, never()).getItemsList(true);
+        verify(liveTextTVObserver, never()).onChanged(ArgumentMatchers.anyInt());
+        verify(itemsObserver, never()).onChanged(ArgumentMatchers.any());
         verifyNoMore(liveShowerMessagesObserver);
         verifyNoMore(benchmark);
         verifyNoMore(liveTextTVObserver);
@@ -115,9 +148,9 @@ public class BenchmarkViewModelTest {
 
         benchmarkViewModel.startMeasure(inputtedValue);
 
-        Mockito.verify(liveTextTVObserver).onChanged(ArgumentMatchers.eq(R.string.calcButtonStop));
-        Mockito.verify(liveTextTVObserver).onChanged(ArgumentMatchers.eq(R.string.calcButtonStart));
-        Mockito.verify(itemsObserver, Mockito.times(1)).onChanged(ArgumentMatchers.any());
+        verify(liveTextTVObserver).onChanged(ArgumentMatchers.eq(R.string.calcButtonStop));
+        verify(liveTextTVObserver).onChanged(ArgumentMatchers.eq(R.string.calcButtonStart));
+        verify(itemsObserver, Mockito.times(1)).onChanged(ArgumentMatchers.any());
         verifyNoMore(liveTextTVObserver);
         verifyNoMore(itemsObserver);
     }
@@ -125,7 +158,7 @@ public class BenchmarkViewModelTest {
     @Test
     public void getSpan_returnsBenchmarkSpan() {
         int expectedSpan = 3;
-        Mockito.when(benchmark.getSpan()).thenReturn(expectedSpan);
+        when(benchmark.getSpan()).thenReturn(expectedSpan);
 
         int span = benchmarkViewModel.getSpan();
 
