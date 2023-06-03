@@ -2,6 +2,8 @@ package com.example.collections_and_maps.models.benchmarks;
 
 import static com.example.collections_and_maps.models.benchmarks.ResultItem.EMPTY;
 
+import android.util.Log;
+
 import com.example.collections_and_maps.R;
 
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CollectionsBenchmark implements Benchmark {
+
     private final Random random = new Random();
 
     private final int[] listNamesForHead = new int[]{R.string.ArrayList, R.string.LinkedList, R.string.CopyOnWrite};
@@ -53,6 +56,8 @@ public class CollectionsBenchmark implements Benchmark {
             default:
                 throw new IllegalStateException("Unexpected value: " + rItem.headerText);
         }
+
+
         return calculateResult(rItem.methodName, list);
     }
 
@@ -82,19 +87,24 @@ public class CollectionsBenchmark implements Benchmark {
     private double addItemToStart(List<Integer> list) {
         double start = System.nanoTime();
         list.add(0);
-        return (System.nanoTime() - start);
+        double resultTime = System.nanoTime() - start;
+        return resultTime;
     }
 
     private double addItemToMiddle(List<Integer> list) {
         double start = System.nanoTime();
         list.add(list.size() / 2, 0);
-        return (System.nanoTime() - start);
+        double resultTime = System.nanoTime() - start;
+//        Log.i(TAG, "addItemToMiddle = " + resultTime);
+        return resultTime;
     }
 
     private double addItemToEnd(List<Integer> list) {
         double start = System.nanoTime();
         list.add(list.size(), 0);
-        return (System.nanoTime() - start);
+        double resultTime = System.nanoTime() - start;
+//        Log.i(TAG, "addItemToEnd = " + resultTime);
+        return resultTime;
     }
 
     private double searchByValue(List<Integer> list) {
@@ -102,25 +112,33 @@ public class CollectionsBenchmark implements Benchmark {
         list.add(index, index);
         double start = System.nanoTime();
         boolean has = list.contains(index);
-        return (System.nanoTime() - start);
+        double resultTime = System.nanoTime() - start;
+//        Log.i(TAG, "searchByValue = " + resultTime);
+        return resultTime;
     }
 
     private double removingInBeginning(List<Integer> list) {
         double start = System.nanoTime();
         list.remove(0);
-        return (System.nanoTime() - start);
+        double resultTime = System.nanoTime() - start;
+//        Log.i(TAG, "removingInBeginning = " + resultTime);
+        return resultTime;
     }
 
     private double removingInMiddle(List<Integer> list) {
         double start = System.nanoTime();
         list.remove(list.size() / 2);
-        return (System.nanoTime() - start);
+        double resultTime = System.nanoTime() - start;
+//        Log.i(TAG, "removingInMiddle = " + resultTime);
+        return resultTime;
     }
 
     private double removingInEnd(List<Integer> list) {
         double start = System.nanoTime();
         list.remove(list.size() - 1);
-        return (System.nanoTime() - start);
+        double resultTime = System.nanoTime() - start;
+//        Log.i(TAG, "removingInEnd = " + resultTime);
+        return resultTime;
     }
 
     @Override

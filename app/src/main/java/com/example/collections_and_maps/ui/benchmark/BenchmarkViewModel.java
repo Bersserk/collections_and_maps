@@ -1,6 +1,6 @@
 package com.example.collections_and_maps.ui.benchmark;
 
-import android.util.Pair;
+import androidx.core.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -20,6 +20,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class BenchmarkViewModel extends ViewModel {
+//    private static final String CALl = "aaaaa";
 
     private final MutableLiveData<List<ResultItem>> itemsLiveData = new MutableLiveData<>();
     private final MutableLiveData<Integer> liveTextTV = new MutableLiveData<>();
@@ -58,6 +59,8 @@ public class BenchmarkViewModel extends ViewModel {
             final List<ResultItem> items = benchmark.getItemsList(true);
             itemsLiveData.setValue(new ArrayList<>(items));
 
+//            Log.d(CALl, "start disposable = " + disposable);
+
             disposable = Observable.fromIterable(items)
                     .filter(rItem -> !rItem.isHeader())
                     .flatMap(it -> Observable.fromCallable(() -> Pair.create(
@@ -67,9 +70,11 @@ public class BenchmarkViewModel extends ViewModel {
                     .observeOn(AndroidSchedulers.mainThread())
                     .doFinally(() -> liveTextTV.setValue(R.string.calcButtonStart))
                     .subscribe(pair -> {
+//                        Log.d(CALl, "subscribe = " + pair.first);
                         items.set(pair.first, pair.second);
                         itemsLiveData.setValue(new ArrayList<>(items));
                     }, Throwable::printStackTrace);
+
         } else {
             disposable.dispose();
         }
