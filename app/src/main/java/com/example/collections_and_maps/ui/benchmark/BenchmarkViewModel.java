@@ -77,7 +77,7 @@ public class BenchmarkViewModel extends ViewModel {
 //                        Log.i(TAG, "InAction disposable = " + disposable.getClass().toString());
                           putIndex(pair, items);
                           putNewListItems(items);
-                            Log.d("Thread", "Current thread [subscribe]: " + Thread.currentThread().getName());
+//                            Log.d("Thread", "Current thread [subscribe]: " + Thread.currentThread().getName());
 //                        items.set(pair.first, pair.second);
 //                        itemsLiveData.setValue(new ArrayList<>(items));
                     }, Throwable::printStackTrace);
@@ -99,7 +99,7 @@ public class BenchmarkViewModel extends ViewModel {
 
     private ResultItem getNewItem(ResultItem it, int value) {
 //        Log.i(TAG, "OldItem = " + it);
-        Log.d("Thread", "Current thread [newItem]: " + Thread.currentThread().getName());
+//        Log.d("Thread", "Current thread [newItem]: " + Thread.currentThread().getName());
         //        Log.i(TAG, "NewItem = " + newItem);
         return it.copy(it, benchmark.getMeasureTime(it, value));
     }

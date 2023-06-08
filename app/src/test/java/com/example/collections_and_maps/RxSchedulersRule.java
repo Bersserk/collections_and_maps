@@ -13,7 +13,7 @@ public class RxSchedulersRule extends ExternalResource {
     @Override
     protected void before() throws Throwable {
         super.before();
-        immediateScheduler = Schedulers.trampoline();
+        immediateScheduler = Schedulers.computation();
         RxJavaPlugins.setIoSchedulerHandler(scheduler -> immediateScheduler);
         RxJavaPlugins.setComputationSchedulerHandler(scheduler -> immediateScheduler);
         RxJavaPlugins.setNewThreadSchedulerHandler(scheduler -> immediateScheduler);

@@ -18,6 +18,7 @@ import com.example.collections_and_maps.Pair;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.RxSchedulersRule;
 import com.example.collections_and_maps.models.benchmarks.Benchmark;
+import com.example.collections_and_maps.models.benchmarks.CollectionsBenchmark;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 
 import org.junit.After;
@@ -88,12 +89,6 @@ public class BenchmarkViewModelTest {
         benchmarkViewModel.getLiveShowerMessages().observeForever(liveShowerMessagesObserver);
     }
 
-    @After
-    public void cleanup() {
-        // Восстановление исходных планировщиков после теста
-        RxJavaPlugins.reset();
-    }
-
     private void verifyNoMore(Object mockObject) {
         verifyNoMoreInteractions(mockObject);
     }
@@ -115,8 +110,6 @@ public class BenchmarkViewModelTest {
     public void startMeasure_with_ValidInputValue_startsMeasurements() {
 
         ResultItem resultItem = Mockito.mock(ResultItem.class);
-//        TestScheduler testScheduler = new TestScheduler();
-//        List<ResultItem> expectedItems = new CollectionsBenchmark().getItemsList(true);
         List<ResultItem> expectedItems = new ArrayList<>();
         expectedItems.add(resultItem);
 
@@ -129,65 +122,15 @@ public class BenchmarkViewModelTest {
         verify(liveTextTVObserver).onChanged(R.string.calcButtonStop);
         verify(benchmark).getItemsList(true);
         verify(itemsObserver).onChanged(new ArrayList<>(expectedItems));
-
-//        Observable.fromIterable(expectedItems)
-//                .flatMap(it -> Observable.fromCallable(() ->
-//                        Pair.create(pairCaptor.capture().first, pairCaptor.capture().second)))
-//                .subscribeOn(testScheduler)
-//                .observeOn(testScheduler)
-//                .subscribe(pair -> {
-//                    expectedItems.set(pair.first, pair.second);
-//                });
-
-
         verify(liveTextTVObserver).onChanged(R.string.calcButtonStart);
     }
-
-//    @Test
-//    public void startMeasure_withValidInputValue_secondTimes (){
-//        disposable = Mockito.mock(Disposable.class);
-//
-//        TestScheduler testScheduler = new TestScheduler();
-////        List<ResultItem> items = Mockito.mock(List.class);
-//        List<ResultItem> items = new CollectionsBenchmark().getItemsList(true);
-//
-//        ArgumentCaptor <Pair<Integer, ResultItem>> pairCaptor = ArgumentCaptor.forClass(Pair.class);
-//
-//        when(benchmark.getItemsList(true)).thenReturn(items);
-//
-//        when(disposable.isDisposed()).thenReturn(false);
-//        when(disposable.isDisposed()).thenReturn(false);
-//
-//        benchmarkViewModel.startMeasure(inputtedValue);
-//
-//        Observable.fromIterable(items)
-//                .flatMap(it -> Observable.fromCallable(() -> {
-//                    // Задержка на 2 секунды
-//
-//                    double d = benchmark.getMeasureTime(it, 1000);
-//                    int i = 0;
-//                    Thread.sleep(5000);
-//                    i = 1;
-//                    return Pair.create(pairCaptor.capture().first, pairCaptor.capture().second.copy(it, d));
-//                }))
-//                .subscribeOn(testScheduler)
-//                .observeOn(testScheduler)
-//                .test();
-//
-//        benchmarkViewModel.startMeasure(inputtedValue);
-//
-//        verify(this.disposable).dispose();
-//
-//    }
 
     @Test
     public void startMeasure_withValidInputValue_secondTimes() throws InterruptedException {
 
         RxJavaPlugins.setComputationSchedulerHandler(scheduler -> Schedulers.newThread());
 
-        List<ResultItem> expectedItems = new ArrayList<>();
-        expectedItems.add(new ResultItem(R.string.ArrayList, R.string.empty, 20.0, false));
-        expectedItems.add(new ResultItem(R.string.empty, R.string.empty, 20.0, false));
+        List<ResultItem> expectedItems = new CollectionsBenchmark().getItemsList(false);
 
         disposable = Mockito.mock(Disposable.class);
 
@@ -211,7 +154,7 @@ public class BenchmarkViewModelTest {
             try {
                 String logText = "Current thread [delay beetwen the both calling]: " + Thread.currentThread().getName();
 
-                Thread.sleep(1000);
+                Thread.sleep(1500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
