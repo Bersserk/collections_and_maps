@@ -16,7 +16,13 @@ public class ResultItemTest {
         double newTiming = 10.0;
 
         // Act
-        ResultItem newItem = oldItem.copy(oldItem, newTiming);
+        ResultItem newItem;
+        try {
+            Thread.sleep(3000);
+            newItem = oldItem.copy(oldItem, newTiming);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         // Assert
         Assert.assertEquals(newTiming, newItem.timing, 0.0);
