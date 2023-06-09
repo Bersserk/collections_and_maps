@@ -17,7 +17,7 @@ public class MapsBenchmark implements Benchmark {
 
     @Override
     public List<ResultItem> getItemsList(boolean showProgress) {
-        List<ResultItem> itemsList = new ArrayList<>();
+        final List<ResultItem> itemsList = new ArrayList<>();
 
         for (int itemOfListHead : listNamesForHead) {
             itemsList.add(new ResultItem(itemOfListHead, R.string.empty, EMPTY, false));
@@ -46,10 +46,8 @@ public class MapsBenchmark implements Benchmark {
         } else {
             throw new IllegalStateException("Unexpected value: " + rItem.headerText);
         }
-
         return calculateResult(rItem.methodName, map);
     }
-
 
     private double calculateResult(int methodName, Map<Integer, Integer> map) {
         if (methodName == R.string.add_new) {
@@ -66,19 +64,19 @@ public class MapsBenchmark implements Benchmark {
     private double addingNew(Map<Integer, Integer> map) {
         double start = System.nanoTime();
         map.put(-1, null);
-        return (System.nanoTime() - start);
+        return System.nanoTime() - start;
     }
 
     private double searchByKey(Map<Integer, Integer> map) {
         double start = System.nanoTime();
         Object b = map.get(map.size() / 2);
-        return (System.nanoTime() - start);
+        return System.nanoTime() - start;
     }
 
     private double removing(Map<Integer, Integer> map) {
         double start = System.nanoTime();
         map.remove(map.size() / 2);
-        return (System.nanoTime() - start);
+        return System.nanoTime() - start;
     }
 
     private Map<Integer, Integer> createMap(Map<Integer, Integer> map, int size) {
