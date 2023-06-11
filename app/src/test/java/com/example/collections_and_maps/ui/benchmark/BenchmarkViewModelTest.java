@@ -70,6 +70,12 @@ public class BenchmarkViewModelTest {
         benchmarkViewModel.getLiveShowerMessages().removeObserver(liveShowerMessagesObserver);
     }
 
+    private void verifyNoMore() {
+        verifyNoMoreInteractions(liveShowerMessagesObserver);
+        verifyNoMoreInteractions(benchmark);
+        verifyNoMoreInteractions(liveTextTVObserver);
+        verifyNoMoreInteractions(itemsObserver);
+    }
 
     @Test
     public void onCreate_setsItemsLiveData() {
@@ -100,7 +106,7 @@ public class BenchmarkViewModelTest {
     }
 
     @Test
-    public void startMeasure_withValidInputValue_secondTimes() {
+    public void stopMeasure_withValidInputValue() {
         RxJavaPlugins.setComputationSchedulerHandler(scheduler ->
                 Schedulers.from(command -> Schedulers.single(), true));
 
@@ -144,12 +150,4 @@ public class BenchmarkViewModelTest {
 
         assertEquals(expectedSpan, span);
     }
-
-    private void verifyNoMore() {
-        verifyNoMoreInteractions(liveShowerMessagesObserver);
-        verifyNoMoreInteractions(benchmark);
-        verifyNoMoreInteractions(liveTextTVObserver);
-        verifyNoMoreInteractions(itemsObserver);
-    }
-
 }
