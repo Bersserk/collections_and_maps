@@ -27,6 +27,4 @@ public class RxSchedulersRule extends ExternalResource {
         RxJavaPlugins.reset();
         RxAndroidPlugins.reset();
     }
-
 }
-

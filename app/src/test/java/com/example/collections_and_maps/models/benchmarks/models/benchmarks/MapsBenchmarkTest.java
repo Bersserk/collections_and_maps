@@ -59,5 +59,3 @@ public class MapsBenchmarkTest {
         assertEquals(2, span);
     }
 }
-
-
