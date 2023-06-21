@@ -24,12 +24,12 @@ public class MainActivityTest {
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void test_isTabs_displayed (){
+    public void test_tabs_isDisplayed (){
         onView(withId(R.id.tabs)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void test_isViewPager2_displayed (){
+    public void test_viewPager2_isDisplayed (){
         onView(withId(R.id.view_pager2)).check(matches(isDisplayed()));
     }
 
