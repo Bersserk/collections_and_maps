@@ -7,13 +7,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.ui.MainActivity;
 import com.example.collections_and_maps.ui.benchmark.Rule;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -47,7 +47,14 @@ public class BenchmarkFragmentTest extends Rule {
     @Test
     public void test_fragment_isVisibility() {
         // Ожидаем, что фрагмент отображается
-        onView(withId(R.id.fragment_container))
+        onView(withId(R.id.recyclerLayoutItems))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void test_editText_isVisibility() {
+        onView(withId(R.id.calcButton)).check(ViewAssertions.matches(isDisplayed()));
+        onView(withId(R.id.calcButton)).check(ViewAssertions.matches(withId(R.string.calcButtonStart)));
+        onView(withId(R.id.calcButton)).perform(ViewActions.click()).check(ViewAssertions.matches(withId(R.string.calcButtonStop)));
     }
 }
