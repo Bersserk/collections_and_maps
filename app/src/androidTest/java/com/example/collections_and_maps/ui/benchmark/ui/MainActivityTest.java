@@ -30,4 +30,5 @@ public class MainActivityTest extends com.example.collections_and_maps.ui.benchm
         onView(withId(R.id.view_pager2)).check(matches(isDisplayed()));
     }
 
+
 }
