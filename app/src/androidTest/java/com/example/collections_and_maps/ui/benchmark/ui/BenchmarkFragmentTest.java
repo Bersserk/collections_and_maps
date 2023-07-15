@@ -2,22 +2,21 @@ package com.example.collections_and_maps.ui.benchmark.ui;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static androidx.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isFocusable;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.example.collections_and_maps.ui.benchmark.ui.CustomMatcher.atPosition;
 
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.Espresso;
-import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.collections_and_maps.R;
@@ -62,61 +61,17 @@ public class BenchmarkFragmentTest extends Rule {
     public void test_fragment_isVisibility() {
 
         List<ResultItem> expectedList = new MapsBenchmark().getItemsList(false);
-        int expectedItemCount = expectedList.size();
 
         onView(withId(R.id.recyclerLayoutItems))
-                .check(matches(hasMinimumChildCount(1)));
+                .check(matches(hasChildCount(15)));
 
 //        int i = 0;
-
-//        int hashMap = R.string.HashMap;
-//        int treeMap = R.string.TreeMap;
-//        int adding_new = R.string.add_new;
-//        int search_by_key = R.string.search_key;
-//        int removing = R.string.removing;
-//        int empty = R.string.empty;
-//        int str0 = expectedList.get(0).nameForHeader;
-//        int str1 = expectedList.get(1).nameForHeader;
-//        int str2 = expectedList.get(2).nameForHeader;
-//        int str3 = expectedList.get(3).isHeader()?expectedList.get(3).nameForHeader:Integer.parseInt("");
-//        double str4 = expectedList.get(4).timing;
-//        int str5 = expectedList.get(5).nameForHeader;
-//        double str6 = expectedList.get(6).timing;
-//        double str7 = expectedList.get(7).timing;
-//        int str8 = expectedList.get(8).nameForHeader;
-//        double str9 = expectedList.get(9).timing;
-        double str10 = expectedList.get(10).timing;
-
-//        ViewAction actions = RecyclerViewActions.scrollToPosition(0);
-//        actions.getCon
-
+//        for (ResultItem item : expectedList) {
         onView(withId(R.id.recyclerLayoutItems))
                 .perform(RecyclerViewActions.scrollToPosition(0))
-                .check(matches(hasDescendant(withText(R.string.HashMap))));
-
-
-//        onView(withId(R.id.recyclerLayoutItems))
-//                .perform(RecyclerViewActions.scrollToPosition(2))
-//                .check(matches(hasDescendant(withText(expectedList.get(2).nameForHeader))));
-//        onView(withId(R.id.recyclerLayoutItems))
-//                .perform(RecyclerViewActions.scrollToPosition(3))
-//                .check(matches(hasDescendant(withText(expectedList.get(3).nameForHeader))));
-
-
-//        for (ResultItem item : expectedList) {
-//            int index = 0;
-//            if (item.isHeader()) {
-//                onView(withId(R.id.recyclerLayoutItems))
-//                        .perform(RecyclerViewActions.scrollToPosition(index))
-//                        .check(matches(hasDescendant(withText(item.nameForHeader))));
-//            } else {
-//                onView(withId(R.id.recyclerLayoutItems))
-//                        .perform(RecyclerViewActions.scrollToPosition(index))
-//                        .check(matches(hasDescendant(withText(""))));
-//            }
-//            index++;
+                .check(matches(atPosition(0, hasDescendant(ViewMatchers.withText(expectedList.get(0).nameForHeader)))));
+//            i++;
 //        }
-
 
     }
 
@@ -138,7 +93,6 @@ public class BenchmarkFragmentTest extends Rule {
         Espresso.closeSoftKeyboard();
     }
 
-//    @Test
-//    public void test_
-
 }
+
+
