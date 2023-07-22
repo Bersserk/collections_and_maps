@@ -2,7 +2,6 @@ package com.example.collections_and_maps.ui.benchmark.ui;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -11,25 +10,22 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.models.benchmarks.MapsBenchmark;
+import com.example.collections_and_maps.models.benchmarks.CollectionsBenchmark;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
-import com.example.collections_and_maps.ui.benchmark.BenchmarkAdapter;
-import com.example.collections_and_maps.ui.benchmark.BenchmarkFragment;
 import com.example.collections_and_maps.ui.benchmark.Rule;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.HashMap;
 import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
@@ -61,24 +57,17 @@ public class BenchmarkFragmentTest extends Rule {
 
     @Test
     public void test_fragment_isVisibility() {
+        List<ResultItem> expectedList = new CollectionsBenchmark().getItemsList(false);
 
-        List<ResultItem> expectedList = new MapsBenchmark().getItemsList(false);
-
-        onView(withId(R.id.recyclerLayoutItems))
-                .check(matches(hasChildCount(15)));
-
-
-//        RecyclerView recyclerView = new BenchmarkAdapter()..requireView().findViewById(R.id.recyclerLayoutItems);
-//        RecyclerView.Adapter adapter = recyclerView.getAdapter();
-//        int item = adapter.getItemViewType(0);
-
-//        int i = 0;
-//        for (ResultItem item : expectedList) {
-        onView(withId(R.id.recyclerLayoutItems))
-                .check(matches(CustomMatcher.atPosition(0, hasDescendant(withText("HashMap")))));
-//            i++;
-//        }
-
+        int i = 0;
+        for (ResultItem item : expectedList) {
+            if (item.isHeader()) {
+                onView(withId(R.id.recyclerLayoutItems))
+                        .perform(RecyclerViewActions.scrollToPosition(i))
+                        .check(matches(CustomMatcher.atPosition(i, hasDescendant(withText(item.nameForHeader)))));
+            }
+                i++;
+        }
     }
 
 
