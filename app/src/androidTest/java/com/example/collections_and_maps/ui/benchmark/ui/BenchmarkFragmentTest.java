@@ -8,6 +8,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isFocusable;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withSubstring;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import androidx.test.espresso.Espresso;
@@ -34,14 +35,10 @@ public class BenchmarkFragmentTest extends Rule {
 
     @Test
     public void test_tabs_onSwipe() {
-        // Swipe to left
         onView(withId(R.id.view_pager2)).perform(ViewActions.swipeLeft());
-        // Check name after swipe
         onView(withContentDescription(R.string.Maps)).check(matches(isDisplayed()));
 
-        // Swipe to right
         onView(withId(R.id.view_pager2)).perform(ViewActions.swipeRight());
-        // Check name after swipe
         onView(withContentDescription(R.string.Collections)).check(matches(isDisplayed()));
     }
 
@@ -105,6 +102,32 @@ public class BenchmarkFragmentTest extends Rule {
                 .check(matches(Matchers
                         .anyOf(withText(R.string.calcButtonStart), withText(R.string.calcButtonStop))));
         Espresso.closeSoftKeyboard();
+    }
+
+    @Test
+    public void test_fragmentsOnCollection_measureAction() {
+        onView(withContentDescription(R.string.Collections)).perform(ViewActions.click());
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText("1000"));
+        onView(withId(R.id.calcButton)).perform(ViewActions.click());
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
+
+        List<ResultItem> collectionList = new CollectionsBenchmark().getItemsList(true);
+
+        int i = 0;
+        for (ResultItem item : collectionList) {
+            if (!item.isHeader()) {
+                double d = new CollectionsBenchmark().getMeasureTime(item, 1000);
+                onView(withId(R.id.recyclerLayoutItems))
+                        .perform(RecyclerViewActions.scrollToPosition(i))
+                        .check(matches(CustomMatcher.atPosition(i, hasDescendant(withSubstring("0")))));
+            }
+            i++;
+        }
     }
 
 }
