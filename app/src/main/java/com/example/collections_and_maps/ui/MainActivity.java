@@ -28,15 +28,12 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(adapter);
 
-        TabLayoutMediator.TabConfigurationStrategy
-
-
-        tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager2, (TabLayout.Tab tab, int position) -> {
-            tab.setText(getString(position == 0 ? R.string.Collections : R.string.Maps));
-        }
+        tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager2, (tab, position) ->
+                tab.setText(getString(position == 0 ? R.string.Collections : R.string.Maps))
         );
         tabLayoutMediator.attach();
     }
+
 
 
     @Override

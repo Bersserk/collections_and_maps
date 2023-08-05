@@ -65,7 +65,7 @@ public class BenchmarkFragmentTest extends Rule {
             if (item.isHeader()) {
                 onView(withId(R.id.recyclerLayoutItems))
                         .perform(RecyclerViewActions.scrollToPosition(i))
-                        .check(matches(CustomMatcher.atPosition(i, hasDescendant(withText(item.nameForHeader)))));
+                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withText(item.nameForHeader)))));
             }
             i++;
         }
@@ -85,7 +85,7 @@ public class BenchmarkFragmentTest extends Rule {
         for (ResultItem item : mapsList) {
             if (item.isHeader()) {
                 onView(withId(R.id.recyclerLayoutItems))
-                        .check(matches(CustomMatcher.atPosition(y, hasDescendant(withText(item.nameForHeader)))));
+                        .check(matches(AtPositionMatcher.atPosition(y, hasDescendant(withText(item.nameForHeader)))));
             }
             y++;
         }
@@ -121,7 +121,7 @@ public class BenchmarkFragmentTest extends Rule {
             if (!item.isHeader()) {
                 onView(withId(R.id.recyclerLayoutItems))
                         .perform(RecyclerViewActions.scrollToPosition(i))
-                        .check(matches(CustomMatcher.atPosition(i, hasDescendant(withAlpha(1.0f)))));
+                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withAlpha(1.0f)))));
             }
             i++;
         }
@@ -140,7 +140,7 @@ public class BenchmarkFragmentTest extends Rule {
             if (!item.isHeader()) {
                 onView(withId(R.id.recyclerLayoutItems))
                         .perform(RecyclerViewActions.scrollToPosition(i))
-                        .check(matches(CustomMatcher.atPosition(i, hasDescendant(withAlpha(1.0f)))));
+                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withAlpha(1.0f)))));
             }
             i++;
         }
@@ -165,7 +165,7 @@ public class BenchmarkFragmentTest extends Rule {
             if (!item.isHeader()) {
                 onView(withId(R.id.recyclerLayoutItems))
                         .perform(RecyclerViewActions.scrollToPosition(i))
-                        .check(matches(CustomMatcher.atPosition(i, hasDescendant(withSubstring("0")))));
+                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withSubstring("0")))));
             }
             i++;
         }
@@ -190,7 +190,7 @@ public class BenchmarkFragmentTest extends Rule {
             if (!item.isHeader()) {
                 onView(withId(R.id.recyclerLayoutItems))
                         .perform(RecyclerViewActions.scrollToPosition(i))
-                        .check(matches(CustomMatcher.atPosition(i, hasDescendant(withSubstring("0")))));
+                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withSubstring("0")))));
             }
             i++;
         }
