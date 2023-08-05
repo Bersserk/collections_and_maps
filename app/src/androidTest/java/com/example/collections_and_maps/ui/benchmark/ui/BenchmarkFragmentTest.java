@@ -11,10 +11,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withSubstring;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.collections_and_maps.R;
@@ -72,7 +74,7 @@ public class BenchmarkFragmentTest extends Rule {
         onView(withId(R.id.view_pager2)).perform(ViewActions.swipeLeft());
         try {
             Thread.sleep(5000);
-        } catch (InterruptedException e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         List<ResultItem> mapsList = new MapsBenchmark().getItemsList(false);
@@ -105,14 +107,14 @@ public class BenchmarkFragmentTest extends Rule {
     }
 
     @Test
-    public void test_fragmentsOnCollection_measureAction() {
+    public void test_onCollectionsFragment_measureAction() {
         onView(withContentDescription(R.string.Collections)).perform(ViewActions.click());
         onView(withId(R.id.inputField)).perform(ViewActions.typeText("1000"));
         onView(withId(R.id.calcButton)).perform(ViewActions.click());
 
         try {
             Thread.sleep(5000);
-        } catch (InterruptedException e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -121,12 +123,52 @@ public class BenchmarkFragmentTest extends Rule {
         int i = 0;
         for (ResultItem item : collectionList) {
             if (!item.isHeader()) {
-                double d = new CollectionsBenchmark().getMeasureTime(item, 1000);
                 onView(withId(R.id.recyclerLayoutItems))
                         .perform(RecyclerViewActions.scrollToPosition(i))
                         .check(matches(CustomMatcher.atPosition(i, hasDescendant(withSubstring("0")))));
             }
             i++;
+        }
+    }
+
+    @Test
+    public void test_onMapsFragment_measureAction() {
+        onView(withContentDescription(R.string.Maps)).perform(ViewActions.click());
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText("1000"));
+        onView(withId(R.id.calcButton)).perform(ViewActions.click());
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        List<ResultItem> mapsList = new MapsBenchmark().getItemsList(true);
+
+        int i = 0;
+        for (ResultItem item : mapsList) {
+            if (!item.isHeader()) {
+                onView(withId(R.id.recyclerLayoutItems))
+                        .perform(RecyclerViewActions.scrollToPosition(i))
+                        .check(matches(CustomMatcher.atPosition(i, hasDescendant(withSubstring("0")))));
+            }
+            i++;
+        }
+    }
+
+    @Test
+    public void test_onFragments_inputNothing() {
+
+        String errorMessage = ApplicationProvider.getApplicationContext()
+                .getString(R.string.empty_input_value);
+
+        int[] fragments = {R.string.Collections, R.string.Maps};
+
+        for (int fragment: fragments) {
+            onView(withContentDescription(fragment)).perform(ViewActions.click());
+            onView(withId(R.id.inputField)).perform(ViewActions.typeText(""));
+            onView(withId(R.id.calcButton)).perform(ViewActions.click());
+            onView(withId(R.id.inputField)).check(matches(ViewMatchers.hasErrorText(errorMessage)));
         }
     }
 
