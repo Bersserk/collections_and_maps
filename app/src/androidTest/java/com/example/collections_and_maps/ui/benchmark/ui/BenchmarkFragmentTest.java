@@ -6,6 +6,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isFocusable;
+import static androidx.test.espresso.matcher.ViewMatchers.withAlpha;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withSubstring;
@@ -35,7 +36,7 @@ import java.util.List;
 //@LargeTest
 public class BenchmarkFragmentTest extends Rule {
 
-    private int[] fragments = {R.string.Collections, R.string.Maps};
+    private final int[] fragments = {R.string.Collections, R.string.Maps};
 
     @Test
     public void test_tabs_onSwipe() {
@@ -108,6 +109,44 @@ public class BenchmarkFragmentTest extends Rule {
     }
 
     @Test
+    public void test_onCollectionsFragment_isVisibilityProgressBar() {
+        List<ResultItem> collectionList = new CollectionsBenchmark().getItemsList(true);
+
+        onView(withContentDescription(R.string.Collections)).perform(ViewActions.click());
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText("10000000"));
+        onView(withId(R.id.calcButton)).perform(ViewActions.click());
+
+        int i = 0;
+        for (ResultItem item : collectionList) {
+            if (!item.isHeader()) {
+                onView(withId(R.id.recyclerLayoutItems))
+                        .perform(RecyclerViewActions.scrollToPosition(i))
+                        .check(matches(CustomMatcher.atPosition(i, hasDescendant(withAlpha(1.0f)))));
+            }
+            i++;
+        }
+    }
+
+    @Test
+    public void test_onMapsFragment_isVisibilityProgressBar() {
+        List<ResultItem> mapsList = new MapsBenchmark().getItemsList(true);
+
+        onView(withContentDescription(R.string.Maps)).perform(ViewActions.click());
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText("10000000"));
+        onView(withId(R.id.calcButton)).perform(ViewActions.click());
+
+        int i = 0;
+        for (ResultItem item : mapsList) {
+            if (!item.isHeader()) {
+                onView(withId(R.id.recyclerLayoutItems))
+                        .perform(RecyclerViewActions.scrollToPosition(i))
+                        .check(matches(CustomMatcher.atPosition(i, hasDescendant(withAlpha(1.0f)))));
+            }
+            i++;
+        }
+    }
+
+    @Test
     public void test_onCollectionsFragment_measureAction() {
         List<ResultItem> collectionList = new CollectionsBenchmark().getItemsList(true);
 
@@ -115,31 +154,20 @@ public class BenchmarkFragmentTest extends Rule {
         onView(withId(R.id.inputField)).perform(ViewActions.typeText("1000"));
         onView(withId(R.id.calcButton)).perform(ViewActions.click());
 
-        int i = 0;
-        for (ResultItem item : collectionList) {
-            if (!item.isHeader()) {
-                onView(withId(R.id.recyclerLayoutItems))
-                        .perform(RecyclerViewActions.scrollToPosition(i));
-                        .check( "проверка на отображения ProgressBar ???" );
-            }
-            i++;
-        }
-
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-
-        int y = 0;
+        int i = 0;
         for (ResultItem item : collectionList) {
             if (!item.isHeader()) {
                 onView(withId(R.id.recyclerLayoutItems))
-                        .perform(RecyclerViewActions.scrollToPosition(y))
-                        .check(matches(CustomMatcher.atPosition(y, hasDescendant(withSubstring("0")))));
+                        .perform(RecyclerViewActions.scrollToPosition(i))
+                        .check(matches(CustomMatcher.atPosition(i, hasDescendant(withSubstring("0")))));
             }
-            y++;
+            i++;
         }
     }
 
