@@ -68,7 +68,6 @@ public class BenchmarkViewModel extends ViewModel {
                         items.set(pair.first, pair.second);
                         itemsLiveData.setValue(new ArrayList<>(items));
                     }, Throwable::printStackTrace);
-
         } else {
             disposable.dispose();
         }

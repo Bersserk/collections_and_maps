@@ -68,8 +68,7 @@ public class BenchmarkFragment extends Fragment implements View.OnClickListener 
         listRecycler.setHasFixedSize(true);
         listRecycler.setLayoutManager(gridLayoutManager);
 
-        model.getItemsLiveData().observe(getViewLifecycleOwner(),
-                adapter::submitList);
+        model.getItemsLiveData().observe(getViewLifecycleOwner(), adapter::submitList);
 
         model.getLiveTextTV().observe(getViewLifecycleOwner(),
                 integer -> binding.calcButton.setText(integer)
