@@ -18,10 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
-
-    @Rule
-    public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
+public class MainActivityTest extends com.example.collections_and_maps.ui.benchmark.Rule {
 
     @Test
     public void test_tabs_isDisplayed (){
@@ -32,5 +29,6 @@ public class MainActivityTest {
     public void test_viewPager2_isDisplayed (){
         onView(withId(R.id.view_pager2)).check(matches(isDisplayed()));
     }
+
 
 }
