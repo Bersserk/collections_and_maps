@@ -35,6 +35,8 @@ import java.util.List;
 //@LargeTest
 public class BenchmarkFragmentTest extends Rule {
 
+    private int[] fragments = {R.string.Collections, R.string.Maps};
+
     @Test
     public void test_tabs_onSwipe() {
         onView(withId(R.id.view_pager2)).perform(ViewActions.swipeLeft());
@@ -46,16 +48,15 @@ public class BenchmarkFragmentTest extends Rule {
 
     @Test
     public void test_tabs_onClick() {
-        onView(withContentDescription(R.string.Collections))
-                .perform(ViewActions.click())
-                .check(matches(isDisplayed()));
-        onView(withContentDescription(R.string.Maps))
-                .perform(ViewActions.click())
-                .check(matches(isDisplayed()));
+        for (int fragment : fragments) {
+            onView(withContentDescription(fragment))
+                    .perform(ViewActions.click())
+                    .check(matches(isDisplayed()));
+        }
     }
 
     @Test
-    public void test_fragmentsOnCollection_isVisibility() {
+    public void test_onCollectionFragment_isVisibility() {
         List<ResultItem> collectionList = new CollectionsBenchmark().getItemsList(false);
 
         int i = 0;
@@ -70,7 +71,7 @@ public class BenchmarkFragmentTest extends Rule {
     }
 
     @Test
-    public void test_fragmentsOnMaps_isVisibility() {
+    public void test_onMapsFragment_isVisibility() {
         onView(withId(R.id.view_pager2)).perform(ViewActions.swipeLeft());
         try {
             Thread.sleep(5000);
@@ -108,9 +109,21 @@ public class BenchmarkFragmentTest extends Rule {
 
     @Test
     public void test_onCollectionsFragment_measureAction() {
+        List<ResultItem> collectionList = new CollectionsBenchmark().getItemsList(true);
+
         onView(withContentDescription(R.string.Collections)).perform(ViewActions.click());
         onView(withId(R.id.inputField)).perform(ViewActions.typeText("1000"));
         onView(withId(R.id.calcButton)).perform(ViewActions.click());
+
+        int i = 0;
+        for (ResultItem item : collectionList) {
+            if (!item.isHeader()) {
+                onView(withId(R.id.recyclerLayoutItems))
+                        .perform(RecyclerViewActions.scrollToPosition(i));
+                        .check( "проверка на отображения ProgressBar ???" );
+            }
+            i++;
+        }
 
         try {
             Thread.sleep(5000);
@@ -118,16 +131,15 @@ public class BenchmarkFragmentTest extends Rule {
             e.printStackTrace();
         }
 
-        List<ResultItem> collectionList = new CollectionsBenchmark().getItemsList(true);
 
-        int i = 0;
+        int y = 0;
         for (ResultItem item : collectionList) {
             if (!item.isHeader()) {
                 onView(withId(R.id.recyclerLayoutItems))
-                        .perform(RecyclerViewActions.scrollToPosition(i))
-                        .check(matches(CustomMatcher.atPosition(i, hasDescendant(withSubstring("0")))));
+                        .perform(RecyclerViewActions.scrollToPosition(y))
+                        .check(matches(CustomMatcher.atPosition(y, hasDescendant(withSubstring("0")))));
             }
-            i++;
+            y++;
         }
     }
 
@@ -162,9 +174,7 @@ public class BenchmarkFragmentTest extends Rule {
         String errorMessage = ApplicationProvider.getApplicationContext()
                 .getString(R.string.empty_input_value);
 
-        int[] fragments = {R.string.Collections, R.string.Maps};
-
-        for (int fragment: fragments) {
+        for (int fragment : fragments) {
             onView(withContentDescription(fragment)).perform(ViewActions.click());
             onView(withId(R.id.inputField)).perform(ViewActions.typeText(""));
             onView(withId(R.id.calcButton)).perform(ViewActions.click());
