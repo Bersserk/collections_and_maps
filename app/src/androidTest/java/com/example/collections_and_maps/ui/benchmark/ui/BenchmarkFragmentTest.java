@@ -25,6 +25,8 @@ import com.example.collections_and_maps.models.benchmarks.CollectionsBenchmark;
 import com.example.collections_and_maps.models.benchmarks.MapsBenchmark;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 import com.example.collections_and_maps.ui.benchmark.Rule;
+import com.example.collections_and_maps.ui.benchmark.models.benchmarks.CollectionsBenchmarkTest;
+import com.example.collections_and_maps.ui.benchmark.models.benchmarks.MapsBenchmarkTest;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -89,7 +91,7 @@ public class BenchmarkFragmentTest extends Rule {
     }
 
     @Test
-    public void test_onMapsFragment_isVisibility() {
+    public void test_onMapFragment_isVisibility() {
         onView(withId(R.id.view_pager2)).perform(ViewActions.swipeLeft());
         try {
             Thread.sleep(5000);
@@ -105,95 +107,6 @@ public class BenchmarkFragmentTest extends Rule {
                         .check(matches(AtPositionMatcher.atPosition(y, hasDescendant(withText(item.nameForHeader)))));
             }
             y++;
-        }
-    }
-
-
-    @Test
-    public void test_onCollectionsFragment_isVisibilityProgressBar() {
-        List<ResultItem> collectionList = new CollectionsBenchmark().getItemsList(true);
-
-        onView(withContentDescription(R.string.Collections)).perform(ViewActions.click());
-        onView(withId(R.id.inputField)).perform(ViewActions.typeText("10000000"));
-        onView(withId(R.id.calcButton)).perform(ViewActions.click());
-
-        int i = 0;
-        for (ResultItem item : collectionList) {
-            if (!item.isHeader()) {
-                onView(withId(R.id.recyclerLayoutItems))
-                        .perform(RecyclerViewActions.scrollToPosition(i))
-                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withAlpha(1.0f)))));
-            }
-            i++;
-        }
-    }
-
-    @Test
-    public void test_onMapsFragment_isVisibilityProgressBar() {
-        List<ResultItem> mapsList = new MapsBenchmark().getItemsList(true);
-
-        onView(withContentDescription(R.string.Maps)).perform(ViewActions.click());
-        onView(withId(R.id.inputField)).perform(ViewActions.typeText("10000000"));
-        onView(withId(R.id.calcButton)).perform(ViewActions.click());
-
-        int i = 0;
-        for (ResultItem item : mapsList) {
-            if (!item.isHeader()) {
-                onView(withId(R.id.recyclerLayoutItems))
-                        .perform(RecyclerViewActions.scrollToPosition(i))
-                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withAlpha(1.0f)))));
-            }
-            i++;
-        }
-    }
-
-    @Test
-    public void test_onCollectionsFragment_measureAction() {
-        List<ResultItem> collectionList = new CollectionsBenchmark().getItemsList(true);
-
-        onView(withContentDescription(R.string.Collections)).perform(ViewActions.click());
-        onView(withId(R.id.inputField)).perform(ViewActions.typeText("1000"));
-        onView(withId(R.id.calcButton)).perform(ViewActions.click());
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        int i = 0;
-        for (ResultItem item : collectionList) {
-            if (!item.isHeader()) {
-                onView(withId(R.id.recyclerLayoutItems))
-                        .perform(RecyclerViewActions.scrollToPosition(i))
-                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withSubstring("0")))));
-            }
-            i++;
-        }
-    }
-
-    @Test
-    public void test_onMapsFragment_measureAction() {
-        onView(withContentDescription(R.string.Maps)).perform(ViewActions.click());
-        onView(withId(R.id.inputField)).perform(ViewActions.typeText("1000"));
-        onView(withId(R.id.calcButton)).perform(ViewActions.click());
-
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        List<ResultItem> mapsList = new MapsBenchmark().getItemsList(true);
-
-        int i = 0;
-        for (ResultItem item : mapsList) {
-            if (!item.isHeader()) {
-                onView(withId(R.id.recyclerLayoutItems))
-                        .perform(RecyclerViewActions.scrollToPosition(i))
-                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withSubstring("0")))));
-            }
-            i++;
         }
     }
 
@@ -223,6 +136,105 @@ public class BenchmarkFragmentTest extends Rule {
             onView(withId(R.id.calcButton)).perform(ViewActions.click());
             onView(withId(R.id.inputField)).check(matches(ViewMatchers.hasErrorText(errorMessage)));
         }
+    }
+
+
+    @Test
+    public void test_onCollectionFragment_isVisibilityProgressBar() {
+        List<ResultItem> collectionList = new CollectionsBenchmark().getItemsList(true);
+
+        onView(withContentDescription(R.string.Collections)).perform(ViewActions.click());
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText("10000000"));
+        onView(withId(R.id.calcButton)).perform(ViewActions.click());
+
+        int i = 0;
+        for (ResultItem item : collectionList) {
+            if (!item.isHeader()) {
+                onView(withId(R.id.recyclerLayoutItems))
+                        .perform(RecyclerViewActions.scrollToPosition(i))
+                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withAlpha(1.0f)))));
+            }
+            i++;
+        }
+    }
+
+    @Test
+    public void test_onMapFragment_isVisibilityProgressBar() {
+        List<ResultItem> mapsList = new MapsBenchmark().getItemsList(true);
+
+        onView(withContentDescription(R.string.Maps)).perform(ViewActions.click());
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText("10000000"));
+        onView(withId(R.id.calcButton)).perform(ViewActions.click());
+
+        int i = 0;
+        for (ResultItem item : mapsList) {
+            if (!item.isHeader()) {
+                onView(withId(R.id.recyclerLayoutItems))
+                        .perform(RecyclerViewActions.scrollToPosition(i))
+                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withAlpha(1.0f)))));
+            }
+            i++;
+        }
+    }
+
+    @Test
+    public void test_onCollectionFragment_measureAction() {
+        List<ResultItem> collectionList = new CollectionsBenchmarkTest().getItemsList(true);
+
+        onView(withContentDescription(R.string.Collections)).perform(ViewActions.click());
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText("1000"));
+        onView(withId(R.id.calcButton)).perform(ViewActions.click());
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        int i = 0;
+        for (ResultItem item : collectionList) {
+            if (!item.isHeader()) {
+                onView(withId(R.id.recyclerLayoutItems))
+                        .perform(RecyclerViewActions.scrollToPosition(i))
+                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withSubstring("1000.0")))));
+            }
+            i++;
+        }
+    }
+
+    @Test
+    public void test_onMapFragment_measureAction() {
+        onView(withContentDescription(R.string.Maps)).perform(ViewActions.click());
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText("1000"));
+        onView(withId(R.id.calcButton)).perform(ViewActions.click());
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        List<ResultItem> mapsList = new MapsBenchmarkTest().getItemsList(true);
+
+        int i = 0;
+        for (ResultItem item : mapsList) {
+            if (!item.isHeader()) {
+                onView(withId(R.id.recyclerLayoutItems))
+                        .perform(RecyclerViewActions.scrollToPosition(i))
+                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withSubstring("1000.0")))));
+            }
+            i++;
+        }
+    }
+
+    @Test
+    public void test_onCollectionFragment_interruptMeasureAction() {
+        // TODO
+    }
+
+    @Test
+    public void test_onMapFragment_interruptMeasureAction() {
+        // TODO
     }
 
 }
