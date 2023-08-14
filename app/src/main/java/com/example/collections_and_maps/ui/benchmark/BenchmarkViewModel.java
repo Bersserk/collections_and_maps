@@ -86,7 +86,12 @@ public class BenchmarkViewModel extends ViewModel {
             message = R.string.empty_input_value;
             e.printStackTrace();
         }
-        liveShowerMessages.setValue(message);
-        return value;
+        if (value == 0) {
+            liveShowerMessages.setValue(R.string.OverZero);
+            return -1;
+        } else {
+            liveShowerMessages.setValue(message);
+            return value;
+        }
     }
 }
