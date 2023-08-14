@@ -57,6 +57,23 @@ public class BenchmarkFragmentTest extends Rule {
     }
 
     @Test
+    public void test_editText() {
+        ViewInteraction inputField = onView(withId(R.id.inputField));
+        inputField.check(matches(Matchers.allOf(isDisplayed(), isFocusable())));
+        inputField.perform(ViewActions.typeText("1000"));
+    }
+
+    @Test
+    public void test_button() {
+        ViewInteraction calcButton = onView(withId(R.id.calcButton));
+        calcButton.check(matches(Matchers.allOf(isDisplayed(), isClickable())));
+        calcButton.perform(ViewActions.click())
+                .check(matches(Matchers
+                        .anyOf(withText(R.string.calcButtonStart), withText(R.string.calcButtonStop))));
+        Espresso.closeSoftKeyboard();
+    }
+
+    @Test
     public void test_onCollectionFragment_isVisibility() {
         List<ResultItem> collectionList = new CollectionsBenchmark().getItemsList(false);
 
@@ -91,22 +108,6 @@ public class BenchmarkFragmentTest extends Rule {
         }
     }
 
-    @Test
-    public void test_editText() {
-        ViewInteraction inputField = onView(withId(R.id.inputField));
-        inputField.check(matches(Matchers.allOf(isDisplayed(), isFocusable())));
-        inputField.perform(ViewActions.typeText("1000"));
-    }
-
-    @Test
-    public void test_button() {
-        ViewInteraction calcButton = onView(withId(R.id.calcButton));
-        calcButton.check(matches(Matchers.allOf(isDisplayed(), isClickable())));
-        calcButton.perform(ViewActions.click())
-                .check(matches(Matchers
-                        .anyOf(withText(R.string.calcButtonStart), withText(R.string.calcButtonStop))));
-        Espresso.closeSoftKeyboard();
-    }
 
     @Test
     public void test_onCollectionsFragment_isVisibilityProgressBar() {
@@ -205,6 +206,20 @@ public class BenchmarkFragmentTest extends Rule {
         for (int fragment : fragments) {
             onView(withContentDescription(fragment)).perform(ViewActions.click());
             onView(withId(R.id.inputField)).perform(ViewActions.typeText(""));
+            onView(withId(R.id.calcButton)).perform(ViewActions.click());
+            onView(withId(R.id.inputField)).check(matches(ViewMatchers.hasErrorText(errorMessage)));
+        }
+    }
+
+    @Test
+    public void test_onFragments_inputZero() {
+
+        String errorMessage = ApplicationProvider.getApplicationContext()
+                .getString(R.string.OverZero);
+
+        for (int fragment : fragments) {
+            onView(withContentDescription(fragment)).perform(ViewActions.click());
+            onView(withId(R.id.inputField)).perform(ViewActions.typeText("0"));
             onView(withId(R.id.calcButton)).perform(ViewActions.click());
             onView(withId(R.id.inputField)).check(matches(ViewMatchers.hasErrorText(errorMessage)));
         }
