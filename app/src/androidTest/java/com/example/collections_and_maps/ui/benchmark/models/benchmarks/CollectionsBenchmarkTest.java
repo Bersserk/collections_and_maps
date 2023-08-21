@@ -5,6 +5,7 @@ import static com.example.collections_and_maps.models.benchmarks.ResultItem.EMPT
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.models.benchmarks.Benchmark;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 import com.example.collections_and_maps.ui.benchmark.Rule;
 
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Random;
 
 @RunWith(AndroidJUnit4.class)
-public class CollectionsBenchmarkTest extends Rule implements BenchmarkTest {
+public class CollectionsBenchmarkTest extends Rule implements Benchmark {
     private final Random random = new Random();
     private final int[] listNamesForHead = new int[]{R.string.ArrayList, R.string.LinkedList, R.string.CopyOnWrite};
     private final int[] listNamesForMethod = new int[]{R.string.add_begin, R.string.add_middle,

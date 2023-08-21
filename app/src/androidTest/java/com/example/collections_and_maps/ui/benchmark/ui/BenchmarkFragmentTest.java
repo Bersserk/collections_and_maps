@@ -20,15 +20,21 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.collections_and_maps.App;
 import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.models.AppComponent;
+import com.example.collections_and_maps.models.DaggerAppComponent;
 import com.example.collections_and_maps.models.benchmarks.CollectionsBenchmark;
 import com.example.collections_and_maps.models.benchmarks.MapsBenchmark;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
+import com.example.collections_and_maps.ui.benchmark.BenchmarkViewModelFactory;
 import com.example.collections_and_maps.ui.benchmark.Rule;
+import com.example.collections_and_maps.ui.benchmark.models.AppModuleTest;
 import com.example.collections_and_maps.ui.benchmark.models.benchmarks.CollectionsBenchmarkTest;
 import com.example.collections_and_maps.ui.benchmark.models.benchmarks.MapsBenchmarkTest;
 
 import org.hamcrest.Matchers;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -39,6 +45,13 @@ import java.util.List;
 public class BenchmarkFragmentTest extends Rule {
 
     private final int[] fragments = {R.string.Collections, R.string.Maps};
+
+    @BeforeClass
+    public static void set() {
+        AppComponent appComponent =
+                DaggerAppComponent.builder().appModule(new AppModuleTest()).build();
+        App.getInstance().setAppComponent(appComponent);
+    }
 
     @Test
     public void test_tabs_onSwipe() {

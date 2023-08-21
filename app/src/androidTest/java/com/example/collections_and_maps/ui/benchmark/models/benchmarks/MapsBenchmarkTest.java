@@ -5,7 +5,9 @@ import static com.example.collections_and_maps.models.benchmarks.ResultItem.EMPT
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.models.benchmarks.Benchmark;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
+import com.example.collections_and_maps.ui.benchmark.Rule;
 
 import org.junit.runner.RunWith;
 
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
-public class MapsBenchmarkTest implements BenchmarkTest {
+public class MapsBenchmarkTest extends Rule implements Benchmark {
 
     private final int[] listNamesForHead = new int[]{R.string.HashMap, R.string.TreeMap};
     private final int[] listNamesForMethod = new int[]{R.string.add_new, R.string.search_key, R.string.removing};

@@ -1,8 +1,5 @@
 package com.example.collections_and_maps.ui.benchmark;
 
-import com.example.collections_and_maps.ui.benchmark.models.AppComponent;
-import com.example.collections_and_maps.ui.benchmark.models.AppModule;
-import com.example.collections_and_maps.ui.benchmark.models.benchmarks.BenchmarkTest;
 import com.example.collections_and_maps.ui.benchmark.models.benchmarks.CollectionsBenchmarkTest;
 import com.example.collections_and_maps.ui.benchmark.models.benchmarks.MapsBenchmarkTest;
 import com.example.collections_and_maps.ui.benchmark.ui.BenchmarkFragmentTest;
@@ -17,9 +14,6 @@ import org.junit.runners.Suite;
         BenchmarkFragmentTest.class,
         CollectionsBenchmarkTest.class,
         MapsBenchmarkTest.class,
-        BenchmarkTest.class,
-        AppComponent.class,
-        AppModule.class
 })
 public class TestSuite {
 }
