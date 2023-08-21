@@ -27,7 +27,7 @@ import com.example.collections_and_maps.models.DaggerAppComponent;
 import com.example.collections_and_maps.models.benchmarks.CollectionsBenchmark;
 import com.example.collections_and_maps.models.benchmarks.MapsBenchmark;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
-import com.example.collections_and_maps.ui.benchmark.Rule;
+import com.example.collections_and_maps.ui.benchmark.BenchmarkRule;
 import com.example.collections_and_maps.ui.benchmark.models.AppModuleTest;
 import com.example.collections_and_maps.ui.benchmark.models.benchmarks.CollectionsBenchmarkTest;
 import com.example.collections_and_maps.ui.benchmark.models.benchmarks.MapsBenchmarkTest;
@@ -41,7 +41,7 @@ import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 //@LargeTest
-public class BenchmarkFragmentTest extends Rule {
+public class BenchmarkFragmentTest extends BenchmarkRule {
 
     private final int[] fragments = {R.string.Collections, R.string.Maps};
 

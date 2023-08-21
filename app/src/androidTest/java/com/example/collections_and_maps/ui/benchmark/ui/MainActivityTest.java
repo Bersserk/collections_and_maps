@@ -8,12 +8,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.collections_and_maps.R;
+import com.example.collections_and_maps.ui.benchmark.BenchmarkRule;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest extends com.example.collections_and_maps.ui.benchmark.Rule {
+public class MainActivityTest extends BenchmarkRule {
 
     @Test
     public void test_tabs_isDisplayed() {

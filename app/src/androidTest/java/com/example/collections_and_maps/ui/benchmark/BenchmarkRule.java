@@ -10,7 +10,8 @@ import com.example.collections_and_maps.ui.MainActivity;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class Rule extends Application {
+public class BenchmarkRule extends Application {
+
     @org.junit.Rule
     public ActivityScenarioRule<MainActivity> activityRule =
             new ActivityScenarioRule<>(MainActivity.class);
