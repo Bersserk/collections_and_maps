@@ -27,7 +27,6 @@ import com.example.collections_and_maps.models.DaggerAppComponent;
 import com.example.collections_and_maps.models.benchmarks.CollectionsBenchmark;
 import com.example.collections_and_maps.models.benchmarks.MapsBenchmark;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
-import com.example.collections_and_maps.ui.benchmark.BenchmarkViewModelFactory;
 import com.example.collections_and_maps.ui.benchmark.Rule;
 import com.example.collections_and_maps.ui.benchmark.models.AppModuleTest;
 import com.example.collections_and_maps.ui.benchmark.models.benchmarks.CollectionsBenchmarkTest;
@@ -199,7 +198,7 @@ public class BenchmarkFragmentTest extends Rule {
         onView(withId(R.id.calcButton)).perform(ViewActions.click());
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -222,7 +221,7 @@ public class BenchmarkFragmentTest extends Rule {
         onView(withId(R.id.calcButton)).perform(ViewActions.click());
 
         try {
-            Thread.sleep(3000);
+            Thread.sleep(8000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -242,12 +241,33 @@ public class BenchmarkFragmentTest extends Rule {
 
     @Test
     public void test_onCollectionFragment_interruptMeasureAction() {
-        // TODO
+        onView(withContentDescription(R.string.Collections)).perform(ViewActions.click());
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText("1000"));
+        onView(withId(R.id.calcButton)).perform(ViewActions.click());
+        onView(withId(R.id.calcButton)).check(matches(withText(R.string.calcButtonStop)));
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.calcButton)).perform(ViewActions.click()).check(matches(withText(R.string.calcButtonStart)));
+        Espresso.closeSoftKeyboard();
+
     }
 
     @Test
     public void test_onMapFragment_interruptMeasureAction() {
-        // TODO
+        onView(withContentDescription(R.string.Maps)).perform(ViewActions.click());
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText("1000"));
+        onView(withId(R.id.calcButton)).perform(ViewActions.click());
+        onView(withId(R.id.calcButton)).check(matches(withText(R.string.calcButtonStop)));
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.calcButton)).perform(ViewActions.click()).check(matches(withText(R.string.calcButtonStart)));
+        Espresso.closeSoftKeyboard();
     }
 
 }
