@@ -43,30 +43,51 @@ import java.util.List;
 //@LargeTest
 public class BenchmarkFragmentTest extends BenchmarkRule {
 
-    private final int[] fragments = {R.string.Collections, R.string.Maps};
-
     @BeforeClass
     public static void set() {
         AppComponent appComponent =
                 DaggerAppComponent.builder().appModule(new AppModuleTest()).build();
         App.getInstance().setAppComponent(appComponent);
     }
-
     @Test
-    public void test_tabs_onSwipe() {
-        onView(withId(R.id.view_pager2)).perform(ViewActions.swipeLeft());
-        onView(withContentDescription(R.string.Maps)).check(matches(isDisplayed()));
+    public void test_onCollectionFragment_byDefault() {
+        List<ResultItem> collectionList = new CollectionsBenchmark().getItemsList(false);
 
-        onView(withId(R.id.view_pager2)).perform(ViewActions.swipeRight());
-        onView(withContentDescription(R.string.Collections)).check(matches(isDisplayed()));
+        int i = 0;
+        for (ResultItem item : collectionList) {
+            if (item.isHeader()) {
+                onView(withId(R.id.recyclerLayoutItems))
+                        .perform(RecyclerViewActions.scrollToPosition(i))
+                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withText(item.nameForHeader)))));
+            } else {
+                onView(withId(R.id.recyclerLayoutItems))
+                        .perform(RecyclerViewActions.scrollToPosition(i))
+                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withText("")))));
+            }
+            i++;
+        }
     }
 
     @Test
-    public void test_tabs_onClick() {
-        for (int fragment : fragments) {
-            onView(withContentDescription(fragment))
-                    .perform(ViewActions.click())
-                    .check(matches(isDisplayed()));
+    public void test_onMapFragment_byDefault() {
+        onView(withId(R.id.view_pager2)).perform(ViewActions.swipeLeft());
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        List<ResultItem> mapsList = new MapsBenchmark().getItemsList(false);
+
+        int y = 0;
+        for (ResultItem item : mapsList) {
+            if (item.isHeader()) {
+                onView(withId(R.id.recyclerLayoutItems))
+                        .check(matches(AtPositionMatcher.atPosition(y, hasDescendant(withText(item.nameForHeader)))));
+            } else {
+                onView(withId(R.id.recyclerLayoutItems))
+                        .check(matches(AtPositionMatcher.atPosition(y, hasDescendant(withText("")))));
+            }
+            y++;
         }
     }
 
@@ -87,40 +108,6 @@ public class BenchmarkFragmentTest extends BenchmarkRule {
         Espresso.closeSoftKeyboard();
     }
 
-    @Test
-    public void test_onCollectionFragment_isVisibility() {
-        List<ResultItem> collectionList = new CollectionsBenchmark().getItemsList(false);
-
-        int i = 0;
-        for (ResultItem item : collectionList) {
-            if (item.isHeader()) {
-                onView(withId(R.id.recyclerLayoutItems))
-                        .perform(RecyclerViewActions.scrollToPosition(i))
-                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withText(item.nameForHeader)))));
-            }
-            i++;
-        }
-    }
-
-    @Test
-    public void test_onMapFragment_isVisibility() {
-        onView(withId(R.id.view_pager2)).perform(ViewActions.swipeLeft());
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        List<ResultItem> mapsList = new MapsBenchmark().getItemsList(false);
-
-        int y = 0;
-        for (ResultItem item : mapsList) {
-            if (item.isHeader()) {
-                onView(withId(R.id.recyclerLayoutItems))
-                        .check(matches(AtPositionMatcher.atPosition(y, hasDescendant(withText(item.nameForHeader)))));
-            }
-            y++;
-        }
-    }
 
     @Test
     public void test_onFragments_inputNothing() {

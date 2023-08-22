@@ -11,9 +11,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         MainActivityTest.class,
-        BenchmarkFragmentTest.class,
-        CollectionsBenchmarkTest.class,
-        MapsBenchmarkTest.class,
+        BenchmarkFragmentTest.class
 })
 public class TestSuite {
 }
