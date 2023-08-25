@@ -19,12 +19,8 @@ import org.junit.runner.RunWith;
 public class MainActivityTest extends BenchmarkRuleTest {
 
     @Test
-    public void test_tabs_isDisplayed() {
+    public void test_isDisplayed() {
         onView(withId(R.id.tabs)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void test_viewPager2_isDisplayed() {
         onView(withId(R.id.view_pager2)).check(matches(isDisplayed()));
     }
 
@@ -39,7 +35,7 @@ public class MainActivityTest extends BenchmarkRuleTest {
 
     @Test
     public void test_tabs_onClick() {
-        for (int fragment : fragments) {
+        for (int fragment : TABS_NAMES) {
             onView(withContentDescription(fragment))
                     .perform(ViewActions.click())
                     .check(matches(isDisplayed()));

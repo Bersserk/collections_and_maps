@@ -16,7 +16,7 @@ public class BenchmarkRuleTest extends Application {
     protected static final int COLLECTIONS = R.string.Collections;
     protected static final int MAPS = R.string.Maps;
 
-    protected final int[] fragments = {COLLECTIONS, MAPS};
+    protected final int[] TABS_NAMES = {COLLECTIONS, MAPS};
 
     @org.junit.Rule
     public ActivityScenarioRule<MainActivity> activityRule =

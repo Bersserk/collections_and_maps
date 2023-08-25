@@ -17,6 +17,4 @@ public class MapsBenchmarkTest extends MapsBenchmark {
         }
         return 1000.0;
     }
-
 }
-
