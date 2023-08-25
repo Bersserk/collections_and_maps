@@ -1,5 +1,9 @@
-This is my favorite project about measuring the time of some collection methods and maps in Java.
-He's still in the process.
-It wasn't implemented the architecture yet.
+A project that calculates how long Collections and Maps methods run.
+Collections: by Arraylist, LinkedList, ArrayCopyOnWrite;
+Maps: by HashMap, TreeMap
 
-The study project, which calculate how mach time are working any process inside Collections and Maps
+Language - Java
+Architecture - MVVM
+Libraries - Dagger 2, RxJava 3
+Test - Mockito, Espresso
+
