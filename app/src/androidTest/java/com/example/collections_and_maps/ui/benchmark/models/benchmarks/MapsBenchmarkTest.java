@@ -11,7 +11,7 @@ public class MapsBenchmarkTest extends MapsBenchmark {
             throw new IllegalStateException("Unexpected value: " + value);
         }
         try {
-            Thread.sleep(100);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

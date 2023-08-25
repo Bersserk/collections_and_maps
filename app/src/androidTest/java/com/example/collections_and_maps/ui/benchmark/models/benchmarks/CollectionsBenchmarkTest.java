@@ -8,7 +8,7 @@ public class CollectionsBenchmarkTest extends CollectionsBenchmark {
     @Override
     public double getMeasureTime(ResultItem rItem, int value) {
         try {
-            Thread.sleep(100);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

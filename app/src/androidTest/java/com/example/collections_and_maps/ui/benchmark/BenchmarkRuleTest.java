@@ -11,9 +11,12 @@ import com.example.collections_and_maps.ui.MainActivity;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class BenchmarkRule extends Application {
+public class BenchmarkRuleTest extends Application {
 
-    protected final int[] fragments = {R.string.Collections, R.string.Maps};
+    protected static final int COLLECTIONS = R.string.Collections;
+    protected static final int MAPS = R.string.Maps;
+
+    protected final int[] fragments = {COLLECTIONS, MAPS};
 
     @org.junit.Rule
     public ActivityScenarioRule<MainActivity> activityRule =
