@@ -50,13 +50,13 @@ public class BenchmarkFragmentTestTest extends BenchmarkRuleTest {
     @Test
     public void test_onCollectionFragment_byDefault() {
         onView(withId(R.id.view_pager2)).perform(ViewActions.swipeRight());
-        checkEachItem(500, COLLECTIONS, "", "0.0f");
+        checkEachItem(500, COLLECTIONS, EMPTY, PROGRESS_OFF);
     }
 
     @Test
     public void test_onMapFragment_byDefault() {
         onView(withId(R.id.view_pager2)).perform(ViewActions.swipeLeft());
-        checkEachItem(500, MAPS, "", "0.0f");
+        checkEachItem(500, MAPS, EMPTY, PROGRESS_OFF);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class BenchmarkFragmentTestTest extends BenchmarkRuleTest {
                 .getString(R.string.empty_input_value);
         for (int fragment : TABS_NAMES) {
             onView(withContentDescription(fragment)).perform(ViewActions.click());
-            onView(withId(R.id.inputField)).perform(ViewActions.typeText(""));
+            onView(withId(R.id.inputField)).perform(ViewActions.typeText(EMPTY));
             onView(withId(R.id.calcButton)).perform(ViewActions.click());
             onView(withId(R.id.inputField)).check(matches(ViewMatchers.hasErrorText(errorMessage)));
         }
@@ -86,56 +86,56 @@ public class BenchmarkFragmentTestTest extends BenchmarkRuleTest {
     @Test
     public void test_onCollectionFragment_measureAction() {
         onView(withContentDescription(COLLECTIONS)).perform(ViewActions.click());
-        onView(withId(R.id.inputField)).perform(ViewActions.typeText("1000"));
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText(INPUTTED_VALUE));
         onView(withId(R.id.calcButton)).perform(ViewActions.click());
         Espresso.closeSoftKeyboard();
 
-        checkEachItem(1000, COLLECTIONS, "", "1.0f");
-        checkEachItem(20000, COLLECTIONS, "1000.0", "0.0f");
+        checkEachItem(1000, COLLECTIONS, EMPTY, PROGRESS_ON);
+        checkEachItem(20000, COLLECTIONS, INPUTTED_VALUE, PROGRESS_OFF);
     }
 
     @Test
     public void test_onMapFragment_measureAction() {
         onView(withContentDescription(MAPS)).perform(ViewActions.click());
-        onView(withId(R.id.inputField)).perform(ViewActions.typeText("1000"));
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText(INPUTTED_VALUE));
         onView(withId(R.id.calcButton)).perform(ViewActions.click());
         Espresso.closeSoftKeyboard();
 
-        checkEachItem(1000, MAPS, "", "1.0f");
-        checkEachItem(4000, MAPS, "1000.0", "0.0f");
+        checkEachItem(1000, MAPS, EMPTY, PROGRESS_ON);
+        checkEachItem(4000, MAPS, INPUTTED_VALUE, PROGRESS_OFF);
     }
 
     @Test
     public void test_onCollectionFragment_interruptMeasureAction() {
         onView(withContentDescription(COLLECTIONS)).perform(ViewActions.click());
-        onView(withId(R.id.inputField)).perform(ViewActions.typeText("1000"));
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText(INPUTTED_VALUE));
         onView(withId(R.id.calcButton)).perform(ViewActions.click());
         Espresso.closeSoftKeyboard();
 
-        checkEachItem(1000, COLLECTIONS, "", "1.0f");
+        checkEachItem(1000, COLLECTIONS, EMPTY, PROGRESS_ON);
         delay(2000);
         onView(withId(R.id.calcButton)).perform(ViewActions.click());
-        checkEachItem(2000, COLLECTIONS, "any", "any");
+        checkEachItem(2000, COLLECTIONS, ANY, ANY);
     }
 
     @Test
     public void test_onMapFragment_interruptMeasureAction() {
         onView(withContentDescription(MAPS)).perform(ViewActions.click());
-        onView(withId(R.id.inputField)).perform(ViewActions.typeText("1000"));
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText(INPUTTED_VALUE));
         onView(withId(R.id.calcButton)).perform(ViewActions.click());
         Espresso.closeSoftKeyboard();
 
-        checkEachItem(1000, MAPS, "", "1.0f");
+        checkEachItem(1000, MAPS, EMPTY, PROGRESS_ON);
         delay(500);
         onView(withId(R.id.calcButton)).perform(ViewActions.click());
-        checkEachItem(2000, MAPS, "any", "any");
+        checkEachItem(2000, MAPS, ANY, ANY);
     }
 
 
     private void checkEachItem(
             int delayBeforeMillis, int list, String textOfItem, String alphaOfItem
     ) {
-        final List<ResultItem> initedList = (list == COLLECTIONS)
+        final List<ResultItem> initiatedList = (list == COLLECTIONS)
                 ? new CollectionsBenchmark().getItemsList(true)
                 : new MapsBenchmark().getItemsList(true);
 
@@ -144,16 +144,16 @@ public class BenchmarkFragmentTestTest extends BenchmarkRuleTest {
 
         final Matcher<View> text;
         final Matcher<View> alpha;
-        if ("any".equals(textOfItem) && "any".equals(alphaOfItem)) {
-            text = Matchers.anyOf(withSubstring("1000.0"), withSubstring(""));
+        if (ANY.equals(textOfItem) && ANY.equals(alphaOfItem)) {
+            text = Matchers.anyOf(withSubstring(INPUTTED_VALUE), withSubstring(EMPTY));
             alpha = Matchers.anyOf(withAlpha(1F), withAlpha(0F));
         } else {
             text = withSubstring(textOfItem);
             alpha = withAlpha(Float.parseFloat(alphaOfItem));
         }
 
-        for (int i = 0; i < initedList.size(); i++) {
-            final ResultItem item = initedList.get(i);
+        for (int i = 0; i < initiatedList.size(); i++) {
+            final ResultItem item = initiatedList.get(i);
             if (item.isHeader()) {
                 onRecyclerItems.perform(RecyclerViewActions.scrollToPosition(i))
                         .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withText(item.nameForHeader)))));

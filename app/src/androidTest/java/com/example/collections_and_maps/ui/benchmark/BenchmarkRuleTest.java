@@ -15,6 +15,13 @@ public class BenchmarkRuleTest extends Application {
 
     protected static final int COLLECTIONS = R.string.Collections;
     protected static final int MAPS = R.string.Maps;
+    protected static final String INPUTTED_VALUE = "1000.0";
+    protected static final String PROGRESS_ON = "1.0f";
+    protected static final String PROGRESS_OFF = "0.0f";
+    protected static final String EMPTY = "";
+    protected static final String ANY = "any";
+
+
 
     protected final int[] TABS_NAMES = {COLLECTIONS, MAPS};
 
