@@ -7,7 +7,8 @@ import com.example.collections_and_maps.models.DaggerAppComponent;
 
 public class App extends Application {
 
-    private final AppComponent appComponent = DaggerAppComponent.create();
+
+    private AppComponent appComponent = DaggerAppComponent.create();
     private static App instance;
 
     @Override
@@ -19,8 +20,13 @@ public class App extends Application {
     public static App getInstance() {
         return instance;
     }
+    public void setAppComponent(AppComponent appComponent) {
+        this.appComponent = appComponent;
+    }
 
     public AppComponent getAppComponent() {
         return appComponent;
     }
+
+
 }

@@ -1,8 +1,7 @@
 package com.example.collections_and_maps.ui.benchmark;
 
-import android.util.Pair;
-
 import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -87,7 +86,12 @@ public class BenchmarkViewModel extends ViewModel {
             message = R.string.empty_input_value;
             e.printStackTrace();
         }
-        liveShowerMessages.setValue(message);
-        return value;
+        if (value == 0) {
+            liveShowerMessages.setValue(R.string.OverZero);
+            return -1;
+        } else {
+            liveShowerMessages.setValue(message);
+            return value;
+        }
     }
 }
