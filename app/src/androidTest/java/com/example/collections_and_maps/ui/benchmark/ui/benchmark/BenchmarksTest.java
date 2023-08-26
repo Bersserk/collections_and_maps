@@ -19,9 +19,9 @@ import com.example.collections_and_maps.models.AppComponent;
 import com.example.collections_and_maps.models.DaggerAppComponent;
 import com.example.collections_and_maps.models.benchmarks.Benchmark;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
+import com.example.collections_and_maps.ui.benchmark.Constant;
 import com.example.collections_and_maps.ui.benchmark.Util;
 import com.example.collections_and_maps.ui.benchmark.models.AppModuleTest;
-import com.example.collections_and_maps.ui.benchmark.ui.AtPositionMatcher;
 import com.example.collections_and_maps.ui.benchmark.ui.BasicTest;
 
 import org.hamcrest.Matcher;
@@ -52,8 +52,8 @@ public abstract class BenchmarksTest extends BasicTest {
 
         final Matcher<View> text;
         final Matcher<View> alpha;
-        if (Util.ANY.equals(textOfItem) && Util.ANY.equals(alphaOfItem)) {
-            text = Matchers.anyOf(withSubstring(Util.INPUT), withSubstring(Util.EMPTY));
+        if (Constant.ANY.equals(textOfItem) && Constant.ANY.equals(alphaOfItem)) {
+            text = Matchers.anyOf(withSubstring(Constant.INPUT), withSubstring(Constant.EMPTY));
             alpha = Matchers.anyOf(withAlpha(1F), withAlpha(0F));
         } else {
             text = withSubstring(textOfItem);
@@ -64,11 +64,11 @@ public abstract class BenchmarksTest extends BasicTest {
             final ResultItem item = initiatedList.get(i);
             if (item.isHeader()) {
                 onRecyclerItems.perform(RecyclerViewActions.scrollToPosition(i))
-                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(withText(item.nameForHeader)))));
+                        .check(matches(Util.atPosition(i, hasDescendant(withText(item.nameForHeader)))));
             } else {
                 onRecyclerItems.perform(RecyclerViewActions.scrollToPosition(i))
-                        .check(matches(AtPositionMatcher.atPosition(i, hasDescendant(text))));
-                onRecyclerItems.check(matches(AtPositionMatcher.atPosition(i, hasDescendant(alpha))));
+                        .check(matches(Util.atPosition(i, hasDescendant(text))));
+                onRecyclerItems.check(matches(Util.atPosition(i, hasDescendant(alpha))));
             }
         }
     }
