@@ -31,7 +31,7 @@ import java.util.List;
 
 public abstract class BenchmarksTest extends BasicTest {
 
-    protected static final String INPUTTED_VALUE = "1000.0";
+    public static final String INPUTTED_VALUE = "1000.0";
     protected static final String PROGRESS_ON = "1.0f";
     protected static final String PROGRESS_OFF = "0.0f";
     protected static final String EMPTY = "";
@@ -77,7 +77,7 @@ public abstract class BenchmarksTest extends BasicTest {
         }
     }
 
-    protected void delay(int millis) {
+    public static void delay(int millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {

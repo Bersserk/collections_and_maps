@@ -2,6 +2,7 @@ package com.example.collections_and_maps.ui.benchmark.models.benchmarks;
 
 import com.example.collections_and_maps.models.benchmarks.MapsBenchmark;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
+import com.example.collections_and_maps.ui.benchmark.ui.benchmark.BenchmarksTest;
 
 public class MapsBenchmarkTest extends MapsBenchmark {
 
@@ -10,11 +11,7 @@ public class MapsBenchmarkTest extends MapsBenchmark {
         if (value < 0) {
             throw new IllegalStateException("Unexpected value: " + value);
         }
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return 1000.0;
+        BenchmarksTest.delay(500);
+        return Double.parseDouble(BenchmarksTest.INPUTTED_VALUE);
     }
 }
