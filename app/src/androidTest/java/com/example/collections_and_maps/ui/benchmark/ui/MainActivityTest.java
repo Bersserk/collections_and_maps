@@ -10,7 +10,7 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.ui.benchmark.BenchmarkRuleTest;
+import com.example.collections_and_maps.ui.benchmark.ui.benchmark.BenchmarkRuleTest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

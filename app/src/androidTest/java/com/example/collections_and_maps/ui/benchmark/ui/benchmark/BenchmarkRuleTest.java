@@ -1,4 +1,4 @@
-package com.example.collections_and_maps.ui.benchmark;
+package com.example.collections_and_maps.ui.benchmark.ui.benchmark;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -19,8 +19,7 @@ import com.example.collections_and_maps.App;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.AppComponent;
 import com.example.collections_and_maps.models.DaggerAppComponent;
-import com.example.collections_and_maps.models.benchmarks.CollectionsBenchmark;
-import com.example.collections_and_maps.models.benchmarks.MapsBenchmark;
+import com.example.collections_and_maps.models.benchmarks.Benchmark;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
 import com.example.collections_and_maps.ui.MainActivity;
 import com.example.collections_and_maps.ui.benchmark.models.AppModuleTest;
@@ -32,7 +31,7 @@ import org.junit.BeforeClass;
 
 import java.util.List;
 
-public class BenchmarkRuleTest extends Application {
+public abstract class BenchmarkRuleTest extends Application {
 
     protected static final int COLLECTIONS = R.string.Collections;
     protected static final int MAPS = R.string.Maps;
@@ -55,12 +54,12 @@ public class BenchmarkRuleTest extends Application {
         App.getInstance().setAppComponent(appComponent);
     }
 
+    protected abstract Benchmark getBenchmark();
+
     protected void checkEachItem(
-            int delayBeforeMillis, int list, String textOfItem, String alphaOfItem
+            int delayBeforeMillis, String textOfItem, String alphaOfItem
     ) {
-        final List<ResultItem> initiatedList = (list == COLLECTIONS)
-                ? new CollectionsBenchmark().getItemsList(true)
-                : new MapsBenchmark().getItemsList(true);
+        final List<ResultItem> initiatedList = getBenchmark().getItemsList(true);
 
         ViewInteraction onRecyclerItems = onView(withId(R.id.recyclerLayoutItems));
         delay(delayBeforeMillis);
@@ -95,5 +94,4 @@ public class BenchmarkRuleTest extends Application {
             e.printStackTrace();
         }
     }
-
 }
