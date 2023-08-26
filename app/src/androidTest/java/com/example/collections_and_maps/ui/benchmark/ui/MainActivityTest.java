@@ -10,13 +10,12 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.collections_and_maps.R;
-import com.example.collections_and_maps.ui.benchmark.ui.benchmark.BenchmarkRuleTest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest extends BenchmarkRuleTest {
+public class MainActivityTest extends BasicTest {
 
     @Test
     public void test_isDisplayed() {

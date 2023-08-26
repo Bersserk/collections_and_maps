@@ -19,7 +19,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class CollectionFragmentTest extends BenchmarkRuleTest {
+public class CollectionFragmentTest extends BenchmarksTest {
 
     @Override
     protected Benchmark getBenchmark() {
@@ -75,5 +75,4 @@ public class CollectionFragmentTest extends BenchmarkRuleTest {
         onView(withId(R.id.calcButton)).perform(ViewActions.click());
         checkEachItem(2000, ANY, ANY);
     }
-
 }

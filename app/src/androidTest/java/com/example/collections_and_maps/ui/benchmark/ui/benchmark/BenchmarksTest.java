@@ -8,12 +8,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withSubstring;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import android.app.Application;
 import android.view.View;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.example.collections_and_maps.App;
 import com.example.collections_and_maps.R;
@@ -21,9 +19,9 @@ import com.example.collections_and_maps.models.AppComponent;
 import com.example.collections_and_maps.models.DaggerAppComponent;
 import com.example.collections_and_maps.models.benchmarks.Benchmark;
 import com.example.collections_and_maps.models.benchmarks.ResultItem;
-import com.example.collections_and_maps.ui.MainActivity;
 import com.example.collections_and_maps.ui.benchmark.models.AppModuleTest;
 import com.example.collections_and_maps.ui.benchmark.ui.AtPositionMatcher;
+import com.example.collections_and_maps.ui.benchmark.ui.BasicTest;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
@@ -31,21 +29,13 @@ import org.junit.BeforeClass;
 
 import java.util.List;
 
-public abstract class BenchmarkRuleTest extends Application {
+public abstract class BenchmarksTest extends BasicTest {
 
-    protected static final int COLLECTIONS = R.string.Collections;
-    protected static final int MAPS = R.string.Maps;
     protected static final String INPUTTED_VALUE = "1000.0";
     protected static final String PROGRESS_ON = "1.0f";
     protected static final String PROGRESS_OFF = "0.0f";
     protected static final String EMPTY = "";
     protected static final String ANY = "any";
-
-    protected final int[] TABS_NAMES = {COLLECTIONS, MAPS};
-
-    @org.junit.Rule
-    public ActivityScenarioRule<MainActivity> activityRule =
-            new ActivityScenarioRule<>(MainActivity.class);
 
     @BeforeClass
     public static void set() {
