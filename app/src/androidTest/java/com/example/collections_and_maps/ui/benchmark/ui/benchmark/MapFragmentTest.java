@@ -14,6 +14,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.example.collections_and_maps.R;
 import com.example.collections_and_maps.models.benchmarks.Benchmark;
 import com.example.collections_and_maps.models.benchmarks.MapsBenchmark;
+import com.example.collections_and_maps.ui.benchmark.Util;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +30,7 @@ public class MapFragmentTest extends BenchmarksTest {
     @Test
     public void test_fragmentByDefault() {
         onView(withId(R.id.view_pager2)).perform(ViewActions.swipeLeft());
-        checkEachItem(500, EMPTY, PROGRESS_OFF);
+        checkEachItem(500, Util.EMPTY, Util.PROGRESS_OFF);
     }
 
     @Test
@@ -37,7 +38,7 @@ public class MapFragmentTest extends BenchmarksTest {
         final String errorMessage = ApplicationProvider.getApplicationContext()
                 .getString(R.string.empty_input_value);
         onView(withContentDescription(MAPS)).perform(ViewActions.click());
-        onView(withId(R.id.inputField)).perform(ViewActions.typeText(EMPTY));
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText(Util.EMPTY));
         onView(withId(R.id.calcButton)).perform(ViewActions.click());
         onView(withId(R.id.inputField)).check(matches(ViewMatchers.hasErrorText(errorMessage)));
     }
@@ -55,24 +56,24 @@ public class MapFragmentTest extends BenchmarksTest {
     @Test
     public void test_fragment_measureAction() {
         onView(withContentDescription(MAPS)).perform(ViewActions.click());
-        onView(withId(R.id.inputField)).perform(ViewActions.typeText(INPUTTED_VALUE));
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText(Util.INPUT));
         onView(withId(R.id.calcButton)).perform(ViewActions.click());
         Espresso.closeSoftKeyboard();
 
-        checkEachItem(1000, EMPTY, PROGRESS_ON);
-        checkEachItem(4000, INPUTTED_VALUE, PROGRESS_OFF);
+        checkEachItem(1000, Util.EMPTY, Util.PROGRESS_ON);
+        checkEachItem(4000, "" + Util.TIME, Util.PROGRESS_OFF);
     }
 
     @Test
     public void test_fragment_interruptMeasureAction() {
         onView(withContentDescription(MAPS)).perform(ViewActions.click());
-        onView(withId(R.id.inputField)).perform(ViewActions.typeText(INPUTTED_VALUE));
+        onView(withId(R.id.inputField)).perform(ViewActions.typeText(Util.INPUT));
         onView(withId(R.id.calcButton)).perform(ViewActions.click());
         Espresso.closeSoftKeyboard();
 
-        checkEachItem(1000, EMPTY, PROGRESS_ON);
-        delay(500);
+        checkEachItem(1000, Util.EMPTY, Util.PROGRESS_ON);
+        Util.delay(500);
         onView(withId(R.id.calcButton)).perform(ViewActions.click());
-        checkEachItem(2000, ANY, ANY);
+        checkEachItem(2000, Util.ANY, Util.ANY);
     }
 }
