@@ -20,5 +20,4 @@ open class AppModule {
     open fun provideMaps(): Benchmark {
         return MapsBenchmark()
     }
-
 }

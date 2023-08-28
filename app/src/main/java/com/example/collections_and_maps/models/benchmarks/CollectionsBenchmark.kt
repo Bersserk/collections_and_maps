@@ -19,27 +19,13 @@ open class CollectionsBenchmark : Benchmark {
 
     override fun getItemsList(showProgress: Boolean): List<ResultItem> {
         val itemsList: MutableList<ResultItem> = ArrayList()
-        for (itemOfListHead in listNamesForHead) {
-            itemsList.add(
-                ResultItem(
-                    itemOfListHead,
-                    R.string.empty,
-                    ResultItem.EMPTY,
-                    false
-                )
-            )
+        for (head in listNamesForHead) {
+            itemsList.add(ResultItem(head, R.string.empty, ResultItem.EMPTY, false))
         }
         for (methodsID in listNamesForMethod) {
             itemsList.add(ResultItem(R.string.empty, methodsID, ResultItem.EMPTY, false))
             for (headsID in listNamesForHead) {
-                itemsList.add(
-                    ResultItem(
-                        headsID,
-                        methodsID,
-                        ResultItem.EMPTY,
-                        showProgress
-                    )
-                )
+                itemsList.add(ResultItem(headsID, methodsID, ResultItem.EMPTY, showProgress))
             }
         }
         return itemsList
@@ -47,35 +33,15 @@ open class CollectionsBenchmark : Benchmark {
 
     override fun getMeasureTime(rItem: ResultItem, value: Int): Double {
         val list: MutableList<Int> = when (rItem.headerText) {
-            R.string.ArrayList -> ArrayList(
-                Collections.nCopies(
-                    value,
-                    0
-                )
-            )
-
-            R.string.LinkedList -> LinkedList(
-                Collections.nCopies(
-                    value,
-                    0
-                )
-            )
-
-            R.string.CopyOnWrite -> CopyOnWriteArrayList(
-                Collections.nCopies(
-                    value,
-                    0
-                )
-            )
-
+            R.string.ArrayList -> ArrayList(Collections.nCopies(value, 0))
+            R.string.LinkedList -> LinkedList(Collections.nCopies(value, 0))
+            R.string.CopyOnWrite -> CopyOnWriteArrayList(Collections.nCopies(value, 0))
             else -> throw IllegalStateException("Unexpected value: " + rItem.headerText)
         }
         return calculateResult(rItem.methodName, list)
     }
 
-    override fun getSpan(): Int {
-        return listNamesForHead.size
-    }
+    override fun getSpan(): Int = listNamesForHead.size
 
 
 
@@ -135,6 +101,4 @@ open class CollectionsBenchmark : Benchmark {
         list.removeAt(list.size - 1)
         return System.nanoTime() - start
     }
-
-
 }

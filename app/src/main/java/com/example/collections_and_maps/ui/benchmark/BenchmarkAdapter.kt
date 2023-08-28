@@ -23,9 +23,10 @@ class BenchmarkAdapter : ListAdapter<ResultItem, BenchmarkViewHolder>(DIFF_CALLB
         holder.bindTo(getItem(position)!!)
     }
 
-    class BenchmarkViewHolder(private val binding: ItemBenchmarkBinding) : RecyclerView.ViewHolder(
-        binding.root
-    ) {
+    class BenchmarkViewHolder(
+        private val binding: ItemBenchmarkBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
         fun bindTo(item: ResultItem) {
             val showProgress = if (item.progressVisible) ON else OFF
             if (binding.progressBar.alpha != showProgress) {

@@ -7,6 +7,7 @@ class RecyclerSizeLookup(
     private val spanCnt1: Int,
     private val spanCnt2: Int
 ) : SpanSizeLookup() {
+
     override fun getSpanSize(position: Int): Int {
         return if (position % spanPos == spanCnt2) spanCnt2 else spanCnt1
     }

@@ -9,23 +9,15 @@ class ResultItem(
     val progressVisible: Boolean
 ) {
     @JvmField
-    val nameForHeader: Int
-
-    init {
-        nameForHeader = if (headerText == R.string.empty) methodName else headerText
-    }
+    val nameForHeader: Int = if (headerText == R.string.empty) methodName else headerText
 
     fun copy(oldItem: ResultItem, timing: Double): ResultItem {
         return ResultItem(oldItem.headerText, oldItem.methodName, timing, false)
     }
 
-    fun isHeader(): Boolean {
-        return headerText == R.string.empty || methodName == R.string.empty
-    }
+    fun isHeader(): Boolean = headerText == R.string.empty || methodName == R.string.empty
 
-    fun isResult(): Boolean {
-        return timing > EMPTY
-    }
+    fun isResult(): Boolean = timing > EMPTY
 
     companion object {
         const val EMPTY = -1.0

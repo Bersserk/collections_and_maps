@@ -10,11 +10,10 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
 class BenchmarkItemDecoration : ItemDecoration() {
     private val offset = 4
-    private val paintOne: Paint
+    private val paintOne: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val paintTwo: Paint
 
     init {
-        paintOne = Paint(Paint.ANTI_ALIAS_FLAG)
         paintOne.color = Color.GRAY
         paintOne.style = Paint.Style.STROKE
         paintOne.strokeWidth = 14f
@@ -25,8 +24,7 @@ class BenchmarkItemDecoration : ItemDecoration() {
     }
 
     override fun getItemOffsets(
-        outRect: Rect, view: View,
-        parent: RecyclerView, state: RecyclerView.State
+        outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         outRect[offset, offset, offset] = offset
@@ -40,25 +38,17 @@ class BenchmarkItemDecoration : ItemDecoration() {
         for (i in 0 until parent.childCount) {
             val child = parent.getChildAt(i)
             c.drawRect(
-                (
-                        layoutManager.getDecoratedLeft(child) + offset + 5).toFloat(),
-                (
-                        layoutManager.getDecoratedTop(child) + offset * 6).toFloat(),
-                (
-                        layoutManager.getDecoratedRight(child) - offset * 6).toFloat(),
-                (
-                        layoutManager.getDecoratedBottom(child) - offset - 4).toFloat(),
+                (layoutManager.getDecoratedLeft(child) + offset + 5).toFloat(),
+                (layoutManager.getDecoratedTop(child) + offset * 6).toFloat(),
+                (layoutManager.getDecoratedRight(child) - offset * 6).toFloat(),
+                (layoutManager.getDecoratedBottom(child) - offset - 4).toFloat(),
                 paintOne
             )
             c.drawRect(
-                (
-                        layoutManager.getDecoratedLeft(child) + offset + 5).toFloat(),
-                (
-                        layoutManager.getDecoratedTop(child) + offset * 4).toFloat(),
-                (
-                        layoutManager.getDecoratedRight(child) - offset * 4).toFloat(),
-                (
-                        layoutManager.getDecoratedBottom(child) - offset - 5).toFloat(),
+                (layoutManager.getDecoratedLeft(child) + offset + 5).toFloat(),
+                (layoutManager.getDecoratedTop(child) + offset * 4).toFloat(),
+                (layoutManager.getDecoratedRight(child) - offset * 4).toFloat(),
+                (layoutManager.getDecoratedBottom(child) - offset - 5).toFloat(),
                 paintTwo
             )
         }

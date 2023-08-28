@@ -45,9 +45,7 @@ class BenchmarkFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentBenchmarkBinding.inflate(inflater, container, false)
         return binding!!.root
@@ -67,21 +65,15 @@ class BenchmarkFragment : Fragment(), View.OnClickListener {
         listRecycler.layoutManager = gridLayoutManager
 
         model?.getItemsLiveData()?.observe(viewLifecycleOwner) { list: List<ResultItem?> ->
-            adapter.submitList(
-                list
-            )
+            adapter.submitList(list)
         }
 
-        model?.getLiveTextTV()?.observe(
-            viewLifecycleOwner
-        ) { integer: Int? ->
-            binding!!.calcButton.setText(
-                integer!!
-            )
+        model?.getLiveTextTV()?.observe(viewLifecycleOwner) { integer: Int? ->
+            binding!!.calcButton.setText(integer!!)
         }
-        model?.getLiveShowerMessages()?.observe(
-            viewLifecycleOwner
-        ) { integer: Int? -> binding!!.inputField.error = integer?.let { getText(it) } }
+        model?.getLiveShowerMessages()?.observe(viewLifecycleOwner) { integer: Int? ->
+            binding!!.inputField.error = integer?.let { getText(it) }
+        }
         listRecycler.adapter = adapter
         binding!!.calcButton.setOnClickListener(this)
     }
@@ -109,6 +101,4 @@ class BenchmarkFragment : Fragment(), View.OnClickListener {
         super.onDestroyView()
         binding = null
     }
-
-
 }

@@ -10,27 +10,13 @@ open class MapsBenchmark : Benchmark {
 
     override fun getItemsList(showProgress: Boolean): List<ResultItem> {
         val itemsList: MutableList<ResultItem> = ArrayList()
-        for (itemOfListHead in listNamesForHead) {
-            itemsList.add(
-                ResultItem(
-                    itemOfListHead,
-                    R.string.empty,
-                    ResultItem.EMPTY,
-                    false
-                )
-            )
+        for (head in listNamesForHead) {
+            itemsList.add(ResultItem(head, R.string.empty, ResultItem.EMPTY, false))
         }
         for (methodsID in listNamesForMethod) {
             itemsList.add(ResultItem(R.string.empty, methodsID, ResultItem.EMPTY, false))
             for (headsID in listNamesForHead) {
-                itemsList.add(
-                    ResultItem(
-                        headsID,
-                        methodsID,
-                        ResultItem.EMPTY,
-                        showProgress
-                    )
-                )
+                itemsList.add(ResultItem(headsID, methodsID, ResultItem.EMPTY, showProgress))
             }
         }
         return itemsList
@@ -38,31 +24,23 @@ open class MapsBenchmark : Benchmark {
 
     override fun getMeasureTime(rItem: ResultItem, value: Int): Double {
         check(value >= 0) { "Unexpected value: $value" }
-        val map: MutableMap<Int, Int?>
-        map = if (rItem.headerText == R.string.HashMap) {
-            createMap(HashMap(), value)
-        } else if (rItem.headerText == R.string.TreeMap) {
-            createMap(TreeMap(), value)
-        } else {
-            throw IllegalStateException("Unexpected value: " + rItem.headerText)
+        val map: MutableMap<Int, Int?> = when (rItem.headerText) {
+            R.string.HashMap -> createMap(HashMap(), value)
+            R.string.TreeMap -> createMap(TreeMap(), value)
+            else -> throw IllegalStateException("Unexpected value: " + rItem.headerText)
         }
         return calculateResult(rItem.methodName, map)
     }
 
-    override fun getSpan(): Int {
-        return listNamesForHead.size
-    }
+    override fun getSpan(): Int = listNamesForHead.size
 
 
     private fun calculateResult(methodName: Int, map: MutableMap<Int, Int?>): Double {
-        return if (methodName == R.string.add_new) {
-            addingNew(map)
-        } else if (methodName == R.string.search_key) {
-            searchByKey(map)
-        } else if (methodName == R.string.removing) {
-            removing(map)
-        } else {
-            throw IllegalArgumentException()
+        return when (methodName) {
+            R.string.add_new -> addingNew(map)
+            R.string.search_key -> searchByKey(map)
+            R.string.removing -> removing(map)
+            else -> throw IllegalArgumentException()
         }
     }
 
@@ -90,6 +68,4 @@ open class MapsBenchmark : Benchmark {
         }
         return map
     }
-
-
 }

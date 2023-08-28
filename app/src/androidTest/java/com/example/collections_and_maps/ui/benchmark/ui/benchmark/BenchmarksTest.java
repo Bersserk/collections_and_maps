@@ -39,9 +39,10 @@ public abstract class BenchmarksTest extends BasicTest {
 
     @BeforeClass
     public static void set() {
-        AppComponent appComponent =
-                DaggerAppComponent.builder().appModule(new AppModuleTest()).build();
-        App.getInstance().setAppComponent(appComponent);
+        AppComponent appComponent = DaggerAppComponent.builder()
+                .appModule(new AppModuleTest())
+                .build();
+        App.setAppComponent(appComponent);
     }
 
     protected abstract Benchmark getBenchmark();

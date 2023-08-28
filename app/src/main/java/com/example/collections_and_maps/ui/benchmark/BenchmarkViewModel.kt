@@ -17,17 +17,12 @@ class BenchmarkViewModel(private val benchmark: Benchmark?) : ViewModel() {
     val liveTextTV = MutableLiveData<Int>()
     val liveShowerMessages = MutableLiveData<Int?>()
     private var disposable = Disposable.disposed()
-    fun getItemsLiveData(): LiveData<List<ResultItem>> {
-        return itemsLiveData
-    }
 
-    fun getLiveTextTV(): LiveData<Int> {
-        return liveTextTV
-    }
+    fun getItemsLiveData(): LiveData<List<ResultItem>> = itemsLiveData
 
-    fun getLiveShowerMessages(): LiveData<Int?> {
-        return liveShowerMessages
-    }
+    fun getLiveTextTV(): LiveData<Int> = liveTextTV
+
+    fun getLiveShowerMessages(): LiveData<Int?> = liveShowerMessages
 
     fun onCreate() {
         itemsLiveData.value = benchmark!!.getItemsList(false)
@@ -67,10 +62,7 @@ class BenchmarkViewModel(private val benchmark: Benchmark?) : ViewModel() {
     }
 
 
-    fun getSpan(): Int {
-        return benchmark!!.getSpan()
-    }
-
+    fun getSpan(): Int = benchmark!!.getSpan()
 
     private fun checkValidateValue(inputtedValue: String): Int {
         var value = -1
