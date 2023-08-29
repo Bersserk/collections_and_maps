@@ -12,10 +12,11 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class BenchmarkViewModel(private val benchmark: Benchmark?) : ViewModel() {
-    val itemsLiveData = MutableLiveData<List<ResultItem>>()
-    val liveTextTV = MutableLiveData<Int>()
-    val liveShowerMessages = MutableLiveData<Int?>()
+class BenchmarkViewModel(private val benchmark: Benchmark) : ViewModel() {
+
+    private val itemsLiveData = MutableLiveData<List<ResultItem>>()
+    private val liveTextTV = MutableLiveData<Int>()
+    private val liveShowerMessages = MutableLiveData<Int?>()
     private var disposable = Disposable.disposed()
 
     fun getItemsLiveData(): LiveData<List<ResultItem>> = itemsLiveData
@@ -25,7 +26,7 @@ class BenchmarkViewModel(private val benchmark: Benchmark?) : ViewModel() {
     fun getLiveShowerMessages(): LiveData<Int?> = liveShowerMessages
 
     fun onCreate() {
-        itemsLiveData.value = benchmark!!.getItemsList(false)
+        itemsLiveData.value = benchmark.getItemsList(false)
     }
 
     fun startMeasure(inputtedValue: String) {
@@ -36,16 +37,16 @@ class BenchmarkViewModel(private val benchmark: Benchmark?) : ViewModel() {
             }
 
             liveTextTV.postValue(R.string.calcButtonStop)
-            val items = benchmark?.getItemsList(true)?.toMutableList()
-            itemsLiveData.postValue(items?.let { ArrayList(it) })
+            val items = benchmark.getItemsList(true).toMutableList()
+            itemsLiveData.postValue(ArrayList(items))
 
-            disposable = Observable.fromIterable(items!!)
+            disposable = Observable.fromIterable(items)
                 .filter { rItem -> !rItem.isHeader() }
                 .flatMap { it ->
                     Observable.fromCallable {
                         Pair.create(
                             items.indexOf(it),
-                            it.copy(it, benchmark!!.getMeasureTime(it, value))
+                            it.copy(it, benchmark.getMeasureTime(it, value))
                         )
                     }
                 }
@@ -62,7 +63,7 @@ class BenchmarkViewModel(private val benchmark: Benchmark?) : ViewModel() {
     }
 
 
-    fun getSpan(): Int = benchmark!!.getSpan()
+    fun getSpan(): Int = benchmark.getSpan()
 
     private fun checkValidateValue(inputtedValue: String): Int {
         var value = -1

@@ -20,7 +20,7 @@ class BenchmarkAdapter : ListAdapter<ResultItem, BenchmarkViewHolder>(DIFF_CALLB
     }
 
     override fun onBindViewHolder(holder: BenchmarkViewHolder, position: Int) {
-        holder.bindTo(getItem(position)!!)
+        holder.bindTo(getItem(position))
     }
 
     class BenchmarkViewHolder(

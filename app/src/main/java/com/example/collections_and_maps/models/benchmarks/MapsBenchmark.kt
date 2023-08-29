@@ -23,7 +23,6 @@ open class MapsBenchmark : Benchmark {
     }
 
     override fun getMeasureTime(rItem: ResultItem, value: Int): Double {
-        check(value >= 0) { "Unexpected value: $value" }
         val map: MutableMap<Int, Int?> = when (rItem.headerText) {
             R.string.HashMap -> createMap(HashMap(), value)
             R.string.TreeMap -> createMap(TreeMap(), value)

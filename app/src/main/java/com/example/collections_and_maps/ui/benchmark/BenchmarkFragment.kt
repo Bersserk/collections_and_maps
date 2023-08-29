@@ -31,8 +31,8 @@ class BenchmarkFragment : Fragment(), View.OnClickListener {
     }
 
     private val adapter = BenchmarkAdapter()
-    private var binding: FragmentBenchmarkBinding? = null
-    private var model: BenchmarkViewModel? = null
+    lateinit var binding: FragmentBenchmarkBinding
+    lateinit var model: BenchmarkViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,7 @@ class BenchmarkFragment : Fragment(), View.OnClickListener {
         arguments?.let {
             val factory = BenchmarkViewModelFactory(requireArguments().getInt(FRAGMENT_TYPE))
             model = ViewModelProvider(this, factory)[BenchmarkViewModel::class.java]
-            model?.onCreate()
+            model.onCreate()
         }
     }
 
@@ -48,13 +48,13 @@ class BenchmarkFragment : Fragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentBenchmarkBinding.inflate(inflater, container, false)
-        return binding!!.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        assert(arguments != null)
-        val span = model!!.getSpan()
+
+        val span = model.getSpan()
         val gridLayoutManager = GridLayoutManager(
             this.activity, span, LinearLayoutManager.VERTICAL, false
         )
@@ -64,22 +64,22 @@ class BenchmarkFragment : Fragment(), View.OnClickListener {
         listRecycler.setHasFixedSize(true)
         listRecycler.layoutManager = gridLayoutManager
 
-        model?.getItemsLiveData()?.observe(viewLifecycleOwner) { list: List<ResultItem?> ->
+        model.getItemsLiveData().observe(viewLifecycleOwner) { list: List<ResultItem?> ->
             adapter.submitList(list)
         }
 
-        model?.getLiveTextTV()?.observe(viewLifecycleOwner) { integer: Int? ->
-            binding!!.calcButton.setText(integer!!)
+        model.getLiveTextTV().observe(viewLifecycleOwner) { buttonText: Int? ->
+            binding.calcButton.setText(buttonText!!)
         }
-        model?.getLiveShowerMessages()?.observe(viewLifecycleOwner) { integer: Int? ->
-            binding!!.inputField.error = integer?.let { getText(it) }
+        model.getLiveShowerMessages().observe(viewLifecycleOwner) { messageText: Int? ->
+            binding.inputField.error = messageText?.let { getText(it) }
         }
         listRecycler.adapter = adapter
-        binding!!.calcButton.setOnClickListener(this)
+        binding.calcButton.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
-        model!!.startMeasure(binding!!.inputField.text.toString())
+        model.startMeasure(binding.inputField.text.toString())
         hideKeypad()
     }
 
@@ -95,10 +95,5 @@ class BenchmarkFragment : Fragment(), View.OnClickListener {
         if (currentFocus != null) {
             imm.hideSoftInputFromWindow(requireView().findFocus().windowToken, 0)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 }
