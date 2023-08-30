@@ -2,7 +2,7 @@ package com.example.collections_and_maps.models.benchmarks
 
 import com.example.collections_and_maps.R
 
-class ResultItem(
+data class ResultItem(
     val headerText: Int,
     val methodName: Int,
     val timing: Double,
