@@ -11,9 +11,12 @@ data class ResultItem(
     @JvmField
     val nameForHeader: Int = if (headerText == R.string.empty) methodName else headerText
 
-    fun copy(oldItem: ResultItem, timing: Double): ResultItem {
-        return ResultItem(oldItem.headerText, oldItem.methodName, timing, false)
-    }
+    constructor(oldItem: ResultItem, timing: Double) : this(
+        oldItem.headerText,
+        oldItem.methodName,
+        timing,
+        false
+    )
 
     fun isHeader(): Boolean = headerText == R.string.empty || methodName == R.string.empty
 

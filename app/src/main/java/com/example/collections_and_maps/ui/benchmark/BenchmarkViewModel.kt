@@ -46,7 +46,7 @@ class BenchmarkViewModel(private val benchmark: Benchmark) : ViewModel() {
                     Observable.fromCallable {
                         Pair.create(
                             items.indexOf(it),
-                            it.copy(it, benchmark.getMeasureTime(it, value))
+                            ResultItem(it, benchmark.getMeasureTime(it, value))
                         )
                     }
                 }
