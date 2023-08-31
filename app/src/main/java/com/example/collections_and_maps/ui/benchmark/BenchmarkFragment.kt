@@ -32,9 +32,7 @@ class BenchmarkFragment : Fragment(), View.OnClickListener {
 
     private val adapter = BenchmarkAdapter()
     private lateinit var model: BenchmarkViewModel
-
-    private var _binding: FragmentBenchmarkBinding? = null
-    private val binding get() = _binding!!
+    private var binding: FragmentBenchmarkBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,13 +45,14 @@ class BenchmarkFragment : Fragment(), View.OnClickListener {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentBenchmarkBinding.inflate(inflater, container, false)
-        return binding.root
+    ): View? {
+        return inflater.inflate(R.layout.fragment_benchmark, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentBenchmarkBinding.bind(view)
 
         val span = model.getSpan()
         val gridLayoutManager = GridLayoutManager(
@@ -70,29 +69,29 @@ class BenchmarkFragment : Fragment(), View.OnClickListener {
         }
 
         model.getLiveTextTV().observe(viewLifecycleOwner) { buttonText: Int ->
-            binding.calcButton.setText(buttonText)
+            binding?.calcButton?.setText(buttonText)
         }
         model.getLiveShowerMessages().observe(viewLifecycleOwner) { messageText: Int ->
-            binding.inputField.error = getText(messageText)
+            binding?.inputField?.error = getText(messageText)
         }
         listRecycler.adapter = adapter
-        binding.calcButton.setOnClickListener(this)
+        binding?.calcButton?.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
-        model.startMeasure(binding.inputField.text.toString())
+        model.startMeasure(binding?.inputField?.text.toString())
         hideKeypad()
     }
 
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 
     private fun hideKeypad() {
         val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        val currentFocus = binding.root.findFocus()
+        val currentFocus = binding?.root?.findFocus()
         currentFocus?.let {
             imm.hideSoftInputFromWindow(it.windowToken, 0)
         }
